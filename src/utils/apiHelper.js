@@ -1,10 +1,10 @@
 // /utils/apiHelper.js
 import { getCurrentEnvironment, getFromCookies, removeCookie, clearUserData } from "@/utils/storageHelper";
 import { toast } from "react-toastify";
-
+const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 export const updateBlog = async (chatId, blogDataToPublish) => {
   try {
-    const response = await fetch(`/api/blog/${chatId}`, {
+    const response = await fetch(baseUrl+`/api/blog/${chatId}`, {
       method: 'PATCH',
       headers: getHeaders(),
       body: JSON.stringify(blogDataToPublish),
@@ -23,7 +23,7 @@ export const updateBlog = async (chatId, blogDataToPublish) => {
 
 export const publishBlog = async (blogDataToPublish) => {
   try {
-    const response = await fetch(`/api/blog`, {
+    const response = await fetch(baseUrl+`/api/blog`, {
       method: 'POST',
       headers: getHeaders(),
       body: JSON.stringify(blogDataToPublish),
@@ -42,7 +42,7 @@ export const publishBlog = async (blogDataToPublish) => {
 
 
 export const createChat = async () => {
-  const res = await fetch('/api/blog', {
+  const res = await fetch(baseUrl+'/api/blog', {
     method: 'POST',
     headers: getHeaders(),
     body: JSON.stringify({}),
@@ -57,7 +57,7 @@ export const createChat = async () => {
 };
 export const fetchBlogs = async (userId, isUserSpecific) => {
   const queryParam = isUserSpecific ? 'true' : 'false';
-  const res = await fetch(`/api/blog?user=${queryParam}&userId=${encodeURIComponent(userId)}`);
+  const res = await fetch(baseUrl+`/api/blog?user=${queryParam}&userId=${encodeURIComponent(userId)}`);
   
   if (!res.ok) {
     throw new Error(`Failed to fetch ${isUserSpecific ? 'user' : 'other'} blogs`);
@@ -132,7 +132,7 @@ const getHeaders = () => {
 
 
 export const signUpOnBE = async (data) => {
-  const response = await fetch(`api/users`, {
+  const response = await fetch(baseUrl+`api/users`, {
     method: 'POST',
     headers: getHeaders(),
     body: JSON.stringify(data),
@@ -174,7 +174,7 @@ export const getUserById = async (id) => {
 
 export const fetchIntegrations = async (pluginNames) => {
   try {
-    const response = await fetch(`/api/integrations`, {
+    const response = await fetch(baseUrl+`/api/integrations`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -1,9 +1,9 @@
 
 export const maxDuration = 300
 import axios from "../interceptor";
-
+const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 export const sendMessageApi = async (content, chatId) => {
-    const response = await axios.post('/api/ask-ai', {
+    const response = await axios.post(baseUrl+'/api/ask-ai', {
         userMessage: content,
         chatId: chatId,
     });
@@ -14,13 +14,13 @@ export const sendMessageApi = async (content, chatId) => {
 
 
 export const getAllPreviousMessages = async (chatId) => {
-    const response = await axios.get(`/api/gethistory?chatId=${chatId}`);
+    const response = await axios.get(baseUrl+`/api/gethistory?chatId=${chatId}`);
 
     return response?.data?.data;
 
 };
 
 export const compareBlogs = async (variables) => {
-    const response = await axios.post(`/api/compare-blogs`, variables)
+    const response = await axios.post(baseUrl+`/api/compare-blogs`, variables)
     return response?.data?.response?.data;
 }
