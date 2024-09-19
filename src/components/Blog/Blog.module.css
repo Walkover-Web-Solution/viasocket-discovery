@@ -1,0 +1,55 @@
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 2rem;
+  font-family: serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  max-width: 12in;
+  margin-bottom: 1.2rem;
+  background-color: #e4e0df
+}
+
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+  transform: translateY(-2px);
+}
+
+.card h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+  padding: 10px 0;
+}
+
+.card p {
+  margin: 0;
+  color: #666;
+  line-height: 20px;
+  padding: 10px 0;
+  font-size: 1.1rem;
+}
+.tagsContainer {
+  padding: 10px 0;
+  margin-top: 1px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 6px 6px;
+  margin: 4px;
+  border-radius: 14px;
+  background-color: var(--grey);
+  font-style: italic;
+  color: #333;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 0.9rem;
+}
+
+.tag:hover {
+  background-color: #f9c6c6;
+}
+

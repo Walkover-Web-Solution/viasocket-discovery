@@ -1,0 +1,57 @@
+.integrationDiv{
+    padding: 40px 0;
+    .integrationHeading{
+       font-size: 1.2rem;
+        font-weight: 600;
+        text-decoration: underline;
+    }
+    .integrationList{
+        padding: 20px 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-gap: 15px; /* Gap between grid items */
+        .integrationName{
+            font-size: 1rem;
+            font-weight: normal;
+        }
+        .integrationItem{
+            border-radius: 5px;
+            border: 1px solid var(--intermediate-color);
+            display:flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.3rem;
+            background-color: whitesmoke;
+            p{
+                padding: 0 10px;
+                margin-bottom: 20px;
+            }
+            // max-width: 1in;
+            .integrationIcons{
+                margin-bottom: 20px;
+                display: flex;
+                width : 100%;
+                gap: 10px;
+                padding: 10px;
+            }
+        }
+        .integrationLink{
+            background-color: var(--intermediate-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-top: auto;
+            text-decoration: none;
+            height: 3rem;
+            transition-duration: 0.2s;
+            gap: 10px;
+            &:hover{
+                background-color: #452f2d40;
+                gap: 15px;
+            }
+        }
+    }
+}

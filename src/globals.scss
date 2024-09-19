@@ -1,0 +1,26 @@
+:root {
+  --title-font:  'Times New Roman', Times, serif;
+  --background-color: #f1edec;
+  --foreground-color: #452f2d;
+  --intermediate-color: #452f2d37;
+  --grey: #ccc;
+}
+
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

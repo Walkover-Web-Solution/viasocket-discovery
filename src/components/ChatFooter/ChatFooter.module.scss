@@ -1,0 +1,38 @@
+.chatFooter{
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+  h3{
+    font-style: italic;
+    font-weight: 100;
+    font-size: 1.3rem;
+    color: #999;
+    span{
+      font-weight: 700;
+      font-style: normal;
+      display: block;
+      margin-top: 5px;
+      margin-left: 5px;
+    }
+  }
+  button{
+    width: 8rem;
+    height : 3rem;
+    border-radius : 5px;
+    cursor: pointer;
+    border: 1px solid #111;
+    font-size: 1rem;
+    border: 2px solid var(--foreground-color);
+    text-transform: uppercase;
+    transition-duration: 0.2s;
+    font-weight: 800;
+    color: var(--foreground-color);
+    background-color: var(--background-color);
+    &:hover{
+      background-color: var(--foreground-color);
+      color: var(--background-color);
+      letter-spacing: 2px;
+    }
+  }
+}

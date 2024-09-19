@@ -1,0 +1,79 @@
+.titleDiv{
+    .title{
+        color: var(--foreground-color);
+        font-family:var(--title-font);
+        font-size: 2rem;
+        font-weight: 900;
+    }
+    .author{
+        .dot{
+            width: 10px;
+        }
+        .avatar{
+            width: 2rem;
+            height: 2rem;
+        }
+        display:flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 1rem;
+        color: var(--foreground-color);
+    }
+    margin: 20px 0;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--intermediate-color);
+}
+.introduction, .summaryList, .whatToLookFor, .conclusion, .detailedReviews{
+    color: var(--foreground-color);
+    line-height: 30px;
+    font-size: 1.2rem;   
+    padding: 20px;
+    h4{
+        font-family: var(--title-font);
+        font-size: 2rem;
+        margin: 15px 0;
+    }
+}
+.summaryList, .detailedReviews{
+    .appIcon{
+        width: 3rem;
+        height: auto;
+    }
+    li{
+        display: block;
+    }
+    .listItem{
+        padding-top: 25px; 
+        padding-bottom: 25px;
+    }
+    h5{
+        font-family: var(--title-font);
+        font-size: 1.5rem;
+    }
+}
+.summaryList  .listItem{
+    border: 1px solid var(--intermediate-color);
+    background-color: rgba(0, 0, 0, 0.05);
+    margin:auto;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+    display:flex;
+    gap: 1.4rem;
+    width: calc(100% - 3rem);
+}
+.whatToLookFor{
+    .content{
+        padding-left: 40px;
+    }
+}
+.conclusion{
+    .content{
+        padding-left: 20px;
+    }
+}
+.dummyMarkdown {
+    & *{
+        margin: 2rem 0;
+    }
+    padding: 20px;
+}
