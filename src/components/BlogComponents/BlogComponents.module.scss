@@ -27,7 +27,7 @@
     color: var(--foreground-color);
     line-height: 30px;
     font-size: 1.2rem;   
-    padding: 20px;
+    padding: 20px 0;
     h4{
         font-family: var(--title-font);
         font-size: 2rem;
@@ -43,34 +43,39 @@
         display: block;
     }
     .listItem{
-        padding-top: 25px; 
-        padding-bottom: 25px;
+        padding: 25px 0; 
     }
     h5{
         font-family: var(--title-font);
         font-size: 1.5rem;
     }
 }
-.summaryList  .listItem{
-    border: 1px solid var(--intermediate-color);
-    background-color: rgba(0, 0, 0, 0.05);
-    margin:auto;
-    margin-bottom: 1.5rem;
-    border-radius: 5px;
-    display:flex;
-    gap: 1.4rem;
-    width: calc(100% - 3rem);
+
+.summaryList {
+    .list{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        .listItem{
+            border: 1px solid var(--intermediate-color);
+            background-color: rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            border-radius: 5px;
+            display:flex;
+            gap: 1.4rem;
+            width: calc(50% - 1rem);
+            padding: 15px;
+            padding-right: 25px;
+        }
+    } 
 }
+
 .whatToLookFor{
-    .content{
-        padding-left: 40px;
-    }
-}
-.conclusion{
     .content{
         padding-left: 20px;
     }
 }
+
 .dummyMarkdown {
     & *{
         margin: 2rem 0;

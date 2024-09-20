@@ -34,7 +34,7 @@ const Components = {
         return (
             <div className = {styles.summaryList}>
                 <h4>Top Apps</h4>
-                <List className='list'>
+                <List className={styles.list}>
                     {content.map((app, idx) => {
                         const appName = app.name.toLowerCase();
                         const appData = integrations?.[appName]?.plugins[appName];

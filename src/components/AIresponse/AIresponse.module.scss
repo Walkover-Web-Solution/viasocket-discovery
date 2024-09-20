@@ -3,14 +3,14 @@
   background-color: var(--background-color);
   border-radius: 8px;
   font-family: Arial, sans-serif;
-  max-width: 65rem;
+  max-width: 900px;
   height: 700px;
   overflow: auto;
   width: 90%;
   height: 90%;
   margin: auto;
-
 }
+
 .markdownContainer::-webkit-scrollbar {
   width: 2px; 
 }
@@ -30,7 +30,6 @@
 }
 .tagsContainer {
   margin-top: 20px;
-  padding: 30px;
   h3{
     font-style: italic;
     font-weight: 100;
