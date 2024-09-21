@@ -8,13 +8,16 @@ import { useEffect, useState } from 'react';
 export async function getServerSideProps(context) {
   const { blogId } = context.params;
   const props = {};
-  
-  // Set Cache-Control headers to cache for 24 hours (86400 seconds)
-  context.res.setHeader('Cache-Control', 'public, s-maxage=86400, stale-while-revalidate=59');
 
   try {
+    console.time("blogServices.getBlogById(blogId)");
     const blog = await blogServices.getBlogById(blogId);
+    console.timeEnd("blogServices.getBlogById(blogId)");
+
+    console.time("getUserById(blog?.createdBy)");
     const user = await getUserById(blog?.createdBy);
+    console.timeEnd("getUserById(blog?.createdBy)");
+    
     props.blog = blog;
     props.user = user;
   } catch (error) {

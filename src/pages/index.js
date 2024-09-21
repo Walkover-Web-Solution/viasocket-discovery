@@ -23,9 +23,14 @@ export default function Home() {
         
 
       try {
+        console.time('fetchBlogs with userId true');
         const userBlogs = await fetchBlogs(userId, true);
+        console.timeEnd('fetchBlogs with userId true');
+
+        console.time('fetchBlogs with userId false');
         const otherBlogs = await fetchBlogs(userId, false);
-    
+        console.timeEnd('fetchBlogs with userId false');
+        
         setUserCreatedBlogs(userBlogs.data);
         setOtherBlogs(otherBlogs.data);
       } catch (error) {
