@@ -10,14 +10,16 @@ export async function getServerSideProps(context) {
   const props = {};
 
   try {
-    console.time("blogServices.getBlogById(blogId)");
+    const time = {};
+    time["blogServices.getBlogById(blogId)"] = Date.now();
     const blog = await blogServices.getBlogById(blogId);
-    console.timeEnd("blogServices.getBlogById(blogId)");
+    time["blogServices.getBlogById(blogId)"] -= Date.now();
 
-    console.time("getUserById(blog?.createdBy)");
+    time["getUserById(blog?.createdBy)"] = Date.now();
     const user = await getUserById(blog?.createdBy);
-    console.timeEnd("getUserById(blog?.createdBy)");
+    time["getUserById(blog?.createdBy)"] -= Date.now();
     
+    props.time = time;
     props.blog = blog;
     props.user = user;
   } catch (error) {
@@ -27,9 +29,9 @@ export async function getServerSideProps(context) {
   return { props };
 }
 
-export default function BlogPage({ blog, user }) {
+export default function BlogPage({ blog, user, time }) {
   const [integrations, setIntegrations] = useState(null);
-
+  console.log('time taken', time);
   useEffect(() => {
     const getData = async (apps) => {
       const data = await fetchIntegrations(apps);
