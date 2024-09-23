@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
-import { useRouter } from 'next/router';
 
 import styles from "@/components/Navbar/Navbar.module.css";
 import UserDetail from '../UserDetailPopup/UserDetailPopup';
@@ -21,7 +20,7 @@ export default function Navbar() {
     };
 
     const handleSignIn = async () => {
-        window.navigator.href('/discovery/auth');
+        window.location.href = '/discovery/auth';
     };
 
     return (
