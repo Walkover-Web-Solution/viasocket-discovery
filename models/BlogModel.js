@@ -1,10 +1,8 @@
 // models/Blog.js
 import mongoose from 'mongoose';
-import { generateNanoid } from '@/utils/utils';
 const BlogSchema = new mongoose.Schema({
   id: {
     type: String,
-    default: generateNanoid(6),
     unique: true,
   },
   title: String,
@@ -13,7 +11,7 @@ const BlogSchema = new mongoose.Schema({
   apps: Array,
   createdAt: {
     type: Date,
-    default: new Date(),
+    default: Date.now,
   },
   createdBy: Number
 });

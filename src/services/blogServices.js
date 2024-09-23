@@ -3,6 +3,7 @@
 
 import Blog from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
+import { generateNanoid } from '@/utils/utils';
 
 const getAllBlogs = async () => {
   await dbConnect();
@@ -11,7 +12,7 @@ const getAllBlogs = async () => {
 
 const createBlog = async (blogData) => {
   await dbConnect();
-  return Blog.create(blogData);
+  return Blog.create({ ...blogData, id: generateNanoid(6) });
 };
 
 const getBlogById = async (blogId) => {
@@ -21,14 +22,15 @@ const getBlogById = async (blogId) => {
 
 const updateBlogById = async (blogId, blogData) => {
   await dbConnect();
-  return JSON.parse(JSON.stringify(await Blog.findOneAndUpdate({"id":blogId}, blogData)));
+  return JSON.parse(JSON.stringify(await Blog.findOneAndUpdate({ "id": blogId }, blogData)));
 }
 
 const getUserBlogs = async (userId) => {
   await dbConnect();
   return await Blog.find({
     'createdBy': userId,
-    'blog': { $exists: true } // Ensure markdown is not an empty string
+    'blog': { $exists: true },// Ensure markdown is not an empty string
+    'id': { $exists: true }
   });
 }
 
@@ -36,7 +38,8 @@ const getOtherBlogs = async (userId) => {
   await dbConnect();
   return await Blog.find({
     'createdBy': { $ne: userId },
-    'blog': { $exists: true }
+    'blog': { $exists: true },
+    'id': { $exists: true }
   });
 }
 export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs };
