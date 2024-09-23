@@ -29,7 +29,8 @@ export default function AuthPage() {
                 // localStorage.setItem('accessToken', response?.data?.data?.token)
                 setInCookies(getCurrentEnvironment(), response?.data)
             }
-            window.location.href = '/discovery/'
+           await router.push('/')
+           router.reload();
         }
     }
 
