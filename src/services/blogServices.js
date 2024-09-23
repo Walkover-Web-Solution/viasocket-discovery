@@ -42,4 +42,8 @@ const getOtherBlogs = async (userId) => {
     'id': { $exists: true }
   });
 }
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs };
+
+const searchBlogsByQuery = async (query) => {
+  return Blog.find({ 'blog.content': { $regex: query, $options: 'i' } }); 
+};
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery };
