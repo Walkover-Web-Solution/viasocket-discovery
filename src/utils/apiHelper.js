@@ -55,15 +55,24 @@ export const createChat = async () => {
 
   return res.json();
 };
-export const fetchBlogs = async (userId, isUserSpecific) => {
-  const queryParam = isUserSpecific ? 'true' : 'false';
-  const res = await fetch(baseUrl+`/api/blog?user=${queryParam}&userId=${encodeURIComponent(userId)}`);
-  
-  if (!res.ok) {
-    throw new Error(`Failed to fetch ${isUserSpecific ? 'user' : 'other'} blogs`);
-  }
+export const fetchBlogs = async (token) => {
+  try {
+    const res = await fetch(`${baseUrl}/api/blog`,{
+      method: 'GET',
+      headers: {
+        Authorization: token 
+      }
+      });
 
-  return res.json();
+    if (!res.ok) {
+      throw new Error(`Failed to fetch blogs: ${res.statusText}`);
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+    throw error; 
+  }
 };
 
 
@@ -132,7 +141,7 @@ const getHeaders = () => {
 
 
 export const signUpOnBE = async (data) => {
-  const response = await fetch(baseUrl+`api/users`, {
+  const response = await fetch(baseUrl+`/api/users`, {
     method: 'POST',
     headers: getHeaders(),
     body: JSON.stringify(data),
@@ -149,28 +158,6 @@ export const signUpOnBE = async (data) => {
   }
 };
 
-export const getUserById = async (id) => {
-  try {
-    const response = await fetch(`https://routes.msg91.com/api/${process.env.PROXY_USER_REFERENCE_ID}/getDetails?user_id=${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authkey': process.env.PROXY_ADMIN_TOKEN,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    const userData = data?.data?.data?.[0];
-    return userData;
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-    return null; 
-  }
-};
 
 export const fetchIntegrations = async (pluginNames) => {
   try {
