@@ -1,3 +1,4 @@
+import { customAlphabet } from 'nanoid';
 export const dummyMarkdown = `# Welcome to App Discovery: Unleash the Power of AI-Driven Software Discovery!
 
 ## Discover Tailored Solutions Just for You
@@ -23,3 +24,12 @@ So dive in, explore, and let AI guide you to the best software out there. Discov
 Happy discovering!
 
 `;
+
+
+
+
+export const generateNanoid = (length = 6) => {
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const nanoid = customAlphabet(alphabet, length);
+    return nanoid();
+};

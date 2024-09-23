@@ -2,10 +2,12 @@ import { useEffect, useRef } from 'react';
 import styles from "@/components/UserDetailPopup/UserDetailPopup.module.css";
 import { clearUserData } from '@/utils/storageHelper';
 import { useUser } from '@/context/UserContext';
+import { useRouter } from 'next/router';
 
 const UserDetail = ({ isOpen, onClose }) => {
     const {user , setUser}=useUser();
     const popupRef = useRef(null);
+    const router= useRouter();
 
 
     useEffect(() => {
@@ -27,6 +29,8 @@ const UserDetail = ({ isOpen, onClose }) => {
         clearUserData();
         setUser(null);
         onClose();
+        router.reload();
+        
 
     };
 

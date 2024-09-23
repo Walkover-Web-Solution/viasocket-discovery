@@ -17,7 +17,6 @@ const AIresponse = ({ blogData, oldBlog, isEditable, chatId, user, integrations,
   const handlePublish = async () => {
     const blogDataToPublish = {
       ...blogData,
-      createdBy: user?.id, 
       published: true,
       apps : blogData.blog.find(section => section.section ==='summaryList').content.map(app => app.name)
     }
@@ -44,13 +43,12 @@ const AIresponse = ({ blogData, oldBlog, isEditable, chatId, user, integrations,
   const handleNewPublish = async () => {
     const blogDataToPublish = {
       ...blogData,
-      createdBy: user?.id,
       published: true
     };
     try {
       const data = await publishBlog(blogDataToPublish);
       setOldBlog(blogData);
-      router.push(`/edit/${data.data._id}`);
+      router.push(`/edit/${data.data.id}`);
       toast.success('Blog published successfully!');
     } catch (error) {
       console.error('Failed to publish blog:', error);

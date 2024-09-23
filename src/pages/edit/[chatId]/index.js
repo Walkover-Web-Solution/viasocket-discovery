@@ -7,13 +7,13 @@ import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
 import { useUser } from '@/context/UserContext';
 import React , { useState, useEffect } from 'react';
 import { fetchIntegrations } from '@/utils/apiHelper';
-const blogService = require('@/services/blogServices');
+import blogServices from '@/services/blogServices';
 
 
 
 export async function getServerSideProps(context) {
   const {chatId} = context.params;
-  const blogData = await blogService.default.getBlogById(chatId); // default ko samajhna
+  const blogData = await blogServices.getBlogById(chatId) // default ko samajhna
   const props = {blogData};
   // try{
     // const integrations = await getIntegrations(blogData.apps);
@@ -43,7 +43,7 @@ export default function ChatPage({ blogData: initBlogData}) {
         const data = await fetchIntegrations(apps)
         setIntegrations(data);
     }
-    const apps = blogData?.apps || blogData?.blog?.find(section => section.section ==='summaryList').content.map(app => app.name);
+    const apps = blogData?.apps || blogData?.blog?.find(section => section.section ==='summaryList')?.content?.map(app => app.name);
     if (apps) {
         getData(apps)
     }

@@ -6,7 +6,7 @@ import { useUser } from '@/context/UserContext';
 import { getFromCookies, getCurrentEnvironment, removeCookie, setInCookies } from '@/utils/storageHelper'
 import { getCurrentUser, signUpOnBE } from '@/utils/apiHelper'
 
-export default function Index() {
+export default function AuthPage() {
     const router = useRouter();
     const queryParams = router.query;
     const { user, setUser } = useUser();
@@ -29,7 +29,8 @@ export default function Index() {
                 // localStorage.setItem('accessToken', response?.data?.data?.token)
                 setInCookies(getCurrentEnvironment(), response?.data)
             }
-            router.push('/')
+           await router.push('/')
+           router.reload();
         }
     }
 
@@ -41,7 +42,7 @@ export default function Index() {
                 const configuration = {
                     referenceId: process.env.NEXT_PUBLIC_NEXT_APP_REFERENCE_ID,
                     addInfo: {
-                        redirect_path: "/auth"
+                        redirect_path: `/discovery/auth`
                     },
                     success: (data) => {
                         console.log('success response', data)

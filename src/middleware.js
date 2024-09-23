@@ -15,19 +15,21 @@ const verifyToken = async (token) => {
 export async function middleware(req) {
   const { method } = req;
   const { pathname } = req.nextUrl;
+  let token = req.headers.get('Authorization');
+  const decodedToken = await verifyToken(token);
 
   if (pathname.startsWith('/api/blog') && (method === 'POST' || method === 'PATCH')) {
-    let token = req.headers.get('Authorization');
-    const decodedToken = await verifyToken(token);
     if (!token || !decodedToken) {
       return NextResponse.json({ message: 'Unauthorized, sign in to perform this action' }, { status: 401 });
     }
-
-    req.profile = decodedToken?.user;
   }
-
-  return NextResponse.next();
+  const res = NextResponse.next();
+  if (decodedToken) {
+    res.headers.set('x-profile', JSON.stringify(decodedToken.user));
+  }
+  return res;
 }
+
 
 export const config = {
   matcher: ['/api/blog/:path*'],
