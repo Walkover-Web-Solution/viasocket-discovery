@@ -5,10 +5,10 @@ import ChatFooter from '@/components/ChatFooter/ChatFooter';
 import styles from './AIresponse.module.scss';
 import Head from 'next/head'
 import { toast } from 'react-toastify';
-import {  publishBlog, updateBlog } from '@/utils/apiHelper';
 import Popup from '../PopupModel/PopupModel';
 import Components from '../BlogComponents/BlogComponents';
 import { compareBlogs } from '@/utils/apis/chatbotapis';
+import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 const AIresponse = ({ blogData, oldBlog, isEditable, chatId, user, integrations, setOldBlog }) => {
   const [isPopupOpen, setIsPopUpOpen] = useState(false);
   const router = useRouter()
@@ -48,7 +48,7 @@ const AIresponse = ({ blogData, oldBlog, isEditable, chatId, user, integrations,
     try {
       const data = await publishBlog(blogDataToPublish);
       setOldBlog(blogData);
-      router.push(`/edit/${data.data.id}`);
+      router.push(`/edit/${data.id}`);
       toast.success('Blog published successfully!');
     } catch (error) {
       console.error('Failed to publish blog:', error);

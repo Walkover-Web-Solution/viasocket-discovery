@@ -3,10 +3,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Blog from '@/components/Blog/Blog';
 import styles from './home.module.css';
-import { createChat } from '@/utils/apiHelper';
 import { toast } from 'react-toastify';
-import { fetchBlogs } from '@/utils/apiHelper';
-
+import { fetchBlogs, publishBlog, SearchBlogs } from '@/utils/apis/blogApis';
 
 export async function getServerSideProps(context) {
   let userBlogs = [];
@@ -34,21 +32,21 @@ export default function Home({ userBlogs, otherBlogs }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   useEffect(() => {
-    if (searchQuery) {
-      const combinedBlogs = [...userBlogs, ...otherBlogs];
-      const filteredResults = combinedBlogs.filter((blog) =>
-        JSON.stringify(blog).toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setSearchResults(filteredResults);
-    } else {
-      setSearchResults([]);
-    }
+    const fetchBlogs = async () => {
+      if (searchQuery) {
+          const filteredResults = await SearchBlogs(searchQuery);
+          setSearchResults(filteredResults);
+      } else {
+          setSearchResults([]);
+      }
+  };
+  fetchBlogs();
   }, [searchQuery]);
 
   // Handle chat creation
   const handleCreateChat = async () => {
     try {
-      const { data } = await createChat();
+      const data  = await publishBlog();
       window.location.href = `discovery/edit/${data.id}`
     } catch (err) {
       window.location.href = `discovery/auth`

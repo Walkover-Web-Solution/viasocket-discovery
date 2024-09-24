@@ -16,6 +16,11 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
+        const { search } = req.query; 
+        if (search) {
+          const blogs = await blogServices.searchBlogsByQuery(search);
+          return res.status(200).json({ success: true, data: blogs });
+        } 
         const [userBlogs, otherBlogs] = await Promise.all([
           blogServices.getUserBlogs(user?.id || ''),
           blogServices.getOtherBlogs(user?.id || '')

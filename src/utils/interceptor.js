@@ -5,7 +5,7 @@ axios.interceptors.request.use(
     async (config) => {
         const token = getFromCookies(getCurrentEnvironment())
         config.headers['proxy_auth_token'] = token;
-        if (process.env.NEXT_PUBLIC_ENV === 'local')
+        if (getCurrentEnvironment() === 'local')
             config.headers['Authorization'] = token
         return config;
     },
@@ -22,7 +22,7 @@ axios.interceptors.response.use(
     async function (error) {
         if (error?.response?.status === 401) {
             removeCookie(getCurrentEnvironment())
-            window.location.href = "/";
+            window.location.href = "/discovery";
         }
         return Promise.reject(error);
     }
