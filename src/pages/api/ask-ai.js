@@ -35,7 +35,7 @@ export default async function handler(req, res) {
             } catch (error) {
                 // Return error response
                 console.error("error in chatBot api ",error)
-                return res.status(400).json({ success: false, error: error });
+                return res.status(400).json({ success: false, error: error.message });
             }
         default:
             // Handle unsupported request methods

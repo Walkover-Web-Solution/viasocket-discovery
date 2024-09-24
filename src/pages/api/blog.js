@@ -27,7 +27,7 @@ export default async function handler(req, res) {
         ]);
         res.status(200).json({ success: true, data: { userBlogs, otherBlogs } });
       } catch (error) {
-        res.status(400).json({ success: false, error });
+        res.status(400).json({ success: false, error: error.message });
       }
       break;
 
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         const blog = await blogServices.createBlog({ ...req.body, createdBy: user.id });
         res.status(201).json({ success: true, data: blog });
       } catch (error) {
-        res.status(400).json({ success: false, error });
+      res.status(400).json({ success: false, error: error.message });
       }
       break;
 
