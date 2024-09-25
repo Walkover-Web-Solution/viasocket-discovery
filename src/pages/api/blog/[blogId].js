@@ -8,6 +8,18 @@ export default async function handler(req, res) {
   const { method } = req;
 
   switch (method) {
+    case 'GET':
+      try {
+        const { blogId } = req.query;
+        const Blog = await blogServices.getBlogById(blogId);
+        if (!Blog) {
+          return res.status(404).json({ success: false, message: 'Blog not found' });
+        }
+        res.status(200).json({ success: true, data: Blog });
+      } catch (error) {
+        res.status(400).json({ success: false, error });
+      }
+      break;
     case 'PATCH':
       try {
         const { blogId } = req.query;

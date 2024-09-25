@@ -6,6 +6,7 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isChatOpen,setIsChatOpen]=useState(false);
   useEffect(() => {
     const storedUser = getUserDataFromLocalStorage();
     if (storedUser) {
@@ -14,7 +15,7 @@ export const UserProvider = ({ children }) => {
     setLoading(false);
   }, []);
   return (
-    <UserContext.Provider value={{ user, setUser, loading }}>
+    <UserContext.Provider value={{ user, setUser, loading ,isChatOpen ,setIsChatOpen}}>
       {children}
     </UserContext.Provider>
   );

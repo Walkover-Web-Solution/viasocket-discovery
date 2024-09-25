@@ -46,3 +46,11 @@ export const publishBlog = async (blogData = {}) => {
     throw error;
   }
 };
+export const getBlogById = async (blogId) => {
+  try {
+    const response = await axios.get(baseUrl + `/api/blog/${blogId}`);
+    return response.data.data;
+  } catch (error) {
+    console.error('Failed to get blog:', error);
+  }
+};
