@@ -30,7 +30,8 @@ const getUserBlogs = async (userId) => {
   return await Blog.find({
     'createdBy': userId,
     'blog': { $exists: true },// Ensure markdown is not an empty string
-    'id': { $exists: true }
+    'id': { $exists: true },
+    'status':"published"
   });
 }
 
@@ -39,11 +40,15 @@ const getOtherBlogs = async (userId) => {
   return await Blog.find({
     'createdBy': { $ne: userId },
     'blog': { $exists: true },
-    'id': { $exists: true }
+    'id': { $exists: true },
+    'status':"published"
   });
 }
 
 const searchBlogsByQuery = async (query) => {
-  return Blog.find({ 'blog.content': { $regex: query, $options: 'i' } }); 
+  return Blog.find({
+    'blog.content': { $regex: query, $options: 'i' },
+    status: "published"
+  });
 };
 export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery };
