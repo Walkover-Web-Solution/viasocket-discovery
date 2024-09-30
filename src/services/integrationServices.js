@@ -33,7 +33,6 @@ async function getIntegrations(pluginNames){
             }
         )
     })).then(res => {
-        console.log("response", res);
         return Object.fromEntries(
           res
             .map((res, idx) => [plugins[idx].name.toLowerCase(), res])

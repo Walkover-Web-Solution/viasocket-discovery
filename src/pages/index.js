@@ -6,6 +6,7 @@ import styles from '@/pages/home.module.css';
 import { toast } from 'react-toastify';
 import { fetchBlogs, publishBlog, SearchBlogs } from '@/utils/apis/blogApis';
 import AskAi from '@/components/AskAi/AskAi';
+import Search from '@/components/Search/Search';
 
 export async function getServerSideProps(context) {
     let userBlogs = [];
@@ -57,50 +58,32 @@ export default function Home({ userBlogs, otherBlogs }) {
         setIsOpen(true);
     };
 
-    // Conditional blog rendering
-    const renderBlogsSection = (blogs, title) => (
-        blogs?.length > 0 && (
-            <section className={styles.Homesection}>
-                <h2 className={styles.homeh2}>{title}</h2>
-                <div className={styles.cardsGrid}>
-                    {blogs.map((blog) => (
-                        <Blog key={blog._id} blog={blog} />
-                    ))}
-                </div>
-            </section>
-        )
-    );
+  // Conditional blog rendering
+  const renderBlogsSection = (blogs, title, fallback) => (
+    blogs?.length > 0 ? (
+      <section className={styles.Homesection}>
+        <h2 className={styles.homeh2}>{title}</h2>
+        <div className={styles.cardsGrid}>
+          {blogs.map((blog) => (
+            <Blog key={blog._id} blog={blog} />
+          ))}
+        </div>
+      </section>
+    ): fallback ? (
+      <section className={styles.Homesection}>
+        <h2 className={styles.homeh2}>{title}</h2>
+        <p className={styles.noData}>Nothing Found !!!</p>
+      </section>
+    ) : null
+  );
 
     return (
-
         <>
             {!isOpen && <div className={styles.postHeaderDiv}>
-                <div className={styles.postHeader}>
-                    <input
-                        type="text"
-                        className={styles.search}
-                        placeholder="Search Apps..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                handleAskAi();
-                            }
-                        }
-                        }
-                    />
-                    <button className={styles.newChat} onClick={handleAskAi}>ASK AI</button>
-                </div>
+                <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} />
                 <div>
-                    {searchResults.length > 0 ? (
-                        <div>
-                            <h2 className={styles.homeh2}>Search Results</h2>
-                            <div className={styles.cardsGrid}>
-                                {searchResults.map((blog) => (
-                                    <Blog key={blog._id} blog={blog} />
-                                ))}
-                            </div>
-                        </div>
+                    {searchQuery ? (
+                        renderBlogsSection(searchResults, 'Search Results', true)
                     ) : (
                         <>
                             {renderBlogsSection(userBlogs, 'Your categories')}
@@ -109,7 +92,7 @@ export default function Home({ userBlogs, otherBlogs }) {
                     )}
                 </div>
             </div>}
-            {isOpen && <AskAi searchQuery={searchQuery} />}
+            {isOpen && <AskAi searchQuery={searchQuery} bridgeId = 'Viasocket_App_Discovery'/>}
         </>
     );
 }
