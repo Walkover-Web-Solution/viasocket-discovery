@@ -7,15 +7,19 @@ import styles from './blogPage.module.scss';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Search from '@/components/Search/Search';
-import AskAi from '@/components/AskAi/AskAi';
+// import AskAi from '@/components/AskAi/AskAi';
+import Chatbot from '@/components/ChatBot/ChatBot';
+import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
+import { safeParse } from '@/pages/edit/[chatId]';
 export async function getServerSideProps(context) {
   const { blogId } = context.params;
+  // console.log(blogId[0])
   const props = {};
   try {
     const blog = await blogServices.getBlogById(blogId[0]);
     const user = await getUserById(blog?.createdBy);
     props.blog = blog;
-    props.user=user;
+    props.user = user;
     // try{
     //   const integrations = await getIntegrations(blog.apps);
     //   props.integrations = integrations;
@@ -28,13 +32,40 @@ export async function getServerSideProps(context) {
   return { props };
 }
 
-export default function BlogPage({ blog, user}) {
+export default function BlogPage({ blog, user }) {
+  const { blogId } = useRouter().query;
   const [blogData, setBlogData] = useState(blog);
   const [integrations, setIntegrations] = useState(null);
-  const router= useRouter();
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  
+  const [oldBlog, setOldBlog] = useState('');
+
+
+  const [messages, setMessages] = useState([{}]);
+  useEffect(() => {
+    if (!blogId[0]) return;
+    (async () => {
+      const chatHistoryData = await getAllPreviousMessages(blogId[0])
+      const prevMessages = chatHistoryData.data.map(chat => {
+        if(chat.role == 'tools_call') return {};
+       return  {
+          role: chat.role,
+          content: chat.role === 'user' ? chat.content : safeParse(chat.content),
+        }});
+      setMessages(prevMessages);
+    })()
+  }, [blogId[0]]);
+  useEffect(() => {
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.role == 'assistant') {
+      const content = lastMessage.content;
+      // if(content?.blog)
+      //   setBlogData(content);
+
+    }
+  }, [messages])
+
   const handleAskAi = async () => {
     // try {
     //     const data = await publishBlog();
@@ -44,9 +75,9 @@ export default function BlogPage({ blog, user}) {
     //     toast.error(err.message);
     // }
     setIsOpen(true);
-};
+  };
   const formateTitle = (title) => {
-    return title?.toLowerCase().replace(/\s+/g, '-'); 
+    return title?.toLowerCase().replace(/\s+/g, '-');
   };
   useEffect(() => {
     if (blog) {
@@ -71,12 +102,29 @@ export default function BlogPage({ blog, user}) {
     }
   }, [blog?.apps]);
   return (
-    <div>
+    <div className={isOpen ? styles.chatPagediv : ''}>
+      {isOpen && 
+        <Chatbot 
+          messages={messages} 
+          setMessages={setMessages} 
+          chatId={blogId[0]} 
+          setBlogData={setBlogData} 
+          bridgeId={process.env.NEXT_PUBLIC_BRIDGE_ID_FOR_COMPARE}
+          blogData={blogData}
+          />}
       <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
-        <AIresponse blogData={blogData} user={user} integrations = {integrations}/>
+        <AIresponse 
+          blogData={blogData} 
+          user={user} 
+          integrations={integrations} 
+          isEditable={messages.length > 1}
+          chatId={blogId[0]}
+          setOldBlog={setOldBlog}
+          oldBlog={oldBlog}
+          />
       </div>
-      {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} />}
-      {isOpen && <AskAi searchQuery={searchQuery} blog = {blogData} setBlogData = {setBlogData} />}
+      {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi={handleAskAi} />}
+      {/* {isOpen && <AskAi searchQuery={searchQuery} blog = {blogData} setBlogData = {setBlogData} />} */}
       {/* {isOpen && <ChatBot chatId={blog?.id} isOpen={true} searchQuery={searchQuery} blog = {blog} bridgeId = {bridgeId}/> */}
     </div>
   );

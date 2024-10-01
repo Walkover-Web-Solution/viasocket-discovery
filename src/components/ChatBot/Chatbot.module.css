@@ -1,6 +1,5 @@
 .chatbotContainer {
-  width: 30vw;
-  height: 90%;
+  width: 28%;
   display: flex;
   flex-direction: column;
   background-color: #f8f8f8;
@@ -11,15 +10,23 @@
   margin-left: 10px;
   margin-bottom: 3rem;
   margin-right: 10px;
+  height: 1000vh;
+  position:fixed;
+  max-height: 90%;
+  /* overflow-y: hidden; */
+  /* overflow: scroll; */
+  /* z-index: 100; */
 }
 
 .chatWindow {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* justify-content: flex-end; */
+  overflow-y: scroll;
+
 }
 
 .sentMessage {
@@ -31,6 +38,7 @@
   margin-bottom: 16px;
   max-width: 80%;
   word-wrap: break-word;
+  margin-left: auto;
 }
 
 .receivedMessage {
@@ -88,4 +96,29 @@
   border: none;
   cursor: pointer;
   border-radius: 10px;
+}
+.urlLink {
+  color: #007bff;
+  text-decoration: none;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.urlLink:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+.urlContainer {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+.chatWindow {
+  scrollbar-width: thin; 
+  scrollbar-color: #e0dddd #f1f1f1; 
 }

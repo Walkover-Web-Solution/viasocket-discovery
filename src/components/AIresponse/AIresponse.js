@@ -48,7 +48,7 @@ const AIresponse = ({ blogData, oldBlog, isEditable, chatId, user, integrations,
     try {
       const data = await publishBlog(blogDataToPublish);
       setOldBlog(blogData);
-      router.push(`/edit/${data.id}`);
+      router.push(`/blog/${data.id}`);
       toast.success('Blog published successfully!');
     } catch (error) {
       console.error('Failed to publish blog:', error);

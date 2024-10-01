@@ -3,7 +3,7 @@ import styles from './Chatbot.module.css';
 import { Tooltip } from '@mui/material';
 import { sendMessageApi } from '@/utils/apis/chatbotapis';
 import { safeParse } from '@/pages/edit/[chatId]';
-const Chatbot = ({ messages, setMessages, chatId, setBlogData }) => {
+const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, blogData}) => {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -16,11 +16,13 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData }) => {
       setInputMessage("");
       setIsLoading(true);
       try {
+        const variables={
+          blog:JSON.stringify(blogData || '')
+        }
+        const data = await sendMessageApi(userMessage.content, chatId, bridgeId, variables)
 
-       const data =  await sendMessageApi(userMessage.content, chatId)
-       
         if (data && data?.response?.data?.content) {
-          const botMessage = { role: 'assistant', content: safeParse (data?.response?.data?.content) };
+          const botMessage = { role: 'assistant', content: safeParse(data?.response?.data?.content) };
           setMessages((prevMessages) => [...prevMessages, botMessage]);
         }
       } catch (error) {
@@ -46,19 +48,27 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData }) => {
           return (
             <div
               key={index}
-              className={isBot ? styles.receivedMessage : styles.sentMessage }
-              cursor = {clickable ? 'pointer' : 'default'}
+              className={isBot ? styles.receivedMessage : styles.sentMessage}
+              cursor={clickable ? 'pointer' : 'default'}
             >
               {isBot ? message.content.message : message.content}
-              {clickable && 
-              <Tooltip title="revert to this version">
-                <button
-                  onClick = {() => setBlogData(message.content)}
-                  className={styles.revertButton}
-                >
-                  &#x21BA;
-                </button>
-              </Tooltip>}
+              {clickable &&
+                <Tooltip title="revert to this version">
+                  <button
+                    onClick={() => setBlogData(message.content)}
+                    className={styles.revertButton}
+                  >
+                    &#x21BA;
+                  </button>
+                </Tooltip>}
+              {message?.content?.urls?.length > 0 &&
+                <div className={styles.urlContainer}>
+                  {message?.content?.urls?.map((url, i) => (
+                    <a className={styles.urlLink} key={i} href={url} target="_blank" rel="noopener noreferrer">
+                      View Blog {i + 1}
+                    </a>
+                  ))}
+                </div>}
             </div>
           )
         })}

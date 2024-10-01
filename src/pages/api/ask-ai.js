@@ -7,11 +7,11 @@ export default async function handler(req, res) {
     switch (method) {
         case 'POST': 
             try {
-                const { userMessage, chatId } = req.body;
+                const { userMessage, chatId, bridgeId ,variables} = req.body;
 
                 // Ensure you're using server-side environment variables (without NEXT_PUBLIC)
                 const PAUTH_KEY = process.env.PAUTH_KEY;
-                const BRIDGE_ID = process.env.BRIDGE_ID;
+                // const BRIDGE_ID = process.env.BRIDGE_ID;
 
                 const response = await fetch(
                     'https://routes.msg91.com/api/proxy/1258584/29gjrmh24/api/v2/model/chat/completion',
@@ -23,8 +23,9 @@ export default async function handler(req, res) {
                       },
                       body: JSON.stringify({
                         user: userMessage,
-                        bridge_id: BRIDGE_ID,
+                        bridge_id: bridgeId,
                         thread_id: chatId,
+                        variables:variables
                       }),
                     }
                   );
