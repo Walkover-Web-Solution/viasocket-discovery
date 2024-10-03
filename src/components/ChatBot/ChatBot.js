@@ -1,28 +1,51 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Chatbot.module.css';
 import { Tooltip } from '@mui/material';
 import { sendMessageApi } from '@/utils/apis/chatbotapis';
 import { safeParse } from '@/pages/edit/[chatId]';
-const Chatbot = ({ messages, setMessages, chatId, setBlogData }) => {
+import Components from '@/components/ChatBotComponents/ChatBotComponents';
+
+export async function sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables) {
+  console.log(bridgeId, "bridge id");
+  if (inputMessage.trim()) {
+    const userMessage = { role: 'user', content: inputMessage };
+    setMessages([...messages, userMessage]);
+    try {
+     const data =  await sendMessageApi(userMessage.content, chatId, bridgeId, variables)
+      if (data && data?.response?.data?.content) {
+        const botMessage = { role: 'assistant', content: safeParse (data?.response?.data?.content) };
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+      }
+    } catch (error) {
+      console.error("Error communicating with the chatbot API:", error);
+    }
+  }
+}
+
+const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variables, homePage }) => {
+  console.log({ messages, setMessages, chatId, setBlogData, bridgeId, homePage })
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
- 
+  useEffect(() => {
+    const handleEvent = (e) => {
+      sendMessageToChatBot(e.detail); // Update state with event data
+    };
 
+    // Add event listener for the custom event
+    window.addEventListener('askAppAi', handleEvent);
+
+    // Clean up the event listener when the component unmounts
+    // return () => {
+    //   window.removeEventListener('askAppAi', handleEvent);
+    // };
+  });
   const handleSendMessage = async () => {
     if (inputMessage.trim()) {
-      const userMessage = { role: 'user', content: inputMessage };
-      setMessages([...messages, userMessage]);
       setInputMessage("");
       setIsLoading(true);
       try {
-
-       const data =  await sendMessageApi(userMessage.content, chatId)
-       
-        if (data && data?.response?.data?.content) {
-          const botMessage = { role: 'assistant', content: safeParse (data?.response?.data?.content) };
-          setMessages((prevMessages) => [...prevMessages, botMessage]);
-        }
+        await sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables);
       } catch (error) {
         console.error("Error communicating with the chatbot API:", error);
       } finally {
@@ -30,6 +53,23 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData }) => {
       }
     }
   };
+
+  // async function sendMessageToChatBot(inputMessage ) {
+  //   console.log(bridgeId, "bridge id");
+  //   if (inputMessage.trim()) {
+  //     const userMessage = { role: 'user', content: inputMessage };
+  //     setMessages([...messages, userMessage]);
+  //     try {
+  //      const data =  await sendMessageApi(userMessage.content, chatId, bridgeId)
+  //       if (data && data?.response?.data?.content) {
+  //         const botMessage = { role: 'assistant', content: safeParse (data?.response?.data?.content) };
+  //         setMessages((prevMessages) => [...prevMessages, botMessage]);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error communicating with the chatbot API:", error);
+  //     }
+  //   }
+  // }
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -43,6 +83,9 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData }) => {
         {messages.map((message, index) => {
           const isBot = message.role === 'assistant';
           const clickable = isBot && message?.content?.blog;
+          if(isBot && message?.content?.urls){
+            return Components.urls(message?.content);
+          }
           return (
             <div
               key={index}
@@ -51,14 +94,14 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData }) => {
             >
               {isBot ? message.content.message : message.content}
               {clickable && 
-              <Tooltip title="revert to this version">
-                <button
-                  onClick = {() => setBlogData(message.content)}
-                  className={styles.revertButton}
-                >
-                  &#x21BA;
-                </button>
-              </Tooltip>}
+                <Tooltip title="revert to this version">
+                  <button
+                    onClick = {() => setBlogData(message.content.blog)}
+                    className={styles.revertButton}
+                  >
+                    &#x21BA;
+                  </button>
+                </Tooltip>}
             </div>
           )
         })}

@@ -1,3 +1,31 @@
 .container{
-    background-color: var(--background-color);
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+.containerOpen{
+  width: 70%;
+  margin-left: auto;
+}
+.publishButton{
+  text-wrap: nowrap;
+  width: 12rem;
+  height : 3rem;
+  border-radius : 5px;
+  cursor: pointer;
+  border: 1px solid #111;
+  font-size: 1rem;
+  border: 2px solid var(--foreground-color);
+  text-transform: uppercase;
+  transition-duration: 0.2s;
+  font-weight: 800;
+  color: var(--foreground-color);
+  background-color: var(--background-color);
+  margin: 0 4rem 4rem 4rem;
+  &:hover{
+    background-color: var(--foreground-color);
+    color: var(--background-color);
+  }
 }

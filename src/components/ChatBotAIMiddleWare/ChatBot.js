@@ -2,12 +2,19 @@ import { useUser } from '@/context/UserContext';
 import { getBlogById } from '@/utils/apis/blogApis';
 import { useEffect, useState } from 'react';
 
-export default function ChatBot({ parentId, chatId, isOpen, searchQuery, setBlogData }) {
+export default function ChatBot({ parentId, chatId, isOpen, searchQuery, setBlogData, blog, bridgeId }) {
     const { setIsChatOpen } = useUser()
-
+    delete blog?.createdAt;
+    delete blog?.createdBy;
+    delete blog?.apps;
+    console.log('blog here ', blog);
     useEffect(() => {
         const handleMessage = (event) => {
             const receivedData = event.data;
+            if (receivedData.type =='ChatbotResponse' && receivedData.message?.udpate ) {
+                
+            }
+            // if 
             console.log('Data received from chatbot:', receivedData);
             if (receivedData.type === 'open') {
                 setIsChatOpen(true);
@@ -15,11 +22,12 @@ export default function ChatBot({ parentId, chatId, isOpen, searchQuery, setBlog
             if (receivedData.type === 'close') {
                 setIsChatOpen(false);
             }
-            if (receivedData?.message?.blogId) {
+            if (receivedData?.message?.update) {
+                console.log('isme ghusaaaa kyaaaa !!!!')
                 const fetchBlog = async () => {
-                    const blog = await getBlogById(receivedData.message.blogId);
-                    if (blog?.blog) {
-                        setBlogData(blog);
+                    const newBlog = await getBlogById(blog?.id );
+                    if (newBlog?.blog) {
+                        setBlogData(newBlog);
                     } else {
                         console.error("no blog AI ", blog)
                     }
@@ -31,13 +39,17 @@ export default function ChatBot({ parentId, chatId, isOpen, searchQuery, setBlog
         const intervalId = setInterval(() => {
             if (typeof window.SendDataToChatbot === 'function' ) {
                 window.SendDataToChatbot({
-                    bridgeName: process.env.NEXT_PUBLIC_BRIDGE_SLUGNAME,
-                    threadId: chatId || `${Math.random(100000)}`,
+                    bridgeName: bridgeId || "udpate_blog" || process.env.NEXT_PUBLIC_BRIDGE_SLUGNAME,
+                    threadId: `harsh`,
+                    variables : {
+                        blog_id :  blog?.id,
+                        current_blog : JSON.stringify(blog), 
+                    },
                     // parentId: "chatbot-container",
                     // fullScreen: true,//true when using a perfect container 
                     hideCloseButton: false,
                     hideIcon: false,
-                    askAi: searchQuery?.searchQuery
+                    askAi: searchQuery
                 });
                 if (isOpen) {
                     window.openChatbot();
