@@ -12,7 +12,8 @@ const getAllBlogs = async () => {
 
 const createBlog = async (blogData) => {
   await dbConnect();
-  return Blog.create({ ...blogData, id: generateNanoid(6) });
+  const apps = blogData?.blog?.find(section => section.section ==='summaryList')?.content?.map(app => app.name);
+  return Blog.create({ ...blogData, apps, id: generateNanoid(6) });
 };
 
 const getBlogById = async (blogId) => {
