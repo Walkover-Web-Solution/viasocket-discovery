@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     switch (method) {
         case 'POST': 
             try {
-                const { userMessage, chatId, bridgeId ,variables} = req.body;
+                const { userMessage, chatId, bridgeId, variables } = req.body;
 
                 // Ensure you're using server-side environment variables (without NEXT_PUBLIC)
                 const PAUTH_KEY = process.env.PAUTH_KEY;
@@ -24,19 +24,19 @@ export default async function handler(req, res) {
                       body: JSON.stringify({
                         user: userMessage,
                         bridge_id: bridgeId,
-                        thread_id: chatId,
-                        variables:variables
+                        thread_id: chatId + "",
+                        variables
                       }),
                     }
                   );
-                  const data =await response.json()
+                  const data = await response.json()
           
                 // Return the response data to the client
                 return res.status(200).json({ success: true, data: data });
             } catch (error) {
                 // Return error response
                 console.error("error in chatBot api ",error)
-                return res.status(400).json({ success: false, error: error });
+                return res.status(400).json({ success: false, error: error.message });
             }
         default:
             // Handle unsupported request methods

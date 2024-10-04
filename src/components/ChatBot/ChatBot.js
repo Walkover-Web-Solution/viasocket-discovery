@@ -1,30 +1,57 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './Chatbot.module.css';
 import { Tooltip } from '@mui/material';
 import { sendMessageApi } from '@/utils/apis/chatbotapis';
 import { safeParse } from '@/pages/edit/[chatId]';
-const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, blogData}) => {
+import Components from '@/components/ChatBotComponents/ChatBotComponents';
+
+export async function sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables) {
+  if (inputMessage.trim()) {
+    const userMessage = { role: 'user', content: inputMessage };
+    setMessages([...messages, userMessage]);
+    try {
+     const data =  await sendMessageApi(userMessage.content, chatId, bridgeId, variables)
+      if (data && data?.response?.data?.content) {
+        const botMessage = { role: 'assistant', content: safeParse (data?.response?.data?.content) };
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+      }
+    } catch (error) {
+      console.error("Error communicating with the chatbot API:", error);
+    }
+  }
+}
+
+const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variables, homePage, setIsOpen, isOpen, blogData}) => {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const divRef = useRef(null);
 
- 
+  const handleScroll = () => {
+    divRef.current.scrollTop = divRef.current.scrollHeight;
+  };
 
+  useEffect(() => {
+    const handleEvent = async(e) => {
+      setIsLoading(true)
+      await sendMessageToChatBot(e.detail,messages, setMessages, chatId, bridgeId, variables); // Update state with event data
+      setIsLoading(false)
+    };
+
+    // Add event listener for the custom event
+    window.addEventListener('askAppAi', handleEvent);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('askAppAi', handleEvent);
+    };
+  },[messages, setMessages, chatId, bridgeId, variables]);
   const handleSendMessage = async () => {
     if (inputMessage.trim()) {
-      const userMessage = { role: 'user', content: inputMessage };
-      setMessages([...messages, userMessage]);
       setInputMessage("");
       setIsLoading(true);
+      handleScroll();
       try {
-        const variables={
-          blog:JSON.stringify(blogData || '')
-        }
-        const data = await sendMessageApi(userMessage.content, chatId, bridgeId, variables)
-
-        if (data && data?.response?.data?.content) {
-          const botMessage = { role: 'assistant', content: safeParse(data?.response?.data?.content) };
-          setMessages((prevMessages) => [...prevMessages, botMessage]);
-        }
+        await sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables);
       } catch (error) {
         console.error("Error communicating with the chatbot API:", error);
       } finally {
@@ -38,13 +65,21 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, blogDat
       handleSendMessage();
     }
   };
+  if(!isOpen) return null;
 
   return (
-    <div className={styles.chatbotContainer}>
-      <div className={styles.chatWindow}>
+    <div className={`${styles.chatbotContainer} ${homePage ? styles.homePage : ''}`}>
+      <div className = {styles.chatbotHeader}>
+        <h4 className = {styles.title}>AI Assistant</h4>
+        <button onClick = {() => setIsOpen(false)} className={styles.closeButton}>&#10005;</button>
+      </div>
+      <div className={styles.chatWindow} ref= {divRef}>
         {messages.map((message, index) => {
           const isBot = message.role === 'assistant';
           const clickable = isBot && message?.content?.blog;
+          if(isBot && message?.content?.urls){
+            return Components.urls(message?.content);
+          }
           return (
             <div
               key={index}
@@ -74,7 +109,8 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, blogDat
         })}
         {isLoading && (
           <div className={styles.thinkingMessage}>
-            Generating results...
+            Asking AI
+            <span class={styles.loader}></span>
           </div>
         )}
       </div>

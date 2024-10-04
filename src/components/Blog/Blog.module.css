@@ -6,7 +6,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
   cursor: pointer;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  max-width: 12in;
+  max-width: 10.5in;
   margin-bottom: 1.2rem;
   background-color: #e4e0df
 }
@@ -53,3 +53,6 @@
   background-color: #f9c6c6;
 }
 
+.containerOpen{
+  width: 70%;
+}

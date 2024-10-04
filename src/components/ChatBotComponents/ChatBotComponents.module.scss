@@ -1,0 +1,16 @@
+.urlsDiv {
+    align-self: flex-start;
+    background-color: #e1e1e1;
+    color: black;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    max-width: 80%;
+    word-wrap: break-word;
+    .urlsItem{
+        margin-top: 8px;
+        color: var(--blue);
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}
