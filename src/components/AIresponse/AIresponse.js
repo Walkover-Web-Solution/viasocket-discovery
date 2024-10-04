@@ -13,7 +13,6 @@ const AIresponse = ({ blogData, oldBlog, isEditable, chatId, user, integrations,
   const [isPopupOpen, setIsPopUpOpen] = useState(false);
   const router = useRouter()
   const hasMarkdown = blogData?.blog;
-  console.log('blog data', blogData);
   const handlePublish = async () => {
     const blogDataToPublish = {
       ...blogData,

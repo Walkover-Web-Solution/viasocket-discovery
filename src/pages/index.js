@@ -92,14 +92,12 @@ export default function Home({ userBlogs, otherBlogs }) {
     ) : null
   );
     const handleAskAi = async () => {
-      console.log(chatId);
       dispatchAskAiEvent(searchQuery);
       setIsOpen(true);
-      await sendMessageToChatBot(searchQuery, messages, setMessages, chatId.current, process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE);
     }
     return (
         <>            
- ̰         <div className={styles.postHeaderDiv}>
+          <div className={styles.postHeaderDiv}>
               {searchQuery && !isOpen ? (
                   renderBlogsSection(searchResults, 'Search Results', true)
               ) : (
@@ -110,7 +108,7 @@ export default function Home({ userBlogs, otherBlogs }) {
               )}
           </div>
           {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} />}
-          {isOpen && <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId.current} homePage />}
+           <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId.current} homePage isOpen={isOpen}/>
         </>
     );
 }

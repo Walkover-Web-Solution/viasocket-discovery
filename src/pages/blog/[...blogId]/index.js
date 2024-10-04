@@ -11,6 +11,7 @@ import AskAi from '@/components/AskAi/AskAi';
 import Chatbot, { sendMessageToChatBot } from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
 import { safeParse } from '@/pages/edit/[chatId]';
+import { useUser } from '@/context/UserContext';
 export async function getServerSideProps(context) {
   const { blogId } = context.params;
   const props = {};
@@ -32,6 +33,7 @@ export default function BlogPage({ blog, user}) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
+  const currentUser = useUser().user;
   let blogDataToSend = { ...blogData };
   delete blogDataToSend._id;
   delete blogDataToSend.__v;
@@ -101,7 +103,7 @@ export default function BlogPage({ blog, user}) {
         {isOpen && <button className = {styles.publishButton}>Publish Changes</button>}
       </div>
       {isOpen && <Chatbot bridgeId = {process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {blog.id} setBlogData = {setBlogData} variables = {{blogData : blogDataToSend}}/>}   
-      {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} />}
+      {!isOpen && currentUser && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} />}
       {/* {isOpen && <AskAi searchQuery={searchQuery} blog = {blogData} setBlogData = {setBlogData} />} */}
       {/* {isOpen && <ChatBot chatId={blog?.id} isOpen={true} searchQuery={searchQuery} blog = {blog} bridgeId = {bridgeId}/> */}
     </div>

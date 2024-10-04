@@ -6,7 +6,6 @@ import { safeParse } from '@/pages/edit/[chatId]';
 import Components from '@/components/ChatBotComponents/ChatBotComponents';
 
 export async function sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables) {
-  console.log(bridgeId, "bridge id");
   if (inputMessage.trim()) {
     const userMessage = { role: 'user', content: inputMessage };
     setMessages([...messages, userMessage]);
@@ -22,24 +21,25 @@ export async function sendMessageToChatBot(inputMessage, messages, setMessages, 
   }
 }
 
-const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variables, homePage }) => {
-  console.log({ messages, setMessages, chatId, setBlogData, bridgeId, homePage })
+const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variables, homePage, isOpen }) => {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const handleEvent = (e) => {
-      sendMessageToChatBot(e.detail); // Update state with event data
+    const handleEvent = async(e) => {
+      setIsLoading(true)
+      await sendMessageToChatBot(e.detail,messages, setMessages, chatId, bridgeId, variables); // Update state with event data
+      setIsLoading(false)
     };
 
     // Add event listener for the custom event
     window.addEventListener('askAppAi', handleEvent);
 
     // Clean up the event listener when the component unmounts
-    // return () => {
-    //   window.removeEventListener('askAppAi', handleEvent);
-    // };
-  });
+    return () => {
+      window.removeEventListener('askAppAi', handleEvent);
+    };
+  },[]);
   const handleSendMessage = async () => {
     if (inputMessage.trim()) {
       setInputMessage("");
@@ -76,6 +76,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
       handleSendMessage();
     }
   };
+  if(!isOpen) return null;
 
   return (
     <div className={styles.chatbotContainer}>

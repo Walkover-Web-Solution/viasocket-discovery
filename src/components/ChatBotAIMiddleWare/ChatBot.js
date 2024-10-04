@@ -7,7 +7,6 @@ export default function ChatBot({ parentId, chatId, isOpen, searchQuery, setBlog
     delete blog?.createdAt;
     delete blog?.createdBy;
     delete blog?.apps;
-    console.log('blog here ', blog);
     useEffect(() => {
         const handleMessage = (event) => {
             const receivedData = event.data;
