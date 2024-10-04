@@ -1,5 +1,4 @@
 import AIresponse from '@/components/AIresponse/AIresponse';
-import Integrations from '@/components/Integrations/Integrations';
 import blogServices from '@/services/blogServices';
 import { fetchIntegrations } from '@/utils/apiHelper';
 import { getUserById } from '@/services/proxyServices';
@@ -7,11 +6,18 @@ import styles from './blogPage.module.scss';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Search from '@/components/Search/Search';
-import AskAi from '@/components/AskAi/AskAi';
 import Chatbot, { sendMessageToChatBot } from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
 import { safeParse } from '@/pages/edit/[chatId]';
+import Popup from '@/components/PopupModel/PopupModel';
+import { toast } from 'react-toastify';
+import { compareBlogs } from '@/utils/apis/chatbotapis';
+import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 import { useUser } from '@/context/UserContext';
+import { dispatchAskAiEvent } from '@/utils/utils';
+
+
+
 export async function getServerSideProps(context) {
   const { blogId } = context.params;
   const props = {};
@@ -29,10 +35,12 @@ export async function getServerSideProps(context) {
 export default function BlogPage({ blog, user}) {
   const [blogData, setBlogData] = useState(blog);
   const [integrations, setIntegrations] = useState(null);
+  console.log('integrations' , integrations);
   const router= useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
+  const [isPopupOpen, setIsPopUpOpen] = useState(false);
   const currentUser = useUser().user;
   let blogDataToSend = { ...blogData };
   delete blogDataToSend._id;
@@ -42,9 +50,9 @@ export default function BlogPage({ blog, user}) {
   delete blogDataToSend.createdBy;
   delete blogDataToSend.createdAt;
   const handleAskAi = async () => {
-    // dispatchAskAiEvent(searchQuery);
     setIsOpen(true);
-    await sendMessageToChatBot(searchQuery, messages, setMessages, blog.id, process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE);
+    dispatchAskAiEvent(searchQuery);
+    setSearchQuery('');
   }
   const formateTitle = (title) => {
     return title?.toLowerCase().replace(/\s+/g, '-'); 
@@ -66,7 +74,6 @@ export default function BlogPage({ blog, user}) {
     const getData = async (apps) => {
         const data = await fetchIntegrations(apps)
         setIntegrations(data);
-      
     }
     if (blog?.apps) {
       getData(blog?.apps)
@@ -96,16 +103,64 @@ export default function BlogPage({ blog, user}) {
     }
   }, [messages])
 
+  const handlePublish = async () => {
+    const blogDataToPublish = {
+      ...blogData,
+      published: true,
+      apps : blogData.blog.find(section => section.section ==='summaryList').content.reduce((apps, app) => {
+        const appLc = app.name.toLowerCase();
+        apps[app.name] = {
+          iconurl : integrations[appLc].plugins[appLc].iconurl
+        }
+      }, {})
+    }
+    try {
+      const res = await compareBlogs(
+        {
+          variables : {
+            current_blog: (oldBlog?.blog),
+            updated_blog: (blogData?.blog),
+          }
+        })
+      if (!oldBlog || JSON.parse(res?.content)?.ans === 'yes'){
+        await updateBlog(chatId, blogDataToPublish);
+        setOldBlog(blogData);
+        toast.success('Blog updated successfully!');
+      } else {
+        setIsPopUpOpen(true);
+      }
+    } catch (error) {
+      console.error('Failed to publish blog:', error);
+      toast.error('An error occurred while publishing the blog: ' + error.message);
+    }
+  };
+  const handleNewPublish = async () => {
+    const blogDataToPublish = {
+      ...blogData,
+      published: true
+    };
+    try {
+      const data = await publishBlog(blogDataToPublish);
+      setOldBlog(blogData);
+      router.push(`/edit/${data.id}`);
+      toast.success('Blog published successfully!');
+    } catch (error) {
+      console.error('Failed to publish blog:', error);
+      toast.error('An error occurred while publishing the blog: ' + error.message);
+    } finally {
+      setIsPopUpOpen(false)
+    }
+  };
+
   return (
     <div>
       <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
         <AIresponse blogData={blogData} user={user} integrations = {integrations}/>
-        {isOpen && <button className = {styles.publishButton}>Publish Changes</button>}
+        {isOpen && <button onClick={handlePublish} className = {styles.publishButton}>Publish Changes</button>}
       </div>
-      {isOpen && <Chatbot bridgeId = {process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {blog.id} setBlogData = {setBlogData} variables = {{blogData : blogDataToSend}}/>}   
-      {!isOpen && currentUser && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} />}
-      {/* {isOpen && <AskAi searchQuery={searchQuery} blog = {blogData} setBlogData = {setBlogData} />} */}
-      {/* {isOpen && <ChatBot chatId={blog?.id} isOpen={true} searchQuery={searchQuery} blog = {blog} bridgeId = {bridgeId}/> */}
+      {isOpen && <Chatbot bridgeId = {process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {blog.id} setBlogData = {setBlogData} variables = {{blogData : blogDataToSend}} setIsOpen = {setIsOpen} isOpen={isOpen}/>}   
+      {!isOpen && currentUser && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} placeholder = 'Follow up if any query with AI...' />}
+      <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} />
     </div>
   );
 }

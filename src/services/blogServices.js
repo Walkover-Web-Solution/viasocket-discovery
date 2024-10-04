@@ -39,8 +39,9 @@ const getOtherBlogs = async (userId) => {
   return await Blog.find({
     'createdBy': { $ne: userId },
     'blog': { $exists: true },
-    'id': { $exists: true }
-  });
+    'id': { $exists: true },
+    'apps': { $exists: true, $ne: [] }
+  }).limit(20);
 }
 
 const searchBlogsByQuery = async (query) => {

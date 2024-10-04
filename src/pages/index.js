@@ -1,24 +1,15 @@
 import { parseCookies } from 'nookies';
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
 import Blog from '@/components/Blog/Blog';
 import styles from '@/pages/home.module.css';
-import { fetchBlogs, publishBlog, SearchBlogs } from '@/utils/apis/blogApis';
-import AskAi from '@/components/AskAi/AskAi';
+import { fetchBlogs, SearchBlogs } from '@/utils/apis/blogApis';
 import Search from '@/components/Search/Search';
 import { useUser } from '@/context/UserContext';
 import { safeParse } from './edit/[chatId]';
 import Chatbot, { sendMessageToChatBot } from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
+import { dispatchAskAiEvent } from '@/utils/utils';
 
-
-export function dispatchAskAiEvent(userMessage) {
-  const event = new CustomEvent('askAppAi', {
-      detail: userMessage
-  });
-  window.dispatchEvent(event); // Emit the event globally
-  console.log("Emitted the Event...")
-};
 export async function getServerSideProps(context) {
     let userBlogs = [];
     let otherBlogs = [];
@@ -41,7 +32,6 @@ export async function getServerSideProps(context) {
 
 
 export default function Home({ userBlogs, otherBlogs }) {
-    const router = useRouter();
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [messages, setMessages] = useState([]);
@@ -99,16 +89,16 @@ export default function Home({ userBlogs, otherBlogs }) {
         <>            
           <div className={styles.postHeaderDiv}>
               {searchQuery && !isOpen ? (
-                  renderBlogsSection(searchResults, 'Search Results', true)
+                  renderBlogsSection(searchResults, searchQuery, true)
               ) : (
                   <>
-                      {renderBlogsSection(userBlogs, 'Your categories')}
-                      {renderBlogsSection(otherBlogs, 'Top Categories')}
+                      {renderBlogsSection(userBlogs)}
+                      {renderBlogsSection(otherBlogs)}
                   </>
               )}
           </div>
-          {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} />}
-           <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId.current} homePage isOpen={isOpen}/>
+          <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} placeholder = 'Search Categories or Ask AI...' />
+          <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId.current} homePage setIsOpen = {setIsOpen} isOpen = {isOpen}/>
         </>
     );
 }

@@ -4,7 +4,7 @@ import { useUser } from '@/context/UserContext';
 import { toast } from 'react-toastify';
 
 
-export default function Search({ handleCreateChat, searchQuery, setSearchQuery, handleAskAi }) {
+export default function Search({ handleCreateChat, searchQuery, setSearchQuery, handleAskAi, placeholder }) {
     const { user } = useUser();
     const handleClick = () => {
         if (!user) {
@@ -18,7 +18,7 @@ export default function Search({ handleCreateChat, searchQuery, setSearchQuery, 
         <input
             type="text"
             className={styles.search}
-            placeholder="Search Categories..."
+            placeholder= { placeholder || "Ask AI..."}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => {

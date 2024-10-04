@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './Chatbot.module.css';
 import { Tooltip } from '@mui/material';
 import { sendMessageApi } from '@/utils/apis/chatbotapis';
@@ -21,9 +21,14 @@ export async function sendMessageToChatBot(inputMessage, messages, setMessages, 
   }
 }
 
-const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variables, homePage, isOpen }) => {
+const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variables, homePage, setIsOpen, isOpen }) => {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const divRef = useRef(null);
+
+  const handleScroll = () => {
+    divRef.current.scrollTop = divRef.current.scrollHeight;
+  };
 
   useEffect(() => {
     const handleEvent = async(e) => {
@@ -44,6 +49,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
     if (inputMessage.trim()) {
       setInputMessage("");
       setIsLoading(true);
+      handleScroll();
       try {
         await sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables);
       } catch (error) {
@@ -54,23 +60,6 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
     }
   };
 
-  // async function sendMessageToChatBot(inputMessage ) {
-  //   console.log(bridgeId, "bridge id");
-  //   if (inputMessage.trim()) {
-  //     const userMessage = { role: 'user', content: inputMessage };
-  //     setMessages([...messages, userMessage]);
-  //     try {
-  //      const data =  await sendMessageApi(userMessage.content, chatId, bridgeId)
-  //       if (data && data?.response?.data?.content) {
-  //         const botMessage = { role: 'assistant', content: safeParse (data?.response?.data?.content) };
-  //         setMessages((prevMessages) => [...prevMessages, botMessage]);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error communicating with the chatbot API:", error);
-  //     }
-  //   }
-  // }
-
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSendMessage();
@@ -79,8 +68,12 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
   if(!isOpen) return null;
 
   return (
-    <div className={styles.chatbotContainer}>
-      <div className={styles.chatWindow}>
+    <div className={`${styles.chatbotContainer} ${homePage ? styles.homePage : ''}`}>
+      <div className = {styles.chatbotHeader}>
+        <h4 className = {styles.title}>AI Assistant</h4>
+        <button onClick = {() => setIsOpen(false)} className={styles.closeButton}>&#10005;</button>
+      </div>
+      <div className={styles.chatWindow} ref= {divRef}>
         {messages.map((message, index) => {
           const isBot = message.role === 'assistant';
           const clickable = isBot && message?.content?.blog;
@@ -108,7 +101,8 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
         })}
         {isLoading && (
           <div className={styles.thinkingMessage}>
-            Generating results...
+            Asking AI
+            <span class={styles.loader}></span>
           </div>
         )}
       </div>

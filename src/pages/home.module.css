@@ -24,9 +24,9 @@
   margin-top: 3rem;
   font-size: 2.5rem;
   color: #444;
-  font-family: sans-serif;
+  font-family: var(--title-font);
   font-weight: 100;
-  letter-spacing: 2px;
+  width: 10.5in;
 }
 
 .blogsWithChatbot{
