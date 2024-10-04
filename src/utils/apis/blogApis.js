@@ -1,10 +1,13 @@
 import axios from '@/utils/interceptor'
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
-export const SearchBlogs = async (search) => {
-  const response = await axios.get(baseUrl + '/api/blog', { params: { search } });
-  return response?.data?.data;
-
+export const SearchBlogs = async (searchQuery) => {
+  try {
+    const response = await axios.get(`https://socket-plug-services-h7duexlbuq-el.a.run.app/discovery/search?search=${searchQuery}`);
+    return response.data.data;
+  }catch (err) {
+    console.log("error getting search results ", err);
+  }
 };
 
 export const fetchBlogs = async (token) => {
@@ -23,7 +26,6 @@ export const fetchBlogs = async (token) => {
     return await res.json();
   } catch (error) {
     console.error("Error fetching blogs:", error);
-    throw error;
   }
 };
 

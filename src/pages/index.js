@@ -24,8 +24,8 @@ export async function getServerSideProps(context) {
     }
     return {
         props: {
-            userBlogs,
-            otherBlogs
+          userBlogs: userBlogs || [],
+          otherBlogs: otherBlogs || []
         }
     };
 }
