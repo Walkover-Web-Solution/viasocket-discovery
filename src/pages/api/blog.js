@@ -33,7 +33,7 @@ export default async function handler(req, res) {
 
     case 'POST':
       try {
-        const blog = await blogServices.createBlog({ ...req.body, createdBy: user?.id });
+        const blog = await blogServices.createBlog({ ...req.body });
         res.status(201).json({ success: true, data: blog });
       } catch (error) {
       res.status(400).json({ success: false, error: error.message });
