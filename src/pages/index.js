@@ -53,8 +53,10 @@ export default function Home({ userBlogs, otherBlogs }) {
     
     useEffect(() => {
       (async () => {
-        const chatHistoryData = await getAllPreviousMessages(chatId,process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE);
-        const prevMessages = chatHistoryData.data.map((chat) => ({
+        const chatHistoryData = await getAllPreviousMessages(chatId,process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE).catch(err => null);
+        const prevMessages = chatHistoryData.data
+        .filter((chat) => chat.role === "user" || chat.role === "assistant")
+        .map((chat) => ({
           role: chat.role,
           content:
             chat.role === "user" ? chat.content : safeParse(chat.content),

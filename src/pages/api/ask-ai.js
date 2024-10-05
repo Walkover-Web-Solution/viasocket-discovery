@@ -25,7 +25,7 @@ export default async function handler(req, res) {
                         user: userMessage,
                         bridge_id: bridgeId,
                         thread_id: chatId + "",
-                        variables
+                        variables: {...variables, user_id : JSON.parse(req.headers['x-profile']).id}
                       }),
                     }
                   );

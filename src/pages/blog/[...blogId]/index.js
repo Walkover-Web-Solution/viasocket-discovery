@@ -6,7 +6,7 @@ import styles from './blogPage.module.scss';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import Search from '@/components/Search/Search';
-import Chatbot, { sendMessageToChatBot } from '@/components/ChatBot/ChatBot';
+import Chatbot from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
 import { safeParse } from '@/pages/edit/[chatId]';
 import Popup from '@/components/PopupModel/PopupModel';
@@ -185,8 +185,8 @@ export default function BlogPage({ blog, user}) {
         <AIresponse blogData={blogData} user={user} integrations = {integrations}/>
         {isOpen && <button onClick={handlePublish} className = {styles.publishButton}>Publish Changes</button>}
       </div>
-       <Chatbot bridgeId = {process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {blog.id} setBlogData = {setBlogData} variables = {{blogData : blogDataToSend}} setIsOpen = {setIsOpen} isOpen={isOpen}/>   
-      {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} placeholder = 'Follow up if any query with AI...' />}
+      <Chatbot bridgeId = {process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {blog.id} setBlogData = {setBlogData} variables = {{blogData : blogDataToSend}} setIsOpen = {setIsOpen} isOpen={isOpen}/>
+      {!isOpen && currentUser && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} placeholder = 'Follow up if any query with AI...' />}
       <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} />
     </div>
   );

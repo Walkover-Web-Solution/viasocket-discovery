@@ -115,14 +115,16 @@
 }
 
 .homePage{
-  height: 90%;
-  top: 10%;
+  height: 100%;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 11in;
   max-width: 11in;
   background-color: var(--background-color);
   border: none;
+  padding-top: 5%;
+  padding-bottom: 3rem;
   box-shadow : none;
   & .inputContainer{
     display: none;
