@@ -20,19 +20,12 @@ import { dispatchAskAiEvent } from '@/utils/utils';
 
 export async function getServerSideProps(context) {
   const { blogId } = context.params;
-  // console.log(blogId[0])
   const props = {};
   try {
     const blog = await blogServices.getBlogById(blogId[0]);
     const user = await getUserById(blog?.createdBy);
     props.blog = blog;
     props.user = user;
-    // try{
-    //   const integrations = await getIntegrations(blog.apps);
-    //   props.integrations = integrations;
-    // }catch(error){
-    //   console.error('Error fetching integrations:', error);
-    // }
   } catch (error) {
     console.error('Error fetching blog data:', error); // Return an empty object if there's an error
   }
@@ -43,7 +36,6 @@ export default function BlogPage({ blog, user}) {
   const [blogData, setBlogData] = useState(blog);
   const [oldBlog,setOldBlog]=useState('');
   const [integrations, setIntegrations] = useState(null);
-  console.log('integrations' , integrations);
   const router= useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -62,30 +54,6 @@ export default function BlogPage({ blog, user}) {
     dispatchAskAiEvent(searchQuery);
     setSearchQuery('');
   }
-
-  // const [messages, setMessages] = useState([{}]);
-  // useEffect(() => {
-  //   if (!blogId[0]) return;
-  //   (async () => {
-  //     const chatHistoryData = await getAllPreviousMessages(blogId[0])
-  //     const prevMessages = chatHistoryData.data.map(chat => {
-  //       if(chat.role == 'tools_call') return {};
-  //      return  {
-  //         role: chat.role,
-  //         content: chat.role === 'user' ? chat.content : safeParse(chat.content),
-  //       }});
-  //     setMessages(prevMessages);
-  //   })()
-  // }, [blogId[0]]);
-  // useEffect(() => {
-  //   const lastMessage = messages[messages.length - 1];
-  //   if (lastMessage?.role == 'assistant') {
-  //     const content = lastMessage.content;
-  //     // if(content?.blog)
-  //     //   setBlogData(content);
-
-  //   }
-  // }, [messages])
 
   const formateTitle = (title) => {
     return title?.toLowerCase().replace(/\s+/g, '-');
@@ -131,7 +99,7 @@ export default function BlogPage({ blog, user}) {
     const lastMessage = messages[messages.length - 1];
     if(lastMessage?.role == 'assistant'){
       const content = lastMessage.content;
-      if(content)
+      if(content?.blog)
         setBlogData(content.blog);
     }
   }, [messages])

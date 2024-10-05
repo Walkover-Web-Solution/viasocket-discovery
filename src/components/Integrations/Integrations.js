@@ -16,7 +16,7 @@ const Integrations = ({ integrations }) => {
                     <Avatar alt={integration.actions[0].name} src={integrations.plugins[integration.actions[0].name].iconurl || ''} variant = 'square'/>
                   </div>
                   <p className = {styles.integrationName}>{integration.description}</p>
-                  <Link className = {styles.integrationLink}>Try It <span>{'>'}</span></Link>
+                  <Link target = '_blank' href = {`https://flow.viasocket.com/makeflow/trigger/${integration.trigger.id}/action?utm_source=integration_page&events=${integration.actions[0].id}&integrations=${integrations.plugins[integration.trigger.name].rowid},${integrations.plugins[integration.actions[0].name].rowid}`} className = {styles.integrationLink}>Try It <span>{'>'}</span></Link>
                 </li>
             ))}
         </List>
