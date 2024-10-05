@@ -12,6 +12,7 @@ export default function Search({ handleCreateChat, searchQuery, setSearchQuery, 
             toast.error("login to perform this action")
             return;
         }
+        setSearchQuery("")
         handleAskAi();
     }
     return (<div className={styles.postHeader}>

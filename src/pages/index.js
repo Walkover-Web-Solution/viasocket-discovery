@@ -6,7 +6,7 @@ import { fetchBlogs, SearchBlogs } from '@/utils/apis/blogApis';
 import Search from '@/components/Search/Search';
 import { useUser } from '@/context/UserContext';
 import { safeParse } from './edit/[chatId]';
-import Chatbot, { sendMessageToChatBot } from '@/components/ChatBot/ChatBot';
+import Chatbot from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
 import { dispatchAskAiEvent } from '@/utils/utils';
 
