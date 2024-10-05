@@ -31,8 +31,7 @@ const getUserBlogs = async (userId) => {
   return await Blog.find({
     'createdBy': userId,
     'blog': { $exists: true },// Ensure markdown is not an empty string
-    'id': { $exists: true },
-    'status':"published"
+    'id': { $exists: true }
   });
 }
 
@@ -42,8 +41,8 @@ const getOtherBlogs = async (userId) => {
     'createdBy': { $ne: userId },
     'blog': { $exists: true },
     'id': { $exists: true },
-    'status':"published"
-  });
+    'apps': { $exists: true, $ne: [] }
+  }).limit(20);
 }
 
 const searchBlogsByQuery = async (query) => {

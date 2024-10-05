@@ -1,5 +1,5 @@
 import AIresponse from '@/components/AIresponse/AIresponse';
-import Chatbot from '@/components/ChatBot/ChatBot';
+// import Chatbot from '@/components/ChatBot/ChatBot';
 import styles from './chatPage.module.css';
 import { useRouter } from 'next/router';
 import Protected from '@/components/protected';
@@ -8,6 +8,7 @@ import { useUser } from '@/context/UserContext';
 import React , { useState, useEffect } from 'react';
 import { fetchIntegrations } from '@/utils/apiHelper';
 import blogServices from '@/services/blogServices';
+import ChatBot from '@/components/ChatBotAIMiddleWare/ChatBot';
 
 
 
@@ -73,15 +74,16 @@ export default function ChatPage({ blogData: initBlogData}) {
   return (
     <Protected >
     <div>
-      <div className={styles.chatPagediv}>
+      <div id="parant_of_chat_bot" className={styles.chatPagediv}>
+        <ChatBot parentId="parant_of_chat_bot"  chatId = {chatId}/>
         <AIresponse blogData = {blogData} oldBlog={oldBlog} isEditable={true} chatId = {chatId} user={user} integrations={integrations} setOldBlog={setOldBlog}/>
-        <Chatbot 
+        {/* <Chatbot 
           messages={messages}
           setMessages={setMessages}
           embedToken={process.env.NEXT_PUBLIC_CHAT_BOT_TOKEN}
           chatId = {chatId}
           setBlogData = {setBlogData}
-        />
+        /> */}
       </div>
     </div>
     </Protected>

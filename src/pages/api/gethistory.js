@@ -2,10 +2,10 @@
 import fetch from "node-fetch";
 export default async function handler(req, res) {
     if (req.method === 'GET') {
-      const { chatId } = req.query; 
+      const { chatId, bridgeId } = req.query; 
       try {
         const externalResponse = await fetch(
-          `https://routes.msg91.com/api/proxy/1258584/32nghul25/api/v1/config/threads/${chatId}/${process.env.BRIDGE_ID}`,
+          `https://routes.msg91.com/api/proxy/1258584/32nghul25/api/v1/config/threads/${chatId}/${bridgeId || process.env.BRIDGE_ID}`,
           {
             method: 'GET',
             headers: {

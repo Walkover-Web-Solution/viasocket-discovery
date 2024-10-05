@@ -1,53 +1,77 @@
 .chatbotContainer {
   width: 30vw;
-  height: 90%;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  position: fixed;
   display: flex;
+  flex: 1;
   flex-direction: column;
   background-color: #f8f8f8;
+  background-color: var(--background-color);
   border-right: 1px solid #a59c9c;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  border: 1px solid #7a7373;
-  margin-left: 10px;
-  margin-bottom: 3rem;
+  border: 1px solid #8a8080;
   margin-right: 10px;
+  z-index: 10;
+  min-width: 30rem;
+  max-width: 50rem;
+  flex: 1;
+  .chatbotHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom : 1px solid var(--grey);
+    .title{
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .closeButton{
+      outline: none;
+      font-size: 1.2rem;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+    }
+  }
 }
 
 .chatWindow {
-  flex: 1;
   padding: 10px;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  overflow: auto;
+  height: 90%;
+}
+
+.sentMessage, .receivedMessage{
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  width: fit-content;
+  word-wrap: break-word;
+  max-width: 80%;
 }
 
 .sentMessage {
   align-self: flex-end;
   background-color: #242331;
   color: white;
-  padding: 8px 12px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  max-width: 80%;
-  word-wrap: break-word;
 }
 
 .receivedMessage {
   align-self: flex-start;
-  background-color: #e1e1e1;
+  background-color: #d1d1d1;
   color: black;
-  padding: 8px 12px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  max-width: 80%;
-  word-wrap: break-word;
 }
 
 .inputContainer {
   padding: 10px;
   display: flex;
   border-top: 1px solid #ddd;
+  width: 100%;
+  background-color: white;
 }
 
 .messageInput {
@@ -61,7 +85,7 @@
 .sendButton {
   padding: 8px 16px;
   margin-left: 10px;
-  background-color: #007bff;
+  background-color: var(--blue);
   color: white;
   border: none;
   border-radius: 15px;
@@ -88,4 +112,53 @@
   border: none;
   cursor: pointer;
   border-radius: 10px;
+}
+
+.homePage{
+  height: 100%;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 11in;
+  max-width: 11in;
+  background-color: var(--background-color);
+  border: none;
+  padding-top: 5%;
+  padding-bottom: 3rem;
+  box-shadow : none;
+  & .inputContainer{
+    display: none;
+  }
+}
+
+
+
+.loader {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: block;
+  margin:15px auto;
+  position: relative;
+  color: lightgray;
+  box-sizing: border-box;
+  animation: animloader 1s linear infinite;
+}
+
+@keyframes animloader {
+  0% {
+    box-shadow: 14px 0 0 -2px,  38px 0 0 -2px,  -14px 0 0 -2px,  -38px 0 0 -2px;
+  }
+  25% {
+    box-shadow: 14px 0 0 -2px,  38px 0 0 -2px,  -14px 0 0 -2px,  -38px 0 0 2px;
+  }
+  50% {
+    box-shadow: 14px 0 0 -2px,  38px 0 0 -2px,  -14px 0 0 2px,  -38px 0 0 -2px;
+  }
+  75% {
+    box-shadow: 14px 0 0 2px,  38px 0 0 -2px,  -14px 0 0 -2px,  -38px 0 0 -2px;
+  }
+  100% {
+    box-shadow: 14px 0 0 -2px,  38px 0 0 2px,  -14px 0 0 -2px,  -38px 0 0 -2px;
+  }
 }

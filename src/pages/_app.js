@@ -5,16 +5,27 @@ import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
 import '../globals.scss';
+import Script from 'next/script';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
+      <Head>
+        <title>Viasocket Discovery</title>
+      </Head>
       <UserProvider>
         <Layout >
           <Component {...pageProps} />
           <ToastContainer />
         </Layout>
       </UserProvider>
+      <Script
+        id="chatbot-main-script"
+        src="https://chatbot-embed.viasocket.com/chatbot-prod.js"
+        embedToken={process.env.NEXT_PUBLIC_CHAT_BOT_TOKEN} 
+        hideIcon="true"
+      />
     </>
   );
 }

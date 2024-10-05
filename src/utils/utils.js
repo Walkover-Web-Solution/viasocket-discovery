@@ -33,3 +33,11 @@ export const generateNanoid = (length = 6) => {
     const nanoid = customAlphabet(alphabet, length);
     return nanoid();
 };
+
+export function dispatchAskAiEvent(userMessage) {
+    const event = new CustomEvent('askAppAi', {
+        detail: userMessage
+    });
+    window.dispatchEvent(event); // Emit the event globally
+    console.log("Emitted the Event...")
+};
