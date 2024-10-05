@@ -1,5 +1,8 @@
 import fetch from 'node-fetch';
 
+export const config = {
+  maxDuration: 30,
+};
 
 export default async function handler(req, res) {
     const { method } = req;
