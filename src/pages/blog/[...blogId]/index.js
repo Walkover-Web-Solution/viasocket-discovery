@@ -132,7 +132,7 @@ export default function BlogPage({ blog, user}) {
     if(lastMessage?.role == 'assistant'){
       const content = lastMessage.content;
       if(content)
-        setBlogData(content);
+        setBlogData(content.blog);
     }
   }, [messages])
 
