@@ -27,24 +27,27 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
   const divRef = useRef(null);
 
   const handleScroll = () => {
-    divRef.current.scrollTop = divRef.current.scrollHeight;
+    if(divRef.current)
+      divRef.current.scrollTop = divRef?.current.scrollHeight;
   };
 
   useEffect(() => {
-    const handleEvent = async(e) => {
-      setIsLoading(true)
-      await sendMessageToChatBot(e.detail,messages, setMessages, chatId, bridgeId, variables); // Update state with event data
-      setIsLoading(false)
-    };
-
-    // Add event listener for the custom event
+    const handleEvent = async (e) => {
+      setIsLoading(true);
+      await sendMessageToChatBot(e.detail, messages, setMessages, chatId, bridgeId, variables); // Update state with event data
+      setIsLoading(false);
+    };  
     window.addEventListener('askAppAi', handleEvent);
 
-    // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener('askAppAi', handleEvent);
     };
   },[messages, setMessages, chatId, bridgeId, variables]);
+  
+  useEffect(() => {
+    handleScroll();
+  }, [messages]);
+  
   const handleSendMessage = async () => {
     if (inputMessage.trim()) {
       setInputMessage("");
@@ -68,7 +71,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
   if(!isOpen) return null;
 
   return (
-    <div className={`${styles.chatbotContainer} ${homePage ? styles.homePage : ''}`}>
+    <div className={`${styles.chatbotContainer} ${homePage ? styles.homePage : ''} ${!isOpen ? styles.closed : ''}`}>
       <div className = {styles.chatbotHeader}>
         <h4 className = {styles.title}>AI Assistant</h4>
         <button onClick = {() => setIsOpen(false)} className={styles.closeButton}>&#10005;</button>
@@ -96,14 +99,6 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
                     &#x21BA;
                   </button>
                 </Tooltip>}
-              {message?.content?.urls?.length > 0 &&
-                <div className={styles.urlContainer}>
-                  {message?.content?.urls?.map((url, i) => (
-                    <a className={styles.urlLink} key={i} href={url} target="_blank" rel="noopener noreferrer">
-                      View Blog {i + 1}
-                    </a>
-                  ))}
-                </div>}
             </div>
           )
         })}

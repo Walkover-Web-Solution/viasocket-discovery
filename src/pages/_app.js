@@ -20,12 +20,12 @@ function MyApp({ Component, pageProps }) {
           <ToastContainer />
         </Layout>
       </UserProvider>
-      <Script
+      {/* <Script
         id="chatbot-main-script"
         src="https://chatbot-embed.viasocket.com/chatbot-prod.js"
         embedToken={process.env.NEXT_PUBLIC_CHAT_BOT_TOKEN} 
         hideIcon="true"
-      />
+      /> */}
     </>
   );
 }

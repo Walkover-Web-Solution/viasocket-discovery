@@ -1,17 +1,16 @@
 import React from 'react';
 import styles from './ChatBotComponents.module.scss';
 import { List } from '@mui/material';
+import BlogCard from '../Blog/Blog';
 const Components = {
     urls : (content) => {
         return (
             <div className = {styles.urlsDiv}>
-                <p>{content.message}</p>
+                <p className = {styles.message}>{content.message}</p>
                 <List className = {styles.urlsList}>
                     {
                         content.urls.map((link) => (
-                            <li className = {styles.urlsItem} key = {link?.url}>
-                                <a target='_blank' href = {link?.url}>{link?.title}</a>
-                            </li>
+                            <BlogCard key = {link.id} blog = {link} />
                         ))
                     }
                 </List>
