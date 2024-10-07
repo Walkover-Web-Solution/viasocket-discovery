@@ -1,18 +1,18 @@
 .card {
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 2px;
   padding: 2rem;
   font-family: serif;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
   cursor: pointer;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: 0.2s ease, transform 0.2s ease;
   max-width: 10.5in;
   margin-bottom: 1.2rem;
   background-color: #e4e0df
 }
 
 .card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
   transform: translateY(-2px);
 }
 
