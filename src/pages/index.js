@@ -39,7 +39,19 @@ export default function Home({ userBlogs, otherBlogs }) {
     const user = useUser().user;
     // const chatId = useRef(user?.id  ||   Math.random());
     const chatId = (user?.id  ||   Math.random());
+    const [timeoutId, setTimeoutId] = useState(null);
     useEffect(() => {
+      const debounce = (func, delay) => {
+        return (...args) => {
+          if (timeoutId) {
+            clearTimeout(timeoutId);
+          }
+          const id = setTimeout(() => {
+            func(...args);
+          }, delay)
+           setTimeoutId(id)
+        };
+      };
         const fetchBlogs = async () => {
             if (searchQuery) {
                 const filteredResults = await SearchBlogs(searchQuery);
@@ -48,7 +60,15 @@ export default function Home({ userBlogs, otherBlogs }) {
                 setSearchResults([]);
             }
         };
-        fetchBlogs();
+        const debouncedFetchBlogs = debounce(fetchBlogs, 300);
+
+        if (!isOpen) {
+          debouncedFetchBlogs(); 
+        }
+        return () => {
+          clearTimeout(debouncedFetchBlogs);
+      };
+
     }, [searchQuery]);
     
     useEffect(() => {
