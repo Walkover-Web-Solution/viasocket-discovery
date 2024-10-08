@@ -1,0 +1,74 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 21; 
+}
+
+.popup {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  position: relative;
+  animation: scaleIn 0.2s ease-out;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s;
+  padding: 0;
+  margin: 0;
+}
+
+.closeBtn:hover {
+  color: #555;
+}
+
+.body {
+  font-size: 16px;
+  color: #555;
+}
+
+.authButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #0070f3;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.authButton:hover {
+  background-color: #005bb5;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+  }
+  to {
+    transform: scale(1);
+  }
+}
