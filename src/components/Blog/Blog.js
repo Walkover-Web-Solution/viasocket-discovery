@@ -8,7 +8,8 @@ export default function BlogCard({ blog, isLoading}) {
   if (isLoading) {
     return (
       <div className={styles.card}>
-        <Skeleton  height={30} style={{"marginBottom":"6px"}} width={`45vw`} />
+        <Skeleton baseColor='transparent' height={0} style={{ "maxWidth":"10.5in"}} width={`100vw`} />
+        <Skeleton height={30} style={{"marginBottom":"6px"}}  />
         <Skeleton height={30} style={{"margin":"6px 0"}} count={3} />
         <div className={styles.tagsContainer}>
           <Skeleton height={30} width={80} />
