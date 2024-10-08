@@ -45,7 +45,7 @@ export default function Home() {
                 const filteredResults = await SearchBlogs(searchQuery);
                 setSearchResults(filteredResults);
             } catch (error) {
-                console.log("Error getting search");
+                console.log("Error getting search results ",error);
             }finally{
                 setIsLoading(false);
             }
@@ -54,14 +54,14 @@ export default function Home() {
         }
     }, [searchQuery]);
 
-    const debouncedFetchBlogs = useCallback(debounce(fetchSearchBlogs, 300), [fetchSearchBlogs]);
+    const debouncedFetchBlogs = useCallback(debounce(fetchSearchBlogs, 400), [fetchSearchBlogs]);
 
     useEffect(() => {
-        // if (!isOpen) {
-            setIsLoading(true);
-            debouncedFetchBlogs();
-            if(!searchQuery?.length) setIsLoading(false)
-        // }
+      setIsLoading(true);
+      debouncedFetchBlogs();
+      if ( !searchQuery?.length && otherBlogs.length>0) {
+          setIsLoading(false)
+      }
         return () => {
             debouncedFetchBlogs.cancel(); 
         };
