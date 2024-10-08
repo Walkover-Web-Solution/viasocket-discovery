@@ -126,7 +126,7 @@ export default function Home() {
     ): fallback && (
       <section className={styles.Homesection}>
         <h2 className={styles.homeh2}>{title}</h2>
-        <p className={styles.noData}>No results here! Press 'Enter' or hit 'Ask AI</p>
+        <p className={styles.noData}>No results here! Press Enter or hit Ask AI</p>
       </section>
     ) 
   )
