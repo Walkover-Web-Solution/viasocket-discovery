@@ -1,5 +1,5 @@
-// import { parseCookies } from 'nookies';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { debounce } from 'lodash'; 
 import Blog from '@/components/Blog/Blog';
 import styles from '@/pages/home.module.css';
 import { fetchBlogs, SearchBlogs } from '@/utils/apis/blogApis';
@@ -19,7 +19,6 @@ export default function Home() {
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const user = useUser().user;
-    const [timeoutId, setTimeoutId] = useState(null);
     const chatId = user?.id || Math.random();
 
     useEffect(() => {
@@ -39,49 +38,35 @@ export default function Home() {
         fetchAllBlogs();
     }, []);
 
-    useEffect(() => {
-      const debounce = (func, delay) => {
-        if(isOpen) return;
-        setIsLoading(true)
-        return (...args) => {
-          if (timeoutId) {
-            if(searchQuery?.length === 0) {
-              setIsLoading(false)
-            }
-            clearTimeout(timeoutId);
-          }
-          const id = setTimeout(() => {
-            func(...args);
-          }, delay)
-           setTimeoutId(id)
-        };
-      };
-        const fetchBlogs = async () => {
-            if (searchQuery) {
-              try {
+    const fetchSearchBlogs = useCallback(async () => {
+        if (searchQuery) {
+            try {
                 setIsLoading(true);
                 const filteredResults = await SearchBlogs(searchQuery);
                 setSearchResults(filteredResults);
-              } catch (error) {
-                console.log("error getting search")
-              }finally{
-                setIsLoading(false)
-              }
-            } else {
-                setSearchResults([]);
+            } catch (error) {
+                console.log("Error getting search");
+            }finally{
+                setIsLoading(false);
             }
-        };
-        const debouncedFetchBlogs = debounce(fetchBlogs, 300);
+        } else {
+            setSearchResults([]);
+        }
+    }, [searchQuery]);
 
+    const debouncedFetchBlogs = useCallback(debounce(fetchSearchBlogs, 400), [fetchSearchBlogs]);
+
+    useEffect(() => {
         if (!isOpen) {
-          debouncedFetchBlogs(); 
+            setIsLoading(true);
+            debouncedFetchBlogs();
+            if(!searchQuery?.length )setIsLoading(false)
         }
         return () => {
-          clearTimeout(debouncedFetchBlogs);
-      };
+            debouncedFetchBlogs.cancel(); 
+        };
+    }, [searchQuery, isOpen, debouncedFetchBlogs]);
 
-    }, [searchQuery]);
-    
     useEffect(() => {
       (async () => {
         const chatHistoryData = await getAllPreviousMessages(chatId,process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE).catch(err => null);
