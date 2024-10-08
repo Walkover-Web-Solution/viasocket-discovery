@@ -41,7 +41,8 @@ export default function Home() {
 
     useEffect(() => {
       const debounce = (func, delay) => {
-        if(!isOpen) setIsLoading(true);
+        if(isOpen) return;
+        setIsLoading(true)
         return (...args) => {
           if (timeoutId) {
             if(searchQuery?.length === 0) {
