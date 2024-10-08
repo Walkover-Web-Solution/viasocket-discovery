@@ -57,11 +57,11 @@ export default function Home() {
     const debouncedFetchBlogs = useCallback(debounce(fetchSearchBlogs, 400), [fetchSearchBlogs]);
 
     useEffect(() => {
-        if (!isOpen) {
+        // if (!isOpen) {
             setIsLoading(true);
             debouncedFetchBlogs();
-            if(!searchQuery?.length )setIsLoading(false)
-        }
+            if(!searchQuery?.length) setIsLoading(false)
+        // }
         return () => {
             debouncedFetchBlogs.cancel(); 
         };
