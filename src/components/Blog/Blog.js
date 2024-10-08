@@ -1,6 +1,21 @@
+import React, { useState, useEffect } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import styles from '@/components/Blog/Blog.module.css';
 
-export default function BlogCard({ blog }) {
+export default function BlogCard({ blog, isLoading}) {
+
+  if (isLoading) {
+    return (
+      <div className={styles.card}>
+        <Skeleton  height={30} style={{"marginBottom":"6px"}} width={`45vw`} />
+        <Skeleton height={30} style={{"margin":"6px 0"}} count={3} />
+        <div className={styles.tagsContainer}>
+          <Skeleton height={30} width={80} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div key={blog.id} className={styles.card}>
@@ -21,4 +36,3 @@ export default function BlogCard({ blog }) {
     </div>
   );
 }
-

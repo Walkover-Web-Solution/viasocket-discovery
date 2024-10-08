@@ -1,5 +1,5 @@
-import { parseCookies } from 'nookies';
-import { useState, useEffect, useRef } from 'react';
+// import { parseCookies } from 'nookies';
+import { useState, useEffect } from 'react';
 import Blog from '@/components/Blog/Blog';
 import styles from '@/pages/home.module.css';
 import { fetchBlogs, SearchBlogs } from '@/utils/apis/blogApis';
@@ -10,40 +10,43 @@ import Chatbot from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
 import { dispatchAskAiEvent } from '@/utils/utils';
 
-export async function getServerSideProps(context) {
-    let userBlogs = [];
-    let otherBlogs = [];
-    try {
-        const cookies = parseCookies(context);
-        const token = cookies[process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT];
-        const data = await fetchBlogs(token);
-        userBlogs = data?.data?.userBlogs;
-        otherBlogs = data?.data?.otherBlogs;
-    } catch (error) {
-        console.error('Error fetching blogs:', error);
-    }
-    return {
-        props: {
-          userBlogs: userBlogs || [],
-          otherBlogs: otherBlogs || []
-        }
-    };
-}
-
-
-export default function Home({ userBlogs, otherBlogs }) {
+export default function Home() {
+    const [userBlogs, setUserBlogs] = useState([]);
+    const [otherBlogs, setOtherBlogs] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [messages, setMessages] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const user = useUser().user;
-    // const chatId = useRef(user?.id  ||   Math.random());
-    const chatId = (user?.id  ||   Math.random());
     const [timeoutId, setTimeoutId] = useState(null);
+    const chatId = user?.id || Math.random();
+
+    useEffect(() => {
+        const fetchAllBlogs = async () => {
+          setIsLoading(true);
+            try {
+                const data = await fetchBlogs();
+                setUserBlogs(data?.userBlogs || []);
+                setOtherBlogs(data?.otherBlogs || []);
+            } catch (error) {
+                console.error('Error fetching blogs:', error);
+            }finally{
+              setIsLoading(false);
+            }
+        };
+
+        fetchAllBlogs();
+    }, []);
+
     useEffect(() => {
       const debounce = (func, delay) => {
+        setIsLoading(true);
         return (...args) => {
           if (timeoutId) {
+            if(searchQuery?.length === 0) {
+              setIsLoading(false)
+            }
             clearTimeout(timeoutId);
           }
           const id = setTimeout(() => {
@@ -54,8 +57,15 @@ export default function Home({ userBlogs, otherBlogs }) {
       };
         const fetchBlogs = async () => {
             if (searchQuery) {
+              try {
+                setIsLoading(true);
                 const filteredResults = await SearchBlogs(searchQuery);
                 setSearchResults(filteredResults);
+              } catch (error) {
+                console.log("error getting search")
+              }finally{
+                setIsLoading(false)
+              }
             } else {
                 setSearchResults([]);
             }
@@ -87,7 +97,22 @@ export default function Home({ userBlogs, otherBlogs }) {
 
 
   // Conditional blog rendering
-  const renderBlogsSection = (blogs, title, fallback) => (
+  const renderBlogsSection = (blogs, title, fallback) => {
+    if(isLoading){
+      return  (
+        <section className={styles.Homesection}>
+          <h2 className={styles.homeh2}></h2>
+          <div className={styles.cardsGrid}>
+            <Blog isLoading={isLoading} /> 
+            <Blog isLoading={isLoading} /> 
+            <Blog isLoading={isLoading} /> 
+            <Blog isLoading={isLoading} /> 
+          </div>
+        </section>
+      )
+    }
+
+    return (
     blogs?.length > 0 ? (
       <section className={styles.Homesection}>
         <h2 className={styles.homeh2}>{title}</h2>
@@ -97,13 +122,14 @@ export default function Home({ userBlogs, otherBlogs }) {
           ))}
         </div>
       </section>
-    ): fallback ? (
+    ): fallback && (
       <section className={styles.Homesection}>
         <h2 className={styles.homeh2}>{title}</h2>
         <p className={styles.noData}>Nothing Found !!!</p>
       </section>
-    ) : null
-  );
+    ) 
+  )
+  }
     const handleAskAi = async () => {
       dispatchAskAiEvent(searchQuery);
       setIsOpen(true);
