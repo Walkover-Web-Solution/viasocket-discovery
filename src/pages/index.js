@@ -54,7 +54,7 @@ export default function Home() {
         }
     }, [searchQuery]);
 
-    const debouncedFetchBlogs = useCallback(debounce(fetchSearchBlogs, 400), [fetchSearchBlogs]);
+    const debouncedFetchBlogs = useCallback(debounce(fetchSearchBlogs, 300), [fetchSearchBlogs]);
 
     useEffect(() => {
         // if (!isOpen) {
@@ -133,7 +133,7 @@ export default function Home() {
               )}
           </div>
           <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} placeholder = 'Search Categories or Ask AI...' />
-          <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId} homePage setIsOpen = {setIsOpen} isOpen = {isOpen}/>
+          <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId} homePage setIsOpen = {setIsOpen} isOpen = {isOpen} searchResults = {searchQuery ? searchResults : null}/>
         </>
     );
 }

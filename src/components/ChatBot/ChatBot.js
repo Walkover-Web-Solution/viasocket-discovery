@@ -4,8 +4,9 @@ import { Tooltip } from '@mui/material';
 import { sendMessageApi } from '@/utils/apis/chatbotapis';
 import { safeParse } from '@/pages/edit/[chatId]';
 import Components from '@/components/ChatBotComponents/ChatBotComponents';
+import BlogCard from '../Blog/Blog';
 
-export async function sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables) {
+export async function sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables, searchResults) {
   if (inputMessage.trim()) {
     const userMessage = { role: 'user', content: inputMessage };
     setMessages([...messages, userMessage]);
@@ -21,7 +22,7 @@ export async function sendMessageToChatBot(inputMessage, messages, setMessages, 
   }
 }
 
-const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variables, homePage, setIsOpen, isOpen, blogData}) => {
+const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variables, homePage, setIsOpen, isOpen, searchResults}) => {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const divRef = useRef(null);
@@ -46,7 +47,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
   
   useEffect(() => {
     handleScroll();
-  }, [messages]);
+  }, [messages, searchResults]);
   
   const handleSendMessage = async () => {
     if (inputMessage.trim()) {
@@ -102,6 +103,19 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
             </div>
           )
         })}
+        {
+          !isLoading && searchResults?.length > 0 && (
+            <div className = {styles.searchResultsDiv}>
+              <h3>Top Results</h3>
+              <div className = {styles.searchResults}>
+                {searchResults.map((blog) => {
+                  blog.introduction = ' ';
+                  return <BlogCard key={blog.id} blog={blog} className = {styles.blogOnSearch} />  
+                })}
+              </div>
+            </div>
+          )
+        }
         {isLoading && (
           <div className={styles.thinkingMessage}>
             Asking AI

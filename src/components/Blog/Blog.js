@@ -3,7 +3,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import styles from '@/components/Blog/Blog.module.css';
 
-export default function BlogCard({ blog, isLoading}) {
+export default function BlogCard({ blog, isLoading, className }) {
 
   if (isLoading) {
     return (
@@ -19,7 +19,7 @@ export default function BlogCard({ blog, isLoading}) {
   }
 
   return (
-    <div key={blog.id} className={styles.card}>
+    <div key={blog.id} className={`${styles.card} ${className || ''}`}>
       <a href={blog.url || `/discovery/blog/${blog.id}`} target="_blank" rel="noopener noreferrer">
         <h3>{blog.title}</h3>
         <p>{blog.introduction || blog.blog?.find(section => section.section === 'introduction')?.content}</p>
