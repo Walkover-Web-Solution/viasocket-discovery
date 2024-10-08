@@ -101,7 +101,7 @@ export default function Home() {
     if(isLoading){
       return  (
         <section className={styles.Homesection}>
-          <h2 className={styles.homeh2}></h2>
+          <h2 className={styles.homeh2}>{title}</h2>
           <div className={styles.cardsGrid}>
             <Blog isLoading={isLoading} /> 
             <Blog isLoading={isLoading} /> 
