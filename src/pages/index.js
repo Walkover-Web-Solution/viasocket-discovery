@@ -41,7 +41,7 @@ export default function Home() {
 
     useEffect(() => {
       const debounce = (func, delay) => {
-        setIsLoading(true);
+        if(!isOpen) setIsLoading(true);
         return (...args) => {
           if (timeoutId) {
             if(searchQuery?.length === 0) {
@@ -125,7 +125,7 @@ export default function Home() {
     ): fallback && (
       <section className={styles.Homesection}>
         <h2 className={styles.homeh2}>{title}</h2>
-        <p className={styles.noData}>Nothing Found !!!</p>
+        <p className={styles.noData}>No results here! Press 'Enter' or hit 'Ask AI</p>
       </section>
     ) 
   )
