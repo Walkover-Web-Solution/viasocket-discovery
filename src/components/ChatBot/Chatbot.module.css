@@ -17,6 +17,7 @@
   min-width: 30rem;
   max-width: 50rem;
   flex: 1;
+  animation: slideRight  0.4s ease-out;
   .chatbotHeader{
     display: flex;
     justify-content: space-between;
@@ -170,5 +171,14 @@
   }
   to {
     top: 2rem;
+  }
+}
+
+@keyframes slideRight {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 0;
   }
 }

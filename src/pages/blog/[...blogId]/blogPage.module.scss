@@ -6,6 +6,7 @@
   align-items: center;
 }
 .containerOpen{
+  animation: shrink 0.2s ease-out;
   width: 70%;
   margin-left: auto;
 }
@@ -27,5 +28,14 @@
   &:hover{
     background-color: var(--foreground-color);
     color: var(--background-color);
+  }
+}
+
+@keyframes shrink {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 70%;
   }
 }
