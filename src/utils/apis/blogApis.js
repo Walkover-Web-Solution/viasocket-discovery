@@ -12,18 +12,9 @@ export const SearchBlogs = async (searchQuery) => {
 
 export const fetchBlogs = async (token) => {
   try {
-    const res = await fetch(`${baseUrl}/api/blog`, {
-      method: 'GET',
-      headers: {
-        Authorization: token
-      }
-    });
+    const res = await axios.get(`${baseUrl}/api/blog`);
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch blogs: ${res.statusText}`);
-    }
-
-    return await res.json();
+    return await res?.data?.data;
   } catch (error) {
     console.error("Error fetching blogs:", error);
   }

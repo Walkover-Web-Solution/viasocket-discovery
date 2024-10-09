@@ -17,6 +17,7 @@
   min-width: 30rem;
   max-width: 50rem;
   flex: 1;
+  animation: slideRight  0.4s ease-out;
   .chatbotHeader{
     display: flex;
     justify-content: space-between;
@@ -116,18 +117,52 @@
 
 .homePage{
   height: 100%;
-  top: 0;
+  top: 2rem;
   left: 50%;
   transform: translateX(-50%);
   width: 11in;
   max-width: 11in;
   background-color: var(--background-color);
   border: none;
-  padding-top: 5%;
-  padding-bottom: 3rem;
+  padding: 0 1rem 3rem 1rem;
   box-shadow : none;
+  animation: slideUp 0.4s ease-out;
+  .closeButton{
+    display: none;
+  }
   & .inputContainer{
     display: none;
+  }
+  & > *{
+    font-size: 1.2rem;
+  }
+}
+
+.searchResultsDiv{
+  & > h3{
+    margin-bottom: 1rem;
+  }
+  .searchResults{
+    margin-bottom: 1in;
+    overflow: scroll;
+    display: flex;
+    gap: 1rem;
+    .blogOnSearch{
+      background-color: whitesmoke;
+      border: 1px solid #888;
+      box-shadow: none;
+      padding: 0 1rem;
+      overflow: scroll;
+      min-width: 4in;
+      max-width: max-content;
+      height: 2in;
+      .tagsContainer{
+        border: 2px solid red;
+      }
+      &:hover{
+        transform:none;
+      }
+    }
   }
 }
 
@@ -160,5 +195,23 @@
   }
   100% {
     box-shadow: 14px 0 0 -2px,  38px 0 0 2px,  -14px 0 0 -2px,  -38px 0 0 -2px;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    top: 100%;
+  }
+  to {
+    top: 2rem;
+  }
+}
+
+@keyframes slideRight {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 0;
   }
 }

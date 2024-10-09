@@ -2,8 +2,10 @@
 export const maxDuration = 300
 import axios from "../interceptor";
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+const proxyUrl = process.env.NEXT_PUBLIC_PROXY_URL;
+
 export const sendMessageApi = async (content, chatId, bridgeId, variables) => {
-    const response = await axios.post(baseUrl+'/api/ask-ai', {
+    const response = await axios.post(proxyUrl+'/ask-ai', {
         userMessage: content,
         chatId: chatId,
         bridgeId : bridgeId, 
