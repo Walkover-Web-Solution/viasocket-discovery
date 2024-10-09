@@ -6,9 +6,15 @@ const BlogSchema = new mongoose.Schema({
     unique: true,
   },
   title: String,
+  slugName: {
+    type:String,
+    default: function () {
+      return this.title ? this.title.replace(/\s+/g, '-').toLowerCase() : ''; 
+    }
+  },
   blog: Object,
   tags: Array,
-  apps: Array,
+  apps: Object,
   status: {
     type: String,
     default: "draft"

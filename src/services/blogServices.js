@@ -12,7 +12,11 @@ const getAllBlogs = async () => {
 
 const createBlog = async (blogData) => {
   await dbConnect();
-  const apps = blogData?.blog?.find(section => section.section ==='summaryList')?.content?.map(app => app.name);
+  const defaultIconUrl = "https://example.com/default-icon.png";
+  const apps = blogData?.blog?.find(section => section.section === 'summaryList')?.content?.reduce((acc, app) => {
+    acc[app.name] = { iconUrl: app.iconUrl || defaultIconUrl };
+    return acc;
+  }, {});
   return Blog.create({ ...blogData, apps, id: generateNanoid(6) });
 };
 
