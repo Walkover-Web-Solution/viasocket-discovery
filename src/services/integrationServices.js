@@ -1,12 +1,12 @@
 const axios = require('axios');
 
-async function getPluginsByName(pluginNames){
+async function getPluginsByName(pluginNames, fields) {
     const url = `${process.env.DBDASH_URL}/${process.env.PLUGINS_DBID}/${process.env.PLUGINS_TABLEID}`
     const plugins = await axios.get(url, {
         params: {
             filter: `name ILIKE ANY (ARRAY[${pluginNames.map(p => `'${p}'`)}]) AND audience = 'Public' AND status = 'published'`,
-            fields: ['appslugname', 'name']
-        }, 
+            fields: fields
+        },
         headers: {
             'auth-key' : process.env.PLUGINS_AUTHKEY    
         }
@@ -72,4 +72,32 @@ async function alertMissingPlugins(plugins){
     ).catch(err => console.error('Error in alerting', err));
 }
 
-module.exports = { getPluginsByName, getIntegrations }
+async function getUpdatedApps(blogData) {
+    try {
+        const appContent = blogData?.blog?.find(section => section.section === 'summaryList')?.content;
+        const pluginNames = appContent?.map(app => app.name) || [];
+
+        const apiIcons = await getPluginsByName(pluginNames, ['name', 'iconurl', 'domain']);
+        const iconMap = apiIcons.reduce((acc, plugin) => {
+            acc[plugin.name.toLowerCase()] = {
+                iconUrl: plugin.iconurl,
+                domain: plugin.domain
+            };
+            return acc;
+        }, {});
+        const apps = appContent?.reduce((acc, app) => {
+            if (iconMap[app.name.toLowerCase()]?.iconUrl || iconMap[app.name.toLowerCase()]?.domain) {
+                acc[app.name] = {
+                    iconUrl: iconMap[app.name.toLowerCase()]?.iconUrl  ,
+                    domain: iconMap[app.name.toLowerCase()]?.domain  
+                };
+            } else acc[app.name] = {};
+            return acc;
+        }, {});
+        return apps;
+    } catch (error) {
+        console.log("error in getting app icon urls ", error);
+        return {};
+    }
+}
+module.exports = { getPluginsByName, getIntegrations, getUpdatedApps }

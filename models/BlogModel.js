@@ -24,7 +24,7 @@ const BlogSchema = new mongoose.Schema({
     default: Date.now,
   },
   createdBy: Number
-});
+},{ minimize: false });
 BlogSchema.index({ id: 1 })
 
 export default mongoose.models?.Blog || mongoose.model('Blog', BlogSchema);

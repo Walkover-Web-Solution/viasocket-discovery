@@ -4,6 +4,7 @@
 import Blog from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
 import { generateNanoid } from '@/utils/utils';
+import {  getUpdatedApps } from './integrationServices';
 
 const getAllBlogs = async () => {
   await dbConnect();
@@ -12,11 +13,7 @@ const getAllBlogs = async () => {
 
 const createBlog = async (blogData) => {
   await dbConnect();
-  const defaultIconUrl = "https://example.com/default-icon.png";
-  const apps = blogData?.blog?.find(section => section.section === 'summaryList')?.content?.reduce((acc, app) => {
-    acc[app.name] = { iconUrl: app.iconUrl || defaultIconUrl };
-    return acc;
-  }, {});
+  const apps = await getUpdatedApps(blogData)
   return Blog.create({ ...blogData, apps, id: generateNanoid(6) });
 };
 
