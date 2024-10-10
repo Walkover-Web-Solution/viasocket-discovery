@@ -13,6 +13,8 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>Viasocket Discovery</title>
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32x32.png"></link>
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/favicon-16x16.png"></link>
       </Head>
       <UserProvider>
         <Layout >
