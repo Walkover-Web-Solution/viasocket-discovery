@@ -94,7 +94,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
               {clickable &&
                 <Tooltip title="revert to this version">
                   <button
-                    onClick={() => setBlogData(message.content)}
+                    onClick={() => setBlogData(message.content.blog)}
                     className={styles.revertButton}
                   >
                     &#x21BA;
