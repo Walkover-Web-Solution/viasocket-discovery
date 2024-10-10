@@ -20,7 +20,7 @@ export default function Navbar() {
     };
 
     const handleSignIn = async () => {
-        window.location.href = 'https://viasocket.com/login?redirect_to=/discovery/auth';
+        window.location.href = process.env.NEXT_PUBLIC_AUTH_REDIRECTION;
     };
 
     return (

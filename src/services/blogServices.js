@@ -24,7 +24,8 @@ const getBlogById = async (blogId) => {
 
 const updateBlogById = async (blogId, blogData) => {
   await dbConnect();
-  return JSON.parse(JSON.stringify(await Blog.findOneAndUpdate({ "id": blogId }, blogData)));
+  const apps = await getUpdatedApps(blogData)
+  return JSON.parse(JSON.stringify(await Blog.findOneAndUpdate({ "id": blogId }, {...blogData ,apps})));
 }
 
 const getUserBlogs = async (userId) => {

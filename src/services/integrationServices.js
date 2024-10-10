@@ -73,8 +73,8 @@ async function alertMissingPlugins(plugins){
 }
 
 async function getUpdatedApps(blogData) {
+    const appContent = blogData?.blog?.find(section => section.section === 'summaryList')?.content;
     try {
-        const appContent = blogData?.blog?.find(section => section.section === 'summaryList')?.content;
         const pluginNames = appContent?.map(app => app.name) || [];
 
         const apiIcons = await getPluginsByName(pluginNames, ['name', 'iconurl', 'domain']);
@@ -97,7 +97,12 @@ async function getUpdatedApps(blogData) {
         return apps;
     } catch (error) {
         console.log("error in getting app icon urls ", error);
-        return {};
+        
+        const apps = appContent?.reduce((acc, app) => {
+            acc[app.name] = {};
+            return acc;
+        }, {});
+        return apps;
     }
 }
 module.exports = { getPluginsByName, getIntegrations, getUpdatedApps }
