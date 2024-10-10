@@ -120,6 +120,9 @@ export default function Home() {
       dispatchAskAiEvent(searchQuery);
       setIsOpen(true);
     }
+    useEffect(()=>{
+      if(!user) setIsOpen(false);
+    },[user])
     return (
         <>
           {

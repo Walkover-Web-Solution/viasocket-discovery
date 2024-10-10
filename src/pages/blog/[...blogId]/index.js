@@ -63,7 +63,7 @@ export default function BlogPage({ blog, user}) {
     if (blog) {
       router.replace(
         {
-          pathname: `/blog/${blog.id}/${formateTitle(blog.title)}`,
+          pathname: `/blog/${blog.id}/${formateTitle(blog.slugName)}`,
         },
         undefined,
         { shallow: true } // Keeps the page from reloading
@@ -77,7 +77,8 @@ export default function BlogPage({ blog, user}) {
         setIntegrations(data);
     }
     if (blog?.apps) {
-      getData(blog?.apps)
+      const appKeys = Object.keys(blog.apps);
+      getData(appKeys)
     }
   }, [blog?.apps]);
 
@@ -103,6 +104,11 @@ export default function BlogPage({ blog, user}) {
         setBlogData(content.blog);
     }
   }, [messages])
+  useEffect(()=>{
+    if(!currentUser) {
+      setIsOpen(false);
+    }
+  },[currentUser])
 
   const handlePublish = async () => {
     const blogDataToPublish = {

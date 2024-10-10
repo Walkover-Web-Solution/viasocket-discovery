@@ -29,7 +29,7 @@ const UserDetail = ({ isOpen, onClose }) => {
         clearUserData();
         setUser(null);
         onClose();
-        router.reload();
+        // router.reload();
         
 
     };

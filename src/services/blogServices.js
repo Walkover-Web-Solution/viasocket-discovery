@@ -4,6 +4,7 @@
 import Blog from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
 import { generateNanoid } from '@/utils/utils';
+import {  getUpdatedApps } from './integrationServices';
 
 const getAllBlogs = async () => {
   await dbConnect();
@@ -12,7 +13,7 @@ const getAllBlogs = async () => {
 
 const createBlog = async (blogData) => {
   await dbConnect();
-  const apps = blogData?.blog?.find(section => section.section ==='summaryList')?.content?.map(app => app.name);
+  const apps = await getUpdatedApps(blogData)
   return Blog.create({ ...blogData, apps, id: generateNanoid(6) });
 };
 
@@ -23,7 +24,8 @@ const getBlogById = async (blogId) => {
 
 const updateBlogById = async (blogId, blogData) => {
   await dbConnect();
-  return JSON.parse(JSON.stringify(await Blog.findOneAndUpdate({ "id": blogId }, blogData)));
+  const apps = await getUpdatedApps(blogData)
+  return JSON.parse(JSON.stringify(await Blog.findOneAndUpdate({ "id": blogId }, {...blogData ,apps})));
 }
 
 const getUserBlogs = async (userId) => {
