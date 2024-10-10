@@ -19,9 +19,7 @@ export const sendMessageApi = async (content, chatId, bridgeId, variables) => {
 
 export const getAllPreviousMessages = async (chatId, bridgeId) => {
     const response = await axios.get(baseUrl+`/api/gethistory?chatId=${chatId}&bridgeId=${bridgeId}`);
-
     return response?.data?.data;
-
 };
 
 export const compareBlogs = async (variables) => {

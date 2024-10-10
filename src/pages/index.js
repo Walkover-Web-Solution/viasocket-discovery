@@ -124,7 +124,15 @@ export default function Home() {
       if(!user) setIsOpen(false);
     },[user])
     return (
-        <>            
+        <>
+          {
+            !isOpen && (
+              <>
+                <h1 className={styles.homeTitle}>Get the Best Business Tools – Handpicked by Real Businesses Like Yours</h1>
+                <p className={styles.homep}>{'Discover top tools curated by real businesses that have been where you are. Tailored to your industry, size, location, and goals – whether you\'re scaling up, boosting efficiency, or cutting costs, find the tools that fit your needs without the hassle.'}</p>
+              </>
+            )
+          }            
           <div className={styles.postHeaderDiv}>
               {searchQuery && !isOpen ? (
                   renderBlogsSection(searchResults, searchQuery, true)
