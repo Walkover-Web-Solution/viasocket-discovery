@@ -1,10 +1,11 @@
 import React from "react";
 import styles from "@/components/UnauthorisedPopup/UnauthorisedPopup.module.css"
+import { getCurrentEnvironment } from "@/utils/storageHelper";
 
 const UnauthorizedPopup = ({ isOpen, onClose }) => {
 
   const handleLoginRedirect = () => {
-    window.location.href = process.env.NEXT_PUBLIC_AUTH_REDIRECTION
+    window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
   };
 
   if (!isOpen) {

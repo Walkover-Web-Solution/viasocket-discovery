@@ -5,6 +5,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import styles from "@/components/Navbar/Navbar.module.css";
 import UserDetail from '../UserDetailPopup/UserDetailPopup';
 import { useUser } from '@/context/UserContext';
+import { getCurrentEnvironment } from '@/utils/storageHelper';
 
 export default function Navbar() {
     const { user } = useUser();
@@ -20,7 +21,7 @@ export default function Navbar() {
     };
 
     const handleSignIn = async () => {
-        window.location.href = process.env.NEXT_PUBLIC_AUTH_REDIRECTION;
+        window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
     };
 
     return (
