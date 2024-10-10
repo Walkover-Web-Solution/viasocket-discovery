@@ -4,7 +4,7 @@ import styles from "@/components/UnauthorisedPopup/UnauthorisedPopup.module.css"
 const UnauthorizedPopup = ({ isOpen, onClose }) => {
 
   const handleLoginRedirect = () => {
-    window.location.href = "/discovery/auth"
+    window.location.href = "https://viasocket.com/login?redirect_to=/discovery/auth"
   };
 
   if (!isOpen) {
