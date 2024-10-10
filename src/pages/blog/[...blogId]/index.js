@@ -103,6 +103,11 @@ export default function BlogPage({ blog, user}) {
         setBlogData(content.blog);
     }
   }, [messages])
+  useEffect(()=>{
+    if(!currentUser) {
+      setIsOpen(false);
+    }
+  },[currentUser])
 
   const handlePublish = async () => {
     const blogDataToPublish = {

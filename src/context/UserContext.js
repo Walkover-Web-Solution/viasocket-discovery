@@ -1,5 +1,5 @@
 import { getCurrentUser } from '@/utils/apiHelper';
-import { getCurrentEnvironment, getFromCookies, getUserDataFromLocalStorage } from '@/utils/storageHelper';
+import { getCurrentEnvironment, getFromCookies } from '@/utils/storageHelper';
 import { createContext, useState, useContext, useEffect } from 'react';
 
 const UserContext = createContext();
@@ -9,17 +9,17 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isChatOpen,setIsChatOpen]=useState(false);
   const getCurrentUserFunction = async  () => {
-    const storedUser = getUserDataFromLocalStorage();
-    if (storedUser) {
-      setUser(storedUser);
-      setLoading(false);
-      return ;
-    }
+    // const storedUser = getUserDataFromLocalStorage();
+    // if (storedUser) {
+    //   setUser(storedUser);
+    //   setLoading(false);
+    //   return ;
+    // }
     const token = getFromCookies(getCurrentEnvironment())
     if (!token) return 
     const userInfo = await getCurrentUser();
     const userData = userInfo?.data[0]
-    localStorage.setItem("userDetail", JSON.stringify({ name: userData.name, email: userData.email, id: userData.id }));
+    // localStorage.setItem("userDetail", JSON.stringify({ name: userData.name, email: userData.email, id: userData.id }));
     setUser({ name: userData.name, email: userData.email, id: userData.id })
     setLoading(false);
   }
