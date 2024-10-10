@@ -77,7 +77,8 @@ export default function BlogPage({ blog, user}) {
         setIntegrations(data);
     }
     if (blog?.apps) {
-      getData(blog?.apps)
+      const appKeys = Object.keys(blog.apps);
+      getData(appKeys)
     }
   }, [blog?.apps]);
 
