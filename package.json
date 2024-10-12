@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:test": "dotenv -e .env.test next build",
+    "build:production": "dotenv -e .env.production next build"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
@@ -15,6 +17,8 @@
     "@mui/material": "^6.0.2",
     "@next/env": "^14.2.8",
     "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.2",
     "jose": "^5.9.1",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
