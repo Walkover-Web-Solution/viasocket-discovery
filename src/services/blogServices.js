@@ -7,7 +7,9 @@ import { generateNanoid } from '@/utils/utils';
 import {  getUpdatedApps } from './integrationServices';
 
 const getAllBlogs = async () => {
+  console.time("getAllBlogs");
   await dbConnect();
+  console.timeEnd("getAllBlogs");
   return Blog.find({});
 };
 
@@ -18,7 +20,9 @@ const createBlog = async (blogData) => {
 };
 
 const getBlogById = async (blogId) => {
+  console.time("getBlogId");
   await dbConnect();
+  console.timeEnd("getBlogId");
   return JSON.parse(JSON.stringify(await Blog.findOne({ "id": blogId })));
 }
 
