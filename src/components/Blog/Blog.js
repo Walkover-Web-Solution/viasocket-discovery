@@ -9,12 +9,19 @@ export default function BlogCard({ blog, isLoading, className }) {
   if (isLoading) {
     return (
       <div className={styles.card}>
-        <Skeleton baseColor='transparent' height={0} style={{ "maxWidth":"10.5in"}} width={`100vw`} />
-        <Skeleton height={30} style={{"marginBottom":"6px"}}  />
-        <Skeleton height={30} style={{"margin":"6px 0"}} count={3} />
-        <div className={styles.tagsContainer}>
-          <Skeleton height={30} width={80} />
-        </div>
+        <Skeleton baseColor='transparent' height={0} style={{ "maxWidth":"10.5in" ,"margin":"0px"}} width={`100vw`} />
+        <Skeleton height={30} style={{"marginBottom":"15px"}}  />
+        {/* <Skeleton height={30} style={{"margin":"6px 0"}} count={3} /> */}
+        <div className={styles.appIconsDiv}>
+            <Skeleton height={50} width={50}style={{"marginBottom":"6px"} }   />
+            <Skeleton height={50} width={50}style={{"marginBottom":"6px"} }   />
+            <Skeleton height={50} width={50}style={{"marginBottom":"15px"} }   />
+          </div>
+          <div className={styles.appIconsDiv}>
+            <Skeleton height={30} width={100}style={{"marginBottom":"6px"} } borderRadius={'14px'}   />
+            <Skeleton height={30} width={100}style={{"marginBottom":"6px"} }  borderRadius={'14px'}  />
+            <Skeleton height={30} width={100}style={{"marginBottom":"6px"} } borderRadius={'14px'}   />
+          </div>
       </div>
     );
   }
