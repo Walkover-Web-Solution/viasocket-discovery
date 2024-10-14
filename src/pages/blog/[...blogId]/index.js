@@ -23,7 +23,9 @@ export async function getServerSideProps(context) {
   const props = {};
   try {
     const blog = await blogServices.getBlogById(blogId[0]);
+    console.time("getUserById");
     const user = await getUserById(blog?.createdBy);
+    console.timeEnd("getUserById");
     props.blog = blog;
     props.user = user;
   } catch (error) {
