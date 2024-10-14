@@ -19,6 +19,8 @@ import { dispatchAskAiEvent } from '@/utils/utils';
 
 
 export async function getServerSideProps(context) {
+  console.time("request");
+  console.timeStamp("testing");
   const { blogId } = context.params;
   const props = {};
   try {
@@ -31,6 +33,8 @@ export async function getServerSideProps(context) {
   } catch (error) {
     console.error('Error fetching blog data:', error); // Return an empty object if there's an error
   }
+  console.timeEnd("request");
+  console.timeStamp("testing1");
   return { props };
 }
 
