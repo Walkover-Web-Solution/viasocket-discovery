@@ -32,7 +32,6 @@
 .tagsContainer {
   margin-top: 20px;
   h3{
-    font-style: italic;
     font-weight: 100;
     font-size: 1.3rem;
     color: #999;
@@ -42,9 +41,8 @@
 .tag {
   display: inline-block;
   background-color: var(--grey);
-  border-radius: 30px;
-  padding: 10px 20px;
+  border-radius: 3px;
+  padding: 10px 10px;
   margin: 10px 5px;
   font-size: 1.1rem;
-  font-style: italic;
 }
