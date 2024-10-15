@@ -175,15 +175,13 @@ export default function BlogPage({ blog, user}) {
         <AIresponse blogData={blogData} user={user} integrations={integrations} />
         {
           relatedBlogs?.length > 0 && (
-            <div className={styles.searchResultsDiv}>
-            <h3>Related Blogs:</h3>
-            <div className={styles.searchResults}>
-                {relatedBlogs.map((blog) => {
-                    blog.introduction = ' ';
-                    return <BlogCard key={blog.id} blog={blog} className={styles.blogOnSearch} />
-                })}
+            <div className={styles.relatedBlogsDiv}>
+              <h3>Related Blogs:</h3>
+              {relatedBlogs.map((blog) => {
+                blog.introduction = ' ';
+                return <BlogCard key={blog.id} blog={blog} className={styles.blogOnSearch} />
+              })}
             </div>
-        </div>
           )
         }
         {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>}
