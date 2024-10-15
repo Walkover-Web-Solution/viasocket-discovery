@@ -47,3 +47,11 @@ export const getBlogById = async (blogId) => {
     console.error('Failed to get blog:', error);
   }
 };
+export const getReletedblogs = async (tags) => {
+  try {
+    const response = await axios.post(baseUrl + `/api/related-blogs`, { tags: tags });
+    return response.data.data;
+  } catch (error) {
+    console.error('failed to get releted blogs:', error);
+  }
+};

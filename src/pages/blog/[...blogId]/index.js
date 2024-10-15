@@ -15,7 +15,8 @@ import { compareBlogs } from '@/utils/apis/chatbotapis';
 import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 import { useUser } from '@/context/UserContext';
 import { dispatchAskAiEvent } from '@/utils/utils';
-
+import { getReletedblogs } from '@/utils/apis/blogApis';
+import BlogCard from '@/components/Blog/Blog';
 
 
 export async function getServerSideProps(context) {
@@ -47,6 +48,7 @@ export default function BlogPage({ blog, user}) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [isPopupOpen, setIsPopUpOpen] = useState(false);
+  const [relatedBlogs, setRelatedBlogs] = useState([]);
   const currentUser = useUser().user;
   let blogDataToSend = { ...blogData };
   delete blogDataToSend._id;
@@ -76,6 +78,14 @@ export default function BlogPage({ blog, user}) {
       );
     }
   }, [blog?.id]);
+  useEffect(() => {
+    const fetchRelatedBlogs = async () => {
+      if (!blogData?.tags) return;
+      const blogs = await getReletedblogs(blogData?.tags);
+      setRelatedBlogs(blogs);
+    }
+    fetchRelatedBlogs();
+  }, [blogData?.tags])
 
   useEffect(() => {
     const getData = async (apps) => {
@@ -162,11 +172,24 @@ export default function BlogPage({ blog, user}) {
   return (
     <div>
       <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
-        <AIresponse blogData={blogData} user={user} integrations = {integrations}/>
-        {isOpen && <button onClick={handlePublish} className = {styles.publishButton}>Publish Changes</button>}
+        <AIresponse blogData={blogData} user={user} integrations={integrations} />
+        {
+          relatedBlogs?.length > 0 && (
+            <div className={styles.searchResultsDiv}>
+            <h3>Related Blogs:</h3>
+            <div className={styles.searchResults}>
+                {relatedBlogs.map((blog) => {
+                    blog.introduction = ' ';
+                    return <BlogCard key={blog.id} blog={blog} className={styles.blogOnSearch} />
+                })}
+            </div>
+        </div>
+          )
+        }
+        {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>}
       </div>
-      <Chatbot bridgeId = {process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {blog.id} setBlogData = {setBlogData} variables = {{blogData : blogDataToSend}} setIsOpen = {setIsOpen} isOpen={isOpen}/>
-      {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} placeholder = 'Follow up if any query with AI...' />}
+      <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={blog.id} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} />
+      {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi={handleAskAi} placeholder='Follow up if any query with AI...' />}
       <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} />
     </div>
   );

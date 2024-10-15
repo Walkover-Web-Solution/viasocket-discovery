@@ -57,4 +57,41 @@ const searchBlogsByQuery = async (query) => {
     status: "published"
   });
 };
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery };
+
+const searchBlogsByTags = async (tagList) => {
+  await dbConnect();
+    const results = await Blog.aggregate([
+      {
+        $match: {
+          tags: { $in: tagList }
+        }
+      },
+      {
+        $addFields: {
+          matchedTagsCount: {
+            $size: {
+              $filter: {
+                input: "$tags",
+                as: "tag",
+                cond: { $in: ["$$tag", tagList] }
+              }
+            }
+          }
+        }
+      },
+      {
+        $sort: { matchedTagsCount: -1 }
+      },
+      {
+        $limit: 10
+      },
+      {
+        $project: {
+          apps: 1, title: 1, id: 1
+      }}
+    ]);
+
+    return results;
+ 
+};
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags };
