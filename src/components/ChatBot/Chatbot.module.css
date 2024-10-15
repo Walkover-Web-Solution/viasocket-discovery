@@ -117,14 +117,14 @@
 
 .homePage{
   height: 100%;
-  top: 2rem;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 11in;
   max-width: 11in;
   background-color: var(--background-color);
   border: none;
-  padding: 0 1rem 3rem 1rem;
+  padding: 2rem 1rem 3rem 1rem;
   box-shadow : none;
   animation: slideUp 0.4s ease-out;
   .closeButton{
