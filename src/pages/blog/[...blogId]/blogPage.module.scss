@@ -30,6 +30,22 @@
     color: var(--background-color);
   }
 }
+.relatedBlogsDiv{
+  padding: 16px;
+  font-family: var(--sans-serif-font);
+  max-width: 60rem;
+  height: 700px;
+  width: 90%;
+  height: 90%;
+  margin: 0 auto auto auto;
+  padding-top: 0px;
+  & > h3{
+      padding-bottom: 10px;
+      font-weight: 100;
+      font-size: 1.3rem;
+      color: #999;
+  }
+}
 
 @keyframes shrink {
   from {

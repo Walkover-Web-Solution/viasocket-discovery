@@ -2,7 +2,6 @@
 import React from 'react';
 import styles from './AIresponse.module.scss';
 import Head from 'next/head'
-import Popup from '../PopupModel/PopupModel';
 import Components from '../BlogComponents/BlogComponents';
 const AIresponse = ({ blogData, user, integrations }) => {
   const hasMarkdown = blogData?.blog;

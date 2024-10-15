@@ -144,7 +144,7 @@
   }
   .searchResults{
     margin-bottom: 1in;
-    overflow: scroll;
+    overflow: auto;
     display: flex;
     gap: 1rem;
     .blogOnSearch{
@@ -152,7 +152,7 @@
       border: 1px solid #888;
       box-shadow: none;
       padding: 0 1rem;
-      overflow: scroll;
+      overflow: auto;
       min-width: 4in;
       max-width: max-content;
       height: 2in;
