@@ -37,7 +37,8 @@ const Components = {
                 <List className={styles.list}>
                     {content.map((app, idx) => {
                         const appName = app.name.toLowerCase();
-                        const appData = integrations?.[appName]?.plugins[appName];
+                        const appSlugName = app.name.toLowerCase().replace(/[\s/()]+/g, '-');
+                        const appData = integrations?.[appName]?.plugins[appSlugName];
                         return (
                             <ListItem className = {styles.listItem} key = {idx}>
                                 <Avatar className = {styles.appIcon} alt={app.name} src={appData?.iconurl || 'https://thingsofbrand.com/api/viasocket.com/logos/viasocket_logo_1'} variant='square'/>
