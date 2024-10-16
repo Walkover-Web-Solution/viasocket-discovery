@@ -19,7 +19,7 @@ const AIresponse = ({ blogData, user, integrations }) => {
               blogData.blog.map(({section, content}) => Components[section]?.({content, integrations, user, createdAt: blogData.createdAt}))
             }
             <div className={styles.tagsContainer}>
-              <h3>Related Tags:</h3>
+              <h3>Related Tags</h3>
               {blogData?.tags?.map((tag, index) => (
                 <span key={index} className={styles.tag}>
                   {tag}

@@ -143,7 +143,6 @@
     margin-bottom: 1rem;
   }
   .searchResults{
-    margin-bottom: 1in;
     overflow: auto;
     display: flex;
     gap: 1rem;
@@ -156,9 +155,6 @@
       min-width: 4in;
       max-width: max-content;
       height: 2in;
-      .tagsContainer{
-        border: 2px solid red;
-      }
       &:hover{
         transform:none;
       }

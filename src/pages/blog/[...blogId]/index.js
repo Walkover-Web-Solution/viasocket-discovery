@@ -176,7 +176,7 @@ export default function BlogPage({ blog, user}) {
         {
           relatedBlogs?.length > 0 && (
             <div className={styles.relatedBlogsDiv}>
-              <h3>Related Blogs:</h3>
+              <h3>Related Blogs</h3>
               {relatedBlogs.map((blog) => {
                 blog.introduction = ' ';
                 return <BlogCard key={blog.id} blog={blog} className={styles.blogOnSearch} />
