@@ -3,9 +3,10 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import styles from '@/components/Blog/Blog.module.scss';
 import { Avatar } from '@mui/material';
+import { useRouter } from 'next/router';
 
 export default function BlogCard({ blog, isLoading, className }) {
-
+  const router = useRouter();
   if (isLoading) {
     return (
       <div className={styles.card}>
@@ -42,17 +43,22 @@ export default function BlogCard({ blog, isLoading, className }) {
             />
           )})}
         </div>
-        <div className={styles.tagsContainer}>
-          {blog.tags?.map((tag, index) => (
+      </a>
+      <div className={styles.tagsContainer}>
+        {blog.tags?.map((tag, index) => (
             <button
               key={index}
+              onClick={()=>{
+                router.replace({
+                  query: { tag: tag },
+               });
+              }}
               className={`${styles.tag} ${styles[tag.toLowerCase()]}`}
             >
               {tag}
             </button>
-          ))}
-        </div>
-      </a>
+        ))}
+      </div>
     </div>
   );
 }

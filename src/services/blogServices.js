@@ -52,18 +52,28 @@ const getOtherBlogs = async (userId) => {
 }
 
 const searchBlogsByQuery = async (query) => {
+  await dbConnect();
   return Blog.find({
-    'blog.content': { $regex: query, $options: 'i' },
-    status: "published"
+    'blog.content': { $regex: query, $options: 'i' }
   });
 };
 
-const searchBlogsByTags = async (tagList) => {
+const searchBlogsByTag = async (tag) => {
+  await dbConnect();
+  return Blog.find(
+    {
+      'tags' : `${tag}`
+    }
+  )
+}
+
+const searchBlogsByTags = async (tagList , id ) => {
   await dbConnect();
     const results = await Blog.aggregate([
       {
         $match: {
-          tags: { $in: tagList }
+          tags: { $in: tagList },
+          id: { $ne: id }
         }
       },
       {
@@ -94,4 +104,4 @@ const searchBlogsByTags = async (tagList) => {
     return results;
  
 };
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags };
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, searchBlogsByTag };
