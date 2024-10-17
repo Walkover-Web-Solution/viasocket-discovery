@@ -94,4 +94,31 @@ const searchBlogsByTags = async (tagList) => {
     return results;
  
 };
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags };
+
+const getAllBlogTags = async (tags) => {
+  await dbConnect();
+  return Blog.aggregate([
+    {
+      $unwind: "$tags"  // Deconstructs the array field into individual documents
+    },
+    {
+      $group: {
+        _id: null,  // Grouping all documents together
+        allTags: { $addToSet: "$tags" }  // Collecting distinct strings
+      }
+    },
+    {
+      $project: {
+        _id: 0,  // Exclude the _id field from the output
+        allTags: 1  // Include the distinct strings array
+      }
+    },
+    {
+      $project: {
+        allTags: { $sortArray: { input: "$allTags", sortBy: 1 } }  // Sort tags alphabetically
+      }
+    }
+  ])  
+}
+
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags };
