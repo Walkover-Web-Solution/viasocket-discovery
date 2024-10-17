@@ -13,9 +13,17 @@ async function getPluginsByName(pluginNames, fields) {
     }).catch(err => {
         console.log(err);
     }).then(res => res.data.data.rows);
-    const pluginsSet = new Set(pluginNames);
-    plugins.forEach(plugin => pluginsSet.delete(plugin.name));
-    alertMissingPlugins([...pluginsSet]);
+
+    let pluginsSet =  pluginNames.reduce((acc,name)=>{
+        acc[name.toLowerCase()] = name; 
+        return acc;
+    },{})
+
+    plugins.forEach(plugin => {
+        const name= plugin.name.toLowerCase();
+        delete pluginsSet[name];
+    })
+    alertMissingPlugins(Object.values(pluginsSet));
     return plugins;
 }
 
