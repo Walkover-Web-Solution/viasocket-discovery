@@ -10,9 +10,9 @@ export const SearchBlogs = async (searchQuery) => {
   }
 };
 
-export const fetchBlogs = async (token) => {
+export const fetchBlogs = async (query='') => {
   try {
-    const res = await axios.get(`${baseUrl}/api/blog`);
+    const res = await axios.get(`${baseUrl}/api/blog${query}`);
 
     return await res?.data?.data;
   } catch (error) {
@@ -47,9 +47,9 @@ export const getBlogById = async (blogId) => {
     console.error('Failed to get blog:', error);
   }
 };
-export const getReletedblogs = async (tags) => {
+export const getReletedblogs = async (tags,id) => {
   try {
-    const response = await axios.post(baseUrl + `/api/related-blogs`, { tags: tags });
+    const response = await axios.post(baseUrl + `/api/related-blogs`, { tags: tags , id : id});
     return response.data.data;
   } catch (error) {
     console.error('failed to get releted blogs:', error);
