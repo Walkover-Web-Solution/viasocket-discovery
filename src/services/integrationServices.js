@@ -13,9 +13,17 @@ async function getPluginsByName(pluginNames, fields) {
     }).catch(err => {
         console.log(err);
     }).then(res => res.data.data.rows);
-    const pluginsSet = new Set(pluginNames);
-    plugins.forEach(plugin => pluginsSet.delete(plugin));
-    alertMissingPlugins([...pluginsSet]);
+
+    let pluginsSet =  pluginNames.reduce((acc,name)=>{
+        acc[name.toLowerCase()] = name; 
+        return acc;
+    },{})
+
+    plugins.forEach(plugin => {
+        const name= plugin.name.toLowerCase();
+        delete pluginsSet[name];
+    })
+    alertMissingPlugins(Object.values(pluginsSet));
     return plugins;
 }
 
@@ -60,7 +68,7 @@ async function alertMissingPlugins(plugins){
     await axios.put(`${process.env.DBDASH_URL}/66e3d66c31fab5e9d2693958/tblwed90e`, 
         {
             uniqueField: 'name',
-            rows : plugins.map(plugin => ({
+            records : plugins.map(plugin => ({
                 name : plugin
             }))
         }, 

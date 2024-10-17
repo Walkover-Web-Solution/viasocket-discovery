@@ -53,8 +53,7 @@ const getOtherBlogs = async (userId) => {
 
 const searchBlogsByQuery = async (query) => {
   return Blog.find({
-    'blog.content': { $regex: query, $options: 'i' },
-    status: "published"
+    'blog.content': { $regex: query, $options: 'i' }
   });
 };
 

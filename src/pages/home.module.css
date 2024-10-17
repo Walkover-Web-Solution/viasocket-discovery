@@ -5,6 +5,8 @@
   gap: 16px;
   padding: 16px;
   margin-top: 16px;
+  max-width: 10.5in;
+  width: 80vw;
 }
 
 
@@ -18,6 +20,10 @@
     font-size: 1.5rem;
     margin-top: 2rem;
   }
+}
+
+.postHeaderDiv{
+  padding-bottom: 6rem;
 }
 
 .homeh2 {
