@@ -30,7 +30,6 @@ export const getCurrentUser = async () => {
         if (response.status === 401) {
             toast.error('Session Expired');
             removeCookie(getCurrentEnvironment());
-            window.location.href = "/discovery";
             return null;
         }
 
@@ -79,7 +78,6 @@ export const signUpOnBE = async (data) => {
   if (res.status === 401) {
     toast.error('Session Expired');
     clearUserData();
-    window.location.href = '/disovery';
   } else{
     toast.error(res?.message || 'An error occurred');
   }

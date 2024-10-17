@@ -4,6 +4,7 @@
   flex-direction: column;
   gap: 2rem;
   align-items: center;
+  padding-bottom: 7rem;
 }
 .containerOpen{
   animation: shrink 0.2s ease-out;
@@ -31,7 +32,7 @@
   }
 }
 .relatedBlogsDiv{
-  padding: 16px;
+  padding: 0 16px;
   font-family: var(--sans-serif-font);
   width: 90%;
   max-width: 60rem;
