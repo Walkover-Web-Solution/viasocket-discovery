@@ -49,7 +49,7 @@ export default function BlogCard({ blog, isLoading, className }) {
             <button
               key={index}
               onClick={()=>{
-                router.replace({
+                router.push({
                   query: { tag: tag },
                });
               }}

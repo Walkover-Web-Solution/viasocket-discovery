@@ -21,7 +21,9 @@ const AIresponse = ({ blogData, user, integrations }) => {
             <div className={styles.tagsContainer}>
               <h3>Related Tags</h3>
               {blogData?.tags?.map((tag, index) => (
-                <span key={index} className={styles.tag}>
+                <span onClick={
+                  () => window.open(`/discovery?tag=${tag}`)
+                } key={index} className={styles.tag}>
                   {tag}
                 </span>
               ))}
