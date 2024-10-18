@@ -41,8 +41,8 @@ const UserDetail = ({ isOpen, onClose }) => {
             <div ref={popupRef} className={styles.popupContainer}>
                 <div className={styles.userDetails}>
                         <>
-                            <p><b>{user?.name}</b></p>
-                            <p><b>{user?.email}</b></p>
+                            <p><b>{user?.name || ""}</b></p>
+                            <p><b>{user?.email || ""}</b></p>
                             <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
                         </>
                 </div>
