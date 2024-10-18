@@ -4,6 +4,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import styles from '@/components/Blog/Blog.module.scss';
 import { Avatar } from '@mui/material';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function BlogCard({ blog, isLoading, className }) {
   const router = useRouter();
@@ -46,17 +47,13 @@ export default function BlogCard({ blog, isLoading, className }) {
       </a>
       <div className={styles.tagsContainer}>
         {blog.tags?.map((tag, index) => (
-            <button
+            <Link
               key={index}
-              onClick={()=>{
-                router.push({
-                  query: { tag: tag },
-               });
-              }}
+              href={`/?tag=${tag}`}
               className={`${styles.tag} ${styles[tag.toLowerCase()]}`}
             >
               {tag}
-            </button>
+            </Link>
         ))}
       </div>
     </div>

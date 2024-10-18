@@ -56,8 +56,10 @@ export default function Home() {
       if(router.query?.tag){
         setSearchQuery(`#${router.query?.tag}`)
         fetchBlogsByTag();
+      }else{
+        setSearchQuery('')
       }
-    },[router.query])
+    },[router.query?.tag])
     const fetchSearchBlogs = useCallback(async () => {
         if (searchQuery) {
             try {
