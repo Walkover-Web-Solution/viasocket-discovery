@@ -31,14 +31,10 @@
   }
 }
 .relatedBlogsDiv{
-  padding: 16px;
+  padding: 0 16px;
   font-family: var(--sans-serif-font);
-  max-width: 60rem;
-  height: 700px;
   width: 90%;
-  height: 90%;
-  margin: 0 auto 3rem auto;
-  padding-top: 0px;
+  max-width: 60rem;
   & > h3{
       padding-bottom: 10px;
       font-weight: 100;

@@ -7,9 +7,9 @@ export default async function handler(req, res) {
   switch (method) {
 
     case 'POST':
-      const { tags } = req.body;
+      const { tags, id } = req.body;
       try {
-        const blogs = await blogServices.searchBlogsByTags(tags);
+        const blogs = await blogServices.searchBlogsByTags( tags, id );
         res.status(201).json({ success: true, data: blogs });
       } catch (error) {
         console.log("error getting releted blogs", error)

@@ -81,11 +81,11 @@ export default function BlogPage({ blog, user}) {
   useEffect(() => {
     const fetchRelatedBlogs = async () => {
       if (!blogData?.tags) return;
-      const blogs = await getReletedblogs(blogData?.tags);
+      const blogs = await getReletedblogs( blogData?.tags, blogData?.id );
       setRelatedBlogs(blogs);
     }
     fetchRelatedBlogs();
-  }, [blogData?.tags])
+  }, [])
 
   useEffect(() => {
     const getData = async (apps) => {
@@ -99,8 +99,9 @@ export default function BlogPage({ blog, user}) {
   }, [blog?.apps]);
 
   useEffect(() => {
+    if(!currentUser?.id) return ;
     (async () => {
-      const chatHistoryData = await getAllPreviousMessages(blog.id, process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE);
+      const chatHistoryData = await getAllPreviousMessages(`${blog.id}${currentUser?.id}`, process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE);
       const prevMessages = chatHistoryData.data
       .filter((chat) => chat.role === "user" || chat.role === "assistant")
       .map((chat) => ({
@@ -110,7 +111,7 @@ export default function BlogPage({ blog, user}) {
       }));
       setMessages(prevMessages);
     })();
-  }, []);
+  }, [currentUser?.id]);
 
   useEffect(() => {
     const lastMessage = messages[messages.length - 1];
@@ -186,7 +187,7 @@ export default function BlogPage({ blog, user}) {
         }
         {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>}
       </div>
-      <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={blog.id} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} />
+      <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} />
       {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi={handleAskAi} placeholder='Follow up if any query with AI...' />}
       <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} />
     </div>

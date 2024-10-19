@@ -9,6 +9,7 @@ import { safeParse } from './edit/[chatId]';
 import Chatbot from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
 import { dispatchAskAiEvent } from '@/utils/utils';
+import { useRouter } from 'next/router';
 
 export default function Home() {
     const [userBlogs, setUserBlogs] = useState([]);
@@ -20,9 +21,11 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
     const user = useUser().user;
     const chatId = user?.id || Math.random();
+    const router = useRouter();
 
     useEffect(() => {
         const fetchAllBlogs = async () => {
+          if(router.query?.tags) return ;
           setIsLoading(true);
             try {
                 const data = await fetchBlogs();
@@ -38,6 +41,23 @@ export default function Home() {
         fetchAllBlogs();
     }, []);
 
+    useEffect(()=>{
+      const fetchBlogsByTag = async () => {
+        setIsLoading(true);
+        try{
+          const data = await fetchBlogs(`?tag=${router.query?.tag}`);
+          setSearchResults(data);
+        }catch(error){
+          console.log("error fetching blog by tag ", error);
+        }finally{
+          setIsLoading(false);
+        }
+      }
+      if(router.query?.tag){
+        setSearchQuery(`#${router.query?.tag}`)
+        fetchBlogsByTag();
+      }
+    },[router.query])
     const fetchSearchBlogs = useCallback(async () => {
         if (searchQuery) {
             try {
@@ -57,6 +77,7 @@ export default function Home() {
     const debouncedFetchBlogs = useCallback(debounce(fetchSearchBlogs, 400), [fetchSearchBlogs]);
 
     useEffect(() => {
+      if(searchQuery.startsWith("#")) return ;
       setIsLoading(true);
       debouncedFetchBlogs();
       if ( !searchQuery?.length && otherBlogs.length>0) {
