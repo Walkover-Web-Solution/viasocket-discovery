@@ -20,7 +20,9 @@ export default function Header() {
     <div
     class="container d-flex align-items-center justify-content-between py-5"
     >
-    <img src="https://viasocket.com/assets/brand/logo.svg" alt="Logo" />
+    <a href="https://viasocket.com">
+      <img src="https://viasocket.com/assets/brand/logo.svg" alt="Logo" />
+    </a>
     <div class="d-flex align-items-center gap-4">
         <a class="text-decoration-none text-dark" target="_blank" href="/">Home</a>
         <a
