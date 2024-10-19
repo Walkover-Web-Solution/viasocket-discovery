@@ -46,7 +46,7 @@ export default function Header() {
         <div class = "position-relative">
             {isLoggedIn ? (
                 <>
-                    <strong class="text-dark" style = {{cursor: "pointer"}} onClick = {toggleUserInfo}> {user.email} </strong>
+                    <strong class="text-dark" style = {{cursor: "pointer"}} onClick = {toggleUserInfo}> {user?.email} </strong>
                     <UserDetail isOpen={showUserInfo} onClose={toggleUserInfo} />
                 </>
             ) : (
