@@ -19,6 +19,10 @@ const BlogSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  updatedAt :{
+    type: Date,
+    default: Date.now,
+  },
   createdBy: Number
 },{ minimize: false });
 BlogSchema.index({ id: 1 })
