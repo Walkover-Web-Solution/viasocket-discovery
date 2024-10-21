@@ -4,13 +4,26 @@
 import Blog from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
 import { generateNanoid } from '@/utils/utils';
-import {  getUpdatedApps } from './integrationServices';
+import { getUpdatedApps } from './integrationServices';
 
-const getAllBlogs = async () => {
+const getAllBlogs = async (userId) => {
   console.time("getAllBlogs");
   await dbConnect();
   console.timeEnd("getAllBlogs");
-  return Blog.find({});
+  return Blog.aggregate([
+    {
+      $addFields: {
+        isUserBlog: { $cond: { if: { $eq: ["$createdBy", parseInt(userId)] }, then: 1, else: 0 } }
+      }
+    },
+    {
+      $sort: { isUserBlog: -1 }
+    },
+    {
+     $project: { isUserBlog: 0 } 
+    }
+  ]).limit(20)
+  
 };
 
 const createBlog = async (blogData) => {
@@ -29,7 +42,7 @@ const getBlogById = async (blogId) => {
 const updateBlogById = async (blogId, blogData) => {
   await dbConnect();
   const apps = await getUpdatedApps(blogData)
-  return JSON.parse(JSON.stringify(await Blog.findOneAndUpdate({ "id": blogId }, {...blogData ,apps})));
+  return JSON.parse(JSON.stringify(await Blog.findOneAndUpdate({ "id": blogId }, { ...blogData, apps })));
 }
 
 const getUserBlogs = async (userId) => {
@@ -60,48 +73,51 @@ const searchBlogsByQuery = async (query) => {
 
 const searchBlogsByTag = async (tag) => {
   await dbConnect();
-  return Blog.find(
-    {
-      'tags' : `${tag}`
+  return Blog.find({
+    'tags': {
+      $regex: tag,
+      $options: 'i'
     }
+  }
   )
 }
 
-const searchBlogsByTags = async (tagList , id ) => {
+const searchBlogsByTags = async (tagList, id) => {
   await dbConnect();
-    const results = await Blog.aggregate([
-      {
-        $match: {
-          tags: { $in: tagList },
-          id: { $ne: id }
-        }
-      },
-      {
-        $addFields: {
-          matchedTagsCount: {
-            $size: {
-              $filter: {
-                input: "$tags",
-                as: "tag",
-                cond: { $in: ["$$tag", tagList] }
-              }
+  const results = await Blog.aggregate([
+    {
+      $match: {
+        tags: { $in: tagList },
+        id: { $ne: id }
+      }
+    },
+    {
+      $addFields: {
+        matchedTagsCount: {
+          $size: {
+            $filter: {
+              input: "$tags",
+              as: "tag",
+              cond: { $in: ["$$tag", tagList] }
             }
           }
         }
-      },
-      {
-        $sort: { matchedTagsCount: -1 }
-      },
-      {
-        $limit: 10
-      },
-      {
-        $project: {
-          apps: 1, title: 1, id: 1
-      }}
-    ]);
+      }
+    },
+    {
+      $sort: { matchedTagsCount: -1 }
+    },
+    {
+      $limit: 10
+    },
+    {
+      $project: {
+        apps: 1, title: 1, id: 1
+      }
+    }
+  ]);
 
-    return results;
- 
+  return results;
+
 };
 export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, searchBlogsByTag };
