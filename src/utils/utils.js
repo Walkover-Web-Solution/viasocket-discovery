@@ -41,3 +41,25 @@ export function dispatchAskAiEvent(userMessage) {
     window.dispatchEvent(event); // Emit the event globally
     console.log("Emitted the Event...")
 };
+
+export async function askAi(bridgeId, userMessage, variables, chatId) {
+    const PAUTH_KEY = process.env.PAUTH_KEY;
+
+    const response = await fetch(
+        'https://routes.msg91.com/api/proxy/1258584/29gjrmh24/api/v2/model/chat/completion',
+        {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            'pauthkey': PAUTH_KEY,
+            },
+            body: JSON.stringify({
+            user: userMessage,
+            bridge_id: bridgeId,
+            thread_id: chatId + "",
+            variables: variables
+            }),
+        }
+    );
+    return await response.json()
+}
