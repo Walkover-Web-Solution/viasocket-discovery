@@ -11,7 +11,7 @@ export default async function handler(req, res) {
       try {
         const allBLogTags = await blogServices.getAllBlogTags() // all blog that are created or update today
         const allPreviousTags = (await getAllTags())[0]?.tags  // all saved or known tags 
-        const allPreviousTagsSet = new Set(allBLogTags)
+        const allPreviousTagsSet = new Set(allPreviousTags)
         const notAvailableTags = [] // all tags that are not present in  our database 
         const tagToBridgeArrMap = {}; // keep map of which tag is used in which bridge
 
