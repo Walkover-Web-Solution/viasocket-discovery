@@ -66,9 +66,10 @@ const getOtherBlogs = async (userId) => {
 
 const searchBlogsByQuery = async (query) => {
   await dbConnect();
-  return Blog.find({
-    'blog.content': { $regex: query, $options: 'i' }
-  });
+  return Blog.find(
+    { 'blog.content': { $regex: query, $options: 'i' } }, 
+    { apps: 1, tags: 1, title: 1, id: 1}
+  )
 };
 
 const searchBlogsByTag = async (tag) => {
@@ -77,8 +78,9 @@ const searchBlogsByTag = async (tag) => {
     'tags': {
       $regex: tag,
       $options: 'i'
-    }
-  }
+    } 
+  },
+  { apps: 1, tags: 1, title: 1, id: 1}
   )
 }
 
