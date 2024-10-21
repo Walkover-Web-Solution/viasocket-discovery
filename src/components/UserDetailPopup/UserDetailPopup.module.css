@@ -1,7 +1,7 @@
 .popupContainer {
   position: absolute;
-  top: 0rem;
-  right: 0rem; 
+  top: -100%;
+  left: 100; 
   background-color: #fff;
   padding: 1.5rem;
   border-radius: 10px;
