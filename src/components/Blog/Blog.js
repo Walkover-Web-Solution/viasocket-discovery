@@ -47,7 +47,7 @@ export default function BlogCard({ blog, isLoading, className }) {
         {blog.tags?.map((tag, index) => (
             <Link
               key={index}
-              href={`/?tag=${tag}`}
+              href={`/?search=%23${tag}`}
               className={`${styles.tag} ${styles[tag.toLowerCase()]}`}
             >
               {tag}

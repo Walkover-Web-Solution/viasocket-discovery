@@ -23,7 +23,7 @@ const AIresponse = ({ blogData, user, integrations }) => {
               <h3>Related Tags</h3>
               {blogData?.tags?.map((tag, index) => (
                 <Link
-                href={`/?tag=${tag}`}
+                href={`/?search=%23${tag}`}
                 target='_blank'
                 key={index}
                 className={styles.tag}
