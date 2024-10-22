@@ -17,6 +17,7 @@ import { useUser } from '@/context/UserContext';
 import { dispatchAskAiEvent } from '@/utils/utils';
 import { getReletedblogs } from '@/utils/apis/blogApis';
 import BlogCard from '@/components/Blog/Blog';
+import { getCurrentEnvironment } from '@/utils/storageHelper';
 
 
 export async function getServerSideProps(context) {
@@ -25,7 +26,7 @@ export async function getServerSideProps(context) {
   const { blogId } = context.params;
   const props = {};
   try {
-    const blog = await blogServices.getBlogById(blogId[0]);
+    const blog = await blogServices.getBlogById(blogId[0],getCurrentEnvironment());
     console.time("getUserById");
     const user = await getUserById(blog?.createdBy);
     console.timeEnd("getUserById");

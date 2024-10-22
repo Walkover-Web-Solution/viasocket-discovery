@@ -90,6 +90,7 @@ export const fetchIntegrations = async (pluginNames) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'env' : getCurrentEnvironment()
       },
       body: JSON.stringify({ pluginNames: pluginNames })
     });
