@@ -3,6 +3,7 @@ import React from 'react';
 import styles from './AIresponse.module.scss';
 import Head from 'next/head'
 import Components from '../BlogComponents/BlogComponents';
+import Link from 'next/link';
 const AIresponse = ({ blogData, user, integrations }) => {
   const hasMarkdown = blogData?.blog;
   
@@ -21,11 +22,14 @@ const AIresponse = ({ blogData, user, integrations }) => {
             <div className={styles.tagsContainer}>
               <h3>Related Tags</h3>
               {blogData?.tags?.map((tag, index) => (
-                <span onClick={
-                  () => window.open(`/discovery?tag=${tag}`)
-                } key={index} className={styles.tag}>
+                <Link
+                href={`/?search=%23${tag}`}
+                target='_blank'
+                key={index}
+                className={styles.tag}
+                >
                   {tag}
-                </span>
+                </Link>
               ))}
             </div>
           </>

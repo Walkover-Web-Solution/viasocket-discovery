@@ -11,6 +11,8 @@ export const SearchBlogs = async (searchQuery) => {
 };
 
 export const fetchBlogs = async (query='') => {
+  if(query[8]==='#') { query = query.replace('#', '%23'); }
+
   try {
     const res = await axios.get(`${baseUrl}/api/blog${query}`);
 

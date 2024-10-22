@@ -7,7 +7,7 @@ import Components from '@/components/ChatBotComponents/ChatBotComponents';
 import BlogCard from '../Blog/Blog';
 
 export async function sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables, searchResults) {
-  if (inputMessage.trim()) {
+  if (inputMessage && inputMessage.trim()) {
     const userMessage = { role: 'user', content: inputMessage };
     setMessages([...messages, userMessage]);
     try {

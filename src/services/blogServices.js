@@ -4,7 +4,7 @@
 import createBlogModel from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
 import { generateNanoid } from '@/utils/utils';
-import {  getUpdatedApps } from './integrationServices';
+import { getUpdatedApps } from './integrationServices';
 
 const withBlogModel = async (environment, callback) => {
   const client = await dbConnect(environment);
@@ -12,11 +12,22 @@ const withBlogModel = async (environment, callback) => {
   return callback(Blog);
 };
 
-const getAllBlogs = (environment) => {
+const getAllBlogs = (userId,environment) => {
   console.time("getAllBlogs");
   return withBlogModel(environment, (Blog) => {
-    console.timeEnd("getAllBlogs");
-    return Blog.find({});
+    return Blog.aggregate([
+      {
+        $addFields: {
+          isUserBlog: { $cond: { if: { $eq: ["$createdBy", parseInt(userId)] }, then: 1, else: 0 } }
+        }
+      },
+      {
+        $sort: { isUserBlog: -1 }
+      },
+      {
+       $project: { isUserBlog: 0 } 
+      }
+    ]).limit(20)
   });
 };
 
@@ -67,21 +78,27 @@ const searchBlogsByQuery = (query, environment) => {
   return withBlogModel(environment, (Blog) => {
     return Blog.find({
       'blog.content': { $regex: query, $options: 'i' }
-    });
+    },
+    { apps: 1, tags: 1, title: 1, id: 1});
   });
 };
 
 const searchBlogsByTag = (tag, environment) => {
   return withBlogModel(environment, (Blog) => {
     return Blog.find({
-      'tags': `${tag}`
-    });
+      'tags': {
+        $regex: tag,
+        $options: 'i'
+      } 
+    },
+    { apps: 1, tags: 1, title: 1, id: 1}
+    )
   });
 };
 
-const searchBlogsByTags = (tagList, id, environment) => {
-  return withBlogModel(environment, (Blog) => {
-    return Blog.aggregate([
+const searchBlogsByTags = async (tagList , id ) => {
+  await dbConnect();
+    const results = await Blog.aggregate([
       {
         $match: {
           tags: { $in: tagList },
@@ -110,10 +127,11 @@ const searchBlogsByTags = (tagList, id, environment) => {
       {
         $project: {
           apps: 1, title: 1, id: 1
-        }
-      }
+      }}
     ]);
-  });
+
+    return results;
+ 
 };
 
 const getAllBlogTags = async (environment) => {

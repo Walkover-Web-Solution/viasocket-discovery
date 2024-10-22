@@ -17,22 +17,18 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const { search, tag } = req.query; 
+        const { search } = req.query;
+        let blogs;
         if (search) {
-          const blogs = await blogServices.searchBlogsByQuery(search, environment);
-          return res.status(200).json({ success: true, data: blogs });
-        }
-        if(tag){
-          const blogs = await blogServices.searchBlogsByTag(tag,environment);
-          return res.status(200).json({ success: true, data: blogs });
-        }
-        const [userBlogs, otherBlogs] = await Promise.all([
-          blogServices.getUserBlogs(user?.id || '' , environment),
-          blogServices.getOtherBlogs(user?.id || '' , environment)
-        ]);
-        res.status(200).json({ success: true, data: { userBlogs, otherBlogs } });
+          if (search.startsWith('#')) {
+            blogs = await blogServices.searchBlogsByTag(search.slice(1),environment);
+          } else {
+            blogs = await blogServices.searchBlogsByQuery(search,environment);
+          }
+        } else blogs = await blogServices.getAllBlogs(user?.id || '',environment);
+         res.status(200).json({ success: true, data: blogs });
       } catch (error) {
-        res.status(400).json({ success: false, error: error.message });
+         res.status(400).json({ success: false, error: error.message });
       }
       break;
 
@@ -41,7 +37,7 @@ export default async function handler(req, res) {
         const blog = await blogServices.createBlog({ ...req.body }, environment);
         res.status(201).json({ success: true, data: blog });
       } catch (error) {
-      res.status(400).json({ success: false, error: error.message });
+        res.status(400).json({ success: false, error: error.message });
       }
       break;
 
