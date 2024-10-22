@@ -25,3 +25,26 @@ export const addNewTags = async (newTags,environment) => {
   })
 }
 
+
+export const searchTags = async (search,environment) => {
+  return withTagModel(environment, (tagsModel) => {
+    return  tagsModel.aggregate([
+      {
+        $project: {
+          matchingTags: {
+            $filter: {
+              input: "$tags", // The array you want to filter
+              as: "tag",
+              cond: { $regexMatch: { input: "$$tag", regex :search, options: "i" } } // Use regex to filter
+            }
+          }
+        }
+      }
+    ])
+    
+    
+  })
+}
+
+
+

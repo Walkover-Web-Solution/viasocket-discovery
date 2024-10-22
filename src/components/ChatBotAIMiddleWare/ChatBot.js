@@ -14,7 +14,6 @@ export default function ChatBot({ parentId, chatId, isOpen, searchQuery, setBlog
                 
             }
             // if 
-            console.log('Data received from chatbot:', receivedData);
             if (receivedData.type === 'open') {
                 setIsChatOpen(true);
             }
@@ -22,7 +21,6 @@ export default function ChatBot({ parentId, chatId, isOpen, searchQuery, setBlog
                 setIsChatOpen(false);
             }
             if (receivedData?.message?.update) {
-                console.log('isme ghusaaaa kyaaaa !!!!')
                 const fetchBlog = async () => {
                     const newBlog = await getBlogById(blog?.id );
                     if (newBlog?.blog) {

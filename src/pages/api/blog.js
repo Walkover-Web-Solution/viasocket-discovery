@@ -1,4 +1,5 @@
 import blogServices from '@/services/blogServices';
+import { searchTags } from '@/services/tagsServices';
 
 export default async function handler(req, res) {
 
@@ -19,14 +20,16 @@ export default async function handler(req, res) {
       try {
         const { search } = req.query;
         let blogs;
+        let tags ;
         if (search) {
           if (search.startsWith('#')) {
             blogs = await blogServices.searchBlogsByTag(search.slice(1),environment);
           } else {
+            tags = (await searchTags(search))[0]?.matchingTags
             blogs = await blogServices.searchBlogsByQuery(search,environment);
           }
         } else blogs = await blogServices.getAllBlogs(user?.id || '',environment);
-         res.status(200).json({ success: true, data: blogs });
+         res.status(200).json({ success: true, data: {blogs ,tags} });
       } catch (error) {
          res.status(400).json({ success: false, error: error.message });
       }
