@@ -42,7 +42,7 @@ const getBlogById = async (blogId) => {
 const updateBlogById = async (blogId, blogData) => {
   await dbConnect();
   const apps = await getUpdatedApps(blogData)
-  return JSON.parse(JSON.stringify(await Blog.findOneAndUpdate({ "id": blogId }, { ...blogData, apps })));
+  return JSON.parse(JSON.stringify(await Blog.findOneAndUpdate({ "id": blogId }, {...blogData,updatedAt:Date.now() ,apps})));
 }
 
 const getUserBlogs = async (userId) => {
@@ -122,4 +122,37 @@ const searchBlogsByTags = async (tagList, id) => {
   return results;
 
 };
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, searchBlogsByTag };
+
+const getAllBlogTags = async () => {
+  await dbConnect();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set time to midnight (start of the day)
+  return await Blog.find(
+    {
+      $or: [
+        { createdAt: { $gt: today } },  // Condition for 'createdAt'
+        { updatedAt: { $gt: today } }   // Condition for 'updatedAt'
+      ]
+    },
+    { _id: 1, tags: 1 }  // Projection to only return '_id' and 'tags'
+  );
+}
+
+const updateBlogsTags = async (blogsTagsToUpdate) => {
+  await dbConnect();
+  try {
+    const bulkOperations = Object.keys(blogsTagsToUpdate).map(blogId => ({
+      updateOne: {
+        filter: { _id: blogId },  // Match document by _id
+        update: { $set: { tags : Array.from(blogsTagsToUpdate[blogId]) } },  // Update the 'tags' field
+      }
+    }));
+
+    const result = await Blog.bulkWrite(bulkOperations);
+   return result;
+  } catch (error) {
+    console.error("Error performing bulk update:", error);
+  }
+}
+
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags };
