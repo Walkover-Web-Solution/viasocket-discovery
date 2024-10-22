@@ -4,13 +4,14 @@ import { askAi } from "@/utils/utils";
 import axios from "axios";
 
 export default async function handler(req, res) {
+  const environment = req.headers['env'];
   const { method } = req;
   const MERGE_TAGS_BRIDGE_ID = "670d05b53d8054efee36bd5e";
   switch (method) {
     case 'POST':
       try {
-        const allBLogTags = await blogServices.getAllBlogTags() // all blog that are created or update today
-        const allPreviousTags = (await getAllTags())[0]?.tags  // all saved or known tags 
+        const allBLogTags = await blogServices.getAllBlogTags(environment) // all blog that are created or update today
+        const allPreviousTags = (await getAllTags(environment))[0]?.tags  // all saved or known tags 
         const allPreviousTagsSet = new Set(allPreviousTags)
         const notAvailableTags = [] // all tags that are not present in  our database 
         const tagToBridgeArrMap = {}; // keep map of which tag is used in which bridge
@@ -44,8 +45,8 @@ export default async function handler(req, res) {
         })
        
 
-       await blogServices.updateBlogsTags(brigeToAllTagsMap)
-       await addNewTags(aiResponseJson?.newTags)
+       await blogServices.updateBlogsTags(brigeToAllTagsMap,environment)
+       await addNewTags(aiResponseJson?.newTags,environment)
         res.status(201).json({ success: true, data: []});
         // res.status(201).json({ success: true, data: allTags });
       } catch (error) {
