@@ -27,8 +27,8 @@ export default async function handler(req, res) {
           return res.status(200).json({ success: true, data: blogs });
         }
         const [userBlogs, otherBlogs] = await Promise.all([
-          blogServices.getUserBlogs(user?.id || ''),
-          blogServices.getOtherBlogs(user?.id || '')
+          blogServices.getUserBlogs(user?.id || '' , environment),
+          blogServices.getOtherBlogs(user?.id || '' , environment)
         ]);
         res.status(200).json({ success: true, data: { userBlogs, otherBlogs } });
       } catch (error) {
