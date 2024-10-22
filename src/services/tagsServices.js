@@ -1,27 +1,27 @@
 const { default: dbConnect } = require("../../lib/mongoDb");
-const { default: tagsModel } = require("../../models/tagsModel");
+import createTagModel from "../../models/tagsModel";
+
+
+const withTagModel = async (environment, callback) => {
+  const client = await dbConnect(environment);
+  const tagsModel = createTagModel(client);
+  return callback(tagsModel);
+};
+
+
+export const getAllTags = async (environment) => {
+  return withTagModel(environment, (tagsModel) => {
+    return tagsModel.find();
+  })
+}
 
 
 
-
-
-
-
-export  const getAllTags = async () => {
-    await dbConnect();
-   
-      return await tagsModel.find();
-  }
-
-
-
-export  const addNewTags = async (newTags) => {
-  await dbConnect();
- 
-    return await tagsModel.findOneAndUpdate({},
-      
-      { $addToSet: { tags: { $each: newTags } } } 
-      
-      );
+export const addNewTags = async (newTags,environment) => {
+  return withTagModel(environment, (tagsModel) => {
+    return tagsModel.findOneAndUpdate({},
+      { $addToSet: { tags: { $each: newTags } } }
+    );
+  })
 }
 

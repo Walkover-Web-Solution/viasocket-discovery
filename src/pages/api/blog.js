@@ -4,6 +4,7 @@ export default async function handler(req, res) {
 
   const { method } = req;
   const profileHeader = req.headers['x-profile'];
+  const environment = req.headers['env'];
   let user = null;
   if (profileHeader) {
     try {
@@ -20,11 +21,11 @@ export default async function handler(req, res) {
         let blogs;
         if (search) {
           if (search.startsWith('#')) {
-            blogs = await blogServices.searchBlogsByTag(search.slice(1));
+            blogs = await blogServices.searchBlogsByTag(search.slice(1),environment);
           } else {
-            blogs = await blogServices.searchBlogsByQuery(search);
+            blogs = await blogServices.searchBlogsByQuery(search,environment);
           }
-        } else blogs = await blogServices.getAllBlogs(user?.id || '');
+        } else blogs = await blogServices.getAllBlogs(user?.id || '',environment);
          res.status(200).json({ success: true, data: blogs });
       } catch (error) {
          res.status(400).json({ success: false, error: error.message });
@@ -33,7 +34,7 @@ export default async function handler(req, res) {
 
     case 'POST':
       try {
-        const blog = await blogServices.createBlog({ ...req.body });
+        const blog = await blogServices.createBlog({ ...req.body }, environment);
         res.status(201).json({ success: true, data: blog });
       } catch (error) {
         res.status(400).json({ success: false, error: error.message });

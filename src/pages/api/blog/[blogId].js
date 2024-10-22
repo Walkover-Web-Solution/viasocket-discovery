@@ -3,6 +3,8 @@ import dbConnect from '../../../../lib/mongoDb'; // A utility to connect to Mong
 import blogServices from '@/services/blogServices';
 
 export default async function handler(req, res) {
+  const environment = req.headers['env'];
+
   await dbConnect();
 
   const { method } = req;
@@ -11,7 +13,7 @@ export default async function handler(req, res) {
     case 'GET':
       try {
         const { blogId } = req.query;
-        const Blog = await blogServices.getBlogById(blogId);
+        const Blog = await blogServices.getBlogById(blogId,environment);
         if (!Blog) {
           return res.status(404).json({ success: false, message: 'Blog not found' });
         }
@@ -23,7 +25,7 @@ export default async function handler(req, res) {
     case 'PATCH':
       try {
         const { blogId } = req.query;
-        const updatedBlog = await blogServices.updateBlogById(blogId, req.body);
+        const updatedBlog = await blogServices.updateBlogById(blogId, req.body,environment);
         if (!updatedBlog) {
           return res.status(404).json({ success: false, message: 'Blog not found' });
         }

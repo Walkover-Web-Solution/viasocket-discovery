@@ -13,7 +13,7 @@ export default async function handler(req, res) {
             try {
                 const { userMessage, chatId, bridgeId, variables } = req.body;
 
-                const data = await askAi(bridgeId, userMessage, {...variables, user_id : JSON.parse(req.headers['x-profile']).id}, chatId)
+                const data = await askAi(bridgeId, userMessage, {...variables, user_id : JSON.parse(req.headers['x-profile']).id , env : process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT}, chatId)
                 // Return the response data to the client
                 return res.status(200).json({ success: true, data: data });
             } catch (error) {
