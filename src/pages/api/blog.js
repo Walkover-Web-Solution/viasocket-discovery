@@ -4,6 +4,7 @@ export default async function handler(req, res) {
 
   const { method } = req;
   const profileHeader = req.headers['x-profile'];
+  const environment = req.headers['env'];
   let user = null;
   if (profileHeader) {
     try {
@@ -18,11 +19,11 @@ export default async function handler(req, res) {
       try {
         const { search, tag } = req.query; 
         if (search) {
-          const blogs = await blogServices.searchBlogsByQuery(search);
+          const blogs = await blogServices.searchBlogsByQuery(search, environment);
           return res.status(200).json({ success: true, data: blogs });
         }
         if(tag){
-          const blogs = await blogServices.searchBlogsByTag(tag);
+          const blogs = await blogServices.searchBlogsByTag(tag,environment);
           return res.status(200).json({ success: true, data: blogs });
         }
         const [userBlogs, otherBlogs] = await Promise.all([
@@ -37,7 +38,7 @@ export default async function handler(req, res) {
 
     case 'POST':
       try {
-        const blog = await blogServices.createBlog({ ...req.body });
+        const blog = await blogServices.createBlog({ ...req.body }, environment);
         res.status(201).json({ success: true, data: blog });
       } catch (error) {
       res.status(400).json({ success: false, error: error.message });

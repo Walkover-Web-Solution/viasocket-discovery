@@ -1,8 +1,10 @@
 // models/Blog.js
 import mongoose from 'mongoose';
-const TagSchema = new mongoose.Schema({
-  tags: Array
-},{ minimize: false });
+const createTagModel = (connection) => {
+  const TagSchema = new mongoose.Schema({
+    tags: Array
+  }, { minimize: false });
+  return connection.models.Tags || connection.model('Tags', TagSchema);
+}
 
-console.log( mongoose.models.Tags)
-export default  mongoose.models.Tags || mongoose.model('Tags', TagSchema);
+export default createTagModel;

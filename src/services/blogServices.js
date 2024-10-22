@@ -1,75 +1,87 @@
 // services/blogService.js
 // Ensures the route is run on the experimental-edge Runtimeimport blogService from '@/services/blogServices';
 
-import Blog from '../../models/BlogModel';
+import createBlogModel from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
 import { generateNanoid } from '@/utils/utils';
 import {  getUpdatedApps } from './integrationServices';
 
-const getAllBlogs = async () => {
+const withBlogModel = async (environment, callback) => {
+  const client = await dbConnect(environment);
+  const Blog = createBlogModel(client);
+  return callback(Blog);
+};
+
+const getAllBlogs = (environment) => {
   console.time("getAllBlogs");
-  await dbConnect();
-  console.timeEnd("getAllBlogs");
-  return Blog.find({});
+  return withBlogModel(environment, (Blog) => {
+    console.timeEnd("getAllBlogs");
+    return Blog.find({});
+  });
 };
 
-const createBlog = async (blogData) => {
-  await dbConnect();
-  const apps = await getUpdatedApps(blogData)
-  return Blog.create({ ...blogData, apps, id: generateNanoid(6) });
+const createBlog = async (blogData, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    const apps = await getUpdatedApps(blogData);
+    return Blog.create({ ...blogData, apps, id: generateNanoid(6) });
+  });
 };
 
-const getBlogById = async (blogId) => {
+const getBlogById = (blogId, environment) => {
   console.time("getBlogId");
-  await dbConnect();
-  console.timeEnd("getBlogId");
-  return JSON.parse(JSON.stringify(await Blog.findOne({ "id": blogId })));
-}
-
-const updateBlogById = async (blogId, blogData) => {
-  await dbConnect();
-  const apps = await getUpdatedApps(blogData)
-  return JSON.parse(JSON.stringify(await Blog.findOneAndUpdate({ "id": blogId }, {...blogData,updatedAt:Date.now() ,apps})));
-}
-
-const getUserBlogs = async (userId) => {
-  await dbConnect();
-  return await Blog.find({
-    'createdBy': userId,
-    'blog': { $exists: true },// Ensure markdown is not an empty string
-    'id': { $exists: true }
-  });
-}
-
-const getOtherBlogs = async (userId) => {
-  await dbConnect();
-  return await Blog.find({
-    'createdBy': { $ne: userId },
-    'blog': { $exists: true },
-    'id': { $exists: true },
-    'apps': { $exists: true, $ne: [] }
-  }).limit(20);
-}
-
-const searchBlogsByQuery = async (query) => {
-  await dbConnect();
-  return Blog.find({
-    'blog.content': { $regex: query, $options: 'i' }
+  return withBlogModel(environment,  async (Blog) => {
+    console.timeEnd("getBlogId");
+    return JSON.parse(JSON.stringify( await Blog.findOne({ "id": blogId })));
   });
 };
 
-const searchBlogsByTag = async (tag) => {
-  await dbConnect();
-  return Blog.find(
-    {
-      'tags' : `${tag}`
-    }
-  )
-}
+const updateBlogById = (blogId, blogData, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    const apps = await getUpdatedApps(blogData);
+    return Blog.findOneAndUpdate({ "id": blogId }, { ...blogData,updatedAt:Date.now(), apps }).lean();
+  });
+};
 
-const searchBlogsByTags = async (tagList , id ) => {
-  await dbConnect();
-    const results = await Blog.aggregate([
+const getUserBlogs = (userId, environment) => {
+  return withBlogModel(environment, (Blog) => {
+    return Blog.find({
+      'createdBy': userId,
+      'blog': { $exists: true },
+      'id': { $exists: true }
+    });
+  });
+};
+
+const getOtherBlogs = (userId, environment) => {
+  return withBlogModel(environment, (Blog) => {
+    return Blog.find({
+      'createdBy': { $ne: userId },
+      'blog': { $exists: true },
+      'id': { $exists: true },
+      'apps': { $exists: true, $ne: [] }
+    }).limit(20);
+  });
+};
+
+const searchBlogsByQuery = (query, environment) => {
+  return withBlogModel(environment, (Blog) => {
+    return Blog.find({
+      'blog.content': { $regex: query, $options: 'i' }
+    });
+  });
+};
+
+const searchBlogsByTag = (tag, environment) => {
+  return withBlogModel(environment, (Blog) => {
+    return Blog.find({
+      'tags': `${tag}`
+    });
+  });
+};
+
+const searchBlogsByTags = (tagList, id, environment) => {
+  return withBlogModel(environment, (Blog) => {
+    return Blog.aggregate([
       {
         $match: {
           tags: { $in: tagList },
@@ -98,43 +110,45 @@ const searchBlogsByTags = async (tagList , id ) => {
       {
         $project: {
           apps: 1, title: 1, id: 1
-      }}
+        }
+      }
     ]);
-
-    return results;
- 
+  });
 };
 
-const getAllBlogTags = async () => {
-  await dbConnect();
-  const today = new Date();
-  today.setHours(0, 0, 0, 0); // Set time to midnight (start of the day)
-  return await Blog.find(
-    {
-      $or: [
-        { createdAt: { $gt: today } },  // Condition for 'createdAt'
-        { updatedAt: { $gt: today } }   // Condition for 'updatedAt'
-      ]
-    },
-    { _id: 1, tags: 1 }  // Projection to only return '_id' and 'tags'
-  );
+const getAllBlogTags = async (environment) => {
+  return withBlogModel(environment,(Blog)=>{
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set time to midnight (start of the day)
+    return  Blog.find(
+      {
+        $or: [
+          { createdAt: { $gt: today } },  // Condition for 'createdAt'
+          { updatedAt: { $gt: today } }   // Condition for 'updatedAt'
+        ]
+      },
+      { _id: 1, tags: 1 }  // Projection to only return '_id' and 'tags'
+    );
+  })
+  
 }
 
-const updateBlogsTags = async (blogsTagsToUpdate) => {
-  await dbConnect();
-  try {
-    const bulkOperations = Object.keys(blogsTagsToUpdate).map(blogId => ({
-      updateOne: {
-        filter: { _id: blogId },  // Match document by _id
-        update: { $set: { tags : Array.from(blogsTagsToUpdate[blogId]) } },  // Update the 'tags' field
-      }
-    }));
+const updateBlogsTags = async (blogsTagsToUpdate,environment) => {
+  return withBlogModel(environment,async (Blog) => {
+    try {
+      const bulkOperations = Object.keys(blogsTagsToUpdate).map(blogId => ({
+        updateOne: {
+          filter: { _id: blogId },  // Match document by _id
+          update: { $set: { tags : Array.from(blogsTagsToUpdate[blogId]) } },  // Update the 'tags' field
+        }
+      }));
 
-    const result = await Blog.bulkWrite(bulkOperations);
-   return result;
-  } catch (error) {
-    console.error("Error performing bulk update:", error);
-  }
+      const result = await Blog.bulkWrite(bulkOperations);
+     return result;
+    } catch (error) {
+      console.error("Error performing bulk update:", error);
+    }
+  })
 }
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags };
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag };
