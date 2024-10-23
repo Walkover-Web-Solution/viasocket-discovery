@@ -57,9 +57,10 @@ export default function Home() {
     }, [searchQuery, isOpen]);
 
     useEffect(() => {
+      if(!user) return;
       (async () => {
         const chatHistoryData = await getAllPreviousMessages(chatId,process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE).catch(err => null);
-        const prevMessages = chatHistoryData.data
+        const prevMessages = chatHistoryData?.data
         .filter((chat) => chat.role === "user" || chat.role === "assistant")
         .map((chat) => ({
           role: chat.role,

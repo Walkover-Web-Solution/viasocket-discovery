@@ -16,7 +16,8 @@ const verifyToken = async (token) => {
 // add protected route with method  here 
 const protectedRoutes = {
   '/api/blog': ['POST', 'PUT', 'DELETE'],
-  '/api/ask-ai': ['POST']
+  '/api/ask-ai': ['POST'], 
+  '/api/gethistory': ['GET']
 };
 
 export async function middleware(req) {
