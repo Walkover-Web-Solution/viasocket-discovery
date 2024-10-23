@@ -4,12 +4,13 @@ import axios from "../interceptor";
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 const proxyUrl = process.env.NEXT_PUBLIC_PROXY_URL;
 
-export const sendMessageApi = async (content, chatId, bridgeId, variables) => {
+export const sendMessageApi = async (content, chatId, bridgeId, variables, blogId) => {
     const response = await axios.post(proxyUrl+'/api/ask-ai', {
         userMessage: content,
         chatId: chatId,
         bridgeId : bridgeId, 
-        variables : variables
+        variables : variables, 
+        blogId: blogId
     });
 
     return response?.data?.data;

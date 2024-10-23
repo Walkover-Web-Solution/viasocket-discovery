@@ -51,13 +51,12 @@ export default function BlogPage({ blog, user}) {
   const [isPopupOpen, setIsPopUpOpen] = useState(false);
   const [relatedBlogs, setRelatedBlogs] = useState([]);
   const currentUser = useUser().user;
-  let blogDataToSend = { ...blogData };
-  delete blogDataToSend._id;
-  delete blogDataToSend.__v;
-  delete blogDataToSend.id;
-  delete blogDataToSend.apps;
-  delete blogDataToSend.createdBy;
-  delete blogDataToSend.createdAt;
+  const blogDataToSend = { 
+    title: blogData?.title,
+    tags: blogData?.tags, 
+    blog: blogData?.blog, 
+    meta: blogData?.meta
+  };
   const handleAskAi = async () => {
     setIsOpen(true);
     dispatchAskAiEvent(searchQuery);
@@ -188,7 +187,7 @@ export default function BlogPage({ blog, user}) {
         }
         {/* {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>} */}
       </div>
-      <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} />
+      <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId = {blog.id} />
       {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi={handleAskAi} placeholder='Follow up if any query with AI...' />}
       <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} />
     </div>
