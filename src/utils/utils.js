@@ -39,7 +39,6 @@ export function dispatchAskAiEvent(userMessage) {
         detail: userMessage
     });
     window.dispatchEvent(event); // Emit the event globally
-    console.log("Emitted the Event...")
 };
 
 export async function askAi(bridgeId, userMessage, variables, chatId) {

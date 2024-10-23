@@ -10,6 +10,8 @@ import Chatbot from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
 import { dispatchAskAiEvent } from '@/utils/utils';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
+import blogstyle from '@/components/Blog/Blog.module.scss';
 
 export default function Home() {
     const [blogs, setBlogs] = useState([]);
@@ -17,6 +19,7 @@ export default function Home() {
     const [messages, setMessages] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [tags , setTags]= useState([])
     const user = useUser().user;
     const chatId = user?.id || Math.random();
     const router = useRouter();
@@ -29,7 +32,8 @@ export default function Home() {
         
           try {
               const data = await fetchBlogs(router.query?.search ? `?search=${router.query?.search}` :'');
-              setBlogs(data);
+              if (data.tags)setTags(data.tags);
+              setBlogs(data?.blogs);
           } catch (error) {
               console.error('Error fetching blogs:', error);
           }finally{
@@ -73,6 +77,23 @@ export default function Home() {
 
 
   // Conditional blog rendering
+
+
+  const tagsContainer = ()=>{
+    return  (
+    <div className={styles.searchTags}>
+    {tags.map((tag, index) => (
+        <Link
+          key={index}
+          href={`/?search=%23${tag}`}
+          className={`${blogstyle.tag} ${blogstyle[tag.toLowerCase()]}`}
+        >
+          {tag}
+        </Link>
+    ))}
+  </div>
+  )
+  }
   const renderBlogsSection = (blogs, title, fallback) => {
     if(isLoading){
       return  (
@@ -91,7 +112,11 @@ export default function Home() {
     return (
     blogs?.length > 0 ? (
       <section className={styles.Homesection}>
+        <div>
         <h2 className={styles.homeh2}>{title}</h2>
+        {tagsContainer()}
+        </div>
+       
         <div className={styles.cardsGrid}>
           {blogs.map((blog) => (
             <Blog key={blog._id} blog={blog} />
@@ -101,6 +126,8 @@ export default function Home() {
     ): fallback && (
       <section className={styles.Homesection}>
         <h2 className={styles.homeh2}>{title}</h2>
+      
+       
         <p className={styles.noData}>No results here! Press Enter or hit Ask AI</p>
       </section>
     ) 
