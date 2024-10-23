@@ -5,6 +5,7 @@ axios.interceptors.request.use(
     async (config) => {
         const token = getFromCookies(getCurrentEnvironment())
         config.headers['proxy_auth_token'] = token;
+        config.headers['env'] = getCurrentEnvironment();
         if (getCurrentEnvironment() === 'local')
             config.headers['Authorization'] = token
         return config;
