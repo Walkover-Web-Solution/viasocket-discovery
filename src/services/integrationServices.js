@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-async function getPluginsByName(pluginNames, fields,environment) {
+async function getPluginsByName(pluginNames, fields,environment, firstTime) {
     const url = `${process.env.DBDASH_URL}/${process.env.PLUGINS_DBID}/${process.env.PLUGINS_TABLEID}`
     const plugins = await axios.get(url, {
         params: {
@@ -23,7 +23,7 @@ async function getPluginsByName(pluginNames, fields,environment) {
         const name= plugin.name.toLowerCase();
         delete pluginsSet[name];
     })
-   if( environment === 'prod' ) alertMissingPlugins(Object.values(pluginsSet));
+   if( environment === 'prod' && firstTime) alertMissingPlugins(Object.values(pluginsSet));
     return plugins;
 }
 
@@ -65,17 +65,9 @@ async function getIntegrations(pluginNames,environment){
     // return {integrations, pluginData};
 }
 async function alertMissingPlugins(plugins){
-    await axios.put(`${process.env.DBDASH_URL}/66e3d66c31fab5e9d2693958/tblwed90e`, 
+    await axios.post(`https://flow.sokt.io/func/scriq2u5Tbwc`, 
         {
-            uniqueField: 'name',
-            records : plugins.map(plugin => ({
-                name : plugin
-            }))
-        }, 
-        {
-            headers : {
-                'auth-key': process.env.DBDASH_ALERT_AUTHKEY
-            }
+            missingPlugins: [...plugins]
         }
     ).catch(err => console.error('Error in alerting', err));
 }
@@ -85,7 +77,7 @@ async function getUpdatedApps(blogData,environment) {
     try {
         const pluginNames = appContent?.map(app => app.name) || [];
 
-        const apiIcons = await getPluginsByName(pluginNames, ['name', 'iconurl', 'domain'],environment);
+        const apiIcons = await getPluginsByName(pluginNames, ['name', 'iconurl', 'domain'],environment, true);
         const iconMap = apiIcons.reduce((acc, plugin) => {
             acc[plugin.name.toLowerCase()] = {
                 iconUrl: plugin.iconurl,
