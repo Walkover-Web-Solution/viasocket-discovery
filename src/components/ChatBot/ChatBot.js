@@ -5,37 +5,41 @@ import { sendMessageApi } from '@/utils/apis/chatbotapis';
 import { safeParse } from '@/pages/edit/[chatId]';
 import Components from '@/components/ChatBotComponents/ChatBotComponents';
 import BlogCard from '../Blog/Blog';
+import { useRouter } from 'next/router';
 
-export async function sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables, searchResults) {
-  if (inputMessage && inputMessage.trim()) {
-    const userMessage = { role: 'user', content: inputMessage };
-    setMessages([...messages, userMessage]);
-    try {
-     const data =  await sendMessageApi(userMessage.content, chatId, bridgeId, variables)
-      if (data && data?.response?.data?.content) {
-        const botMessage = { role: 'assistant', content: safeParse (data?.response?.data?.content) };
-        setMessages((prevMessages) => [...prevMessages, botMessage]);
-      }
-    } catch (error) {
-      console.error("Error communicating with the chatbot API:", error);
-    }
-  }
-}
-
-const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variables, homePage, setIsOpen, isOpen, searchResults}) => {
+const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variables, homePage, setIsOpen, isOpen, searchResults, blogId}) => {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const divRef = useRef(null);
+  const router = useRouter();
 
   const handleScroll = () => {
     if(divRef.current)
       divRef.current.scrollTop = divRef?.current.scrollHeight;
   };
+  async function sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables, blogId) {
+    if (inputMessage && inputMessage.trim()) {
+      const userMessage = { role: 'user', content: inputMessage };
+      setMessages([...messages, userMessage]);
+      try {
+       const data =  await sendMessageApi(userMessage.content, chatId, bridgeId, variables, blogId);
+        if (data?.response?.response?.data?.content) {
+          const botMessage = { role: 'assistant', content: safeParse (data?.response?.response?.data?.content) };
+          setMessages((prevMessages) => [...prevMessages, botMessage]);
+          if(data.created){
+            router.replace('/blog/' + data.blogId);
+          }
+        }
+      } catch (error) {
+        console.error("Error communicating with the chatbot API:", error);
+      }
+    }
+  }
 
   useEffect(() => {
     const handleEvent = async (e) => {
       setIsLoading(true);
-      await sendMessageToChatBot(e.detail, messages, setMessages, chatId, bridgeId, variables); // Update state with event data
+      await sendMessageToChatBot(e.detail, messages, setMessages, chatId, bridgeId, variables, blogId); // Update state with event data
       setIsLoading(false);
     };  
     window.addEventListener('askAppAi', handleEvent);
@@ -55,7 +59,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
       setIsLoading(true);
       handleScroll();
       try {
-        await sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables);
+        await sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables, blogId);
       } catch (error) {
         console.error("Error communicating with the chatbot API:", error);
       } finally {
@@ -91,7 +95,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
               cursor={clickable ? 'pointer' : 'default'}
             >
               {isBot ? message.content.message : message.content}
-              {clickable &&
+              {/* {clickable &&
                 <Tooltip title="revert to this version">
                   <button
                     onClick={() => setBlogData(message.content.blog)}
@@ -99,7 +103,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
                   >
                     &#x21BA;
                   </button>
-                </Tooltip>}
+                </Tooltip>} */}
             </div>
           )
         })}
