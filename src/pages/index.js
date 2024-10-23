@@ -10,6 +10,7 @@ import Chatbot from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
 import { dispatchAskAiEvent } from '@/utils/utils';
 import { useRouter } from 'next/router';
+import { SettingsSystemDaydreamSharp } from '@mui/icons-material';
 import Link from 'next/link';
 import blogstyle from '@/components/Blog/Blog.module.scss';
 
@@ -23,6 +24,8 @@ export default function Home() {
     const user = useUser().user;
     const chatId = user?.id || Math.random();
     const router = useRouter();
+    const [typingStart, setTypingStart] = useState(false);
+    const popularTags = ["Customer Relationship Management", "Project Management", "Database Management", "Sales and Marketing"]
 
     useEffect(() => {
       if(!router.isReady || ( isOpen && !searchQuery.length > 0 )) return ;
@@ -38,7 +41,6 @@ export default function Home() {
               console.error('Error fetching blogs:', error);
           }finally{
             setIsLoading(false);
-
           }
         };
 
@@ -47,15 +49,20 @@ export default function Home() {
 
     const fetchSearchBlogs = useCallback(async () => {
       if(searchQuery !== '') router.replace({ query : { search : searchQuery } },undefined,{shallow:true})
-      else router.replace('/',undefined,{shallow:true})
+        else router.replace('/',undefined,{shallow:true})
     }, [searchQuery]);
-
+    
     const debouncedFetchBlogs = useCallback(debounce(fetchSearchBlogs, 400), [fetchSearchBlogs]);
-
+    
+    function handleSetSearchQuery(query){
+      setSearchQuery(query);
+    }
+    
     useEffect(() => {
+      if(!typingStart && searchQuery?.length) setTypingStart(true);
       setIsLoading(true)
       debouncedFetchBlogs();
-        return () => {
+      return () => {
             debouncedFetchBlogs.cancel(); 
         };
     }, [searchQuery, isOpen]);
@@ -80,6 +87,7 @@ export default function Home() {
 
 
   const tagsContainer = ()=>{
+    if(!tags?.length) return null;
     return  (
     <div className={styles.searchTags}>
     {tags.map((tag, index) => (
@@ -126,8 +134,6 @@ export default function Home() {
     ): fallback && (
       <section className={styles.Homesection}>
         <h2 className={styles.homeh2}>{title}</h2>
-      
-       
         <p className={styles.noData}>No results here! Press Enter or hit Ask AI</p>
       </section>
     ) 
@@ -149,17 +155,35 @@ export default function Home() {
                 <p className={styles.homep}>{'Discover top tools curated by real businesses that have been where you are. Tailored to your industry, size, location, and goals – whether you\'re scaling up, boosting efficiency, or cutting costs, find the tools that fit your needs without the hassle.'}</p>
               </>
             )
-          }            
-          <div className={styles.postHeaderDiv}>
-              {searchQuery && !isOpen ? (
-                  renderBlogsSection(blogs, searchQuery, true)
-              ) : (
-                  <>
-                      {renderBlogsSection(blogs)}
-                  </>
-              )}
+          }     
+          { typingStart &&       
+            <div className={styles.postHeaderDiv}>
+                {searchQuery && !isOpen ? (
+                    renderBlogsSection(blogs, searchQuery, true)
+                ) : (
+                    <>
+                        {renderBlogsSection(blogs)}
+                    </>
+                )}
+            </div>
+          }
+          <div className={typingStart ? '' : styles.searchDiv}>
+            <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'Search Categories or Ask AI...'/>
+            {
+              !typingStart && 
+              <div className = {styles.popularTagsDiv}>
+                {popularTags.map((tag, index) => (
+                <Link
+                  key={index}
+                  href={`/?search=%23${tag}`}
+                  className={`${blogstyle.tag} ${blogstyle[tag.toLowerCase()]}`}
+                >
+                  {tag}
+                </Link>
+              ))}
+              </div>
+            }
           </div>
-          <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi = {handleAskAi} placeholder = 'Search Categories or Ask AI...' />
           <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId} homePage setIsOpen = {setIsOpen} isOpen = {isOpen} searchResults = {searchQuery ? blogs : null}/>
         </>
     );

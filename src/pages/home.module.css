@@ -72,3 +72,32 @@
     transform: scale(1.2);
   }
 }
+
+.searchDiv{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10rem;
+  transition-duration: 0.2s;
+  height: min-content;
+  top: 0;
+  left: 0;
+  .popularTagsDiv{
+    display: flex;
+    gap: 2rem;
+    & > *{
+      transform: scale(1.1);
+      border: 1px solid var(--intermediate-color);
+    }
+  }
+  .showInCenter{
+    position: relative;
+    transform: none;
+    top: 0;
+    left: 0;
+    &>* {
+      box-shadow: none !important;
+    }
+  }
+}

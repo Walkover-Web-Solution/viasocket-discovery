@@ -185,7 +185,7 @@ export default function BlogPage({ blog, user}) {
             </div>
           )
         }
-        {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>}
+        {/* {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>} */}
       </div>
       <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} />
       {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi={handleAskAi} placeholder='Follow up if any query with AI...' />}

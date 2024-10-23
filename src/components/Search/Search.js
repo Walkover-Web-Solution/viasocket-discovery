@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import UnauthorizedPopup from '../UnauthorisedPopup/UnauthorisedPopup';
 
 
-export default function Search({ handleCreateChat, searchQuery, setSearchQuery, handleAskAi, placeholder }) {
+export default function Search({ handleCreateChat, searchQuery, setSearchQuery, handleAskAi, placeholder, className }) {
 	const { user } = useUser();
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -23,7 +23,7 @@ export default function Search({ handleCreateChat, searchQuery, setSearchQuery, 
 	}
 	return (
 		<>
-			<div className={styles.postHeader}>
+			<div className={`${styles.postHeader} ${className}`}>
 				<input
 					type="text"
 					className={styles.search}

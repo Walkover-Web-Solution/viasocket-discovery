@@ -91,7 +91,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
               cursor={clickable ? 'pointer' : 'default'}
             >
               {isBot ? message.content.message : message.content}
-              {clickable &&
+              {/* {clickable &&
                 <Tooltip title="revert to this version">
                   <button
                     onClick={() => setBlogData(message.content.blog)}
@@ -99,7 +99,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
                   >
                     &#x21BA;
                   </button>
-                </Tooltip>}
+                </Tooltip>} */}
             </div>
           )
         })}

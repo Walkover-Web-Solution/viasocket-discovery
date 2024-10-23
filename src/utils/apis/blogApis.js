@@ -3,7 +3,7 @@ import axios from '@/utils/interceptor'
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 export const SearchBlogs = async (searchQuery) => {
   try {
-    const response = await axios.get(`https://socket-plug-services-h7duexlbuq-el.a.run.app/discovery/search?search=${searchQuery}`);
+    const response = await axios.get(`http://localhost:3000/discovery/api/blog?search=${searchQuery}`);
     return response.data.data;
   }catch (err) {
     console.log("error getting search results ", err);
