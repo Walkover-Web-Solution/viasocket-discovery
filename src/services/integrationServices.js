@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-async function getPluginsByName(pluginNames, fields) {
+async function getPluginsByName(pluginNames, fields,environment) {
     const url = `${process.env.DBDASH_URL}/${process.env.PLUGINS_DBID}/${process.env.PLUGINS_TABLEID}`
     const plugins = await axios.get(url, {
         params: {
@@ -23,12 +23,12 @@ async function getPluginsByName(pluginNames, fields) {
         const name= plugin.name.toLowerCase();
         delete pluginsSet[name];
     })
-    alertMissingPlugins(Object.values(pluginsSet));
+   if( environment === 'prod' ) alertMissingPlugins(Object.values(pluginsSet));
     return plugins;
 }
 
-async function getIntegrations(pluginNames){
-    const plugins = await getPluginsByName(pluginNames);
+async function getIntegrations(pluginNames,environment){
+    const plugins = await getPluginsByName(pluginNames,[],environment);
     const allIntegrations = await Promise.allSettled(plugins.map(plugin => {
         return axios.get('https://socket-plug-services-h7duexlbuq-el.a.run.app/api/v1/plugins/recommend/integrations', 
             {
@@ -80,12 +80,12 @@ async function alertMissingPlugins(plugins){
     ).catch(err => console.error('Error in alerting', err));
 }
 
-async function getUpdatedApps(blogData) {
+async function getUpdatedApps(blogData,environment) {
     const appContent = blogData?.blog?.find(section => section.section === 'summaryList')?.content;
     try {
         const pluginNames = appContent?.map(app => app.name) || [];
 
-        const apiIcons = await getPluginsByName(pluginNames, ['name', 'iconurl', 'domain']);
+        const apiIcons = await getPluginsByName(pluginNames, ['name', 'iconurl', 'domain'],environment);
         const iconMap = apiIcons.reduce((acc, plugin) => {
             acc[plugin.name.toLowerCase()] = {
                 iconUrl: plugin.iconurl,
