@@ -9,7 +9,9 @@ export const config = {
 export default async function handler(req, res) {
     const { method } = req;
     const environment = req.headers['env'];
+    console.log(JSON.stringify(req.headers),"headers")
     switch (method) {
+
         case 'POST': 
             try {
                 const { userMessage, chatId, bridgeId, variables, blogId } = req.body;
