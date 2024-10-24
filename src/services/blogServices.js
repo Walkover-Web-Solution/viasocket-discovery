@@ -32,9 +32,16 @@ const getAllBlogs = (userId,environment) => {
 };
 
 const createBlog = async (blogData, environment) => {
-  return withBlogModel(environment, async (Blog) => {
+  return await withBlogModel(environment, async (Blog) => {
     const apps = await getUpdatedApps(blogData, environment);
-    return Blog.create({ ...blogData, apps, id: generateNanoid(6) });
+    const newBlog = (await Blog.create({ ...blogData, apps, id: generateNanoid(6) })).toObject();
+    return {
+      id: newBlog.id,
+      blog: newBlog.blog, 
+      apps: newBlog.apps, 
+      tags: newBlog.tags, 
+      title: newBlog.title
+    }
   });
 };
 

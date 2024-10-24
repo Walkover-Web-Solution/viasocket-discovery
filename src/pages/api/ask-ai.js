@@ -15,18 +15,24 @@ export default async function handler(req, res) {
         case 'POST': 
             try {
                 const { userMessage, chatId, bridgeId, variables, blogId } = req.body;
-
-                const data = await askAi(bridgeId, userMessage, {...variables, user_id : JSON.parse(req.headers['x-profile']).id , env : process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT}, chatId)
-                // Return the response data to the client
+                const userId = JSON.parse(req.headers['x-profile']).id;
+                const data = await askAi(bridgeId, userMessage, {...variables, user_id : userId , env : process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT}, chatId)
+                const botResponse = JSON.parse(data.response.data.content);
                 if(bridgeId == process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
-                    const botResponse = JSON.parse(data.response.data.content);
                     var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
                     var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate).catch(err => console.log('Error updating blog', err));
+                }else if(bridgeId == process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
+                    if(botResponse.blog){
+                        botResponse.blog = JSON.parse(botResponse.blog)
+                        const blogCreated = await createBlog(botResponse, environment, userId);
+                        botResponse.urls = [blogCreated];
+                    }
                 }
+                data.response.data.content = botResponse;
                 return res.status(200).json({ success: true, data: {
                     created: shouldCreate || false, 
                     blogId: newBlog?.id, 
-                    response: data
+                    botResponse: data
                 } });
             } catch (error) {
                 // Return error response
@@ -46,4 +52,15 @@ async function updateBlog(blogId, blogData, environment, shouldCreate) {
     }else{
         return await blogServices.updateBlogById(blogId, blogData, environment);
     }
+}
+
+async function createBlog(botResponse, environment, userId){
+    const blog = botResponse.blog;
+    return await blogServices.createBlog({
+        blog: blog.blogData, 
+        tags: blog.tags, 
+        meta: blog.meta,
+        createdBy: userId,
+        title: blog.blogData.find(section => section.section === 'title').content
+    }, environment);
 }
