@@ -96,13 +96,20 @@ const searchBlogsByTag = (tag, environment) => {
   });
 };
 
-const searchBlogsByTags = async (tagList , id ,environment) => {
+const searchBlogsByTags = async (tagList , id ,category ,environment) => {
   return withBlogModel(environment, (Blog) => {
     const results = Blog.aggregate([
       {
         $match: {
-          tags: { $in: tagList },
-          id: { $ne: id }
+          $and: [
+            {
+              $or: [
+                { 'meta.category': { $regex: new RegExp(`^${category}$`, 'i') } },
+                { tags: { $in: tagList.map(tag => new RegExp(`^${tag}$`, 'i')) } }, 
+              ]
+            },
+            { id: { $ne: id } }
+          ]
         }
       },
       {
@@ -112,14 +119,20 @@ const searchBlogsByTags = async (tagList , id ,environment) => {
               $filter: {
                 input: "$tags",
                 as: "tag",
-                cond: { $in: ["$$tag", tagList] }
+                cond: {
+                  $in: [
+                    { $toLower: "$$tag" }, 
+                    tagList.map(tag => tag.toLowerCase()) 
+                  ] 
+                }
               }
             }
-          }
+          },
+          categoryMatch: { $cond: { if: { $regexMatch: { input: "$meta.category", regex: new RegExp(`^${category}$`, 'i') } }, then: 1, else: 0 } }
         }
       },
       {
-        $sort: { matchedTagsCount: -1 }
+        $sort: { categoryMatch: -1, matchedTagsCount: -1 }
       },
       {
         $limit: 10
