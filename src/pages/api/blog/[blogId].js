@@ -3,7 +3,17 @@ import dbConnect from '../../../../lib/mongoDb'; // A utility to connect to Mong
 import blogServices from '@/services/blogServices';
 
 export default async function handler(req, res) {
+  
+  const profileHeader = req.headers['x-profile'];
   const environment = req.headers['env'];
+  let user = null;
+  if (profileHeader) {
+    try {
+      user = JSON.parse(profileHeader);
+    } catch (error) {
+      console.error('Error parsing profile from headers:', error);
+    }
+  }
 
   await dbConnect();
 
@@ -25,7 +35,7 @@ export default async function handler(req, res) {
     case 'PATCH':
       try {
         const { blogId } = req.query;
-        const updatedBlog = await blogServices.updateBlogById(blogId, req.body,environment);
+        const updatedBlog = await blogServices.updateBlogById(blogId, req.body, user.id, environment);
         if (!updatedBlog) {
           return res.status(404).json({ success: false, message: 'Blog not found' });
         }

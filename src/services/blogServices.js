@@ -46,10 +46,22 @@ const getBlogById = (blogId, environment) => {
   });
 };
 
-const updateBlogById = (blogId, blogData, environment) => {
+const updateBlogById = (blogId, blogData, userId, environment) => {
   return withBlogModel(environment, async (Blog) => {
     const apps = await getUpdatedApps(blogData, environment);
-    return Blog.findOneAndUpdate({ "id": blogId }, { ...blogData,updatedAt:Date.now(), apps }).lean();
+    const updateData = {
+      ...blogData,
+      updatedAt: Date.now(),
+      apps,
+      $addToSet: { createdBy: userId },
+    };
+
+    return Blog.findOneAndUpdate(
+      { "id": blogId },
+      updateData,
+      { new: true } 
+    ).lean();
+
   });
 };
 
