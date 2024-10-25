@@ -81,7 +81,7 @@ export default function BlogPage({ blog, user}) {
   useEffect(() => {
     const fetchRelatedBlogs = async () => {
       if (!blogData?.tags) return;
-      const blogs = await getReletedblogs( blogData?.tags, blogData?.id );
+      const blogs = await getReletedblogs( blogData?.id );
       setRelatedBlogs(blogs);
     }
     fetchRelatedBlogs();

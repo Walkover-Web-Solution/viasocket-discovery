@@ -31,9 +31,16 @@ const getAllBlogs = (userId, environment) => {
 };
 
 const createBlog = async (blogData, environment) => {
-  return withBlogModel(environment, async (Blog) => {
+  return await withBlogModel(environment, async (Blog) => {
     const apps = await getUpdatedApps(blogData, environment);
-    return Blog.create({ ...blogData, apps, id: generateNanoid(6) });
+    const newBlog = (await Blog.create({ ...blogData, apps, id: generateNanoid(6) })).toObject();
+    return {
+      id: newBlog.id,
+      blog: newBlog.blog, 
+      apps: newBlog.apps, 
+      tags: newBlog.tags, 
+      title: newBlog.title
+    }
   });
 };
 
@@ -95,13 +102,20 @@ const searchBlogsByTag = (tag, environment) => {
   });
 };
 
-const searchBlogsByTags = async (tagList, id, environment) => {
+const searchBlogsByTags = async (tagList , id ,category ,environment) => {
   return withBlogModel(environment, (Blog) => {
     const results = Blog.aggregate([
       {
         $match: {
-          tags: { $in: tagList },
-          id: { $ne: id }
+          $and: [
+            {
+              $or: [
+                { 'meta.category': { $regex: new RegExp(`^${category}$`, 'i') } },
+                { tags: { $in: tagList.map(tag => new RegExp(`^${tag}$`, 'i')) } }, 
+              ]
+            },
+            { id: { $ne: id } }
+          ]
         }
       },
       {
@@ -111,14 +125,20 @@ const searchBlogsByTags = async (tagList, id, environment) => {
               $filter: {
                 input: "$tags",
                 as: "tag",
-                cond: { $in: ["$$tag", tagList] }
+                cond: {
+                  $in: [
+                    { $toLower: "$$tag" }, 
+                    tagList.map(tag => tag.toLowerCase()) 
+                  ] 
+                }
               }
             }
-          }
+          },
+          categoryMatch: { $cond: { if: { $regexMatch: { input: "$meta.category", regex: new RegExp(`^${category}$`, 'i') } }, then: 1, else: 0 } }
         }
       },
       {
-        $sort: { matchedTagsCount: -1 }
+        $sort: { categoryMatch: -1, matchedTagsCount: -1 }
       },
       {
         $limit: 10
