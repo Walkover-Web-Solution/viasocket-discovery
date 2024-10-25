@@ -23,7 +23,7 @@ export default async function handler(req, res) {
                     var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate).catch(err => console.log('Error updating blog', err));
                 }else if(bridgeId == process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
                     if(botResponse.blog){
-                        botResponse.blog = JSON.parse(botResponse.blog)
+                       if( typeof botResponse.blog !== 'object' ) botResponse.blog = JSON.parse(botResponse.blog)
                         const blogCreated = await createBlog(botResponse, environment, userId);
                         botResponse.urls = [blogCreated];
                     }
