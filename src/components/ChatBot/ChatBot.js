@@ -23,8 +23,8 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
       setMessages([...messages, userMessage]);
       try {
        const data =  await sendMessageApi(userMessage.content, chatId, bridgeId, variables, blogId);
-        if (data?.response?.response?.data?.content) {
-          const botMessage = { role: 'assistant', content: safeParse (data?.response?.response?.data?.content) };
+        if (data?.botResponse?.response?.data?.content) {
+          const botMessage = { role: 'assistant', content: data?.botResponse?.response?.data?.content };
           setMessages((prevMessages) => [...prevMessages, botMessage]);
           if(data.created){
             router.replace('/blog/' + data.blogId);
