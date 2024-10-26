@@ -17,7 +17,7 @@ const AIresponse = ({ blogData, user, integrations }) => {
         {hasMarkdown && (
           <>
             {
-              blogData.blog.map(({section, content}) => Components[section]?.({content, integrations, user, createdAt: blogData.createdAt}))
+              blogData.blog.map(({section, content, heading}) => Components[section]?.({content, integrations, user, createdAt: blogData.createdAt, heading}))
             }
             <div className={styles.tagsContainer}>
               <h3>Related Tags</h3>
