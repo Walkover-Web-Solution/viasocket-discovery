@@ -28,7 +28,9 @@ export async function getServerSideProps(context) {
   try {
     const blog = await blogServices.getBlogById(blogId[0],getCurrentEnvironment());
     console.time("getUserById");
-    const users = await getUserById(blog?.createdBy); // change from here take something like multiple users data from proxy 
+    const users = await Promise.all(blog?.createdBy.map(async (userId) => {
+      return await getUserById(userId);
+    }));
     console.timeEnd("getUserById");
     props.blog = blog;
     props.users = users;
