@@ -14,9 +14,21 @@ export default async function handler(req, res) {
 
         case 'POST': 
             try {
+
                 const { userMessage, chatId, bridgeId, variables, blogId } = req.body;
                 const userId = JSON.parse(req.headers['x-profile']).id;
-                const data = await askAi(bridgeId, userMessage, {...variables, user_id : userId , env : process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT}, chatId)
+                const countrycode = req.headers["cf-ipcountry"] || "Not available";
+                const region = req.headers["cf-region"] || "Not available";
+                const city = req.headers["cf-ipcity"] || "Not available";
+                
+                const data = await askAi(bridgeId, userMessage, {
+                    ...variables,
+                    user_id : userId,
+                    env : process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT,
+                    countrycode : countrycode,
+                    region : region,
+                    city : city,
+                 }, chatId)
                 const botResponse = JSON.parse(data.response.data.content);
                 if(bridgeId == process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
                     var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
