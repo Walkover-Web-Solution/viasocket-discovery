@@ -189,4 +189,26 @@ const updateBlogsTags = async (blogsTagsToUpdate,environment) => {
   })
 }
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag };
+const getLastHourBlogs = async (environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    const oneHourAgo = new Date();
+    oneHourAgo.setHours(oneHourAgo.getHours() - 1); 
+
+    const blogs = await Blog.find({
+      createdAt: { $gte: oneHourAgo } 
+    });
+
+    return blogs;
+  });
+};
+
+const bulkUpdateBlogs = async (bulkOperations, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+      const result = await Blog.bulkWrite(bulkOperations);
+      return result;
+  });
+};
+
+
+
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs };
