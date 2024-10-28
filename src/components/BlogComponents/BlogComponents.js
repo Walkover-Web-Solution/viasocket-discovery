@@ -85,6 +85,14 @@ const Components = {
         <ReactMarkdown className = {styles.dummyMarkdown} remarkPlugins={[remarkGfm]}>
             {dummyMarkdown}
         </ReactMarkdown>
+    ),
+    additionalSection: ({content, heading}) => (
+        <div className = {styles.conclusion}>
+            <h4>{heading}</h4>
+            <ReactMarkdown className = {styles.content} remarkPlugins={[remarkGfm]}>
+                {content}
+            </ReactMarkdown>
+        </div>
     )
 }
 
