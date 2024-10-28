@@ -146,7 +146,7 @@ const searchBlogsByTags = async (tagList , id ,category ,environment) => {
       },
       {
         $project: {
-          apps: 1, title: 1, id: 1
+          apps: 1, title: 1, id: 1, tags: 1
       }}
     ]);
 

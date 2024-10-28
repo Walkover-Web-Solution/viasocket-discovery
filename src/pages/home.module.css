@@ -3,7 +3,6 @@
   flex-direction: column;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 16px;
-  padding: 16px;
   margin-top: 16px;
   max-width: 10.5in;
   width: 80vw;
@@ -14,8 +13,9 @@
   margin-bottom: 32px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background-color: var(--background-color);
+  width: fit-content;
+  padding: 1.5rem;
+  margin: auto;
   .noData{
     font-size: 1.5rem;
     margin-top: 2rem;
@@ -25,11 +25,11 @@
 
 .homeh2 {
   margin-top: 3rem;
-  font-size: 2.5rem;
+  font-size: 4rem;
   color: #444;
   font-family: var(--title-font);
   font-weight: 100;
-  width: 10.5in;
+  max-width: 10in;
 }
 
 .blogsWithChatbot{
@@ -43,33 +43,48 @@
   margin: auto;
 }
 .homeTitle{
-  font-size: 2.6rem;
+  font-size: 6rem;
   margin-top: 2rem;
-  max-width: 18in;
+  max-width: 14in;
   font-weight: 600;
   font-family: var(--title-font);
+  position: relative;
+  &::after{
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    background: var(--gradient);
+    background-size: 400% 400%;
+    animation: gradient 9s ease infinite;
+    height: 100vh;
+  }
 }
 .homep{
   margin-top: 1rem;
   font-size: 1.2rem;
   padding: 0 8rem;
-  max-width: 18in;
-  font-family: var(--title-font);
+  max-width: 12in;
 }
 
 .searchTags{
-  margin-left: 1rem;
   height: 5rem;
   overflow-x: scroll;
   max-width: 10.5in;
   display: flex;
   align-items: center;
-  gap: 1.4rem;
   width: 80vw;
   & > *{
     height: min-content;
     text-wrap: nowrap;
     transform: scale(1.2);
+    margin-left: 2rem;
+    &:first-child{
+      margin-left: 1rem;
+    }
   }
 }
 
@@ -78,7 +93,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10rem 0 15rem 0;
+  padding: 3rem 0 15rem 0;
   transition-duration: 0.2s;
   height: min-content;
   top: 0;
@@ -89,9 +104,10 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 2rem;
-    & > *{
+    max-width: 12in;
+    &>*{
       transform: scale(1.1);
-      border: 1px solid var(--intermediate-color);
+      border: 1px solid black;
       text-wrap: nowrap;
     }
   }
@@ -103,5 +119,17 @@
     &>* {
       box-shadow: none !important;
     }
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }

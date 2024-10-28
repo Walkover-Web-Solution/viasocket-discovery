@@ -1,9 +1,17 @@
 .titleDiv{
+    & > *{
+        position: relative;
+    }
     .title{
         color: var(--foreground-color);
+        z-index: 9;
         font-family:var(--title-font);
         font-size: 3.5rem;
         font-weight: 900;
+        position: relative;
+        // background: var(--gradient);
+        // background-size: 400% 400%;
+        // animation: gradient 9s ease infinite;
     }
     .author{
         .dot{
@@ -83,3 +91,15 @@
     }
     padding: 20px;
 }
+
+@keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }

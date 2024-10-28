@@ -1,11 +1,11 @@
 .markdownContainer {
   padding: 16px;
   background-color: var(--background-color);
-  border-radius: 8px;
   font-family: var(--sans-serif-font);
   max-width: 60rem;
   height: 700px;
   overflow: auto;
+  overflow-x: initial;
   width: 90%;
   height: 90%;
   margin: auto;
