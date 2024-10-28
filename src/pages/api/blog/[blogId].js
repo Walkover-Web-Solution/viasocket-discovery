@@ -8,11 +8,7 @@ export default async function handler(req, res) {
   const environment = req.headers['env'];
   let user = null;
   if (profileHeader) {
-    try {
       user = JSON.parse(profileHeader);
-    } catch (error) {
-      console.error('Error parsing profile from headers:', error);
-    }
   }
 
   await dbConnect();
