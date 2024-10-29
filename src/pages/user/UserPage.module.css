@@ -1,0 +1,69 @@
+.container {
+    padding: 16px;
+    background-color: var(--background-color);
+    font-family: var(--sans-serif-font);
+    max-width: 60rem;
+    width: 90%;
+    margin: auto;
+  }
+
+  
+  .author {
+    display: flex;
+    gap: 10px;
+    
+  }
+  
+  .avatar {
+    width: 60px;
+    height: 60px;
+    background-color:#d0000e;
+    color: #fff; 
+    font-size: 35px;
+  }
+  
+  .name {
+    margin-left: 10px; 
+    font-size: 35px;
+  }
+  
+  .details {
+    margin-top: 20px;
+    text-align: left; 
+  }
+  
+  
+.Homesection {
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.homeh2 {
+  margin-top: .7rem;
+  font-size: 2.5rem;
+  color: #444;
+  font-family: var(--title-font);
+  font-weight: 100;
+  padding-left: 18px;
+}
+
+.cardsGrid {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  padding: 16px;
+  margin-top: 16px;
+  max-width: 10.5in;
+  width: 80vw;
+}
+
+
+
+.userContainer{
+ margin:20px;
+}
+.contribution{
+  padding-left: 80px;
+}

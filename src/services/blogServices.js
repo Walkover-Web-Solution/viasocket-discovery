@@ -53,10 +53,22 @@ const getBlogById = (blogId, environment) => {
   });
 };
 
-const updateBlogById = (blogId, blogData, environment) => {
+const updateBlogById = (blogId, blogData, userId, environment) => {
   return withBlogModel(environment, async (Blog) => {
     const apps = await getUpdatedApps(blogData, environment);
-    return Blog.findOneAndUpdate({ "id": blogId }, { ...blogData,updatedAt:Date.now(), apps }).lean();
+    const updateData = {
+      ...blogData,
+      updatedAt: Date.now(),
+      apps,
+      $addToSet: { createdBy: userId },
+    };
+
+    return Blog.findOneAndUpdate(
+      { "id": blogId },
+      updateData,
+      { new: true } 
+    ).lean();
+
   });
 };
 
@@ -188,6 +200,11 @@ const updateBlogsTags = async (blogsTagsToUpdate,environment) => {
     }
   })
 }
+const searchBlogsByUserId = async ( userId, environment ) => {
+  return withBlogModel(environment, (Blog)=>{
+    return Blog.find({ createdBy: parseInt(userId) })
+  })
+}
 
 const getLastHourBlogs = async (environment) => {
   return withBlogModel(environment, async (Blog) => {
@@ -211,4 +228,4 @@ const bulkUpdateBlogs = async (bulkOperations, environment) => {
 
 
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs };
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId };
