@@ -200,6 +200,11 @@ const updateBlogsTags = async (blogsTagsToUpdate,environment) => {
     }
   })
 }
+const searchBlogsByUserId = async ( userId, environment ) => {
+  return withBlogModel(environment, (Blog)=>{
+    return Blog.find({ createdBy: parseInt(userId) })
+  })
+}
 
 const getLastHourBlogs = async (environment) => {
   return withBlogModel(environment, async (Blog) => {
@@ -223,4 +228,4 @@ const bulkUpdateBlogs = async (bulkOperations, environment) => {
 
 
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs };
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId };

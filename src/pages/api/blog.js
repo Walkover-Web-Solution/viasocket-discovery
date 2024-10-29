@@ -14,9 +14,12 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const { search } = req.query;
+        const { search, userId } = req.query;
         let blogs;
         let tags ;
+        if( user ){
+          blogs = await blogServices.searchBlogsByUserId(userId,environment);
+        }
         if (search) {
           if (search.startsWith('#')) {
             blogs = await blogServices.searchBlogsByTag(search.slice(1),environment);
@@ -24,6 +27,8 @@ export default async function handler(req, res) {
             tags = (await searchTags(search))[0]?.matchingTags
             blogs = await blogServices.searchBlogsByQuery(search,environment);
           }
+        }else if (user){
+          blogs = await blogServices.searchBlogsByUserId(userId,environment); 
         } else blogs = await blogServices.getAllBlogs(user?.id || '',environment);
          res.status(200).json({ success: true, data: {blogs ,tags} });
       } catch (error) {
