@@ -28,9 +28,15 @@ export async function getServerSideProps(context) {
   try {
     const blog = await blogServices.getBlogById(blogId[0],getCurrentEnvironment());
     console.time("getUserById");
-    const users = await Promise.all(blog?.createdBy.map(async (userId) => {
+    let users = await Promise.all(blog?.createdBy.map(async (userId) => {
+    try {
       return await getUserById(userId);
+      } catch (error) {
+        return null;
+      }
     }));
+    users = users.filter(user => user != null);
+
     console.timeEnd("getUserById");
     props.blog = blog;
     props.users = users;
