@@ -62,3 +62,10 @@ export async function askAi(bridgeId, userMessage, variables, chatId) {
     );
     return await response.json()
 }
+
+export const sendMessageTochannel = (message) => {
+    fetch("https://flow.sokt.io/func/scriTdhvDTJK",{
+        method:'POST',
+        body:JSON.stringify(message)
+    })
+}

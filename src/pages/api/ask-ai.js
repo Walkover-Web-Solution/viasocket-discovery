@@ -1,4 +1,4 @@
-import { askAi } from '@/utils/utils';
+import { askAi, sendMessageTochannel } from '@/utils/utils';
 import fetch from 'node-fetch';
 import blogServices from "../../services/blogServices"
 
@@ -79,23 +79,60 @@ async function createBlog(botResponse, environment, userId){
 }
 
 function cleanBotResponse(response) {
-    if (response?.blog && (typeof response.blog !== 'object' || response.blog === null)) {
-        response.blog = {}; 
+    if(response?.urls &&  (!Array.isArray(response.urls))){
+        sendMessageTochannel({
+            message : "type error in ai response url",
+            data : response.urls
+        })
+        Object.keys(response).forEach(key => {
+            if (key !== 'message') {
+                delete response[key]; 
+            }
+        });
+        return ;
+    }
+    if (response?.blog && (typeof response.blog !== 'object' )) {
+        sendMessageTochannel({
+            message : "type error in ai response blog",
+            data : response.blog
+        })
+        Object.keys(response).forEach(key => {
+            if (key !== 'message') {
+                delete response[key]; 
+            }
+        });
+        return ;
     }
     
     if (response?.blog?.blog && (!Array.isArray(response.blog.blog))) {
+        sendMessageTochannel({
+            message : "type error in ai response blog.blog",
+            data : response.blog.blog
+        })
         response.blog.blog = []; 
     }
-
+    
     if (response?.blog?.blogData && (!Array.isArray(response.blog.blogData))) {
+        sendMessageTochannel({
+            message : "type error in ai response blog.blogdata",
+            data : response.blog.blogData
+        })
         response.blog.blogData = []; 
     }
 
     if (response?.blog?.tags && !Array.isArray(response.blog.tags)) {
+        sendMessageTochannel({
+            message : "type error in ai response blog.tags",
+            data : response.blog.tags
+        })
         response.blog.tags = []; 
     }
-
-    if (response?.blog?.meta && typeof response.blog.meta !== 'object' || response.blog.meta === null) {
+    
+    if (response?.blog?.meta && typeof response.blog.meta !== 'object') {
+        sendMessageTochannel({
+            message : "type error in ai response blog.meta",
+            data : response.blog.meta
+        })
         response.blog.meta = {}; 
     }
 }
