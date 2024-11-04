@@ -64,8 +64,12 @@ export async function askAi(bridgeId, userMessage, variables, chatId) {
 }
 
 export const sendMessageTochannel = (message) => {
-    fetch("https://flow.sokt.io/func/scriTdhvDTJK",{
+    try {
+      fetch("https://flow.sokt.io/func/scriTdhvDTJK",{
         method:'POST',
         body:JSON.stringify(message)
-    })
+      })
+    } catch (error) {
+      console.log("error sending alerts to channel ", error);
+    }
 }
