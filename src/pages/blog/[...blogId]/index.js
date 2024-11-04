@@ -28,10 +28,18 @@ export async function getServerSideProps(context) {
   try {
     const blog = await blogServices.getBlogById(blogId[0],getCurrentEnvironment());
     console.time("getUserById");
-    const user = await getUserById(blog?.createdBy);
+    let users = await Promise.all(blog?.createdBy.map(async (userId) => {
+    try {
+      return await getUserById(userId);
+      } catch (error) {
+        return null;
+      }
+    }));
+    users = users.filter(user => user != null);
+
     console.timeEnd("getUserById");
     props.blog = blog;
-    props.user = user;
+    props.users = users;
   } catch (error) {
     console.error('Error fetching blog data:', error); // Return an empty object if there's an error
   }
@@ -40,7 +48,7 @@ export async function getServerSideProps(context) {
   return { props };
 }
 
-export default function BlogPage({ blog, user}) {
+export default function BlogPage({ blog, users}) {
   const [blogData, setBlogData] = useState(blog);
   const [oldBlog,setOldBlog]=useState('');
   const [integrations, setIntegrations] = useState(null);
@@ -173,7 +181,7 @@ export default function BlogPage({ blog, user}) {
   return (
     <div>
       <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
-        <AIresponse blogData={blogData} user={user} integrations={integrations} />
+        <AIresponse blogData={blogData} users={users} integrations={integrations} />
         {
           relatedBlogs?.length > 0 && (
             <div className={styles.relatedBlogsDiv}>

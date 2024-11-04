@@ -13,20 +13,6 @@
         // background-size: 400% 400%;
         // animation: gradient 9s ease infinite;
     }
-    .author{
-        .dot{
-            width: 10px;
-        }
-        .avatar{
-            width: 2rem;
-            height: 2rem;
-        }
-        display:flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 1rem;
-        color: var(--foreground-color);
-    }
     margin: 20px 0;
     padding-bottom: 2rem;
     border-bottom: 2px solid var(--intermediate-color);

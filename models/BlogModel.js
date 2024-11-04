@@ -25,7 +25,7 @@ const createBlogModel = (connection) => {
     type: Date,
     default: Date.now,
   },
-  createdBy: Number,
+  createdBy: Array,
   }, { minimize: false });
 
   BlogSchema.index({ id: 1 });
