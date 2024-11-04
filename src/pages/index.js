@@ -13,12 +13,15 @@ import { useRouter } from 'next/router';
 import { SettingsSystemDaydreamSharp } from '@mui/icons-material';
 import Link from 'next/link';
 import blogstyle from '@/components/Blog/Blog.module.scss';
+import useQueryState from '@/hooks/useQueryState';
 
 export default function Home() {
     const [blogs, setBlogs] = useState([]);
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useQueryState("search", "");
+    const [timer, setTimer]=useState()
     const [messages, setMessages] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    console.log(isOpen,"isopen")
     const [isLoading, setIsLoading] = useState(true);
     const [tags , setTags]= useState([])
     const user = useUser().user;
@@ -28,11 +31,10 @@ export default function Home() {
     const popularTags = ["Customer Relationship Management", "Project Management", "Database Management", "Sales and Marketing"]
 
     useEffect(() => {
-      if(!router.isReady || ( isOpen && !searchQuery.length > 0 )) return ;
-        const fetchAllBlogs = async () => {
-        setSearchQuery(router.query?.search || '')
-        setIsLoading(true);
-        
+      setIsLoading(true);
+      if(!router.isReady) return;
+      if(!typingStart && searchQuery?.length) setTypingStart(true);
+      const fetchAllBlogs = async () => {
           try {
               const data = await fetchBlogs(router.query?.search ? `?search=${router.query?.search}` :'');
               if (data.tags)setTags(data.tags);
@@ -44,28 +46,24 @@ export default function Home() {
           }
         };
 
-        fetchAllBlogs();
-    }, [ router.query?.search, router.isReady ]);
+      if (timer) clearTimeout(timer);
 
-    const fetchSearchBlogs = useCallback(async () => {
-      if(searchQuery !== '') router.replace({ query : { search : searchQuery } },undefined,{shallow:true})
-        else router.replace('/',undefined,{shallow:true})
-    }, [searchQuery]);
+      const newTimer = setTimeout(() => {
+          fetchAllBlogs();
+      }, 400);
+
+      setTimer(newTimer);
+      return () => clearTimeout(newTimer);
     
-    const debouncedFetchBlogs = useCallback(debounce(fetchSearchBlogs, 400), [fetchSearchBlogs]);
-    
+    }, [router.query?.search, router.isReady]);
+  
+
+   
+
     function handleSetSearchQuery(query){
       setSearchQuery(query);
     }
     
-    useEffect(() => {
-      if(!typingStart && searchQuery?.length) setTypingStart(true);
-      setIsLoading(true)
-      debouncedFetchBlogs();
-      return () => {
-            debouncedFetchBlogs.cancel(); 
-        };
-    }, [searchQuery, isOpen]);
 
     useEffect(() => {
       if(!user) return;
