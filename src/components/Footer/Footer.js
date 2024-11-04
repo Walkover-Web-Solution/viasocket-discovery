@@ -4,6 +4,7 @@ export default function Footer(){
     return (
         <>
             <div className={styles.footerBorder}></div>
+            <div className = {styles.footerDiv}>
             <div class={`container py-4 ${styles.pageFooter}`}>
             <div class="row">
             <div class="col-lg-4 d-flex flex-column align-items-start">
@@ -96,6 +97,7 @@ export default function Footer(){
                 </div>
             </div>
             </div>
+        </div>
         </div>
       </>
     )

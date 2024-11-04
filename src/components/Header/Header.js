@@ -3,6 +3,7 @@ import { useUser } from "@/context/UserContext";
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import UserDetail from "../UserDetailPopup/UserDetailPopup";
+import styles from "./Header.module.scss";
 
 export default function Header() {
   const { user } = useUser();
@@ -17,8 +18,9 @@ export default function Header() {
     setShowUserInfo(!showUserInfo);
   };
   return (
+    <div className = {styles.headerDiv}>
     <div
-    class="container d-flex align-items-center justify-content-between py-5"
+    className ={`container d-flex align-items-center justify-content-between py-5 ${styles.headerDiv}`}
     >
     <a href="https://viasocket.com">
       <img src="https://viasocket.com/assets/brand/logo.svg" alt="Logo" />
@@ -60,6 +62,7 @@ export default function Header() {
                 </div>
             )}
         </div>
+    </div>
     </div>
     </div>
   )

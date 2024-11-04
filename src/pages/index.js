@@ -87,7 +87,7 @@ export default function Home() {
 
 
   const tagsContainer = ()=>{
-    if(!tags?.length) return null;
+    if(!tags?.length || !searchQuery) return null;
     return  (
     <div className={styles.searchTags}>
     {tags.map((tag, index) => (

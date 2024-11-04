@@ -16,6 +16,7 @@
   width: fit-content;
   padding: 1.5rem;
   margin: auto;
+  min-width: 60vw;
   .noData{
     font-size: 1.5rem;
     margin-top: 2rem;
@@ -83,7 +84,7 @@
     transform: scale(1.2);
     margin-left: 2rem;
     &:first-child{
-      margin-left: 1rem;
+      margin-left: 2%;
     }
   }
 }
@@ -106,9 +107,14 @@
     gap: 2rem;
     max-width: 12in;
     &>*{
+      background-color: transparent;
       transform: scale(1.1);
       border: 1px solid black;
       text-wrap: nowrap;
+      &:hover{
+        background-color: var(--foreground-color);
+        color: var(--background-color);
+      }
     }
   }
   .showInCenter{

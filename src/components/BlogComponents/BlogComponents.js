@@ -10,9 +10,9 @@ import ContributorsPopup from '../ContributersPopup/ContributersPopup';
 const Components = {
     title: ({content, users, createdAt}) => (
         <div className={styles.titleDiv}>
-            <ReactMarkdown className = {styles.title} remarkPlugins={[remarkGfm]}>
+            <h1 className = {styles.title}>
                 {content}
-            </ReactMarkdown>
+            </h1>
             <ContributorsPopup users={users} createdAt={createdAt}/>
         </div>
     ), 

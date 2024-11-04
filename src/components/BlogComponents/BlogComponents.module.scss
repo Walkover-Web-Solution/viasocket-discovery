@@ -5,10 +5,12 @@
     .title{
         color: var(--foreground-color);
         z-index: 9;
-        font-family:var(--title-font);
-        font-size: 3.5rem;
+        font-size: 4rem;
         font-weight: 900;
+        font-family: var(--title-font);
         position: relative;
+        word-spacing: 5px;
+        margin-bottom: 2rem;
         // background: var(--gradient);
         // background-size: 400% 400%;
         // animation: gradient 9s ease infinite;
