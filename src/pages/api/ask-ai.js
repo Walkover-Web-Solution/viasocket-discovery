@@ -30,6 +30,7 @@ export default async function handler(req, res) {
                     city : city,
                  }, chatId)
                 const botResponse = JSON.parse(data.response.data.content);
+                cleanBotResponse(botResponse);
                 if(bridgeId == process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
                     var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
                     var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate).catch(err => console.log('Error updating blog', err));
@@ -75,4 +76,26 @@ async function createBlog(botResponse, environment, userId){
         createdBy: userId,
         title: blog.blogData.find(section => section.section === 'title').content
     }, environment);
+}
+
+function cleanBotResponse(response) {
+    if (response?.blog && (typeof response.blog !== 'object' || response.blog === null)) {
+        response.blog = {}; 
+    }
+    
+    if (response?.blog?.blog && (!Array.isArray(response.blog.blog))) {
+        response.blog.blog = []; 
+    }
+
+    if (response?.blog?.blogData && (!Array.isArray(response.blog.blogData))) {
+        response.blog.blogData = []; 
+    }
+
+    if (response?.blog?.tags && !Array.isArray(response.blog.tags)) {
+        response.blog.tags = []; 
+    }
+
+    if (response?.blog?.meta && typeof response.blog.meta !== 'object' || response.blog.meta === null) {
+        response.blog.meta = {}; 
+    }
 }
