@@ -79,3 +79,15 @@ export const handleSignIn = async () => {
     setPathInLocalStorage()
     window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
 };
+
+export const  ValidateAiResponse = (response ,schema) => {
+    const { error, value: validatedResponse } = schema.validate(response);
+    if (error) {
+        sendMessageTochannel({
+        message: `"Validation error: " ${error.details[0].message}`,
+        [error.details[0].path[0]]: response[error.details[0].path[0]],
+      });
+      return { message: response.message };
+    }
+    return validatedResponse;
+  }

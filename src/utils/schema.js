@@ -1,0 +1,44 @@
+import Joi from "joi";
+
+const urlSchema = Joi.object({
+  title: Joi.string().required(),
+  apps: Joi.object().required(),
+  id: Joi.string().required(),
+  tags: Joi.array().items(Joi.string()).required(),
+})
+
+export const createBlogSchema = Joi.object({
+  message: Joi.string().required(),
+  blog: Joi.object({
+    blogData: Joi.array().items(Joi.object()).required(),
+    tags: Joi.array().items(Joi.string()).required(),
+    meta: Joi.object().required(),
+  }).required(),
+  urls: Joi.array().items(urlSchema).optional(),
+});
+
+export const searchResultsSchema = Joi.object({
+  message: Joi.string().required(),
+  urls: Joi.array().items(urlSchema).required(),
+});
+
+export const updateBlogSchema = Joi.object({
+  message: Joi.string().required(),
+  blog: Joi.object({
+    title: Joi.string().required(),
+    tags: Joi.array().items(Joi.string()).required(),
+    blog: Joi.array().items(Joi.object()).required(),
+    meta: Joi.object().required(),
+  }).required(),
+  shouldCreate: Joi.string().valid("Yes", "No").required(),
+  urls: Joi.array().items(urlSchema).optional(),
+});
+
+
+export const improveBlogSchema = Joi.object({
+  phrase: Joi.object({
+    content: Joi.string().required(),
+    section: Joi.string().required(),
+  }).required(),
+  blog: Joi.array().items(Joi.object()).required(),
+});

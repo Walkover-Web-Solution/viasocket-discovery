@@ -1,7 +1,8 @@
-import { askAi, sendMessageTochannel } from '@/utils/utils';
+import { askAi, sendMessageTochannel, ValidateAiResponse } from '@/utils/utils';
 import fetch from 'node-fetch';
 import blogServices from "../../services/blogServices"
 import Joi from 'joi';
+import { createBlogSchema, searchResultsSchema, updateBlogSchema } from '@/utils/schema';
 
 export const config = {
   maxDuration: 30,
@@ -31,11 +32,14 @@ export default async function handler(req, res) {
                     city : city,
                  }, chatId)
                 const parsedContent = JSON.parse(data.response.data.content);
-                const	botResponse = cleanBotResponse(parsedContent);
+                let botResponse = {};
                 if(bridgeId == process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
+                    botResponse =  ValidateAiResponse(parsedContent,updateBlogSchema);
                     var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
                     var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate).catch(err => console.log('Error updating blog', err));
                 }else if(bridgeId == process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
+                    if(parsedContent.blog) botResponse = ValidateAiResponse(parsedContent , createBlogSchema);
+                    else botResponse = ValidateAiResponse(parsedContent, searchResultsSchema);
                     if(botResponse.blog){
                        if( typeof botResponse.blog !== 'object' ) botResponse.blog = JSON.parse(botResponse.blog)
                         const blogCreated = await createBlog(botResponse, environment, userId);
@@ -79,25 +83,3 @@ async function createBlog(botResponse, environment, userId){
     }, environment);
 }
 
-function cleanBotResponse(response) {
-	const schema = Joi.object({
-		message: Joi.string().required(),
-		blog: Joi.object({
-			blog: Joi.array().items(Joi.object()).optional(),
-			blogData: Joi.array().items(Joi.object()).optional(),
-			tags: Joi.array().items(Joi.string()).optional(),
-			meta: Joi.object().optional(),
-		}).optional(),
-		urls: Joi.array().items(Joi.object()).optional(),
-	});
-  
-  const { error, value: validatedResponse } = schema.validate(response);
-  if (error) {
-      sendMessageTochannel({
-      message: `"Validation error: " ${error.details[0].message}`,
-      [error.details[0].path[0]]: response[error.details[0].path[0]],
-    });
-    return { message: response.message };
-  }
-  return validatedResponse;
-}

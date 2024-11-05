@@ -1,5 +1,6 @@
-import { askAi } from "@/utils/utils";
+import { askAi, ValidateAiResponse } from "@/utils/utils";
 import blogServices from "../../services/blogServices"
+import { improveBlogSchema } from "@/utils/schema";
 
 
 export default async function handler(req, res) {
@@ -11,11 +12,13 @@ export default async function handler(req, res) {
                 const blogs = await blogServices.getLastHourBlogs(environment);
                 const bulkOperations = await Promise.all(blogs.map(async (blog) => {
                     try{
-                    let processedBlog = await askAi(
+                    let aiResponse = await askAi(
                       process.env.IMPROVE_BRIDGE,
                       JSON.stringify({ blog : blog.blog , tags: blog.tags , title : blog.title }),
+                      {},"some"
                     );
-                    processedBlog = JSON.parse(processedBlog.response.data.content);
+                    aiResponse = JSON.parse(aiResponse.response.data.content);
+                    const processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema);
                     return {
                         updateOne: {
                             filter: { id: blog.id },
