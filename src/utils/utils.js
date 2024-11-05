@@ -62,3 +62,7 @@ export async function askAi(bridgeId, userMessage, variables, chatId) {
     );
     return await response.json()
 }
+
+export function nameToSlugName(name){
+    return name.toLowerCase().replace(/[\s/()]+/g, '-');
+}
