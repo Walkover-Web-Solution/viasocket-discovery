@@ -1,6 +1,7 @@
 import { askAi, sendMessageTochannel } from '@/utils/utils';
 import fetch from 'node-fetch';
 import blogServices from "../../services/blogServices"
+import Joi from 'joi';
 
 export const config = {
   maxDuration: 30,
@@ -29,8 +30,8 @@ export default async function handler(req, res) {
                     region : region,
                     city : city,
                  }, chatId)
-                const botResponse = JSON.parse(data.response.data.content);
-                cleanBotResponse(botResponse);
+                const parsedContent = JSON.parse(data.response.data.content);
+                const	botResponse = cleanBotResponse(parsedContent);
                 if(bridgeId == process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
                     var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
                     var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate).catch(err => console.log('Error updating blog', err));
@@ -79,60 +80,24 @@ async function createBlog(botResponse, environment, userId){
 }
 
 function cleanBotResponse(response) {
-    if(response?.urls &&  (!Array.isArray(response.urls))){
-        sendMessageTochannel({
-            message : "type error in ai response url",
-            data : response.urls
-        })
-        Object.keys(response).forEach(key => {
-            if (key !== 'message') {
-                delete response[key]; 
-            }
-        });
-        return ;
-    }
-    if (response?.blog && (typeof response.blog !== 'object' )) {
-        sendMessageTochannel({
-            message : "type error in ai response blog",
-            data : response.blog
-        })
-        Object.keys(response).forEach(key => {
-            if (key !== 'message') {
-                delete response[key]; 
-            }
-        });
-        return ;
-    }
-    
-    if (response?.blog?.blog && (!Array.isArray(response.blog.blog))) {
-        sendMessageTochannel({
-            message : "type error in ai response blog.blog",
-            data : response.blog.blog
-        })
-        response.blog.blog = []; 
-    }
-    
-    if (response?.blog?.blogData && (!Array.isArray(response.blog.blogData))) {
-        sendMessageTochannel({
-            message : "type error in ai response blog.blogdata",
-            data : response.blog.blogData
-        })
-        response.blog.blogData = []; 
-    }
-
-    if (response?.blog?.tags && !Array.isArray(response.blog.tags)) {
-        sendMessageTochannel({
-            message : "type error in ai response blog.tags",
-            data : response.blog.tags
-        })
-        response.blog.tags = []; 
-    }
-    
-    if (response?.blog?.meta && typeof response.blog.meta !== 'object') {
-        sendMessageTochannel({
-            message : "type error in ai response blog.meta",
-            data : response.blog.meta
-        })
-        response.blog.meta = {}; 
-    }
+	const schema = Joi.object({
+		message: Joi.string().required(),
+		blog: Joi.object({
+			blog: Joi.array().items(Joi.object()).optional(),
+			blogData: Joi.array().items(Joi.object()).optional(),
+			tags: Joi.array().items(Joi.string()).optional(),
+			meta: Joi.object().optional(),
+		}).optional(),
+		urls: Joi.array().items(Joi.object()).optional(),
+	});
+  
+  const { error, value: validatedResponse } = schema.validate(response);
+  if (error) {
+      sendMessageTochannel({
+      message: `"Validation error: " ${error.details[0].message}`,
+      [error.details[0].path[0]]: response[error.details[0].path[0]],
+    });
+    return { message: response.message };
+  }
+  return validatedResponse;
 }
