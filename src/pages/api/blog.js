@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const { search, userId } = req.query;
+        let { search, userId, apps } = req.query;
         let blogs;
         let tags ;
         if (search) {
@@ -24,6 +24,9 @@ export default async function handler(req, res) {
             tags = (await searchTags(search))[0]?.matchingTags
             blogs = await blogServices.searchBlogsByQuery(search,environment);
           }
+        }else if(apps){
+          apps = Array.isArray(apps) ? apps: [apps];
+          blogs = await blogServices.blogWithApps(apps, environment);
         }else if (userId){
           blogs = await blogServices.searchBlogsByUserId(userId,environment); 
         } else blogs = await blogServices.getAllBlogs(user?.id || '',environment);

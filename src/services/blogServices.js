@@ -226,6 +226,13 @@ const bulkUpdateBlogs = async (bulkOperations, environment) => {
   });
 };
 
+const blogWithApps = async (apps, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    return await Blog.find({
+      $and: apps.map(appName => ({[`apps.${appName}`] : {$exists: true}}))
+    }, 
+    {_id : 0, id: 1, title: 1, apps: 1, tags: 1})
+  })
+}
 
-
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId };
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps };
