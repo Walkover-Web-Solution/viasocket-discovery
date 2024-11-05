@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import UserDetail from "../UserDetailPopup/UserDetailPopup";
 import styles from "./Header.module.scss";
+import { setPathInLocalStorage } from "@/utils/storageHelper";
 
 export default function Header() {
   const { user } = useUser();
@@ -13,6 +14,9 @@ export default function Header() {
   useEffect(() => {
     setIsLoggedIn(user ? true : false);
   }, [user]);
+  const handleAuth = () => {
+    setPathInLocalStorage()
+  }
 
   const toggleUserInfo = () => {
     setShowUserInfo(!showUserInfo);
@@ -54,10 +58,10 @@ export default function Header() {
             ) : (
                 <div class="d-flex align-items-center gap-4">
                     <a href="https://viasocket.com/login?redirect_to=/discovery/auth">
-                        <button class="btn btn-outline-dark">Login</button>
+                        <button class="btn btn-outline-dark" onClick={handleAuth}>Login</button>
                     </a>
                     <a href="https://viasocket.com/signup?redirect_to=/discovery/auth">
-                        <button class="btn btn-dark text-white">Sign Up</button>
+                        <button class="btn btn-dark text-white" onClick={handleAuth}>Sign Up</button>
                     </a>
                 </div>
             )}
