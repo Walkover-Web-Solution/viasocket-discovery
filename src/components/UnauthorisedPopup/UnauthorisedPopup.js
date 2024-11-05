@@ -6,7 +6,7 @@ const UnauthorizedPopup = ({ isOpen, onClose }) => {
 
   const handleLoginRedirect = () => {
     setPathInLocalStorage();
-    window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
+    window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth&utm_source=/discovery";
   };
 
   if (!isOpen) {
