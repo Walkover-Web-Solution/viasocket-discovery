@@ -1,7 +1,5 @@
-import { askAi, sendMessageTochannel, ValidateAiResponse } from '@/utils/utils';
-import fetch from 'node-fetch';
+import { askAi, ValidateAiResponse } from '@/utils/utils';
 import blogServices from "../../services/blogServices"
-import Joi from 'joi';
 import { createBlogSchema, searchResultsSchema, updateBlogSchema } from '@/utils/schema';
 
 export const config = {
