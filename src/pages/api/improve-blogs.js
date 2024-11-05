@@ -11,12 +11,23 @@ export default async function handler(req, res) {
                 const blogs = await blogServices.getLastHourBlogs(environment);
                 const bulkOperations = await Promise.all(blogs.map(async (blog) => {
                     try{
-                    let processedBlog = await askAi(process.env.IMPROVE_BRIDGE,JSON.stringify({blog:blog.blog}),{},`${Date.now()}`);
+                    let processedBlog = await askAi(
+                      process.env.IMPROVE_BRIDGE,
+                      JSON.stringify({ blog : blog.blog , tags: blog.tags , title : blog.title }),
+                      {},
+                      `${Date.now()}`
+                    );
                     processedBlog = JSON.parse(processedBlog.response.data.content);
                     return {
                         updateOne: {
                             filter: { id: blog.id },
-                            update: { $set: { 'blog': processedBlog.blog } }
+                            update: { 
+                              $set: { 
+                                'blog': processedBlog.blog ,
+                                'title' : processedBlog.title ,
+                                'tags' : processedBlog.tags
+                              }
+                            }
                         }
                     };
                 }catch(err){
