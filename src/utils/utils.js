@@ -80,11 +80,13 @@ export const handleSignIn = async () => {
     window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
 };
 
-export const  ValidateAiResponse = (response ,schema) => {
+export const  ValidateAiResponse = (response ,schema, bridgeId, chatId) => {
     const { error, value: validatedResponse } = schema.validate(response);
     if (error) {
         sendMessageTochannel({
         message: `"Validation error: " ${error.details[0].message}`,
+        bridgeId:bridgeId,
+        chatId:chatId,
         [error.details[0].path[0]]: response[error.details[0].path[0]],
       });
       return { message: response.message };

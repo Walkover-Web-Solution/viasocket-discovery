@@ -14,10 +14,10 @@ export default async function handler(req, res) {
                     try{
                     let aiResponse = await askAi(
                       process.env.IMPROVE_BRIDGE,
-                      JSON.stringify({ blog : blog.blog , tags: blog.tags })
+                      JSON.stringify({ blog : blog.blog })
                     );
                     aiResponse = JSON.parse(aiResponse.response.data.content);
-                    const processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema);
+                    const processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema,process.env.IMPROVE_BRIDGE);
                     await distinctifyPhrase(processedBlog, environment);
                     return {
                         updateOne: {
@@ -26,7 +26,6 @@ export default async function handler(req, res) {
                               $set: { 
                                 'blog': processedBlog.blog ,
                                 'title' : processedBlog.blog.find(section => section.section === 'title').content,
-                                'tags' : processedBlog.tags
                               }
                             }
                         }

@@ -19,7 +19,7 @@ export const createBlogSchema = Joi.object({
 
 export const searchResultsSchema = Joi.object({
   message: Joi.string().required(),
-  urls: Joi.array().items(urlSchema).required(),
+  urls: Joi.array().items(urlSchema).optional(),
 });
 
 export const updateBlogSchema = Joi.object({
@@ -30,7 +30,7 @@ export const updateBlogSchema = Joi.object({
     blog: Joi.array().items(Joi.object()).required(),
     meta: Joi.object().required(),
   }).required(),
-  shouldCreate: Joi.string().valid("Yes", "No").required(),
+  shouldCreate: Joi.string().valid("Yes", "No").insensitive().required(),
   urls: Joi.array().items(urlSchema).optional(),
 });
 
@@ -40,5 +40,11 @@ export const improveBlogSchema = Joi.object({
     content: Joi.string().required(),
     section: Joi.string().required(),
   }).required(),
-  blog: Joi.array().items(Joi.object()).required(),
+  blog: Joi.array().items(
+    Joi.object({
+      section: Joi.string().required(),
+      content: Joi.any().required(),
+      heading: Joi.string().optional()  
+    })
+  ).required(),
 });
