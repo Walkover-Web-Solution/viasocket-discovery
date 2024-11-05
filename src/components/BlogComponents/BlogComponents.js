@@ -1,4 +1,4 @@
-import { dummyMarkdown } from '@/utils/utils';
+import { dummyMarkdown, nameToSlugName } from '@/utils/utils';
 import { Avatar, List, ListItem } from '@mui/material';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -28,7 +28,7 @@ const Components = {
                 <List className={styles.list}>
                     {content.map((app, idx) => {
                         const appName = app.name.toLowerCase();
-                        const appSlugName = app.name.toLowerCase().replace(/[\s/()]+/g, '-');
+                        const appSlugName = nameToSlugName(app.name);
                         const appData = integrations?.[appName]?.plugins[appSlugName];
                         return (
                             <ListItem className = {styles.listItem} key = {idx}>
@@ -66,7 +66,7 @@ const Components = {
                             <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                 {app.content}
                             </ReactMarkdown>
-                            <Integrations integrations = {integrations?.[app.name.toLowerCase()]} />
+                            <Integrations integrations = {integrations?.[app.name.toLowerCase()]} appslugname = {nameToSlugName(app.name)}/>
                         </ListItem>
                     ))}
                 </List>

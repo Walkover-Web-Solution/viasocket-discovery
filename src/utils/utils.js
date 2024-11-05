@@ -56,7 +56,7 @@ export async function askAi(bridgeId, userMessage, variables, chatId) {
             body: JSON.stringify({
             user: userMessage,
             bridge_id: bridgeId,
-            thread_id: chatId + "",
+            thread_id: chatId ? chatId + "" : undefined,
             variables: variables
             }),
         }
@@ -91,3 +91,7 @@ export const  ValidateAiResponse = (response ,schema) => {
     }
     return validatedResponse;
   }
+
+export function nameToSlugName(name){
+    return name.toLowerCase().replace(/[\s/()]+/g, '-');
+}

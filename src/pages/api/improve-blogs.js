@@ -1,4 +1,4 @@
-import { askAi, ValidateAiResponse } from "@/utils/utils";
+import { askAi, ValidateAiResponse, dispatchAskAiEvent } from "@/utils/utils";
 import blogServices from "../../services/blogServices"
 import { improveBlogSchema } from "@/utils/schema";
 
@@ -14,18 +14,18 @@ export default async function handler(req, res) {
                     try{
                     let aiResponse = await askAi(
                       process.env.IMPROVE_BRIDGE,
-                      JSON.stringify({ blog : blog.blog , tags: blog.tags , title : blog.title }),
-                      {},"some"
+                      JSON.stringify({ blog : blog.blog , tags: blog.tags })
                     );
                     aiResponse = JSON.parse(aiResponse.response.data.content);
                     const processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema);
+                    await distinctifyPhrase(processedBlog, environment);
                     return {
                         updateOne: {
                             filter: { id: blog.id },
                             update: { 
                               $set: { 
                                 'blog': processedBlog.blog ,
-                                'title' : processedBlog.title ,
+                                'title' : processedBlog.blog.find(section => section.section === 'title').content,
                                 'tags' : processedBlog.tags
                               }
                             }
@@ -47,5 +47,16 @@ export default async function handler(req, res) {
         default:
             // Handle unsupported request methods
             return res.status(405).json({ success: false, message: 'Method not allowed' });
+    }
+}
+
+async function distinctifyPhrase(processedBlog, environment) {
+    if(processedBlog?.phrase){
+        const existingBlogs = await blogServices.searchBlogsByQuery(processedBlog.phrase.content, environment);
+        if(existingBlogs.length <= 5) return;
+        console.log("Changing phrase Working...");
+        const phraseSection = processedBlog.blog.find(section => section.section === processedBlog.phrase.section);
+        const response = await askAi(process.env.DISTINCTIFY_PHRASE_BRIDGE, phraseSection.content, {phrase: processedBlog.phrase.content})
+        phraseSection.content = response.response.data.content;
     }
 }
