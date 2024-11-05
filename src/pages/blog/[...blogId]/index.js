@@ -21,13 +21,10 @@ import { getCurrentEnvironment } from '@/utils/storageHelper';
 
 
 export async function getServerSideProps(context) {
-  console.time("request");
-  console.timeStamp("testing");
   const { blogId } = context.params;
   const props = {};
   try {
     const blog = await blogServices.getBlogById(blogId[0],getCurrentEnvironment());
-    console.time("getUserById");
     let users = await Promise.all(blog?.createdBy.map(async (userId) => {
     try {
       return await getUserById(userId);
@@ -37,14 +34,11 @@ export async function getServerSideProps(context) {
     }));
     users = users.filter(user => user != null);
 
-    console.timeEnd("getUserById");
     props.blog = blog;
     props.users = users;
   } catch (error) {
     console.error('Error fetching blog data:', error); // Return an empty object if there's an error
   }
-  console.timeEnd("request");
-  console.timeStamp("testing1");
   return { props };
 }
 

@@ -24,7 +24,7 @@ export default async function handler(req, res) {
                             update: { 
                               $set: { 
                                 'blog': processedBlog.blog ,
-                                'title' : processedBlog.title ,
+                                'title' : processedBlog.title,
                                 'tags' : processedBlog.tags
                               }
                             }
