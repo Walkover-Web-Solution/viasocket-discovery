@@ -1,4 +1,5 @@
 import { customAlphabet } from 'nanoid';
+import { getCurrentEnvironment, setPathInLocalStorage } from './storageHelper';
 export const dummyMarkdown = `# Welcome to App Discovery: Unleash the Power of AI-Driven Software Discovery!
 
 ## Discover Tailored Solutions Just for You
@@ -63,9 +64,9 @@ export async function askAi(bridgeId, userMessage, variables, chatId) {
     return await response.json()
 }
 
-export const sendMessageTochannel = (message) => {
+export const sendMessageTochannel = async (message) => {
     try {
-      fetch("https://flow.sokt.io/func/scriTdhvDTJK",{
+      await fetch("https://flow.sokt.io/func/scriTdhvDTJK",{
         method:'POST',
         body:JSON.stringify(message)
       })
@@ -73,3 +74,8 @@ export const sendMessageTochannel = (message) => {
       console.log("error sending alerts to channel ", error);
     }
 }
+
+export const handleSignIn = async () => {
+    setPathInLocalStorage()
+    window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
+};

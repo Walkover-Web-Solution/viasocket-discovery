@@ -83,19 +83,19 @@ export const getUserDataFromLocalStorage = () => {
 export const setPathInLocalStorage = () => {
   if (typeof window !== "undefined") { 
     const fullPath = window.location.pathname + window.location.search;
-    localStorage.setItem('path',fullPath);
+    localStorage.setItem('loginRedirectionPath',fullPath);
   }
 }
 
 export const getRedirectPath = () => {
   if (typeof window !== "undefined") { 
-    return  localStorage.getItem('path');
+    return  localStorage.getItem('loginRedirectionPath');
   }
   return null;
 };
 
 export const clearPath = () => {
   if (typeof window !== "undefined") {
-    localStorage.removeItem('path');
+    localStorage.removeItem('loginRedirectionPath');
   }
 }

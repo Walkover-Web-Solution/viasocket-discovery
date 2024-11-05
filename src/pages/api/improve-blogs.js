@@ -14,8 +14,6 @@ export default async function handler(req, res) {
                     let processedBlog = await askAi(
                       process.env.IMPROVE_BRIDGE,
                       JSON.stringify({ blog : blog.blog , tags: blog.tags , title : blog.title }),
-                      {},
-                      `${Date.now()}`
                     );
                     processedBlog = JSON.parse(processedBlog.response.data.content);
                     return {
