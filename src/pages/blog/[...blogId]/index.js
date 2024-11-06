@@ -8,13 +8,12 @@ import { useRouter } from 'next/router';
 import Search from '@/components/Search/Search';
 import Chatbot from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
-import { safeParse } from '@/pages/edit/[chatId]';
 import Popup from '@/components/PopupModel/PopupModel';
 import { toast } from 'react-toastify';
 import { compareBlogs } from '@/utils/apis/chatbotapis';
 import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 import { useUser } from '@/context/UserContext';
-import { dispatchAskAiEvent } from '@/utils/utils';
+import { dispatchAskAiEvent, safeParse } from '@/utils/utils';
 import { getReletedblogs } from '@/utils/apis/blogApis';
 import BlogCard from '@/components/Blog/Blog';
 import { getCurrentEnvironment } from '@/utils/storageHelper';
@@ -110,12 +109,12 @@ export default function BlogPage({ blog, users}) {
     if(!currentUser?.id) return ;
     (async () => {
       const chatHistoryData = await getAllPreviousMessages(`${blog.id}${currentUser?.id}`, process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE);
-      const prevMessages = chatHistoryData.data
+      let prevMessages = chatHistoryData.data
       .filter((chat) => chat.role === "user" || chat.role === "assistant")
       .map((chat) => ({
         role: chat.role,
         content:
-          chat.role === "user" ? chat.content : safeParse(chat.content),
+          chat.role === "user" ? chat.content : safeParse(chat.content,process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE,`${blog.id}${currentUser?.id}`),
       }));
       setMessages(prevMessages);
     })();

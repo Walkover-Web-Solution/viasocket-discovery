@@ -16,8 +16,9 @@ export default async function handler(req, res) {
                       process.env.IMPROVE_BRIDGE,
                       JSON.stringify({ blog : blog.blog })
                     );
+                    const message_id = aiResponse.response.data.message_id;
                     aiResponse = JSON.parse(aiResponse.response.data.content);
-                    const processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema,process.env.IMPROVE_BRIDGE);
+                    const processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema,process.env.IMPROVE_BRIDGE,message_id,true);
                     await distinctifyPhrase(processedBlog, environment);
                     return {
                         updateOne: {

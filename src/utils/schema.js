@@ -12,7 +12,7 @@ export const createBlogSchema = Joi.object({
   blog: Joi.object({
     blogData: Joi.array().items(Joi.object()).required(),
     tags: Joi.array().items(Joi.string()).required(),
-    meta: Joi.object().required(),
+    meta: Joi.object().optional(),
   }).required(),
   urls: Joi.array().items(urlSchema).optional(),
 });
@@ -28,9 +28,9 @@ export const updateBlogSchema = Joi.object({
     title: Joi.string().required(),
     tags: Joi.array().items(Joi.string()).required(),
     blog: Joi.array().items(Joi.object()).required(),
-    meta: Joi.object().required(),
-  }).required(),
-  shouldCreate: Joi.string().valid("Yes", "No").insensitive().required(),
+    meta: Joi.object().optional(),
+  }).optional(),
+  shouldCreate: Joi.string().valid("Yes", "No").insensitive().optional(),
   urls: Joi.array().items(urlSchema).optional(),
 });
 
