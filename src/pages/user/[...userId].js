@@ -4,6 +4,8 @@ import styles from './UserPage.module.css';
 import BlogCard from "@/components/Blog/Blog";
 import { useEffect, useState } from "react";
 import { fetchBlogs } from "@/utils/apis/blogApis";
+import { useRouter } from "next/router";
+import { formateTitle } from "@/utils/utils";
 
 export async function getServerSideProps(context) {
   const { userId } = context.params;
@@ -21,8 +23,20 @@ export async function getServerSideProps(context) {
 }
 
 export default function UserPage({ user }) {
+  const router = useRouter();
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    if (user) {
+      router.replace(
+        {
+          pathname: `/user/${user.id}/${formateTitle(user.name)}`,
+        },
+        undefined,
+        { shallow: true } // Keeps the page from reloading
+      );
+    }
+  }, [user?.id]);
   useEffect(()=>{
     const fetchData = async ()=>{
       const data = await fetchBlogs(`?userId=${user.id}`);

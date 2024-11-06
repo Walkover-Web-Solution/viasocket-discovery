@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import { compareBlogs } from '@/utils/apis/chatbotapis';
 import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 import { useUser } from '@/context/UserContext';
-import { dispatchAskAiEvent } from '@/utils/utils';
+import { dispatchAskAiEvent, formateTitle } from '@/utils/utils';
 import { getReletedblogs } from '@/utils/apis/blogApis';
 import BlogCard from '@/components/Blog/Blog';
 import { getCurrentEnvironment } from '@/utils/storageHelper';
@@ -71,9 +71,7 @@ export default function BlogPage({ blog, users}) {
     setSearchQuery('');
   }
 
-  const formateTitle = (title) => {
-    return title?.toLowerCase().replace(/\s+/g, '-');
-  };
+ 
 
   useEffect(() => {
     if (blog) {
@@ -125,8 +123,12 @@ export default function BlogPage({ blog, users}) {
     const lastMessage = messages[messages.length - 1];
     if(lastMessage?.role == 'assistant'){
       const content = lastMessage.content;
-      if(content?.blog)
+      if(content?.blog){
         setBlogData(content.blog);
+        if( !users.find((user) => user.id === currentUser.id)) {
+          users.push({ id : currentUser.id , name : currentUser.name })
+        }
+      }
     }
   }, [messages])
   useEffect(()=>{
