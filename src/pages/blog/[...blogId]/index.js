@@ -79,7 +79,7 @@ export default function BlogPage({ blog, users}) {
     if (blog) {
       router.replace(
         {
-          pathname: `/blog/${blog.id}/${formateTitle(blog.slugName)}`,
+          pathname: `/blog/${blog.id}/${formateTitle(blog?.meta?.category || '')}/${formateTitle(blog.slugName)}`,
         },
         undefined,
         { shallow: true } // Keeps the page from reloading
