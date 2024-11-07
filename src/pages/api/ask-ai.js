@@ -1,6 +1,6 @@
-import { askAi } from '@/utils/utils';
-import fetch from 'node-fetch';
+import { askAi, ValidateAiResponse } from '@/utils/utils';
 import blogServices from "../../services/blogServices"
+import { createBlogSchema, searchResultsSchema, updateBlogSchema } from '@/utils/schema';
 
 export const config = {
   maxDuration: 30,
@@ -29,11 +29,16 @@ export default async function handler(req, res) {
                     region : region,
                     city : city,
                  }, chatId)
-                const botResponse = JSON.parse(data.response.data.content);
+                const message_id = data.response.data.message_id;
+                const parsedContent = JSON.parse(data.response.data.content);
+                let botResponse = {};
                 if(bridgeId == process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
+                    botResponse =  ValidateAiResponse(parsedContent,updateBlogSchema,bridgeId,message_id,true,chatId);
                     var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
                     var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate).catch(err => console.log('Error updating blog', err));
                 }else if(bridgeId == process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
+                    if(parsedContent.blog) botResponse = ValidateAiResponse(parsedContent , createBlogSchema, bridgeId,message_id,true,chatId);
+                    else botResponse = ValidateAiResponse(parsedContent, searchResultsSchema, bridgeId,message_id,true,chatId);
                     if(botResponse.blog){
                        if( typeof botResponse.blog !== 'object' ) botResponse.blog = JSON.parse(botResponse.blog)
                         const blogCreated = await createBlog(botResponse, environment, userId);
@@ -76,3 +81,4 @@ async function createBlog(botResponse, environment, userId){
         title: blog.blogData.find(section => section.section === 'title').content
     }, environment);
 }
+

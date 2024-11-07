@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import styles from './Chatbot.module.css';
 import { Tooltip } from '@mui/material';
 import { sendMessageApi } from '@/utils/apis/chatbotapis';
-import { safeParse } from '@/pages/edit/[chatId]';
 import Components from '@/components/ChatBotComponents/ChatBotComponents';
 import BlogCard from '../Blog/Blog';
 import { useRouter } from 'next/router';
