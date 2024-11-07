@@ -116,8 +116,8 @@ const searchBlogsByTag = (tag, environment) => {
 };
 
 const searchBlogsByTags = async (tagList , id ,category ,environment) => {
-  return withBlogModel(environment, (Blog) => {
-    const results = Blog.aggregate([
+  return withBlogModel(environment, async(Blog) => {
+    const results = JSON.parse(JSON.stringify(await Blog.aggregate([
       {
         $match: {
           $and: [
@@ -160,7 +160,7 @@ const searchBlogsByTags = async (tagList , id ,category ,environment) => {
         $project: {
           apps: 1, title: 1, id: 1
       }}
-    ]);
+    ])));
 
     return results;
   });

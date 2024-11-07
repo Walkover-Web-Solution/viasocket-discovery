@@ -26,6 +26,7 @@ export async function getServerSideProps(context) {
   const props = {};
   try {
     const blog = await blogServices.getBlogById(blogId[0],getCurrentEnvironment());
+    const relatedBlogs = await blogServices.searchBlogsByTags(blog.tags, blogId[0], blog?.meta?.category, getCurrentEnvironment());
     console.time("getUserById");
     let users = await Promise.all(blog?.createdBy.map(async (userId) => {
     try {
@@ -39,6 +40,7 @@ export async function getServerSideProps(context) {
     console.timeEnd("getUserById");
     props.blog = blog;
     props.users = users;
+    props.relatedBlogs = relatedBlogs;
   } catch (error) {
     console.error('Error fetching blog data:', error); // Return an empty object if there's an error
   }
@@ -47,7 +49,7 @@ export async function getServerSideProps(context) {
   return { props };
 }
 
-export default function BlogPage({ blog, users}) {
+export default function BlogPage({ blog, users, relatedBlogs}) {
   const [blogData, setBlogData] = useState(blog);
   const [oldBlog,setOldBlog]=useState('');
   const [integrations, setIntegrations] = useState(null);
@@ -56,7 +58,6 @@ export default function BlogPage({ blog, users}) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [isPopupOpen, setIsPopUpOpen] = useState(false);
-  const [relatedBlogs, setRelatedBlogs] = useState([]);
   const currentUser = useUser().user;
   const blogDataToSend = { 
     title: blogData?.title,
@@ -85,14 +86,6 @@ export default function BlogPage({ blog, users}) {
       );
     }
   }, [blog?.id]);
-  useEffect(() => {
-    const fetchRelatedBlogs = async () => {
-      if (!blogData?.tags) return;
-      const blogs = await getReletedblogs( blogData?.id );
-      setRelatedBlogs(blogs);
-    }
-    fetchRelatedBlogs();
-  }, [])
 
   useEffect(() => {
     const getData = async (apps) => {
