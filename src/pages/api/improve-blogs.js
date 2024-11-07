@@ -1,5 +1,6 @@
-import { askAi, dispatchAskAiEvent } from "@/utils/utils";
+import { askAi, ValidateAiResponse, dispatchAskAiEvent } from "@/utils/utils";
 import blogServices from "../../services/blogServices"
+import { improveBlogSchema } from "@/utils/schema";
 
 
 export default async function handler(req, res) {
@@ -11,11 +12,13 @@ export default async function handler(req, res) {
                 const blogs = await blogServices.getLastHourBlogs(environment);
                 const bulkOperations = await Promise.all(blogs.map(async (blog) => {
                     try{
-                    let processedBlog = await askAi(
+                    let aiResponse = await askAi(
                       process.env.IMPROVE_BRIDGE,
-                      JSON.stringify({ blog : blog.blog , tags: blog.tags })
+                      JSON.stringify({ blog : blog.blog })
                     );
-                    processedBlog = JSON.parse(processedBlog.response.data.content);
+                    const message_id = aiResponse.response.data.message_id;
+                    aiResponse = JSON.parse(aiResponse.response.data.content);
+                    const processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema,process.env.IMPROVE_BRIDGE,message_id,true);
                     await distinctifyPhrase(processedBlog, environment);
                     return {
                         updateOne: {
@@ -24,7 +27,6 @@ export default async function handler(req, res) {
                               $set: { 
                                 'blog': processedBlog.blog ,
                                 'title' : processedBlog.blog.find(section => section.section === 'title').content,
-                                'tags' : processedBlog.tags
                               }
                             }
                         }

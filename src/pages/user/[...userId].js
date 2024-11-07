@@ -5,7 +5,7 @@ import BlogCard from "@/components/Blog/Blog";
 import { useEffect, useState } from "react";
 import { fetchBlogs } from "@/utils/apis/blogApis";
 import { useRouter } from "next/router";
-import { formateTitle } from "@/utils/utils";
+import { nameToSlugName } from "@/utils/utils";
 
 export async function getServerSideProps(context) {
   const { userId } = context.params;
@@ -30,7 +30,7 @@ export default function UserPage({ user }) {
     if (user) {
       router.replace(
         {
-          pathname: `/user/${user.id}/${formateTitle(user.name)}`,
+          pathname: `/user/${user.id}/${nameToSlugName(user.name)}`,
         },
         undefined,
         { shallow: true } // Keeps the page from reloading
