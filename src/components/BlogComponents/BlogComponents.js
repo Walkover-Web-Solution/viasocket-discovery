@@ -1,28 +1,19 @@
-import { dummyMarkdown } from '@/utils/utils';
+import { dummyMarkdown, nameToSlugName } from '@/utils/utils';
 import { Avatar, List, ListItem } from '@mui/material';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import styles from './BlogComponents.module.scss'
 import Integrations from '../Integrations/Integrations';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import ContributorsPopup from '../ContributersPopup/ContributersPopup';
 
 const Components = {
-    title: ({content, user, createdAt}) => (
+    title: ({content, users, createdAt}) => (
         <div className={styles.titleDiv}>
             <ReactMarkdown className = {styles.title} remarkPlugins={[remarkGfm]}>
                 {content}
             </ReactMarkdown>
-            <div className = {styles.author}>
-                <Avatar className = {styles.avatar}>{user?.name.charAt(0).toUpperCase()}</Avatar>
-                <span><strong>{user?.name}</strong></span>
-                {createdAt && <><FiberManualRecordIcon className = {styles.dot}/>
-                <span>{new Date(createdAt).toLocaleDateString('en-GB', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric',
-                })}</span></>}
-            </div>
+            <ContributorsPopup users={users} createdAt={createdAt}/>
         </div>
     ), 
     introduction : ({content}) => (
@@ -37,7 +28,7 @@ const Components = {
                 <List className={styles.list}>
                     {content.map((app, idx) => {
                         const appName = app.name.toLowerCase();
-                        const appSlugName = app.name.toLowerCase().replace(/[\s/()]+/g, '-');
+                        const appSlugName = nameToSlugName(app.name);
                         const appData = integrations?.[appName]?.plugins[appSlugName];
                         return (
                             <ListItem className = {styles.listItem} key = {idx}>
@@ -75,7 +66,7 @@ const Components = {
                             <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                 {app.content}
                             </ReactMarkdown>
-                            <Integrations integrations = {integrations?.[app.name.toLowerCase()]} />
+                            <Integrations integrations = {integrations?.[app.name.toLowerCase()]} appslugname = {nameToSlugName(app.name)}/>
                         </ListItem>
                     ))}
                 </List>
@@ -94,6 +85,14 @@ const Components = {
         <ReactMarkdown className = {styles.dummyMarkdown} remarkPlugins={[remarkGfm]}>
             {dummyMarkdown}
         </ReactMarkdown>
+    ),
+    additionalSection: ({content, heading}) => (
+        <div className = {styles.conclusion}>
+            <h4>{heading}</h4>
+            <ReactMarkdown className = {styles.content} remarkPlugins={[remarkGfm]}>
+                {content}
+            </ReactMarkdown>
+        </div>
     )
 }
 

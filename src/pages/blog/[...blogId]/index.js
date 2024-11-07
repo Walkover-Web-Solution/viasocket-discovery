@@ -8,13 +8,12 @@ import { useRouter } from 'next/router';
 import Search from '@/components/Search/Search';
 import Chatbot from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
-import { safeParse } from '@/pages/edit/[chatId]';
 import Popup from '@/components/PopupModel/PopupModel';
 import { toast } from 'react-toastify';
 import { compareBlogs } from '@/utils/apis/chatbotapis';
 import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 import { useUser } from '@/context/UserContext';
-import { dispatchAskAiEvent } from '@/utils/utils';
+import { dispatchAskAiEvent, safeParse } from '@/utils/utils';
 import { getReletedblogs } from '@/utils/apis/blogApis';
 import BlogCard from '@/components/Blog/Blog';
 import { getCurrentEnvironment } from '@/utils/storageHelper';
@@ -28,10 +27,18 @@ export async function getServerSideProps(context) {
   try {
     const blog = await blogServices.getBlogById(blogId[0],getCurrentEnvironment());
     console.time("getUserById");
-    const user = await getUserById(blog?.createdBy);
+    let users = await Promise.all(blog?.createdBy.map(async (userId) => {
+    try {
+      return await getUserById(userId);
+      } catch (error) {
+        return null;
+      }
+    }));
+    users = users.filter(user => user != null);
+
     console.timeEnd("getUserById");
     props.blog = blog;
-    props.user = user;
+    props.users = users;
   } catch (error) {
     console.error('Error fetching blog data:', error); // Return an empty object if there's an error
   }
@@ -40,7 +47,7 @@ export async function getServerSideProps(context) {
   return { props };
 }
 
-export default function BlogPage({ blog, user}) {
+export default function BlogPage({ blog, users}) {
   const [blogData, setBlogData] = useState(blog);
   const [oldBlog,setOldBlog]=useState('');
   const [integrations, setIntegrations] = useState(null);
@@ -71,7 +78,7 @@ export default function BlogPage({ blog, user}) {
     if (blog) {
       router.replace(
         {
-          pathname: `/blog/${blog.id}/${formateTitle(blog.slugName)}`,
+          pathname: `/blog/${blog.id}/${formateTitle(blog?.meta?.category || '')}/${formateTitle(blog.slugName)}`,
         },
         undefined,
         { shallow: true } // Keeps the page from reloading
@@ -102,12 +109,12 @@ export default function BlogPage({ blog, user}) {
     if(!currentUser?.id) return ;
     (async () => {
       const chatHistoryData = await getAllPreviousMessages(`${blog.id}${currentUser?.id}`, process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE);
-      const prevMessages = chatHistoryData.data
+      let prevMessages = chatHistoryData.data
       .filter((chat) => chat.role === "user" || chat.role === "assistant")
       .map((chat) => ({
         role: chat.role,
         content:
-          chat.role === "user" ? chat.content : safeParse(chat.content),
+          chat.role === "user" ? chat.content : safeParse(chat.content,process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE,`${blog.id}${currentUser?.id}`),
       }));
       setMessages(prevMessages);
     })();
@@ -173,7 +180,7 @@ export default function BlogPage({ blog, user}) {
   return (
     <div>
       <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
-        <AIresponse blogData={blogData} user={user} integrations={integrations} />
+        <AIresponse blogData={blogData} users={users} integrations={integrations} />
         {
           relatedBlogs?.length > 0 && (
             <div className={styles.relatedBlogsDiv}>

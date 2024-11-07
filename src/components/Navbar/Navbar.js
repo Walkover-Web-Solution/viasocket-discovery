@@ -1,3 +1,4 @@
+// depreciated 
 
 import { useEffect, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
@@ -5,7 +6,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import styles from "@/components/Navbar/Navbar.module.css";
 import UserDetail from '../UserDetailPopup/UserDetailPopup';
 import { useUser } from '@/context/UserContext';
-import { getCurrentEnvironment } from '@/utils/storageHelper';
+import { handleSignIn } from '@/utils/utils';
 
 export default function Navbar() {
     const { user } = useUser();
@@ -20,9 +21,6 @@ export default function Navbar() {
         setShowUserInfo(!showUserInfo);
     };
 
-    const handleSignIn = async () => {
-        window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
-    };
 
     return (
         <nav className={styles.navbar}>

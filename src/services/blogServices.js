@@ -52,10 +52,22 @@ const getBlogById = (blogId, environment) => {
   });
 };
 
-const updateBlogById = (blogId, blogData, environment) => {
+const updateBlogById = (blogId, blogData, userId, environment) => {
   return withBlogModel(environment, async (Blog) => {
     const apps = await getUpdatedApps(blogData, environment);
-    return Blog.findOneAndUpdate({ "id": blogId }, { ...blogData, updatedAt: Date.now(), apps }).lean();
+    const updateData = {
+      ...blogData,
+      updatedAt: Date.now(),
+      apps,
+      $addToSet: { createdBy: userId },
+    };
+
+    return Blog.findOneAndUpdate(
+      { "id": blogId },
+      updateData,
+      { new: true } 
+    ).lean();
+
   });
 };
 
@@ -196,5 +208,39 @@ const updateBlogsTags = async (blogsTagsToUpdate, environment) => {
     }
   })
 }
+const searchBlogsByUserId = async ( userId, environment ) => {
+  return withBlogModel(environment, (Blog)=>{
+    return Blog.find({ createdBy: parseInt(userId) })
+  })
+}
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags, updateBlogsTags, searchBlogsByTag };
+const getLastHourBlogs = async (environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    const oneHourAgo = new Date();
+    oneHourAgo.setHours(oneHourAgo.getHours() - 1); 
+
+    const blogs = await Blog.find({
+      createdAt: { $gte: oneHourAgo } 
+    });
+
+    return blogs;
+  });
+};
+
+const bulkUpdateBlogs = async (bulkOperations, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+      const result = await Blog.bulkWrite(bulkOperations);
+      return result;
+  });
+};
+
+const blogWithApps = async (apps, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    return await Blog.find({
+      $and: apps.map(appName => ({[`apps.${appName}`] : {$exists: true}}))
+    }, 
+    {_id : 0, id: 1, title: 1, apps: 1, tags: 1})
+  })
+}
+
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps };

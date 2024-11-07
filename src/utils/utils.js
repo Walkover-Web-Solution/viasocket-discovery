@@ -1,4 +1,6 @@
 import { customAlphabet } from 'nanoid';
+import { getCurrentEnvironment, setPathInLocalStorage } from './storageHelper';
+import { createBlogSchema, searchResultsSchema, updateBlogSchema } from './schema';
 export const dummyMarkdown = `# Welcome to App Discovery: Unleash the Power of AI-Driven Software Discovery!
 
 ## Discover Tailored Solutions Just for You
@@ -55,10 +57,64 @@ export async function askAi(bridgeId, userMessage, variables, chatId) {
             body: JSON.stringify({
             user: userMessage,
             bridge_id: bridgeId,
-            thread_id: chatId + "",
+            thread_id: chatId ? chatId + "" : undefined,
             variables: variables
             }),
         }
     );
     return await response.json()
+}
+
+export const sendMessageTochannel = async (message) => {
+    try {
+      await fetch("https://flow.sokt.io/func/scri19UK6620",{
+        method:'POST',
+        body:JSON.stringify(message)
+      })
+    } catch (error) {
+      console.log("error sending alerts to channel ", error);
+    }
+}
+
+export const handleSignIn = async () => {
+    setPathInLocalStorage()
+    window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
+};
+
+export const  ValidateAiResponse = (response ,schema, bridgeId, message_id,sendAlert,thread_id) => {
+    const { error, value: validatedResponse } = schema.validate(response);
+    if (error) {
+       if(sendAlert === true){ 
+          sendMessageTochannel({
+          message: `"Validation error: " ${error.details[0].message}`,
+          bridgeId:bridgeId,
+          message_id:message_id,
+          link : `https://ai.walkover.in/org/7488/bridges/history/${bridgeId}?thread_id=${thread_id}`,
+          thread_id:thread_id,
+      });
+    }
+      return { message: response.message };
+    }
+    return validatedResponse;
+  }
+
+export function nameToSlugName(name){
+    return name.toLowerCase().replace(/[\s/()]+/g, '-');
+}
+
+export function safeParse(json,bridgeId,threadId){
+  try {
+    let data = JSON.parse(json);
+    if(bridgeId === process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
+      data =  ValidateAiResponse(data,updateBlogSchema,bridgeId,threadId,false);
+    }else if(bridgeId == process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
+      if(data.blog) data = ValidateAiResponse(data , createBlogSchema, bridgeId, threadId,false);
+      else data = ValidateAiResponse(data, searchResultsSchema, bridgeId, threadId,false);
+    }
+    return data;
+  }
+  catch (e){
+    console.log(e)
+    return { message : json };
+  }
 }

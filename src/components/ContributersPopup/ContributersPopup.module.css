@@ -1,0 +1,81 @@
+.contributorsContainer {
+    display: flex;
+    align-items: center;
+}
+.userAVA{
+    display: flex;
+    align-items: center;
+}
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+.avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.contributorsText {
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+.popup {
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 161px;
+    overflow: auto;
+    z-index: 10;
+    animation: popIn 0.5s linear  forwards; 
+}
+
+.popupItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.popupItem:last-child {
+    margin-bottom: 0;
+}
+
+.avatarPopup {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+}
+
+.userName{
+    margin-left: 10px;
+
+}
+
+.dot{
+    width: 10px;
+    margin-left: 15px  ;
+    margin-right: 10px  ;
+}
+
+.popup::-webkit-scrollbar {
+    width: 3px; 
+}
+
+.popup::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); 
+    border-radius: 4px;
+}
+
+.popup::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.4); 
+}
+
+.popup::-webkit-scrollbar-track {
+    background-color: transparent; 
+}

@@ -8,17 +8,13 @@ export default async function handler(req, res) {
   const environment = req.headers['env'];
   let user = null;
   if (profileHeader) {
-    try {
       user = JSON.parse(profileHeader);
-    } catch (error) {
-      console.error('Error parsing profile from headers:', error);
-    }
   }
 
   switch (method) {
     case 'GET':
       try {
-        const { search } = req.query;
+        let { search, userId, apps } = req.query;
         let blogs;
         let tags ;
         if (search) {
@@ -28,6 +24,11 @@ export default async function handler(req, res) {
             tags = (await searchTags(search))[0]?.matchingTags
             blogs = await blogServices.searchBlogsByQuery(search,environment);
           }
+        }else if(apps){
+          apps = Array.isArray(apps) ? apps: [apps];
+          blogs = await blogServices.blogWithApps(apps, environment);
+        }else if (userId){
+          blogs = await blogServices.searchBlogsByUserId(userId,environment); 
         } else blogs = await blogServices.getAllBlogs(user?.id || '',environment);
          res.status(200).json({ success: true, data: {blogs ,tags} });
       } catch (error) {

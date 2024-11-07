@@ -1,12 +1,10 @@
 import React from "react";
 import styles from "@/components/UnauthorisedPopup/UnauthorisedPopup.module.css"
-import { getCurrentEnvironment } from "@/utils/storageHelper";
+import { handleSignIn } from "@/utils/utils";
 
 const UnauthorizedPopup = ({ isOpen, onClose }) => {
 
-  const handleLoginRedirect = () => {
-    window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
-  };
+
 
   if (!isOpen) {
     return (null);
@@ -22,7 +20,7 @@ const UnauthorizedPopup = ({ isOpen, onClose }) => {
         </div>
         <div className={styles.body}>
           <p>You need to log in to perform this action.</p>
-          <button className={styles.authButton} onClick={handleLoginRedirect}>
+          <button className={styles.authButton} onClick={handleSignIn}>
             Login
           </button>
         </div>
