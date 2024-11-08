@@ -14,7 +14,6 @@ import { compareBlogs } from '@/utils/apis/chatbotapis';
 import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 import { useUser } from '@/context/UserContext';
 import { dispatchAskAiEvent, safeParse } from '@/utils/utils';
-import { getReletedblogs } from '@/utils/apis/blogApis';
 import BlogCard from '@/components/Blog/Blog';
 import { getCurrentEnvironment } from '@/utils/storageHelper';
 
@@ -26,21 +25,32 @@ export async function getServerSideProps(context) {
   const props = {};
   try {
     const blog = await blogServices.getBlogById(blogId[0],getCurrentEnvironment());
-    const relatedBlogs = await blogServices.searchBlogsByTags(blog.tags, blogId[0], blog?.meta?.category, getCurrentEnvironment());
-    console.time("getUserById");
-    let users = await Promise.all(blog?.createdBy.map(async (userId) => {
-    try {
-      return await getUserById(userId);
-      } catch (error) {
-        return null;
+    if (!blog) {
+      return {
+        notFound : true
       }
-    }));
-    users = users.filter(user => user != null);
+    }
+    const relatedBlogsPromise = blogServices.searchBlogsByTags(blog.tags, blogId[0], blog?.meta?.category, getCurrentEnvironment());
+    const appKeys = Object.keys(blog.apps);
+    const appBlogsPromise = Promise.all(
+      appKeys.map(app => blogServices.searchBlogsByApp(app,blogId[0], getCurrentEnvironment()))
+    );
+    const usersPromise = Promise.all(
+      blog?.createdBy.map(async (userId) => {
+        try {
+          return await getUserById(userId);
+        } catch (error) {
+          console.error(`Error fetching user data for userId: ${userId}`, error);
+          return null;
+        }
+      }));
+    const [relatedBlogs, appBlogs, users] = await Promise.all([relatedBlogsPromise, appBlogsPromise, usersPromise]);
+    const filteredUsers = users.filter(user => user !== null);
 
-    console.timeEnd("getUserById");
     props.blog = blog;
-    props.users = users;
+    props.users = filteredUsers;
     props.relatedBlogs = relatedBlogs;
+    props.appBlogs = appBlogs;
   } catch (error) {
     console.error('Error fetching blog data:', error); // Return an empty object if there's an error
   }
@@ -49,7 +59,7 @@ export async function getServerSideProps(context) {
   return { props };
 }
 
-export default function BlogPage({ blog, users, relatedBlogs}) {
+export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
   const [blogData, setBlogData] = useState(blog);
   const [oldBlog,setOldBlog]=useState('');
   const [integrations, setIntegrations] = useState(null);
@@ -173,13 +183,12 @@ export default function BlogPage({ blog, users, relatedBlogs}) {
   return (
     <div>
       <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
-        <AIresponse blogData={blogData} users={users} integrations={integrations} />
+        <AIresponse blogData={blogData} users={users} integrations={integrations} appBlogs={appBlogs}/>
         {
           relatedBlogs?.length > 0 && (
             <div className={styles.relatedBlogsDiv}>
               <h3>Related Blogs</h3>
               {relatedBlogs.map((blog) => {
-                blog.introduction = ' ';
                 return <BlogCard key={blog.id} blog={blog} className={styles.blogOnSearch} />
               })}
             </div>

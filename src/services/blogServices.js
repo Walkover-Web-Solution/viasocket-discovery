@@ -235,4 +235,15 @@ const blogWithApps = async (apps, environment) => {
   })
 }
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps };
+const searchBlogsByApp = (appName, blogId, environment) => {
+  return withBlogModel(environment, async(Blog) => {
+    return JSON.parse(JSON.stringify(await Blog.find({
+      [`apps.${appName}`]: { $exists: true },
+      id : {'$ne':blogId}
+    },
+    { title: 1, id: 1 }
+    ).limit(4)));
+  });
+};
+
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps, searchBlogsByApp };

@@ -4,7 +4,7 @@ import styles from './AIresponse.module.scss';
 import Head from 'next/head'
 import Components from '../BlogComponents/BlogComponents';
 import Link from 'next/link';
-const AIresponse = ({ blogData, users, integrations }) => {
+const AIresponse = ({ blogData, users, integrations, appBlogs }) => {
   const hasMarkdown = blogData?.blog;
   
   return (
@@ -17,7 +17,7 @@ const AIresponse = ({ blogData, users, integrations }) => {
         {hasMarkdown && (
           <>
             {
-              blogData.blog.map(({section, content, heading}) => Components[section]?.({content, integrations, users, createdAt: blogData.createdAt, heading}))
+              blogData.blog.map(({section, content, heading}) => Components[section]?.({content, integrations, users, createdAt: blogData.createdAt, heading, appBlogs}))
             }
             <div className={styles.tagsContainer}>
               <h3>Related Tags</h3>
