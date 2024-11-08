@@ -102,6 +102,7 @@ export function nameToSlugName(name){
     return name.toLowerCase().replace(/[\s/()]+/g, '-');
 }
 
+
 export function safeParse(json,bridgeId,threadId){
   try {
     let data = JSON.parse(json);

@@ -1,4 +1,4 @@
-import { askAi, ValidateAiResponse, dispatchAskAiEvent } from "@/utils/utils";
+import { askAi, ValidateAiResponse, sendMessageTochannel } from "@/utils/utils";
 import blogServices from "../../services/blogServices"
 import { improveBlogSchema } from "@/utils/schema";
 
@@ -9,6 +9,7 @@ export default async function handler(req, res) {
     switch (method) {
         case 'GET': 
             try {
+                res.status(200).json({status:"success"})   // send immediate res 
                 const blogs = await blogServices.getLastHourBlogs(environment);
                 const bulkOperations = await Promise.all(blogs.map(async (blog) => {
                     try{
@@ -33,15 +34,15 @@ export default async function handler(req, res) {
                     };
                 }catch(err){
                     console.log(err,"error in ask ai ")
+                    sendMessageTochannel({"message":'error in improve blog askAi.' , error : err.message})
                     return null ;
                 }
             }));
                 const validBulkOperations = bulkOperations.filter(op => op !== null);            
-                const result = await blogServices.bulkUpdateBlogs(validBulkOperations, environment);
-                return res.status(200).json({status:"success", data : result })
+                await blogServices.bulkUpdateBlogs(validBulkOperations, environment);
             } catch (error) {
                 console.log("error in improve blogs", error)
-                return res.status(400).json({status:"failed", messege:"failed to improve last hour created blog " })
+                sendMessageTochannel({"message":'error in improve blog API.' , error : error.message})
              
             }
         default:

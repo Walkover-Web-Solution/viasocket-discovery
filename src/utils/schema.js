@@ -2,7 +2,7 @@ import Joi from "joi";
 
 const urlSchema = Joi.object({
   title: Joi.string().required(),
-  apps: Joi.object().required(),
+  apps: Joi.object().optional(),
   id: Joi.string().required(),
   tags: Joi.array().items(Joi.string()).required(),
 })
@@ -39,7 +39,7 @@ export const improveBlogSchema = Joi.object({
   phrase: Joi.object({
     content: Joi.string().required(),
     section: Joi.string().required(),
-  }).required(),
+  }).optional(),
   blog: Joi.array().items(
     Joi.object({
       section: Joi.string().required(),

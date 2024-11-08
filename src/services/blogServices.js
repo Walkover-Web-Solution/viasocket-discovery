@@ -12,8 +12,7 @@ const withBlogModel = async (environment, callback) => {
   return callback(Blog);
 };
 
-const getAllBlogs = (userId,environment) => {
-  console.time("getAllBlogs");
+const getAllBlogs = (userId, environment) => {
   return withBlogModel(environment, (Blog) => {
     return Blog.aggregate([
       {
@@ -25,7 +24,7 @@ const getAllBlogs = (userId,environment) => {
         $sort: { isUserBlog: -1 }
       },
       {
-       $project: { isUserBlog: 0 } 
+        $project: { isUserBlog: 0 }
       }
     ]).limit(20)
   });
@@ -47,9 +46,9 @@ const createBlog = async (blogData, environment) => {
 
 const getBlogById = (blogId, environment) => {
   console.time("getBlogId");
-  return withBlogModel(environment,  async (Blog) => {
+  return withBlogModel(environment, async (Blog) => {
     console.timeEnd("getBlogId");
-    return JSON.parse(JSON.stringify( await Blog.findOne({ "id": blogId })));
+    return JSON.parse(JSON.stringify(await Blog.findOne({ "id": blogId })));
   });
 };
 
@@ -95,10 +94,14 @@ const getOtherBlogs = (userId, environment) => {
 
 const searchBlogsByQuery = (query, environment) => {
   return withBlogModel(environment, (Blog) => {
-    return Blog.find({
-      'blog.content': { $regex: query, $options: 'i' }
+  return Blog.find({
+      $or: [
+        { slugName: { $regex: query, $options: 'i' } },
+        { 'blog.content': { $regex: query, $options: 'i' } },
+        { tags: { $regex: query, $options: 'i' } },  
+      ]
     },
-    { apps: 1, tags: 1, title: 1, id: 1});
+      { apps: 1, tags: 1, title: 1, id: 1 });
   });
 };
 
@@ -108,9 +111,9 @@ const searchBlogsByTag = (tag, environment) => {
       'tags': {
         $regex: tag,
         $options: 'i'
-      } 
+      }
     },
-    { apps: 1, tags: 1, title: 1, id: 1}
+      { apps: 1, tags: 1, title: 1, id: 1 }
     )
   });
 };
@@ -167,34 +170,42 @@ const searchBlogsByTags = async (tagList , id ,category ,environment) => {
 };
 
 const getAllBlogTags = async (environment) => {
-  return withBlogModel(environment,(Blog)=>{
+  return withBlogModel(environment, (Blog) => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set time to midnight (start of the day)
-    return  Blog.find(
+const last24Hours = new Date(today);
+last24Hours.setHours(today.getHours() - 24, 0, 0, 0); 
+    
+    return Blog.find(
       {
         $or: [
-          { createdAt: { $gt: today } },  // Condition for 'createdAt'
-          { updatedAt: { $gt: today } }   // Condition for 'updatedAt'
+          { createdAt: { $gt: last24Hours } },  // Condition for 'createdAt'
+          { updatedAt: { $gt: last24Hours } }   // Condition for 'updatedAt'
         ]
       },
-      { _id: 1, tags: 1 }  // Projection to only return '_id' and 'tags'
+      { _id: 1, tags: 1, meta: 1 }  // Projection to only return '_id' and 'tags'
     );
   })
-  
+
 }
 
-const updateBlogsTags = async (blogsTagsToUpdate,environment) => {
-  return withBlogModel(environment,async (Blog) => {
+const updateBlogsTags = async (blogsTagsToUpdate, environment) => {
+  return withBlogModel(environment, async (Blog) => {
     try {
       const bulkOperations = Object.keys(blogsTagsToUpdate).map(blogId => ({
         updateOne: {
           filter: { _id: blogId },  // Match document by _id
-          update: { $set: { tags : Array.from(blogsTagsToUpdate[blogId]) } },  // Update the 'tags' field
+          update: {
+            $set:
+            {
+              meta: blogsTagsToUpdate[blogId].meta,
+              tags: Array.from(blogsTagsToUpdate[blogId].tags)
+            }
+          },  // Update the 'tags' field
         }
       }));
 
       const result = await Blog.bulkWrite(bulkOperations);
-     return result;
+      return result;
     } catch (error) {
       console.error("Error performing bulk update:", error);
     }
