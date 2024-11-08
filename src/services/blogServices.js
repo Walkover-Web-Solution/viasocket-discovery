@@ -94,8 +94,12 @@ const getOtherBlogs = (userId, environment) => {
 
 const searchBlogsByQuery = (query, environment) => {
   return withBlogModel(environment, (Blog) => {
-    return Blog.find({
-      'blog.content': { $regex: query, $options: 'i' }
+  return Blog.find({
+      $or: [
+        { slugName: { $regex: query, $options: 'i' } },
+        { 'blog.content': { $regex: query, $options: 'i' } },
+        { tags: { $regex: query, $options: 'i' } },  
+      ]
     },
       { apps: 1, tags: 1, title: 1, id: 1 });
   });
