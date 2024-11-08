@@ -16,7 +16,7 @@ export default async function handler(req, res) {
             try {
 
                 const { userMessage, chatId, bridgeId, variables, blogId } = req.body;
-                const userId = JSON.parse(req.headers['x-profile']).id;
+                const userId = parseInt(JSON.parse(req.headers['x-profile']).id);
                 const countrycode = req.headers["cf-ipcountry"] || "Not available";
                 const region = req.headers["cf-region"] || "Not available";
                 const city = req.headers["cf-ipcity"] || "Not available";
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
                 if(bridgeId == process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
                     botResponse =  ValidateAiResponse(parsedContent,updateBlogSchema,bridgeId,message_id,true,chatId);
                     var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
-                    var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate).catch(err => console.log('Error updating blog', err));
+                    var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate,userId).catch(err => console.log('Error updating blog', err));
                 }else if(bridgeId == process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
                     if(parsedContent.blog) botResponse = ValidateAiResponse(parsedContent , createBlogSchema, bridgeId,message_id,true,chatId);
                     else botResponse = ValidateAiResponse(parsedContent, searchResultsSchema, bridgeId,message_id,true,chatId);
@@ -63,11 +63,11 @@ export default async function handler(req, res) {
 }
 
 
-async function updateBlog(blogId, blogData, environment, shouldCreate) {
+async function updateBlog(blogId, blogData, environment, shouldCreate,userId) {
     if(shouldCreate) {
-        return await blogServices.createBlog(blogData, environment);
+        return await blogServices.createBlog(blogData, environment,userId);
     }else{
-        return await blogServices.updateBlogById(blogId, blogData, environment);
+        return await blogServices.updateBlogById(blogId, blogData, userId , environment);
     }
 }
 
