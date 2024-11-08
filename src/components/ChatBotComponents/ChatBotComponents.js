@@ -10,7 +10,7 @@ const Components = {
                 <List className = {styles.urlsList}>
                     {
                         content.urls.map((link) => (
-                            <BlogCard key = {link.id} blog = {link} />
+                            <BlogCard className = {styles.blogInChats} key = {link.id} blog = {link} />
                         ))
                     }
                 </List>

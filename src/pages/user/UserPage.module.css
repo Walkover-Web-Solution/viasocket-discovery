@@ -1,6 +1,5 @@
 .container {
     padding: 16px;
-    background-color: var(--background-color);
     font-family: var(--sans-serif-font);
     max-width: 60rem;
     width: 90%;

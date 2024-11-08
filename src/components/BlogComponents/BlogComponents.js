@@ -6,13 +6,14 @@ import remarkGfm from 'remark-gfm';
 import styles from './BlogComponents.module.scss'
 import Integrations from '../Integrations/Integrations';
 import ContributorsPopup from '../ContributersPopup/ContributersPopup';
+import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 
 const Components = {
     title: ({content, users, createdAt}) => (
         <div className={styles.titleDiv}>
-            <ReactMarkdown className = {styles.title} remarkPlugins={[remarkGfm]}>
+            <h1 className = {styles.title}>
                 {content}
-            </ReactMarkdown>
+            </h1>
             <ContributorsPopup users={users} createdAt={createdAt}/>
         </div>
     ), 
@@ -31,15 +32,18 @@ const Components = {
                         const appSlugName = nameToSlugName(app.name);
                         const appData = integrations?.[appName]?.plugins[appSlugName];
                         return (
-                            <ListItem className = {styles.listItem} key = {idx}>
-                                <Avatar className = {styles.appIcon} alt={app.name} src={appData?.iconurl || 'https://thingsofbrand.com/api/viasocket.com/logos/viasocket_logo_1'} variant='square'/>
-                                <div className = {styles.content}>
-                                    <h5>{app.name}</h5>
-                                    <ReactMarkdown className = {styles.description} remarkPlugins={[remarkGfm]}>
-                                        {appData?.description || app.description}
-                                    </ReactMarkdown>
-                                </div>
-                            </ListItem>
+                            <a className = {styles.appLink} key = {idx} href = {`https://viasocket.com/integrations/${appSlugName}`} target='_blank'>
+                                <ListItem  className = {styles.listItem}>
+                                    <Avatar className = {styles.appIcon} alt={app.name} src={appData?.iconurl || 'https://thingsofbrand.com/api/viasocket.com/logos/viasocket_logo_1'} variant='square'/>
+                                    <div className = {styles.content}>
+                                        <h5>{app.name}</h5>
+                                        <ReactMarkdown className = {styles.description} remarkPlugins={[remarkGfm]}>
+                                            {appData?.description || app.description}
+                                        </ReactMarkdown>
+                                    </div>
+                                    <ArrowOutwardIcon className = {styles.arrowIcon} fontSize='medium'/>
+                                </ListItem>
+                            </a>
                         )
                     })}
                 </List>
