@@ -32,7 +32,7 @@ const Components = {
                         const appSlugName = nameToSlugName(app.name);
                         const appData = integrations?.[appName]?.plugins[appSlugName];
                         return (
-                            <a className = {styles.appLink} key = {idx} href = {`https://viasocket.com/integrations/${appSlugName}`} target='_blank'>
+                            <a className = {styles.appLink} key = {idx} href = {appData ? `https://viasocket.com/integrations/${appSlugName}` : null} target='_blank'>
                                 <ListItem  className = {styles.listItem}>
                                     <Avatar className = {styles.appIcon} alt={app.name} src={appData?.iconurl || 'https://thingsofbrand.com/api/viasocket.com/logos/viasocket_logo_1'} variant='square'/>
                                     <div className = {styles.content}>
