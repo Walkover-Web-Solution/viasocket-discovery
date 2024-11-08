@@ -83,3 +83,10 @@
     display: flex;
     justify-content: space-between;
 }
+.icon{
+    transform: scale(1.5);
+    margin-left:15px;
+}
+.icon:hover{
+    color: blue;
+}

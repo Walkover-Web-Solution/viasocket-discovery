@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Avatar } from '@mui/material';
 import styles from '@/components/ContributersPopup/ContributersPopup.module.css';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import TwitterIcon from '@mui/icons-material/Twitter';
+import XIcon from '@mui/icons-material/X';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
@@ -94,14 +94,14 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
         )}       
         </div>
             <div className={styles.shareOptions}>
-                <a href={twitterShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
-                    <TwitterIcon className={styles.icon} />
+                <a href={linkedInShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
+                    <LinkedInIcon className={styles.icon} />
                 </a>
                 <a href={facebookShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
                     <FacebookIcon className={styles.icon} />
                 </a>
-                <a href={linkedInShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
-                    <LinkedInIcon className={styles.icon} />
+                <a href={twitterShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
+                    <XIcon className={styles.icon} />
                 </a>
             </div>
            
