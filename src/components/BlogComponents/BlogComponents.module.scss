@@ -70,6 +70,14 @@
     padding: 20px;
 }
 .relatedBlogsDiv{
-    display: grid;
-    grid-template-columns:auto auto;
+    display: flex;
+    flex-direction: column;
+}
+.relatedBlogsLink{
+    font-size: small;
+    color: #0070f3;       
+    padding: 5px 10
+}
+.relatedBlogsLink:hover {
+    text-decoration: underline
 }

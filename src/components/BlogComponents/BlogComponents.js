@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm';
 import styles from './BlogComponents.module.scss'
 import Integrations from '../Integrations/Integrations';
 import ContributorsPopup from '../ContributersPopup/ContributersPopup';
-import BlogCard from '../Blog/Blog';
+import Link from 'next/link';
 
 const Components = {
     title: ({content, users, createdAt}) => (
@@ -68,11 +68,10 @@ const Components = {
                                 {app.content}
                             </ReactMarkdown>
                             <Integrations integrations = {integrations?.[app.name.toLowerCase()]} appslugname = {nameToSlugName(app.name)}/>
-                            {appBlogs[idx].length>0 && <h6> related blogs</h6>}
+                            {appBlogs[idx].length>0 && <h6> Explore More on {app.name} </h6>}
                             <div className={styles.relatedBlogsDiv}>
                                     {appBlogs[idx].map((blog) => {
-                                        blog.introduction = ' ';
-                                        return <BlogCard key={blog.id} blog={blog} className={styles.blogOnSearch} />
+                                        return <Link key={blog.id} className={styles.relatedBlogsLink} href={`/blog/${blog.id}`} target='_black'>{blog.title}</Link>
                                     })}
                                 </div>
                         </ListItem>
