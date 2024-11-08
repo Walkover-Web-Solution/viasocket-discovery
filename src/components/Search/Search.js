@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styles from './Search.module.scss';
 import { useUser } from '@/context/UserContext';
-import { toast } from 'react-toastify';
 import UnauthorizedPopup from '../UnauthorisedPopup/UnauthorisedPopup';
-
+import { IconButton, Input, InputAdornment, TextField } from '@mui/material';
+import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 
 export default function Search({ handleCreateChat, searchQuery, setSearchQuery, handleAskAi, placeholder, className }) {
 	const { user } = useUser();
@@ -44,7 +44,14 @@ export default function Search({ handleCreateChat, searchQuery, setSearchQuery, 
 					}}
 					ref = {inputRef}
 				/>
-				<button className={styles.newChat} onClick={handleClick}>Ask AI</button>
+				<IconButton
+					onClick={handleClick}
+					edge="end"
+					size='large'
+					className = {styles.askAi}
+				>
+					<AutoAwesomeOutlinedIcon fontSize = 'large' sx={{color: 'black'}}/>
+				</IconButton>
 			</div>
 			<UnauthorizedPopup isOpen={isOpen} onClose={onClose} />
 		</>
