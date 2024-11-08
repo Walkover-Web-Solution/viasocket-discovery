@@ -1,7 +1,7 @@
 .markdownContainer {
   background-color: white;
   font-family: var(--sans-serif-font);
-  max-width: 70rem;
+  max-width: var(--blog-width);
   padding: 2rem 5rem;
   height: 700px;
   overflow: auto;

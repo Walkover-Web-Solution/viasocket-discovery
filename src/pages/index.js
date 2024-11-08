@@ -5,10 +5,9 @@ import styles from '@/pages/home.module.css';
 import { fetchBlogs } from '@/utils/apis/blogApis';
 import Search from '@/components/Search/Search';
 import { useUser } from '@/context/UserContext';
-import { safeParse } from './edit/[chatId]';
 import Chatbot from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
-import { dispatchAskAiEvent } from '@/utils/utils';
+import { dispatchAskAiEvent, safeParse } from '@/utils/utils';
 import { useRouter } from 'next/router';
 import { SettingsSystemDaydreamSharp } from '@mui/icons-material';
 import Link from 'next/link';
@@ -71,12 +70,12 @@ export default function Home() {
       if(!user) return;
       (async () => {
         const chatHistoryData = await getAllPreviousMessages(chatId,process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE).catch(err => null);
-        const prevMessages = chatHistoryData?.data
+        let prevMessages = chatHistoryData?.data
         .filter((chat) => chat.role === "user" || chat.role === "assistant")
         .map((chat) => ({
           role: chat.role,
           content:
-            chat.role === "user" ? chat.content : safeParse(chat.content),
+            chat.role === "user" ? chat.content : safeParse(chat.content,process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE,chatId),
         }));
         setMessages(prevMessages);
       })();

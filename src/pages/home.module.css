@@ -59,8 +59,8 @@
     width: 100vw;
     height: 100vh;
     background: var(--gradient);
-    background-size: 400% 400%;
-    animation: gradient 9s ease infinite;
+    background-size: 600% 600%;
+    animation: gradient 5s ease infinite;
     height: 100vh;
   }
 }

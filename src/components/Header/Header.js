@@ -57,10 +57,10 @@ export default function Header() {
                 </>
             ) : (
                 <div class="d-flex align-items-center gap-4">
-                    <a href="https://viasocket.com/login?redirect_to=/discovery/auth">
+                    <a href="https://viasocket.com/login?redirect_to=/discovery/auth&utm_source=/discovery">
                         <button class="btn btn-outline-dark" onClick={handleAuth}>Login</button>
                     </a>
-                    <a href="https://viasocket.com/signup?redirect_to=/discovery/auth">
+                    <a href="https://viasocket.com/signup?redirect_to=/discovery/auth&utm_source=/discovery">
                         <button class="btn btn-dark text-white" onClick={handleAuth}>Sign Up</button>
                     </a>
                 </div>

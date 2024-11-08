@@ -33,7 +33,7 @@
 .relatedBlogsDiv{
   font-family: var(--sans-serif-font);
   width: 100%;
-  max-width: 60rem;
+  max-width: calc(var(--blog-width) - 10rem);
   & > h3{
       padding-bottom: 10px;
       font-weight: 100;
