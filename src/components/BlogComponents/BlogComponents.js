@@ -13,7 +13,7 @@ const Components = {
             <ReactMarkdown className = {styles.title} remarkPlugins={[remarkGfm]}>
                 {content}
             </ReactMarkdown>
-            <ContributorsPopup users={users} createdAt={createdAt}/>
+            <ContributorsPopup users={users} createdAt={createdAt} title={content}/>
         </div>
     ), 
     introduction : ({content}) => (

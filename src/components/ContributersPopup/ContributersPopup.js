@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router'; 
 import { Avatar } from '@mui/material';
 import styles from '@/components/ContributersPopup/ContributersPopup.module.css';
@@ -7,29 +7,11 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
-const ContributorsPopup = ({ users, createdAt }) => {
+const ContributorsPopup = ({ users, createdAt, title }) => {
     const [showPopup, setShowPopup] = useState(false);
-    const [currentUrl, setCurrentUrl] = useState('');
     const router = useRouter(); 
-
-    useEffect(() => {
-        const url = window.location.href;
-        setCurrentUrl(url);
-    }, [router.asPath]);
-
-    const generateShareText = () => {
-        if (users.length === 1) {
-            return `Check out Apps by ${users[0].name}!`;
-        } else if (users.length > 1) {
-            const contributorNames = users.slice(0, 2).map(user => user.name).join(', ');
-            const remainingContributors = users.length - 2;
-            const othersText = remainingContributors > 0 ? ` and ${remainingContributors} others` : '';
-            return `Check out Apps by ${contributorNames}${othersText}!`;
-        }
-        return "Check out this Apps!";
-    };
-
-    const shareText = generateShareText();
+    console.log(router)
+    const currentUrl = 'http://viasocket.com/discovery'+ router.asPath ; 
 
     const handleMouseEnter = (e) => {
         setShowPopup(true);
@@ -43,9 +25,9 @@ const ContributorsPopup = ({ users, createdAt }) => {
         router.push(`/user/${userId}`); 
     };
 
-    const twitterShare = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(shareText)}`;
+    const twitterShare = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}`;
     const facebookShare = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
-    const linkedInShare = `https://www.linkedin.com/feed/?shareActive=true&text=${shareText}! ${encodeURIComponent(currentUrl)} %23viasocket`
+    const linkedInShare = `https://www.linkedin.com/feed/?shareActive=true&text=${title}! ${encodeURIComponent(currentUrl)} %23viasocket`
     ;
 
     return (
