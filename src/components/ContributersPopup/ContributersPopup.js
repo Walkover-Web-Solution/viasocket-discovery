@@ -10,7 +10,6 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 const ContributorsPopup = ({ users, createdAt, title }) => {
     const [showPopup, setShowPopup] = useState(false);
     const router = useRouter(); 
-    console.log(router)
     const currentUrl = 'http://viasocket.com/discovery'+ router.asPath ; 
 
     const handleMouseEnter = (e) => {
