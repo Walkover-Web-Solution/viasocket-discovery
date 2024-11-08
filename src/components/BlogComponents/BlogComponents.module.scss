@@ -1,13 +1,35 @@
 .titleDiv{
+    position: relative;
+    & > *{
+        position: relative;
+    }
+    &:after{
+        content:"";
+        position: absolute;
+        bottom: -10rem;
+        left: -200%;
+        width: 500%;
+        height: 300%;
+        background: var(--gradient);
+        background-size: 400% 400%;
+        animation: gradient 9s ease infinite;
+        z-index: -1;
+        border-bottom: 1px solid var(--foreground-color);
+    }
     .title{
         color: var(--foreground-color);
-        font-family:var(--title-font);
-        font-size: 3.5rem;
+        z-index: 9;
+        font-size: 6rem;
         font-weight: 900;
+        font-family: var(--title-font);
+        position: relative;
+        word-spacing: 5px;
+        margin-bottom: 2rem;
+        max-width: var(--blog-width);
     }
     margin: 20px 0;
     padding-bottom: 2rem;
-    border-bottom: 2px solid var(--intermediate-color);
+    // border-bottom: 2px solid var(--intermediate-color);
 }
 .introduction, .summaryList, .whatToLookFor, .conclusion, .detailedReviews{
     color: var(--foreground-color);
@@ -16,8 +38,9 @@
     padding: 20px 0;
     h4{
         font-family: var(--title-font);
-        font-size: 2rem;
+        font-size: 3rem;
         margin: 15px 0;
+        font-weight: 500;
     }
 }
 .summaryList, .detailedReviews{
@@ -32,35 +55,46 @@
         padding: 25px 0; 
     }
     h5{
-        font-family: var(--title-font);
+        font-weight: 500;
         font-size: 1.8rem;
         margin-bottom: 1rem;
     }
 }
 
 .summaryList {
+    width: 100%;
     .list{
         display: flex;
-        flex-wrap: wrap;
-        gap: 1.5rem;
-        .listItem{
-            border: 1px solid var(--intermediate-color);
-            background-color: rgba(0, 0, 0, 0.05);
-            margin-bottom: 1.5rem;
-            border-radius: 5px;
-            display:flex;
-            gap: 1.4rem;
-            width: calc(50% - 1rem);
-            padding: 15px;
-            padding-right: 25px;
+        flex-direction: column;
+        width: 100%;
+        .appLink{
+            &:not(:first-of-type){
+                .listItem{
+                    border-top: none;
+                }
+            }
+            .listItem{
+                border: 1px solid black;
+                display:flex;
+                flex-direction: row;
+                gap: 1.4rem;
+                padding: 15px;
+                padding-right: 25px;
+                .arrowIcon{
+                    transition: transform 0.3s ease;
+                    transition-duration: 0.1s;
+                }
+                .content{
+                    width: 100%;
+                }
+                &:hover{
+                    .arrowIcon{
+                        transform: translateY(-10px);
+                    }
+                }
+            }
         }
     } 
-}
-
-.whatToLookFor{
-    .content{
-        padding-left: 20px;
-    }
 }
 
 .dummyMarkdown {
@@ -69,6 +103,18 @@
     }
     padding: 20px;
 }
+
+@keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 .relatedBlogsDiv{
     display: flex;
     flex-direction: column;

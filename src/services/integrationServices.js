@@ -4,7 +4,7 @@ async function getPluginsByName(pluginNames, fields,environment, firstTime) {
     const url = `${process.env.DBDASH_URL}/${process.env.PLUGINS_DBID}/${process.env.PLUGINS_TABLEID}`
     const plugins = await axios.get(url, {
         params: {
-            filter: `name ILIKE ANY (ARRAY[${pluginNames.map(p => `'${p}'`)}]) AND audience = 'Public' AND status = 'published'`,
+            filter: `name ILIKE ANY (ARRAY[${pluginNames.map(p => `'${p}'`)}]) AND audience = 'Public'`,
             fields: fields
         },
         headers: {

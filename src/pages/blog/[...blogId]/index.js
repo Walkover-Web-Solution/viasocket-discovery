@@ -13,14 +13,12 @@ import { toast } from 'react-toastify';
 import { compareBlogs } from '@/utils/apis/chatbotapis';
 import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 import { useUser } from '@/context/UserContext';
-import { dispatchAskAiEvent, safeParse } from '@/utils/utils';
+import { dispatchAskAiEvent, nameToSlugName, safeParse } from '@/utils/utils';
 import BlogCard from '@/components/Blog/Blog';
 import { getCurrentEnvironment } from '@/utils/storageHelper';
 
 
 export async function getServerSideProps(context) {
-  console.time("request");
-  console.timeStamp("testing");
   const { blogId } = context.params;
   const props = {};
   try {
@@ -54,8 +52,6 @@ export async function getServerSideProps(context) {
   } catch (error) {
     console.error('Error fetching blog data:', error); // Return an empty object if there's an error
   }
-  console.timeEnd("request");
-  console.timeStamp("testing1");
   return { props };
 }
 
@@ -81,15 +77,13 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
     setSearchQuery('');
   }
 
-  const formateTitle = (title) => {
-    return title?.toLowerCase().replace(/\s+/g, '-');
-  };
+ 
 
   useEffect(() => {
     if (blog) {
       router.replace(
         {
-          pathname: `/blog/${blog.id}/${formateTitle(blog?.meta?.category || '')}/${formateTitle(blog.slugName)}`,
+          pathname: `/blog/${blog.id}/${nameToSlugName(blog?.meta?.category || '')}/${nameToSlugName(blog.slugName)}`,
         },
         undefined,
         { shallow: true } // Keeps the page from reloading
@@ -127,8 +121,12 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
     const lastMessage = messages[messages.length - 1];
     if(lastMessage?.role == 'assistant'){
       const content = lastMessage.content;
-      if(content?.blog)
+      if(content?.blog){
         setBlogData(content.blog);
+        if( !users.find((user) => user.id === currentUser.id)) {
+          users.push({ id : currentUser.id , name : currentUser.name })
+        }
+      }
     }
   }, [messages])
   useEffect(()=>{

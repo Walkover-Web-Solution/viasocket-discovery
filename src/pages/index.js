@@ -24,7 +24,7 @@ export default function Home() {
     const chatId = user?.id || Math.random();
     const router = useRouter();
     const [typingStart, setTypingStart] = useState(false);
-    const popularTags = ["Customer Relationship Management", "Project Management", "Database Management", "Sales and Marketing"]
+    const popularTags = ["Customer Relationship Management", "Project Management", "Database Management", "Sales and Marketing", "Human Resource", "Finance Hub"]
 
     useEffect(() => {
       if(!router.isReady || ( isOpen && !searchQuery.length > 0 )) return ;
@@ -86,7 +86,7 @@ export default function Home() {
 
 
   const tagsContainer = ()=>{
-    if(!tags?.length) return null;
+    if(!tags?.length || !searchQuery) return null;
     return  (
     <div className={styles.searchTags}>
     {tags.map((tag, index) => (
@@ -119,7 +119,7 @@ export default function Home() {
     return (
     blogs?.length > 0 ? (
       <section className={styles.Homesection}>
-        <div>
+        <div className = {styles.homesubdiv}>
         <h2 className={styles.homeh2}>{title}</h2>
         {tagsContainer()}
         </div>
@@ -150,8 +150,8 @@ export default function Home() {
           {
             !isOpen && (
               <>
-                <h1 className={styles.homeTitle}>Get the Best Business Tools – Handpicked by Real Businesses Like Yours</h1>
-                <p className={styles.homep}>{'Discover top tools curated by real businesses that have been where you are. Tailored to your industry, size, location, and goals – whether you\'re scaling up, boosting efficiency, or cutting costs, find the tools that fit your needs without the hassle.'}</p>
+                <h1 className={styles.homeTitle}>Find Your Ideal Tool in Seconds</h1>
+                <p className={styles.homep}>{'Follow Up With Al For Personalized Insights And Automated Recommendations Based On Real Professionals'}</p>
               </>
             )
           }     
@@ -167,14 +167,14 @@ export default function Home() {
             </div>
           }
           <div className={typingStart ? '' : styles.searchDiv}>
-            <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'Search Categories or Ask AI...'/>
+            <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'SEARCH WITH AI'/>
             {
               !typingStart && 
               <div className = {styles.popularTagsDiv}>
                 {popularTags.map((tag, index) => (
                 <Link
                   key={index}
-                  href={`/?search=%23${tag}`}
+                  href={`/?search=${tag}`}
                   className={`${blogstyle.tag} ${blogstyle[tag.toLowerCase()]}`}
                 >
                   {tag}

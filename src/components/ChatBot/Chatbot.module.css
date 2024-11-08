@@ -116,15 +116,15 @@
 }
 
 .homePage{
-  height: calc(100% - 0.9in);
-  top: 0.9in;
+  height: 100%;
+  top: 0in;
   left: 50%;
   transform: translateX(-50%);
-  width: 11in;
-  max-width: 11in;
+  width: 100%;
+  max-width: 16in;
   background-color: var(--background-color);
   border: none;
-  padding: 2rem 1rem 3rem 1rem;
+  padding: 2rem 1rem 8rem 1rem;
   box-shadow : none;
   /* border: 2px solid red; */
   animation: slideUp 0.4s ease-out;
@@ -164,7 +164,6 @@
       padding: 0 1rem;
       overflow: auto;
       min-width: 4in;
-      max-width: max-content;
       height: 2in;
       &:hover{
         transform:none;
