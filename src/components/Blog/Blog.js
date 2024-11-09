@@ -28,7 +28,7 @@ export default function BlogCard({ blog, isLoading, className }) {
   }
   return (
     <div key={blog.id} className={`${styles.card} ${className || ''}`}>
-      <a href={blog.url || `/discovery/blog/${blog.id}/${blog?.meta?.category ? `${blog.meta.category}/` : ''}${nameToSlugName(blog.slugName)}`} target="_blank" rel="noopener noreferrer">
+      <a href={blog.url || `/discovery/blog/${blog.id}/${blog?.meta?.category ? `${blog.meta.category}/` : ''}${blog?.slugName ? nameToSlugName(blog.slugName):''}`} target="_blank" rel="noopener noreferrer">
         <h3>{blog.title}</h3>
         {/* <p>{blog.introduction || blog.blog?.find(section => section.section === 'introduction')?.content}</p> */}
         <div className={styles.appIconsDiv}>
