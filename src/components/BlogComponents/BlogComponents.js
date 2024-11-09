@@ -6,7 +6,6 @@ import remarkGfm from 'remark-gfm';
 import styles from './BlogComponents.module.scss'
 import Integrations from '../Integrations/Integrations';
 import ContributorsPopup from '../ContributersPopup/ContributersPopup';
-import Link from 'next/link';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import { getCurrentEnvironment } from '@/utils/storageHelper';
 
