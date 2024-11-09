@@ -74,7 +74,7 @@ const Components = {
                             {appBlogs[app.name].length>0 && <h6> Explore More on {app.name} </h6>}
                             <div className={styles.relatedBlogsDiv}>
                                     {appBlogs[app.name].map((blog) => {
-                                        return <a key={blog.id} className={styles.relatedBlogsLink} href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${blog?.meta?.category}/` : ''}${nameToSlugName(blog.slugName)}`} target='_black'>{blog.title}</a>
+                                        return <a key={blog.id} className={styles.relatedBlogsLink} href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${blog.meta.category}/` : ''}${nameToSlugName(blog.slugName)}`} target='_black'>{blog.title}</a>
                                     })}
                                 </div>
                         </ListItem>
