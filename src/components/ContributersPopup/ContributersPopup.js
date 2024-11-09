@@ -6,6 +6,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import XIcon from '@mui/icons-material/X';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import { nameToSlugName } from '@/utils/utils';
 
 const ContributorsPopup = ({ users, createdAt, title }) => {
     const [showPopup, setShowPopup] = useState(false);
@@ -20,9 +21,6 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
         setShowPopup(false);
     };
 
-    const handleUserClick = (userId) => {
-        router.push(`/user/${userId}`); 
-    };
 
     const twitterShare = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}`;
     const facebookShare = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
@@ -39,10 +37,10 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
                             key={user.id} 
                             alt={user.name} 
                             className={styles.avatar}
-                            onClick={() => handleUserClick(user.id)} 
-                            style={{ cursor: 'pointer' }} 
                         >
-                            {user.name.charAt(0).toUpperCase()}
+                            <a href={`/discovery/user/${user.id}/${nameToSlugName(user.name)}`} target='_blank'>
+                                {user.name.charAt(0).toUpperCase()}
+                            </a>
                         </Avatar>
                     ))}
                     {users.length > 1 ? (
@@ -50,23 +48,22 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
                             {users.length > 3 ? `+ ${users.length - 3}` : ''} Contributors
                         </span>
                     ) : (
-                        <span 
-                            className={styles.userName} 
-                            onClick={() => handleUserClick(users[0].id)} 
-                            style={{ cursor: 'pointer' }} 
-                        >
-                            <strong>{users[0]?.name}</strong>
-                        </span>
+                        <a href={`/discovery/user/${users[0].id}/${nameToSlugName(users[0].name)}`} target='_blank'>
+                            <span className={styles.userName} >
+                                <strong>{users[0]?.name}</strong>
+                            </span>
+                        </a>
                     )}
                 </div>
             }
             {showPopup && users.length > 1 && (
                 <div className={styles.popup} onMouseLeave={handleMouseLeave}>
                     {users.map((user) => (
-                        <div 
+                        <a
+                            target='_blank'
                             key={user.id} 
                             className={styles.popupItem}
-                            onClick={() => handleUserClick(user.id)} 
+                            href={`/discovery/user/${user.id}/${nameToSlugName(user.name)}`}
                             style={{ cursor: 'pointer' }} 
                         >
                             <Avatar 
@@ -77,7 +74,7 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
                                 {user.name.charAt(0).toUpperCase()}
                             </Avatar>
                             <span>{user.name}</span>
-                        </div>
+                        </a>
                     ))}
                 </div>
              )}      
