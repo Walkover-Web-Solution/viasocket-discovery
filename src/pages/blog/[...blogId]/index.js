@@ -30,9 +30,7 @@ export async function getServerSideProps(context) {
     }
     const relatedBlogsPromise = blogServices.searchBlogsByTags(blog.tags, blogId[0], blog?.meta?.category, getCurrentEnvironment());
     const appKeys = Object.keys(blog.apps);
-    const appBlogsPromise = Promise.all(
-      appKeys.map(app => blogServices.searchBlogsByApp(app,blogId[0], getCurrentEnvironment()))
-    );
+    const appBlogsPromise = blogServices.searchBlogsByApps(appKeys, blogId[0], getCurrentEnvironment());
     const usersPromise = Promise.all(
       blog?.createdBy.map(async (userId) => {
         try {
@@ -48,7 +46,7 @@ export async function getServerSideProps(context) {
     props.blog = blog;
     props.users = filteredUsers;
     props.relatedBlogs = relatedBlogs;
-    props.appBlogs = appBlogs;
+    props.appBlogs = appBlogs[0];
   } catch (error) {
     console.error('Error fetching blog data:', error); // Return an empty object if there's an error
   }

@@ -8,6 +8,7 @@ import Integrations from '../Integrations/Integrations';
 import ContributorsPopup from '../ContributersPopup/ContributersPopup';
 import Link from 'next/link';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import { getCurrentEnvironment } from '@/utils/storageHelper';
 
 const Components = {
     title: ({content, users, createdAt}) => (
@@ -72,10 +73,10 @@ const Components = {
                                 {app.content}
                             </ReactMarkdown>
                             <Integrations integrations = {integrations?.[app.name.toLowerCase()]} appslugname = {nameToSlugName(app.name)}/>
-                            {appBlogs[idx].length>0 && <h6> Explore More on {app.name} </h6>}
+                            {appBlogs[app.name].length>0 && <h6> Explore More on {app.name} </h6>}
                             <div className={styles.relatedBlogsDiv}>
-                                    {appBlogs[idx].map((blog) => {
-                                        return <Link key={blog.id} className={styles.relatedBlogsLink} href={`/blog/${blog.id}`} target='_black'>{blog.title}</Link>
+                                    {appBlogs[app.name].map((blog) => {
+                                        return <a key={blog.id} className={styles.relatedBlogsLink} href={`${getCurrentEnvironment()==='prod' ? 'https://viasocket.com' :''}/discovery/blog/${blog.id}`} target='_black'>{blog.title}</a>
                                     })}
                                 </div>
                         </ListItem>

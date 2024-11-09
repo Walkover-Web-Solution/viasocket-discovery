@@ -246,15 +246,30 @@ const blogWithApps = async (apps, environment) => {
   })
 }
 
-const searchBlogsByApp = (appName, blogId, environment) => {
-  return withBlogModel(environment, async(Blog) => {
-    return JSON.parse(JSON.stringify(await Blog.find({
-      [`apps.${appName}`]: { $exists: true },
-      id : {'$ne':blogId}
-    },
-    { title: 1, id: 1 }
-    ).limit(4)));
+const searchBlogsByApps = (appNames, blogId, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    const blogs = await Blog.aggregate([
+      {
+        $match: {
+          id: { $ne: blogId }, 
+          $or: appNames.map(appName => ({
+            [`apps.${appName}`]: { $exists: true } 
+          }))
+        }
+      },
+      {
+        $facet: appNames.reduce((facet, appName) => {
+          facet[appName] = [
+            { $match: { [`apps.${appName}`]: { $exists: true } } }, 
+            { $limit: 4 }, 
+            { $project: { title: 1, id: 1 } }  
+          ];
+          return facet;
+        }, {})
+      }
+    ]);
+    return JSON.parse(JSON.stringify(blogs));
   });
 };
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps, searchBlogsByApp };
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps, searchBlogsByApps };
