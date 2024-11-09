@@ -115,3 +115,14 @@
       background-position: 0% 50%;
     }
   }
+.relatedBlogsDiv{
+    display: flex;
+    flex-direction: column;
+}
+.relatedBlogsLink{
+    font-size: small;
+    color: #0070f3;
+}
+.relatedBlogsLink:hover {
+    text-decoration: underline;
+}

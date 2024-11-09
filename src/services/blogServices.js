@@ -119,8 +119,8 @@ const searchBlogsByTag = (tag, environment) => {
 };
 
 const searchBlogsByTags = async (tagList , id ,category ,environment) => {
-  return withBlogModel(environment, (Blog) => {
-    const results = Blog.aggregate([
+  return withBlogModel(environment, async(Blog) => {
+    const results = JSON.parse(JSON.stringify(await Blog.aggregate([
       {
         $match: {
           $and: [
@@ -161,9 +161,9 @@ const searchBlogsByTags = async (tagList , id ,category ,environment) => {
       },
       {
         $project: {
-          apps: 1, title: 1, id: 1, tags: 1
+          apps: 1, title: 1, id: 1, tags: 1, meta:1 , slugName:1
       }}
-    ]);
+    ])));
 
     return results;
   });
@@ -246,4 +246,30 @@ const blogWithApps = async (apps, environment) => {
   })
 }
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps };
+const searchBlogsByApps = (appNames, blogId, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    const blogs = await Blog.aggregate([
+      {
+        $match: {
+          id: { $ne: blogId }, 
+          $or: appNames.map(appName => ({
+            [`apps.${appName}`]: { $exists: true } 
+          }))
+        }
+      },
+      {
+        $facet: appNames.reduce((facet, appName) => {
+          facet[appName] = [
+            { $match: { [`apps.${appName}`]: { $exists: true } } }, 
+            { $limit: 4 }, 
+            { $project: { title: 1, id: 1, slugName:1, meta:1 } }  
+          ];
+          return facet;
+        }, {})
+      }
+    ]);
+    return JSON.parse(JSON.stringify(blogs));
+  });
+};
+
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps, searchBlogsByApps };
