@@ -101,7 +101,7 @@ const searchBlogsByQuery = (query, environment) => {
         { tags: { $regex: query, $options: 'i' } },  
       ]
     },
-      { apps: 1, tags: 1, title: 1, id: 1 });
+      { apps: 1, tags: 1, title: 1, id: 1, slugName:1, meta:1 });
   });
 };
 
@@ -113,7 +113,7 @@ const searchBlogsByTag = (tag, environment) => {
         $options: 'i'
       }
     },
-      { apps: 1, tags: 1, title: 1, id: 1 }
+      { apps: 1, tags: 1, title: 1, id: 1,slugName:1, meta:1  }
     )
   });
 };
