@@ -262,7 +262,7 @@ const searchBlogsByApps = (appNames, blogId, environment) => {
           facet[appName] = [
             { $match: { [`apps.${appName}`]: { $exists: true } } }, 
             { $limit: 4 }, 
-            { $project: { title: 1, id: 1 } }  
+            { $project: { title: 1, id: 1, slugName:1, meta:1 } }  
           ];
           return facet;
         }, {})

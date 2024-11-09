@@ -7,7 +7,6 @@ import styles from './BlogComponents.module.scss'
 import Integrations from '../Integrations/Integrations';
 import ContributorsPopup from '../ContributersPopup/ContributersPopup';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import { getCurrentEnvironment } from '@/utils/storageHelper';
 
 const Components = {
     title: ({content, users, createdAt}) => (
@@ -75,7 +74,7 @@ const Components = {
                             {appBlogs[app.name].length>0 && <h6> Explore More on {app.name} </h6>}
                             <div className={styles.relatedBlogsDiv}>
                                     {appBlogs[app.name].map((blog) => {
-                                        return <a key={blog.id} className={styles.relatedBlogsLink} href={`${getCurrentEnvironment()==='prod' ? 'https://viasocket.com' :''}/discovery/blog/${blog.id}`} target='_black'>{blog.title}</a>
+                                        return <a key={blog.id} className={styles.relatedBlogsLink} href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${blog?.meta?.category}/` : ''}${nameToSlugName(blog.slugName)}`} target='_black'>{blog.title}</a>
                                     })}
                                 </div>
                         </ListItem>
