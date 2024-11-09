@@ -79,3 +79,14 @@
 .popup::-webkit-scrollbar-track {
     background-color: transparent; 
 }
+.shareConatainer{
+    display: flex;
+    justify-content: space-between;
+}
+.icon{
+    transform: scale(1.5);
+    margin-left:15px;
+}
+.icon:hover{
+    color: blue;
+}

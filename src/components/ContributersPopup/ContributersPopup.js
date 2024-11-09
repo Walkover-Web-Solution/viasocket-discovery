@@ -3,10 +3,14 @@ import { useRouter } from 'next/router';
 import { Avatar } from '@mui/material';
 import styles from '@/components/ContributersPopup/ContributersPopup.module.css';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import XIcon from '@mui/icons-material/X';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
-const ContributorsPopup = ({ users, createdAt }) => {
+const ContributorsPopup = ({ users, createdAt, title }) => {
     const [showPopup, setShowPopup] = useState(false);
     const router = useRouter(); 
+    const currentUrl = 'http://viasocket.com/discovery'+ router.asPath ; 
 
     const handleMouseEnter = (e) => {
         setShowPopup(true);
@@ -20,7 +24,13 @@ const ContributorsPopup = ({ users, createdAt }) => {
         router.push(`/user/${userId}`); 
     };
 
+    const twitterShare = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}`;
+    const facebookShare = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+    const linkedInShare = `https://www.linkedin.com/feed/?shareActive=true&text=${title}! ${encodeURIComponent(currentUrl)} %23viasocket`
+    ;
+
     return (
+      <div className={styles.shareConatainer}>
         <div className={styles.contributorsContainer}>
             {(!showPopup || users.length === 1) &&
                 <div className={styles.userAVA} onMouseEnter={handleMouseEnter}>
@@ -82,6 +92,19 @@ const ContributorsPopup = ({ users, createdAt }) => {
             </>
         )}       
         </div>
+            <div className={styles.shareOptions}>
+                <a href={linkedInShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
+                    <LinkedInIcon className={styles.icon} />
+                </a>
+                <a href={facebookShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
+                    <FacebookIcon className={styles.icon} />
+                </a>
+                <a href={twitterShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
+                    <XIcon className={styles.icon} />
+                </a>
+            </div>
+           
+      </div>
     );
 };
 

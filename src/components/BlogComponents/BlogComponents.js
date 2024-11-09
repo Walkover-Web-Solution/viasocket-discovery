@@ -14,7 +14,7 @@ const Components = {
             <h1 className = {styles.title}>
                 {content}
             </h1>
-            <ContributorsPopup users={users} createdAt={createdAt}/>
+            <ContributorsPopup users={users} createdAt={createdAt} title={content}/>
         </div>
     ), 
     introduction : ({content}) => (
