@@ -118,9 +118,10 @@
 .relatedBlogsDiv{
     display: flex;
     flex-direction: column;
+    margin-top: 2rem;
 }
 .relatedBlogsLink{
-    font-size: small;
+    font-size: 1rem;
     color: #0070f3;
 }
 .relatedBlogsLink:hover {
