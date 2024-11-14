@@ -6,28 +6,31 @@ import Components from '@/components/ChatBotComponents/ChatBotComponents';
 import BlogCard from '../Blog/Blog';
 import { useRouter } from 'next/router';
 
-const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variables, homePage, setIsOpen, isOpen, searchResults, blogId}) => {
+const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage, setIsOpen, isOpen, searchResults, blogId, inPopup, msgCallback }) => {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const divRef = useRef(null);
   const router = useRouter();
+  const inputRef = useRef(null);
 
   const handleScroll = () => {
     if(divRef.current)
       divRef.current.scrollTop = divRef?.current.scrollHeight;
   };
-  async function sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables, blogId) {
-    if (inputMessage && inputMessage.trim()) {
-      const userMessage = { role: 'user', content: inputMessage };
+  async function sendMessageToChatBot(message = inputMessage) {
+    if (message && message.trim()) {
+      const userMessage = { role: 'user', content: message };
       setMessages([...messages, userMessage]);
       try {
-       const data =  await sendMessageApi(userMessage.content, chatId, bridgeId, variables, blogId);
-        if (data?.botResponse?.response?.data?.content) {
-          const botMessage = { role: 'assistant', content: data?.botResponse?.response?.data?.content };
+        const data =  await sendMessageApi(userMessage.content, chatId, bridgeId, variables, blogId);
+        const content = data?.botResponse?.response?.data?.content;
+        if (content) {
+          const botMessage = { role: 'assistant', content };
           setMessages((prevMessages) => [...prevMessages, botMessage]);
           if(data.created){
             router.replace('/blog/' + data.blogId);
           }
+          msgCallback(content);
         }
       } catch (error) {
         console.error("Error communicating with the chatbot API:", error);
@@ -38,7 +41,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
   useEffect(() => {
     const handleEvent = async (e) => {
       setIsLoading(true);
-      await sendMessageToChatBot(e.detail, messages, setMessages, chatId, bridgeId, variables, blogId); // Update state with event data
+      await sendMessageToChatBot(e.detail); // Update state with event data
       setIsLoading(false);
     };  
     window.addEventListener('askAppAi', handleEvent);
@@ -58,7 +61,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
       setIsLoading(true);
       handleScroll();
       try {
-        await sendMessageToChatBot(inputMessage, messages, setMessages, chatId, bridgeId, variables, blogId);
+        await sendMessageToChatBot(inputMessage);
       } catch (error) {
         console.error("Error communicating with the chatbot API:", error);
       } finally {
@@ -72,10 +75,15 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
       handleSendMessage();
     }
   };
+
+  useEffect(() => {
+    inputRef.current?.focus();  
+  }, [])
+
   if(!isOpen) return null;
 
   return (
-    <div className={`${styles.chatbotContainer} ${homePage ? styles.homePage : ''} ${!isOpen ? styles.closed : ''}`}>
+    <div className={`${styles.chatbotContainer} ${homePage ? styles.homePage : ''} ${!isOpen ? styles.closed : ''} ${inPopup ? styles.inPopup : ''}`}>
       <div className = {styles.chatbotHeader}>
         <h4 className = {styles.title}>AI Assistant</h4>
         <button onClick = {() => setIsOpen(false)} className={styles.closeButton}>&#10005;</button>
@@ -134,6 +142,7 @@ const Chatbot = ({ messages, setMessages, chatId, setBlogData, bridgeId, variabl
           onKeyDown={handleKeyDown}
           placeholder="Type a message..."
           className={styles.messageInput}
+          ref = {inputRef}
         />
         <button onClick={handleSendMessage} className={styles.sendButton}>
           Ask AI

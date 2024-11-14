@@ -20,12 +20,18 @@ export const UserProvider = ({ children }) => {
     const userInfo = await getCurrentUser();
     const userData = userInfo?.data[0]
     // localStorage.setItem("userDetail", JSON.stringify({ name: userData.name, email: userData.email, id: userData.id }));
-    setUser({ name: userData.name, email: userData.email, id: userData.id })
+    setUser({
+      name: userData.name,
+      email: userData.email,
+      id: userData.id,
+      meta: userData.meta,
+    });
     setLoading(false);
   }
   useEffect(() => {
     getCurrentUserFunction()
   }, []);
+
   return (
     <UserContext.Provider value={{ user, setUser, loading ,isChatOpen ,setIsChatOpen}}>
       {children}

@@ -3,8 +3,9 @@ import { getCurrentEnvironment, getFromCookies, removeCookie, clearUserData } fr
 import { toast } from "react-toastify";
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
+const proxyBaseURL = "https://routes.msg91.com/api"; 
+
 export const getCurrentUser = async () => {
-    const baseURL = "https://routes.msg91.com/api"; 
     const endpoint = "/c/getDetails"; 
 
     const getToken = () => {
@@ -22,7 +23,7 @@ export const getCurrentUser = async () => {
             headers["proxy_auth_token"] = token;
         }
 
-        const response = await fetch(baseURL + endpoint, {
+        const response = await fetch(proxyBaseURL + endpoint, {
             method: 'GET',
             headers: headers,
         });
