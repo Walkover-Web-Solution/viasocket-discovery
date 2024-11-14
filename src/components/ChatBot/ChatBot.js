@@ -30,7 +30,7 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
           if(data.created){
             router.replace('/blog/' + data.blogId);
           }
-          msgCallback(content);
+          msgCallback?.(content);
         }
       } catch (error) {
         console.error("Error communicating with the chatbot API:", error);
