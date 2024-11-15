@@ -19,7 +19,7 @@ export default async function handler(req, res) {
                     );
                     const message_id = aiResponse.response.data.message_id;
                     aiResponse = JSON.parse(aiResponse.response.data.content);
-                    const processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema,process.env.IMPROVE_BRIDGE,message_id,true);
+                    const processedBlog = ValidateAiResponse( aiResponse, improveBlogSchema, process.env.IMPROVE_BRIDGE, message_id, true, "", false, true );
                     await distinctifyPhrase(processedBlog, environment);
                     return {
                         updateOne: {

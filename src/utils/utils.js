@@ -81,19 +81,33 @@ export const handleSignIn = async () => {
     window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
 };
 
-export const  ValidateAiResponse = (response ,schema, bridgeId, message_id,sendAlert,thread_id) => {
+export const  ValidateAiResponse = (response ,schema, bridgeId, message_id,sendAlert,thread_id,retry,improve_blog) => {
+    if(retry && sendAlert === true){ 
+      sendMessageTochannel({
+        message: 'AI RESPONSE RETRY',
+        bridgeId:bridgeId,
+        message_id:message_id,
+        link : ` https://ai.walkover.in/org/7488/bridges/history/${bridgeId}?thread_id=${thread_id} `,
+        thread_id:thread_id,
+        });
+    }
     const { error, value: validatedResponse } = schema.validate(response);
     if (error) {
-       if(sendAlert === true){ 
-          sendMessageTochannel({
-          message: `"Validation error: " ${error.details[0].message}`,
-          bridgeId:bridgeId,
-          message_id:message_id,
-          link : `https://ai.walkover.in/org/7488/bridges/history/${bridgeId}?thread_id=${thread_id}`,
-          thread_id:thread_id,
-      });
-    }
-      return { message: response.message };
+      if(retry){
+        if(sendAlert === true){ 
+            sendMessageTochannel({
+            message: `"Validation error: " ${error.details[0].message}`,
+            bridgeId:bridgeId,
+            message_id:message_id,
+            link : ` https://ai.walkover.in/org/7488/bridges/history/${bridgeId}?thread_id=${thread_id} `,
+            thread_id:thread_id,
+            });
+        }
+        return { message: "something went wrong! Try again." };
+      }else {
+        if(improve_blog) return { message : response.message }
+        return error;
+      }
     }
     return validatedResponse;
   }
