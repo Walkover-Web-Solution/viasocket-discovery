@@ -119,3 +119,23 @@ export function safeParse(json,bridgeId,threadId){
     return { message : json };
   }
 }
+
+export const replaceDotsInKeys = (obj) => {
+  if (typeof obj !== 'object' || obj === null) return obj;
+  return Object.keys(obj).reduce((acc, key) => {
+    const newKey = key.replace(/\./g, '~');
+    acc[newKey] = obj[key];
+    return acc;
+  }, {});
+};
+
+export const restoreDotsInKeys = (obj) => {
+  if (typeof obj !== 'object' || obj === null) return obj;
+  return Object.keys(obj).reduce((acc, key) => {
+    const originalKey = key.replace(/~/g, '.');
+    acc[originalKey] = obj[key];
+    return acc;
+  }, {});
+};
+
+export const replaceDotsInArray = (key) => key.replace(/\./g, '~');

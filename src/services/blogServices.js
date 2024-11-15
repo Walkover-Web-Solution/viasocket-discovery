@@ -3,7 +3,7 @@
 
 import createBlogModel from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
-import { generateNanoid } from '@/utils/utils';
+import { generateNanoid, replaceDotsInArray, restoreDotsInKeys } from '@/utils/utils';
 import { getUpdatedApps } from './integrationServices';
 
 const withBlogModel = async (environment, callback) => {
@@ -13,8 +13,8 @@ const withBlogModel = async (environment, callback) => {
 };
 
 const getAllBlogs = (userId, environment) => {
-  return withBlogModel(environment, (Blog) => {
-    return Blog.aggregate([
+  return withBlogModel(environment, async(Blog) => {
+    let blogs = await Blog.aggregate([
       {
         $addFields: {
           isUserBlog: { $cond: { if: { $eq: ["$createdBy", parseInt(userId)] }, then: 1, else: 0 } }
@@ -27,6 +27,11 @@ const getAllBlogs = (userId, environment) => {
         $project: { isUserBlog: 0 }
       }
     ]).limit(20)
+    blogs = blogs.map((blog)=>{
+      blog.apps = restoreDotsInKeys(blog.apps);
+      return blog;
+    })
+    return blogs;
   });
 };
 
@@ -34,6 +39,7 @@ const createBlog = async (blogData, environment) => {
   return await withBlogModel(environment, async (Blog) => {
     const apps = await getUpdatedApps(blogData, environment);
     const newBlog = (await Blog.create({ ...blogData, apps, id: generateNanoid(6) })).toObject();
+    newBlog.apps = restoreDotsInKeys(newBlog.apps);
     return {
       id: newBlog.id,
       blog: newBlog.blog, 
@@ -120,7 +126,7 @@ const searchBlogsByTag = (tag, environment) => {
 
 const searchBlogsByTags = async (tagList , id ,category ,environment) => {
   return withBlogModel(environment, async(Blog) => {
-    const results = JSON.parse(JSON.stringify(await Blog.aggregate([
+    let results = await Blog.aggregate([
       {
         $match: {
           $and: [
@@ -163,9 +169,12 @@ const searchBlogsByTags = async (tagList , id ,category ,environment) => {
         $project: {
           apps: 1, title: 1, id: 1, tags: 1, meta:1 , slugName:1
       }}
-    ])));
-
-    return results;
+    ]);
+    results = results.map((blog)=>{
+      blog.apps = restoreDotsInKeys(blog.apps);
+      return blog;
+    })
+    return JSON.parse(JSON.stringify(results));
   });
 };
 
@@ -238,9 +247,10 @@ const bulkUpdateBlogs = async (bulkOperations, environment) => {
 };
 
 const blogWithApps = async (apps, environment) => {
+  const transformedApps = apps.map(appName => replaceDotsInArray(appName));
   return withBlogModel(environment, async (Blog) => {
     return await Blog.find({
-      $and: apps.map(appName => ({[`apps.${appName}`] : {$exists: true}}))
+      $and: transformedApps.map(appName => ({[`apps.${appName}`] : {$exists: true}}))
     }, 
     {_id : 0, id: 1, title: 1, apps: 1, tags: 1})
   })
@@ -248,7 +258,7 @@ const blogWithApps = async (apps, environment) => {
 
 const searchBlogsByApps = (appNames, blogId, environment) => {
   return withBlogModel(environment, async (Blog) => {
-    const blogs = await Blog.aggregate([
+    let blogs = await Blog.aggregate([
       {
         $match: {
           id: { $ne: blogId }, 
@@ -268,6 +278,10 @@ const searchBlogsByApps = (appNames, blogId, environment) => {
         }, {})
       }
     ]);
+    blogs = blogs.map(blog => {
+      blog.apps = restoreDotsInKeys(blog.apps);
+      return blog;
+    })
     return JSON.parse(JSON.stringify(blogs));
   });
 };
