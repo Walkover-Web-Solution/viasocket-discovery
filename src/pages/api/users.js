@@ -1,6 +1,13 @@
 import jwt from "jsonwebtoken";
 
 export default async function handler(req, res) {
+    const profileHeader = req.headers['x-profile'];
+    const environment = req.headers['env'];
+    let user = null;
+    if (profileHeader) {
+        user = JSON.parse(profileHeader);
+    }
+
     if (req.method === 'POST') {
         try {
             const { email, id } = req.body;
@@ -32,7 +39,7 @@ export default async function handler(req, res) {
                 }
             );
         }
-    } else {
+    }  else {
         return res.status(405).end(`Method ${req.method} Not Allowed`);
     }
 }

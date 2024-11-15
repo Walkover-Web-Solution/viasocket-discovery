@@ -1,6 +1,7 @@
 import { askAi, ValidateAiResponse } from '@/utils/utils';
 import blogServices from "../../services/blogServices"
 import { createBlogSchema, searchResultsSchema, updateBlogSchema } from '@/utils/schema';
+import { updateProxyUser } from '@/services/proxyServices';
 
 export const config = {
   maxDuration: 30,
@@ -9,7 +10,7 @@ export const config = {
 export default async function handler(req, res) {
     const { method } = req;
     const environment = req.headers['env'];
-    console.log(JSON.stringify(req.headers),"headers")
+    const userData = req.headers['x-profile'];
     switch (method) {
 
         case 'POST': 
@@ -44,6 +45,14 @@ export default async function handler(req, res) {
                         const blogCreated = await createBlog(botResponse, environment, userId);
                         botResponse.urls = [blogCreated];
                     }
+                }else if(bridgeId === process.env.NEXT_PUBLIC_USER_BIO_BRIDGE){
+                    if(parsedContent.bio){
+                        const userMeta = userData.meta || {};
+                        await updateProxyUser(userId, {meta: {...userMeta, bio: parsedContent.bio}} );
+                    }
+                    botResponse = parsedContent;
+                }else{
+                    botResponse = parsedContent;
                 }
                 data.response.data.content = botResponse;
                 return res.status(200).json({ success: true, data: {

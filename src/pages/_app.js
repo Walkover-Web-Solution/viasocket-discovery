@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/favicon-16x16.png"></link>
       </Head>
       <UserProvider>
-        <Layout >
+        <Layout>
           <Component {...pageProps} />
           <ToastContainer />
         </Layout>
