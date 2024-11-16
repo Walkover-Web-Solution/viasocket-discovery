@@ -1,4 +1,4 @@
-import { askAi, ValidateAiResponse } from '@/utils/utils';
+import { askAi, sendAlert, ValidateAiResponse } from '@/utils/utils';
 import blogServices from "../../services/blogServices"
 import { createBlogSchema, searchResultsSchema, updateBlogSchema } from '@/utils/schema';
 import { updateProxyUser } from '@/services/proxyServices';
@@ -34,12 +34,34 @@ export default async function handler(req, res) {
                 const parsedContent = JSON.parse(data.response.data.content);
                 let botResponse = {};
                 if(bridgeId == process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
-                    botResponse =  ValidateAiResponse(parsedContent,updateBlogSchema,bridgeId,message_id,true,chatId);
+                    botResponse =  ValidateAiResponse(parsedContent,updateBlogSchema);
+                    if(botResponse.success===true){
+                        botResponse= botResponse.value;
+                    } else {
+                        sendAlert(botResponse.errorMessages, bridgeId, message_id, chatId)
+                        botResponse = await retryResponse(bridgeId, botResponse.errorMessages, userId, countrycode, region, city, updateBlogSchema, chatId, variables );
+                    }
                     var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
                     var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate,userId).catch(err => console.log('Error updating blog', err));
                 }else if(bridgeId == process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
-                    if(parsedContent.blog) botResponse = ValidateAiResponse(parsedContent , createBlogSchema, bridgeId,message_id,true,chatId);
-                    else botResponse = ValidateAiResponse(parsedContent, searchResultsSchema, bridgeId,message_id,true,chatId);
+                    if(parsedContent.blog) {
+                        botResponse = ValidateAiResponse(parsedContent , createBlogSchema);
+                        if(botResponse.success===true){
+                            botResponse= botResponse.value;
+                        } else {
+                            sendAlert(botResponse.errorMessages, bridgeId, message_id, chatId)
+                            botResponse = await retryResponse(bridgeId, botResponse.errorMessages, userId, countrycode, region, city, createBlogSchema, chatId, variables );
+                        }
+                    }
+                    else {
+                        botResponse = ValidateAiResponse(parsedContent, searchResultsSchema);
+                        if(botResponse.success===true){
+                            botResponse= botResponse.value;
+                        } else {
+                            sendAlert(botResponse.errorMessages, bridgeId, message_id, chatId)
+                            botResponse = await retryResponse(bridgeId, botResponse.errorMessages, userId, countrycode, region, city, searchResultsSchema, chatId, variables );
+                        }
+                    }
                     if(botResponse.blog){
                        if( typeof botResponse.blog !== 'object' ) botResponse.blog = JSON.parse(botResponse.blog)
                         const blogCreated = await createBlog(botResponse, environment, userId);
@@ -91,3 +113,25 @@ async function createBlog(botResponse, environment, userId){
     }, environment);
 }
 
+
+
+async function retryResponse(bridgeId, errorMessage, userId, countrycode, region, city, schema, chatId, variables){
+    const data = await askAi(bridgeId, errorMessage, {
+        ...variables,
+        user_id : userId,
+        env : process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT,
+        countrycode : countrycode,
+        region : region,
+        city : city,
+        retry : true,
+     }, chatId)
+     const message_id = data.response.data.message_id;
+     const parsedContent = JSON.parse(data.response.data.content);
+     const validatedResponse =  ValidateAiResponse(parsedContent,schema,bridgeId,message_id,true,chatId,true);
+     
+     if(validatedResponse.success === true){
+        return validatedResponse.value; 
+     }
+     sendAlert( `RETRY ERROR ${validatedResponse.errorMessages}`, bridgeId, message_id, chatId );
+     return { message : "Something went wrong! Try again." }
+}
