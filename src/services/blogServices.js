@@ -267,7 +267,7 @@ const searchBlogsByApps = (appNames, blogId, environment) => {
         }
       },
       {
-        $facet: appNames.reduce((facet, appName, index) => {
+        $facet: appNames.reduce((facet, appName) => {
           facet[appName] = [
             { $match: { [`apps.${appName}`]: { $exists: true } } }, 
             { $limit: 4 }, 
