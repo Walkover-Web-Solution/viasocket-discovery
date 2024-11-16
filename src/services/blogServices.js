@@ -3,7 +3,7 @@
 
 import createBlogModel from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
-import { generateNanoid, replaceDotsInArray, restoreDotsInKeys } from '@/utils/utils';
+import { generateNanoid, restoreceDotsInArray, restoreDotsInKeys } from '@/utils/utils';
 import { getUpdatedApps } from './integrationServices';
 
 const withBlogModel = async (environment, callback) => {
@@ -39,11 +39,10 @@ const createBlog = async (blogData, environment) => {
   return await withBlogModel(environment, async (Blog) => {
     const apps = await getUpdatedApps(blogData, environment);
     const newBlog = (await Blog.create({ ...blogData, apps, id: generateNanoid(6) })).toObject();
-    newBlog.apps = restoreDotsInKeys(newBlog.apps);
     return {
       id: newBlog.id,
       blog: newBlog.blog, 
-      apps: newBlog.apps, 
+      apps: apps, 
       tags: newBlog.tags, 
       title: newBlog.title
     }
@@ -247,28 +246,28 @@ const bulkUpdateBlogs = async (bulkOperations, environment) => {
 };
 
 const blogWithApps = async (apps, environment) => {
-  const transformedApps = apps.map(appName => replaceDotsInArray(appName));
   return withBlogModel(environment, async (Blog) => {
     return await Blog.find({
-      $and: transformedApps.map(appName => ({[`apps.${appName}`] : {$exists: true}}))
+      $and: apps.map(appName => ({[`apps.${appName}`] : {$exists: true}}))
     }, 
     {_id : 0, id: 1, title: 1, apps: 1, tags: 1})
   })
 }
 
 const searchBlogsByApps = (appNames, blogId, environment) => {
+  const apps = appNames.map((appName) => restoreceDotsInArray(appName));
   return withBlogModel(environment, async (Blog) => {
     let blogs = await Blog.aggregate([
       {
         $match: {
           id: { $ne: blogId }, 
-          $or: appNames.map(appName => ({
+          $or: apps.map(appName => ({
             [`apps.${appName}`]: { $exists: true } 
           }))
         }
       },
       {
-        $facet: appNames.reduce((facet, appName) => {
+        $facet: appNames.reduce((facet, appName, index) => {
           facet[appName] = [
             { $match: { [`apps.${appName}`]: { $exists: true } } }, 
             { $limit: 4 }, 
@@ -278,10 +277,10 @@ const searchBlogsByApps = (appNames, blogId, environment) => {
         }, {})
       }
     ]);
-    blogs = blogs.map(blog => {
-      blog.apps = restoreDotsInKeys(blog.apps);
-      return blog;
-    })
+    blogs = blogs.map(blogFacet => {
+      const restoredFacet = restoreDotsInKeys(blogFacet);
+      return restoredFacet;
+    });
     return JSON.parse(JSON.stringify(blogs));
   });
 };

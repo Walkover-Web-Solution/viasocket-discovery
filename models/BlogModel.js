@@ -1,6 +1,6 @@
 // models/Blog.js
 import mongoose from 'mongoose';
-import { replaceDotsInKeys, restoreDotsInKeys } from '@/utils/utils';
+import {  replaceDotsInKeys, restoreDotsInKeys } from '@/utils/utils';
 const createBlogModel = (connection) => {
   const BlogSchema = new mongoose.Schema({
     id: {
@@ -35,6 +35,25 @@ const createBlogModel = (connection) => {
     }
     next();
   });
+
+  BlogSchema.pre('find', function (next) {
+    const query = this.getQuery();
+    if (query && query.$and) {
+        query.$and = query.$and.map(condition => {
+          Object.keys(condition).forEach((key) => {
+            if (key.startsWith("apps.")) {
+                const newKey = `apps.${key.slice(5).replace(/\./g, '~')}`;  // check the case where we want to access the properties of 'apps' 
+                const data = condition[key];
+                delete condition[key];
+                condition[newKey] = data;
+            }
+        });
+        return condition;
+        });
+    }
+    next();
+});
+
   
   BlogSchema.pre('findOneAndUpdate', function (next) {
     const update = this.getUpdate();

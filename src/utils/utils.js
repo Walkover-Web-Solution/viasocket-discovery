@@ -139,3 +139,4 @@ export const restoreDotsInKeys = (obj) => {
 };
 
 export const replaceDotsInArray = (key) => key.replace(/\./g, '~');
+export const restoreceDotsInArray = (key) => key.replace(/~/g, '.');
