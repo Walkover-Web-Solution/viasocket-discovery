@@ -61,7 +61,7 @@ const getBlogById = (blogId, environment) => {
 
 const updateBlogById = (blogId, blogData, userId, environment) => {
   return withBlogModel(environment, async (Blog) => {
-    const appNames = blogData?.blog?.find(section => section.section === 'summaryList')?.content?.map(app => app.name) || [];
+  const appNames = blogData.blog[0].content.map(app => app.appName);
     const apps = await getUpdatedApps(appNames, environment);
     const updateData = {
       ...blogData,
