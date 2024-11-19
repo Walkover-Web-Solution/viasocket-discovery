@@ -63,8 +63,11 @@
 
 .summaryList {
     width: 100%;
+    background-color: white;
+    padding-top: 0;
     .list{
         display: flex;
+        padding-top: 0;
         flex-direction: column;
         width: 100%;
         .appLink{
