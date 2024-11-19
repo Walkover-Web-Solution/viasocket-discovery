@@ -17,28 +17,22 @@ const Components = {
             <ContributorsPopup users={users} createdAt={createdAt} title={content}/>
         </div>
     ), 
-    introduction : ({content}) => (
-        <ReactMarkdown className = {styles.introduction} remarkPlugins={[remarkGfm]}>
-        {content}
-        </ReactMarkdown>
-    ),
-    summaryList : ({content, integrations}) => {
+    summaryList : ({appNames, integrations}) => {
         return (
             <div className = {styles.summaryList}>
-                <h4>Top Apps</h4>
                 <List className={styles.list}>
-                    {content.map((app, idx) => {
-                        const appName = app.name.toLowerCase();
-                        const appSlugName = nameToSlugName(app.name);
+                    {appNames.map((app, idx) => {
+                        const appName = app.toLowerCase();
+                        const appSlugName = nameToSlugName(app);
                         const appData = integrations?.[appName]?.plugins[appSlugName];
                         return (
                             <a className = {styles.appLink} key = {idx} href = {appData ? `https://viasocket.com/integrations/${appSlugName}` : null} target='_blank'>
                                 <ListItem  className = {styles.listItem}>
-                                    <Avatar className = {styles.appIcon} alt={app.name} src={appData?.iconurl || 'https://thingsofbrand.com/api/viasocket.com/logos/viasocket_logo_1'} variant='square'/>
+                                    <Avatar className = {styles.appIcon} alt={app} src={appData?.iconurl || 'https://thingsofbrand.com/api/viasocket.com/logos/viasocket_logo_1'} variant='square'/>
                                     <div className = {styles.content}>
-                                        <h5>{app.name}</h5>
+                                        <h5>{app}</h5>
                                         <ReactMarkdown className = {styles.description} remarkPlugins={[remarkGfm]}>
-                                            {appData?.description || app.description}
+                                            {appData?.description || ""}
                                         </ReactMarkdown>
                                     </div>
                                     <ArrowOutwardIcon className = {styles.arrowIcon} fontSize='medium'/>
@@ -50,30 +44,21 @@ const Components = {
             </div>
         )
     },
-    whatToLookFor: ({content}) => (
-        <div className = {styles.whatToLookFor}>
-            <h4>What To Look For</h4>
-            <ReactMarkdown className = {styles.content} remarkPlugins={[remarkGfm]}>
-                {content}
-            </ReactMarkdown>
-        </div>
-    ), 
     detailedReviews : ({content, integrations, appBlogs}) => {
-        const apps = content.map(app => app.name);
         return (
             <div className = {styles.detailedReviews}>
                 <h4>Detailed Reviews</h4>
                 <List>
-                    {content.map((app, idx) => (
+                    {content.map(({appName, content}, idx) => (
                         <ListItem className = {styles.listItem} key = {idx}>
-                            <h5>{app.name}</h5>
+                            <h5>{appName}</h5>
                             <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                                {app.content}
+                                {content}
                             </ReactMarkdown>
-                            <Integrations integrations = {integrations?.[app.name.toLowerCase()]} appslugname = {nameToSlugName(app.name)}/>
+                            <Integrations integrations = {integrations?.[appName.toLowerCase()]} appslugname = {nameToSlugName(appName)}/>
                             <div className={styles.relatedBlogsDiv}>
-                                {appBlogs[app.name]?.length>0 && <h6> Explore More on <strong>{app.name}</strong></h6>}
-                                {appBlogs[app.name]?.map((blog) => {
+                                {appBlogs[appName]?.length>0 && <h6> Explore More on <strong>{appName}</strong></h6>}
+                                {appBlogs[appName]?.map((blog) => {
                                     return <a key={blog.id} className={styles.relatedBlogsLink} href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${blog.meta.category}/` : ''}${nameToSlugName(blog.slugName)}`} target='_blank'>{blog.title}</a>
                                 })}
                             </div>
@@ -83,14 +68,6 @@ const Components = {
             </div>
         )
     },
-    conclusion: ({content}) => (
-        <div className = {styles.conclusion}>
-            <h4>Conclusion</h4>
-            <ReactMarkdown className = {styles.content} remarkPlugins={[remarkGfm]}>
-                {content}
-            </ReactMarkdown>
-        </div>
-    ), 
     dummy : () => (
         <ReactMarkdown className = {styles.dummyMarkdown} remarkPlugins={[remarkGfm]}>
             {dummyMarkdown}

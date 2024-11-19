@@ -23,7 +23,7 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
       setMessages([...messages, userMessage]);
       try {
         const data =  await sendMessageApi(userMessage.content, chatId, bridgeId, variables, blogId);
-        const content = data?.botResponse?.response?.data?.content;
+        const content = data?.botResponse;
         if (content) {
           const botMessage = { role: 'assistant', content };
           setMessages((prevMessages) => [...prevMessages, botMessage]);
