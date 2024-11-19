@@ -1,4 +1,4 @@
-import { askAi, ValidateAiResponse, sendMessageTochannel, improveBlogPrompt, extractJsonFromMarkdown, writers, philosophers, countriesAndCities } from "@/utils/utils";
+import { askAi, ValidateAiResponse, sendMessageTochannel, improveBlogPrompt, extractJsonFromMarkdown } from "@/utils/utils";
 import blogServices from "../../services/blogServices"
 import { improveBlogSchema } from "@/utils/schema";
 
@@ -7,20 +7,16 @@ export default async function handler(req, res) {
     const { method } = req;
     const environment = req.headers['env'];
     switch (method) {
-        case 'GET': 
+        case 'GET':
+            let results = []; 
             try {
                 res.status(200).json({status:"success"})   // send immediate res 
                 const blogs = await blogServices.getLastHourBlogs(environment);
                 const bulkOperations = await Promise.all(blogs.map(async (blog) => {
                     try{
-                    const randomIndex = Math.floor(Math.random() * writers.length)
-                    const writer = writers[randomIndex];
-                    const philosopher = philosophers[randomIndex];
-                    const city = countriesAndCities[randomIndex].city;
-                    const country = countriesAndCities[randomIndex].country;
                     let aiResponse = await askAi(
                       process.env.IMPROVE_BRIDGE,
-                      JSON.stringify({ prompt : improveBlogPrompt( writer, philosopher, city, country ),blog : blog.blog , title : blog.title })
+                      `${improveBlogPrompt( 'Charles Dickens', 'Immanuel Kant', 'Delhi', 'India' )} ${JSON.stringify({blog : blog.blog , title : blog.title })}`
                     );
                     const message_id = aiResponse.response.data.message_id;
                     aiResponse = extractJsonFromMarkdown(aiResponse.response.data.content);
@@ -44,11 +40,13 @@ export default async function handler(req, res) {
                 }
             }));
                 const validBulkOperations = bulkOperations.filter(op => op !== null);            
-                await blogServices.bulkUpdateBlogs(validBulkOperations, environment);
+                results = await blogServices.bulkUpdateBlogs(validBulkOperations, environment);
             } catch (error) {
                 console.log("error in improve blogs", error)
                 sendMessageTochannel({"message":'error in improve blog API.' , error : error.message})
              
+            }finally{
+                sendMessageTochannel({"message":'improveBlog complete ' , results : results})
             }
         default:
             // Handle unsupported request methods
