@@ -38,9 +38,9 @@ export const createdBlogSchema = Joi.object({
 export const searchResultsSchema = Joi.object({
   message: Joi.string().required(),
   existingBlogs: Joi.array().items(Joi.object({
-    id: Joi.string().required()
-  }).pattern(/^((?!id).)*$/, Joi.any()).optional()
-),
+      id: Joi.string().required()
+    }).pattern(/^((?!id).)*$/, Joi.any()).optional()
+  ).allow(null),
   shouldCreate: Joi.boolean().optional()
 });
 
@@ -51,9 +51,9 @@ export const updateBlogSchema = Joi.object({
     tags: Joi.array().items(Joi.string()).required(),
     blog: Joi.array().items(Joi.object()).required(),
     meta: Joi.object().optional(),
-  }).optional(),
+  }).optional().allow(null),
   shouldCreate: Joi.string().valid("Yes", "No").insensitive().optional(),
-  urls: Joi.array().items(urlSchema).optional(),
+  urls: Joi.array().items(urlSchema).optional().allow(null),
 });
 
 
