@@ -139,3 +139,24 @@ export const restoreDotsInKeys = (obj) => {
 };
 
 export const replaceDotsInArray = (key) => key.replace(/\./g, '~');
+
+export const improveBlogPrompt = ( writer, philosopher, city, country ) => {
+  return (`Rewrite the blog to be SEO-friendly, dynamic, and in a style resembling ${writer} —engaging and decision-focused, with humorous anecdotes, quotes, dialogue or cultural references. End in a tone akin to ${philosopher}. Mention one related blog in each section using markdown links if relevant. Use rhetorical questions, conversational tone, and colloquial language with slight regional flavour (${city}, ${country}). Format in Markdown for readability return output in JSON embedded within a Markdown :- { 'blog': '<same formate as given>'}`)  
+}
+
+export  function extractJsonFromMarkdown(markdown) {
+  const jsonRegex = /```json([^```]+)```/g;
+  const match = jsonRegex.exec(markdown);
+  if (match && match[1]) {
+      const jsonData = JSON.parse(match[1].trim());
+      return jsonData;
+  } else {
+    throw new Error("No JSON found in Markdown");
+  }
+}
+
+export const writers = ["William Shakespeare", "Charles Dickens", "Jane Austen", "George Orwell", "Virginia Woolf", "James Joyce", "F. Scott Fitzgerald", "Mark Twain", "H.G. Wells", "Ernest Hemingway", "J.K. Rowling", "Emily Brontë", "T.S. Eliot", "Joseph Conrad", "Harper Lee", "Leo Tolstoy", "Gabriel García Márquez", "Oscar Wilde", "Toni Morrison", "Herman Melville"];
+
+export const philosophers  = ["Socrates", "Plato", "Aristotle", "Immanuel Kant", "René Descartes", "Friedrich Nietzsche", "John Locke", "David Hume", "Jean-Jacques Rousseau", "Karl Marx", "Simone de Beauvoir", "Michel Foucault", "Bertrand Russell", "Ludwig Wittgenstein", "Baruch Spinoza", "Confucius", "Zhuangzi", "G.W.F. Hegel", "John Stuart Mill", "Søren Kierkegaard"];
+
+export const countriesAndCities = [{ country: "United States", city: "New York" }, { country: "United States", city: "Los Angeles" }, { country: "United Kingdom", city: "London" }, { country: "United Kingdom", city: "Manchester" }, { country: "Canada", city: "Toronto" }, { country: "Canada", city: "Vancouver" }, { country: "France", city: "Paris" }, { country: "France", city: "Marseille" }, { country: "Germany", city: "Berlin" }, { country: "Germany", city: "Munich" }, { country: "Italy", city: "Rome" }, { country: "Italy", city: "Milan" }, { country: "Australia", city: "Sydney" }, { country: "Australia", city: "Melbourne" }, { country: "India", city: "Mumbai" }, { country: "India", city: "Delhi" }, { country: "Japan", city: "Tokyo" }, { country: "Japan", city: "Osaka" }, { country: "Brazil", city: "Rio de Janeiro" }, { country: "Brazil", city: "São Paulo" }];

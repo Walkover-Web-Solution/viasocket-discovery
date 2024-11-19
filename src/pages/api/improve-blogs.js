@@ -1,4 +1,4 @@
-import { askAi, ValidateAiResponse, sendMessageTochannel } from "@/utils/utils";
+import { askAi, ValidateAiResponse, sendMessageTochannel, improveBlogPrompt, extractJsonFromMarkdown, writers, philosophers, countriesAndCities } from "@/utils/utils";
 import blogServices from "../../services/blogServices"
 import { improveBlogSchema } from "@/utils/schema";
 
@@ -13,12 +13,17 @@ export default async function handler(req, res) {
                 const blogs = await blogServices.getLastHourBlogs(environment);
                 const bulkOperations = await Promise.all(blogs.map(async (blog) => {
                     try{
+                    const randomIndex = Math.floor(Math.random() * writers.length)
+                    const writer = writers[randomIndex];
+                    const philosopher = philosophers[randomIndex];
+                    const city = countriesAndCities[randomIndex].city;
+                    const country = countriesAndCities[randomIndex].country;
                     let aiResponse = await askAi(
                       process.env.IMPROVE_BRIDGE,
-                      JSON.stringify({ blog : blog.blog })
+                      JSON.stringify({ prompt : improveBlogPrompt( writer, philosopher, city, country ),blog : blog.blog , title : blog.title })
                     );
                     const message_id = aiResponse.response.data.message_id;
-                    aiResponse = JSON.parse(aiResponse.response.data.content);
+                    aiResponse = extractJsonFromMarkdown(aiResponse.response.data.content);
                     const processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema,process.env.IMPROVE_BRIDGE,message_id,true);
                     await distinctifyPhrase(processedBlog, environment);
                     return {
@@ -27,7 +32,7 @@ export default async function handler(req, res) {
                             update: { 
                               $set: { 
                                 'blog': processedBlog.blog ,
-                                'title' : processedBlog.blog.find(section => section.section === 'title').content,
+                                'title' : processedBlog.title,
                               }
                             }
                         }
