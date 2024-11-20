@@ -17,9 +17,9 @@ export default async function handler(req, res) {
             try {
                 const { userMessage, chatId, bridgeId, variables, blogId } = req.body;
                 const userId = parseInt(JSON.parse(req.headers['x-profile']).id);
-                const countrycode = req.headers["cf-ipcountry"] || "Not available";
-                const region = req.headers["cf-region"] || "Not available";
-                const city = req.headers["cf-ipcity"] || "Not available";
+                const countrycode = req.headers["cf-ipcountry"] || "IN";
+                const region = req.headers["cf-region"] || "IN";
+                const city = req.headers["cf-ipcity"] || "IN";
                 
                 const data = await askAi(
                   bridgeId, userMessage,
@@ -40,12 +40,12 @@ export default async function handler(req, res) {
                 if(bridgeId === process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
                     botResponse =  ValidateAiResponse(parsedContent,updateBlogSchema,bridgeId,message_id,true,chatId);
                     var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
-                    var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate,userId).catch(err => console.log('Error updating blog', err));
+                    var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate,userId,countrycode).catch(err => console.log('Error updating blog', err));
                 }else if(bridgeId === process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
                     botResponse = ValidateAiResponse(parsedContent, searchResultsSchema, bridgeId, message_id, true, chatId);
                     const shouldCreate = parsedContent.shouldCreate;
                     if(shouldCreate && (typeof shouldCreate !== 'string' || shouldCreate?.toLowerCase() != 'false')){
-                        const newBlog = await createBlog(userMessage, environment, userId);
+                        const newBlog = await createBlog(userMessage, environment, userId,countrycode);
                         botResponse.urls = [newBlog];
                     }else{
                         botResponse = ValidateAiResponse(parsedContent, searchResultsSchema, bridgeId, message_id, true, chatId);
@@ -78,15 +78,15 @@ export default async function handler(req, res) {
 }
 
 
-async function updateBlog(blogId, blogData, environment, shouldCreate,userId) {
+async function updateBlog(blogId, blogData, environment, shouldCreate,userId,countrycode) {
     if(shouldCreate) {
-        return await blogServices.createBlog(blogData, environment,userId);
+        return await blogServices.createBlog({...blogData , countryCode : countrycode }, environment,userId);
     }else{
         return await blogServices.updateBlogById(blogId, blogData, userId , environment);
     }
 }
 
-async function createBlog(userMessage, environment, userId){
+async function createBlog(userMessage, environment, userId, countrycode){
     const blueprint = JSON.parse(await askAi(process.env.BLUE_PRINT_BRIDGE, userMessage).then(res => res.response.data.content));
     if(ValidateAiResponse(blueprint, blueprintSchema, process.env.BLUE_PRINT_BRIDGE, null, true).corrupted) throw new Error('Invalid Response from AI');
     const blogPrompt = JSON.stringify({
@@ -111,7 +111,8 @@ async function createBlog(userMessage, environment, userId){
         tags, 
         title: blueprint.title, 
         meta: blueprint.metadata, 
-        createdBy: userId
+        createdBy: userId,
+        countryCode : countrycode
     }
     return await blogServices.createBlog(blogToCreate, environment);
 }

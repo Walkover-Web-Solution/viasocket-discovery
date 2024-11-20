@@ -135,3 +135,25 @@ export const restoreDotsInKeys = (obj) => {
 };
 
 export const replaceDotsInArray = (key) => key.replace(/\./g, '~');
+
+export const improveBlogPrompt = ( writer, philosopher ) => {
+  return (`Rewrite the blog to be SEO-friendly, dynamic, and in a style resembling ${writer} —engaging and decision-focused, with humorous anecdotes, quotes, dialogue or cultural references. End in a tone akin to ${philosopher}. Use rhetorical questions, conversational tone. only response with the updated JSON  embedded in markdown  Example:
+    \n\n
+    \`\`\`
+    json\n {\"blog\": \This is an example blog.\"} \n 
+    \`\`\`
+    :- { 'blog': '<same formate as given>}
+    `)
+}
+
+export  function extractJsonFromMarkdown(markdown) {
+  const jsonRegex = /```json([^```]+)```/g;
+  const match = jsonRegex.exec(markdown);
+  if (match && match[1]) {
+      const jsonData = JSON.parse(match[1].trim());
+      return jsonData;
+  } else {
+    throw new Error("No JSON found in Markdown");
+  }
+}
+

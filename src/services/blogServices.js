@@ -234,7 +234,10 @@ const getLastHourBlogs = async (environment) => {
     oneHourAgo.setHours(oneHourAgo.getHours() - 1); 
 
     const blogs = await Blog.find({
-      createdAt: { $gte: oneHourAgo } 
+      $or: [
+        { createdAt: { $gte: oneHourAgo } },  
+        { updatedAt: { $gte: oneHourAgo } }    
+      ]
     });
 
     return blogs;
