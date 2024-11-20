@@ -15,10 +15,11 @@ export default async function handler(req, res) {
                 const blogs = [await blogServices.getBlogById(id,environment)];
                 const bulkOperations = await Promise.all(blogs.map(async (blog) => {
                     try{
-                    const auther = await getNames(blog.countryCode);
+                    const countryCode = blog.countryCode || 'IN' ;  
+                    const auther = await getNames(countryCode);
                     let aiResponse = await askAi(
                       process.env.IMPROVE_BRIDGE,
-                      `${improveBlogPrompt( auther.writer.name, auther.philosopher.name , blog.countryCode )} ${JSON.stringify({blog : blog.blog , title : blog.title })}`
+                      `${improveBlogPrompt( auther.writer.name, auther.philosopher.name , countryCode )} ${JSON.stringify({blog : blog.blog , title : blog.title })}`
                     );
                     const message_id = aiResponse.response.data.message_id;
                     aiResponse = extractJsonFromMarkdown(aiResponse.response.data.content);
