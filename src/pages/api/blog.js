@@ -21,7 +21,7 @@ export default async function handler(req, res) {
           if (search.startsWith('#')) {
             blogs = await blogServices.searchBlogsByTag(search.slice(1),environment);
           } else {
-            tags = (await searchTags(search,environment))[0]?.matchingTags,
+            tags = (await searchTags(search,environment))[0]?.matchingTags
             blogs = await blogServices.searchBlogsByQuery(search,environment);
           }
         }else if(apps){
