@@ -6,6 +6,7 @@ import Components from '../BlogComponents/BlogComponents';
 import Link from 'next/link';
 const AIresponse = ({ blogData, users, integrations, appBlogs }) => {
   const hasMarkdown = blogData?.blog;
+  const [detailedReviews, ...dynamicSections] = blogData?.blog;
   return (
     <>
       <Head>
@@ -17,8 +18,10 @@ const AIresponse = ({ blogData, users, integrations, appBlogs }) => {
           {!hasMarkdown && Components['dummy']()}
           {hasMarkdown && (
             <>
+              {Components['summaryList']({appNames: detailedReviews.content.map(app => app.appName), integrations})}
+              {Components['detailedReviews']({...detailedReviews, integrations, appBlogs})}
               {
-                blogData.blog.map(({section, content, heading}) => section === 'title' ? null : Components[section]?.({content, integrations, heading, appBlogs}))
+                dynamicSections.map(({content, heading}) => Components['additionalSection']?.({content, heading}))
               }
               <div className={styles.tagsContainer}>
                 <h3>Related Tags</h3>

@@ -72,11 +72,8 @@ async function alertMissingPlugins(plugins){
     ).catch(err => console.error('Error in alerting', err));
 }
 
-async function getUpdatedApps(blogData,environment) {
-    const appContent = blogData?.blog?.find(section => section.section === 'summaryList')?.content;
+async function getUpdatedApps(pluginNames,environment) {
     try {
-        const pluginNames = appContent?.map(app => app.name) || [];
-
         const apiIcons = await getPluginsByName(pluginNames, ['name', 'iconurl', 'domain'],environment, true);
         const iconMap = apiIcons.reduce((acc, plugin) => {
             acc[plugin.name.toLowerCase()] = {
@@ -85,21 +82,21 @@ async function getUpdatedApps(blogData,environment) {
             };
             return acc;
         }, {});
-        const apps = appContent?.reduce((acc, app) => {
-            if (iconMap[app.name.toLowerCase()]?.iconUrl || iconMap[app.name.toLowerCase()]?.domain) {
-                acc[app.name] = {
-                    iconUrl: iconMap[app.name.toLowerCase()]?.iconUrl  ,
-                    domain: iconMap[app.name.toLowerCase()]?.domain  
+        const apps = pluginNames?.reduce((acc, appName) => {
+            if (iconMap[appName.toLowerCase()]?.iconUrl || iconMap[appName.toLowerCase()]?.domain) {
+                acc[appName] = {
+                    iconUrl: iconMap[appName.toLowerCase()]?.iconUrl,
+                    domain: iconMap[appName.toLowerCase()]?.domain  
                 };
-            } else acc[app.name] = {};
+            } else acc[appName] = {};
             return acc;
         }, {});
         return apps;
     } catch (error) {
         console.log("error in getting app icon urls ", error);
         
-        const apps = appContent?.reduce((acc, app) => {
-            acc[app.name] = {};
+        const apps = pluginNames?.reduce((acc, app) => {
+            acc[app] = {};
             return acc;
         }, {});
         return apps;

@@ -24,11 +24,7 @@ In the ever-evolving world of technology, finding the perfect app or software th
 So dive in, explore, and let AI guide you to the best software out there. Discover, share, and elevate your tech experience today!
 
 Happy discovering!
-
 `;
-
-
-
 
 export const generateNanoid = (length = 6) => {
     const alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789';
