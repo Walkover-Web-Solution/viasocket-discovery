@@ -6,16 +6,16 @@ import {  getRandomAuthorByCountryAndType, insertManyAuther } from "@/services/a
 
 export default async function handler(req, res) {
     const { method } = req;
+    const {id} = req.query;
     const environment = req.headers['env'];
     switch (method) {
         case 'GET':
             let results = []; 
             try {
-                res.status(200).json({status:"success"})   // send immediate res 
-                const blogs = await blogServices.getLastHourBlogs(environment);
+                const blogs = [await blogServices.getBlogById(id,environment)];
                 const bulkOperations = await Promise.all(blogs.map(async (blog) => {
                     try{
-                    const auther =await getNames(blog.countryCode);
+                    const auther = await getNames(blog.countryCode);
                     let aiResponse = await askAi(
                       process.env.IMPROVE_BRIDGE,
                       `${improveBlogPrompt( auther.writer.name, auther.philosopher.name , blog.countryCode )} ${JSON.stringify({blog : blog.blog , title : blog.title })}`
@@ -37,18 +37,20 @@ export default async function handler(req, res) {
                     };
                 }catch(err){
                     console.log(err,"error in ask ai ")
-                    sendMessageTochannel({"message":'error in improve blog askAi.' , error : err.message})
+                    sendMessageTochannel({"message":'error in improve blog by ID askAi.' , error : err.message})
                     return null ;
                 }
             }));
                 const validBulkOperations = bulkOperations.filter(op => op !== null);            
                 results = await blogServices.bulkUpdateBlogs(validBulkOperations, environment);
+                return res.status(200).json({ success: true, message: "succesfully improved blog ", results: results });
+                
             } catch (error) {
-                console.log("error in improve blogs", error)
-                sendMessageTochannel({"message":'error in improve blog API.' , error : error.message})
+                console.log("error in improve blog by ID", error)
+                sendMessageTochannel({"message":'error in improve blog by ID API.' , error : error.message})
              
             }finally{
-                sendMessageTochannel({"message":'improveBlog complete ' , results : results})
+                sendMessageTochannel({"message":'improveBlog by ID complete ' , results : results})
             }
         default:
             // Handle unsupported request methods
