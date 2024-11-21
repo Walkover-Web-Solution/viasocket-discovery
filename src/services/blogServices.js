@@ -104,6 +104,7 @@ const searchBlogsByQuery = (query, environment) => {
   return withBlogModel(environment, (Blog) => {
   return Blog.find({
       $or: [
+        { title: { $regex: query, $options: 'i' } },
         { slugName: { $regex: query, $options: 'i' } },
         { 'blog.content': { $regex: query, $options: 'i' } },
         { tags: { $regex: query, $options: 'i' } },  
