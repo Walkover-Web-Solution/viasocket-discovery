@@ -229,15 +229,15 @@ const searchBlogsByUserId = async ( userId, environment ) => {
   })
 }
 
-const getLastHourBlogs = async (environment) => {
+const getBlogsForImprove = async (environment) => {
   return withBlogModel(environment, async (Blog) => {
-    const oneHourAgo = new Date();
-    oneHourAgo.setHours(oneHourAgo.getHours() - 1); 
+    const oneDayAgo = new Date();
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1); 
 
     const blogs = await Blog.find({
       $or: [
-        { createdAt: { $gte: oneHourAgo } },  
-        { updatedAt: { $gte: oneHourAgo } }    
+        { createdAt: { $gte: oneDayAgo } },  
+        { updatedAt: { $gte: oneDayAgo } } 
       ]
     });
 
@@ -292,4 +292,4 @@ const searchBlogsByApps = (appNames, blogId, environment) => {
   });
 };
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps, searchBlogsByApps };
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getBlogsForImprove, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps, searchBlogsByApps };

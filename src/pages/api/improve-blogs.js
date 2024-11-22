@@ -13,7 +13,7 @@ export default async function handler(req, res) {
             let failedBlogs = [];  
             try {
                 res.status(200).json({status:"success"})   // send immediate res 
-                const blogs = await blogServices.getLastHourBlogs(environment);
+                const blogs = await blogServices.getBlogsForImprove(environment);
                 const bulkOperations =await createBulkOperation(blogs,environment);
                 const validBulkOperations = bulkOperations.filter(result => result.status === 'fulfilled').map(result => result.value);      
                 const failedOperations = bulkOperations
