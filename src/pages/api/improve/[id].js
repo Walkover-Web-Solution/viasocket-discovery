@@ -26,7 +26,7 @@ export default async function handler(req, res) {
                 res.status(400).json({ success: false, error: error.message });
              
             }finally{
-                sendMessageTochannel({"message":`improveBlog by ID complete ${id}` , results : results})
+                sendMessageTochannel({"message":`improveBlog by ID complete ${id}`})
             }
         default:
             // Handle unsupported request methods
