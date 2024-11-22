@@ -76,7 +76,6 @@ export async function getWriter(countryCode,type){
 
 export async function createBulkOperation (blogs,environment){
    return await Promise.allSettled(blogs.map(async (blog) => {
-    console.log(blog.id);
 
         const countryCode = blog.countryCode || 'IN'; 
         const auther = await getNames(countryCode);
