@@ -93,6 +93,10 @@ async function createBlog(userMessage, environment, userId, countrycode){
         title: blueprint.title,
         blog: [
             {
+                heading : 'Comparison Table: <about app>',
+                content :"Provide a comparative table use internal links to the real app  "
+            },
+            {
                 heading: 'Detailed Reviews', 
                 content: [{
                     "appName" : "app name", 

@@ -37,7 +37,7 @@ const getAllBlogs = (userId, environment) => {
 
 const createBlog = async (blogData, environment) => {
   return await withBlogModel(environment, async (Blog) => {
-    const appNames = blogData.blog[0].content.map(app => app.appName);
+    const appNames = blogData.blog[1].content.map(app => app.appName);
     const apps = await getUpdatedApps(appNames, environment);
     const newBlog = (await Blog.create({ ...blogData, apps, id: generateNanoid(6) })).toObject();
     newBlog.apps = restoreDotsInKeys(newBlog.apps);
@@ -61,7 +61,7 @@ const getBlogById = (blogId, environment) => {
 
 const updateBlogById = (blogId, blogData, userId, environment) => {
   return withBlogModel(environment, async (Blog) => {
-  const appNames = blogData.blog[0].content.map(app => app.appName);
+  const appNames = blogData.blog[1].content.map(app => app.appName);
     const apps = await getUpdatedApps(appNames, environment);
     const updateData = {
       ...blogData,
