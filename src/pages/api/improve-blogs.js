@@ -9,31 +9,31 @@ export default async function handler(req, res) {
     const environment = req.headers['env'];
     switch (method) {
         case 'POST':
-            let results = []; 
+            let results = {}; 
             let failedBlogs = [];  
             try {
                 res.status(200).json({status:"success"})   // send immediate res 
                 const blogs = await blogServices.getBlogsForImprove(environment);
                 const bulkOperations =await createBulkOperation(blogs,environment);
-                const validBulkOperations = bulkOperations.filter(result => result.status === 'fulfilled').map(result => result.value);      
-                const failedOperations = bulkOperations
-                    .map((result,index) => {
-                       if(result.status === 'rejected'){
-                            return {
+                let validBulkOperations = [];
+                bulkOperations.forEach((result, index) => {
+                    if (result.status === 'fulfilled') {
+                        validBulkOperations.push(result.value);
+                    } else if (result.status === 'rejected') {
+                        failedBlogs.push({
                             id: blogs[index].id,
                             reason: result.reason.message
-                            }
-                        }else return null;
-                    })
-                    .filter(result => result !== null);
-                failedBlogs = failedOperations;  
+                        });
+                    }
+                });
+                
                 results = await blogServices.bulkUpdateBlogs(validBulkOperations, environment);
             } catch (error) {
                 console.log("error in improve blogs", error)
                 sendMessageTochannel({"message":'error in improve blog API.' , error : error.message})
              
             }finally{
-                sendMessageTochannel({"message":`improveBlog complete ${results.result.nModified} blogs updated ` , failedBlogs : failedBlogs})
+                sendMessageTochannel({"message":`improveBlog complete ${results?.result?.nModified} blogs updated ` , failedBlogs : failedBlogs})
             }
         default:
             // Handle unsupported request methods
