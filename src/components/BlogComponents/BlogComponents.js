@@ -7,6 +7,7 @@ import styles from './BlogComponents.module.scss'
 import Integrations from '../Integrations/Integrations';
 import ContributorsPopup from '../ContributersPopup/ContributersPopup';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import ExtensionIcon from '@mui/icons-material/Extension';
 
 const Components = {
     title: ({content, users, createdAt}) => (
@@ -57,7 +58,9 @@ const Components = {
                     {content.map(({appName, content}, idx) => (
                         <ListItem className = {styles.listItem} key = {idx}>
                             <div className={styles.appHeadingDiv}>
-                                <Avatar className = {styles.appIcon} alt={appName} src={integrations?.[appName.toLowerCase()]?.plugins[nameToSlugName(appName)]?.iconurl} variant='square'/>
+                                <Avatar className = {styles.appIcon} alt={appName} src={integrations?.[appName.toLowerCase()]?.plugins[nameToSlugName(appName)]?.iconurl} variant='square'>
+                                    <ExtensionIcon/>
+                                </Avatar>
                                 <h5>{appName}</h5>
                             </div>
                             <ReactMarkdown className = {styles.content} remarkPlugins={[remarkGfm]}>

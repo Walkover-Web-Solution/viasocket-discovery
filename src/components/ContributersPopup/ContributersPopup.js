@@ -14,7 +14,11 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
     const currentUrl = 'http://viasocket.com/discovery'+ router.asPath ; 
 
     const handleMouseEnter = (e) => {
-        setShowPopup(true);
+        if(users.length > 1){
+            setShowPopup(true);
+        }else{
+            window.open('/discovery/user/' + users[0].id + '/' + nameToSlugName(users[0].name), '_blank'); 
+        }
     };
 
     const handleMouseLeave = () => {
