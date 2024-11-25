@@ -100,7 +100,7 @@ async function createBlog(userMessage, environment, userId, countrycode){
                 heading: 'Detailed Reviews', 
                 content: [{
                     "appName" : "app name", 
-                    "content": "Engaging description with USP, pros, cons, personal opinions, and perhaps a fun anecdote."
+                    "content": "Engaging description with USP, pros, cons,personal opinions, and perhaps a fun anecdote in proper markdown."
                 }]
             }, 
             ...blueprint.blogStructure
