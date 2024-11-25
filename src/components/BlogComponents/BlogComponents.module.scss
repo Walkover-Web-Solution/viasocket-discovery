@@ -1,71 +1,131 @@
-.titleDiv{
-    position: relative;
-    & > *{
+.titleContainer{
+    .titleDiv{
         position: relative;
+        max-width: var(--outer-blog-width);
+        & > *{
+            position: relative;
+        }
+        &:after{
+            content:"";
+            position: absolute;
+            bottom: -10rem;
+            left: -200%;
+            width: 500%;
+            height: 300%;
+            z-index: -1;
+        }
+        .title{
+            color: var(--foreground-color);
+            z-index: 9;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        margin: 2rem auto 10rem auto;
     }
-    &:after{
-        content:"";
-        position: absolute;
-        bottom: -10rem;
-        left: -200%;
-        width: 500%;
-        height: 300%;
-        background: var(--gradient);
-        background-size: 400% 400%;
-        animation: gradient 9s ease infinite;
-        z-index: -1;
-        border-bottom: 1px solid var(--foreground-color);
+    border: 1px solid black;    
+    background: var(--gradient);
+    background-size: 600% 600%;
+    animation: gradient 9s ease infinite;
+}
+
+.detailedReviews{
+    .listItem{
+        display: block;
+        &:not(:last-of-type){
+            margin-bottom: 4rem;
+        }
     }
-    .title{
-        color: var(--foreground-color);
-        z-index: 9;
-        font-size: 6rem;
-        font-weight: 900;
-        font-family: var(--title-font);
-        position: relative;
-        word-spacing: 5px;
+    .howWeAssess{
+        max-width: var(--blog-width);
+        margin: auto;
         margin-bottom: 2rem;
+        padding: 10px 20px;
+        background-color: var(--light-grey);
+        h6{
+            font-size: 2rem;
+        }
+        a{
+            color: var(--blue);
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+    .appHeadingDiv{
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        max-width: var(--blog-width);
+        margin: auto;
+    }
+    h4{
+        margin: auto;
+    }
+    h5{
+        font-size: 2.5rem !important;
+        font-weight: 600 !important;
+        margin-bottom: 0;
+    }
+    h4, h5{
         max-width: var(--blog-width);
     }
-    margin: 20px 0;
-    padding-bottom: 2rem;
-    // border-bottom: 2px solid var(--intermediate-color);
+    h6{
+        font-size: 1.2rem;
+    }
+    .content{
+        max-width: var(--blog-width);
+        margin: auto;
+        margin-top: 0.5rem;
+    }
+    .relatedBlogsDiv{
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        max-width: var(--blog-width);
+        margin-top: 2rem;
+    }
+    .relatedBlogsLink{
+        color: #0070f3;
+    }
+    .relatedBlogsLink:hover {
+        text-decoration: underline;
+    }
 }
-.introduction, .summaryList, .whatToLookFor, .conclusion, .detailedReviews{
-    color: var(--foreground-color);
-    line-height: 30px;
+
+.summaryList, .additionalSection, .detailedReviews{
+    max-width: var(--blog-width);
+    margin: auto;
+}
+
+.additionalSection{
+    margin-bottom: 2rem;
+}
+
+.summaryList, .detailedReviews, .additionalSection{
+    margin-bottom: 3rem;
     font-size: 1.2rem;   
-    padding: 20px 0;
     h4{
         font-family: var(--title-font);
-        font-size: 3rem;
-        margin: 15px 0;
+        font-size: 2rem;
         font-weight: 500;
     }
-}
-.summaryList, .detailedReviews{
-    .appIcon{
-        width: 3rem;
-        height: auto;
-    }
-    li{
-        display: block;
-    }
     .listItem{
-        padding: 25px 0; 
+        padding: 0;
     }
     h5{
         font-weight: 500;
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
+        font-size: 2rem;
     }
 }
 
 .summaryList {
     width: 100%;
     background-color: white;
-    padding-top: 0;
     .list{
+        .appIcon{
+            width: 3rem;
+            height: auto;
+        }
         display: flex;
         padding-top: 0;
         flex-direction: column;
@@ -77,12 +137,11 @@
                 }
             }
             .listItem{
+                padding: 25px 30px;
                 border: 1px solid black;
                 display:flex;
                 flex-direction: row;
                 gap: 1.4rem;
-                padding: 15px;
-                padding-right: 25px;
                 .arrowIcon{
                     transition: transform 0.3s ease;
                     transition-duration: 0.1s;
@@ -118,15 +177,15 @@
       background-position: 0% 50%;
     }
   }
-.relatedBlogsDiv{
-    display: flex;
-    flex-direction: column;
-    margin-top: 2rem;
-}
-.relatedBlogsLink{
-    font-size: 1rem;
-    color: #0070f3;
-}
-.relatedBlogsLink:hover {
-    text-decoration: underline;
-}
+
+@keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
