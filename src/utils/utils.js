@@ -47,14 +47,14 @@ export async function askAi(bridgeId, userMessage, variables, chatId) {
         {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json',
-            'pauthkey': PAUTH_KEY,
+              'Content-Type': 'application/json',
+              'pauthkey': PAUTH_KEY,
             },
             body: JSON.stringify({
-            user: userMessage,
-            bridge_id: bridgeId,
-            thread_id: chatId ? chatId + "" : undefined,
-            variables: variables
+              user: userMessage,
+              bridge_id: bridgeId,
+              thread_id: chatId ? chatId + "" : undefined,
+              variables: variables
             }),
         }
     );

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router'; 
-import { Avatar } from '@mui/material';
-import styles from '@/components/ContributersPopup/ContributersPopup.module.css';
+import { Avatar, ClickAwayListener } from '@mui/material';
+import styles from '@/components/ContributersPopup/ContributersPopup.module.scss';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import XIcon from '@mui/icons-material/X';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -28,19 +28,18 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
     ;
 
     return (
-      <div className={styles.shareConatainer}>
-        <div className={styles.contributorsContainer}>
+      <div className={styles.shareContainer}>
+        <div className={styles.contributorsContainer} onClick={handleMouseEnter}>
             {(!showPopup || users.length === 1) &&
-                <div className={styles.userAVA} onMouseEnter={handleMouseEnter}>
+                <div className={styles.userAVA}>
                     {users.length > 0 && users.slice(0, 3).map((user) => (
                         <Avatar 
                             key={user.id} 
                             alt={user.name} 
                             className={styles.avatar}
+                            variant='square'
                         >
-                            <a href={`/discovery/user/${user.id}/${nameToSlugName(user.name)}`} target='_blank'>
-                                {user.name.charAt(0).toUpperCase()}
-                            </a>
+                            {user.name.charAt(0).toUpperCase()}
                         </Avatar>
                     ))}
                     {users.length > 1 ? (
@@ -57,38 +56,40 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
                 </div>
             }
             {showPopup && users.length > 1 && (
-                <div className={styles.popup} onMouseLeave={handleMouseLeave}>
-                    {users.map((user) => (
-                        <a
-                            target='_blank'
-                            key={user.id} 
-                            className={styles.popupItem}
-                            href={`/discovery/user/${user.id}/${nameToSlugName(user.name)}`}
-                            style={{ cursor: 'pointer' }} 
-                        >
-                            <Avatar 
+                <ClickAwayListener onClickAway={handleMouseLeave}>
+                    <div className={styles.popup}>
+                        {users.map((user) => (
+                            <a
+                                target='_blank'
                                 key={user.id} 
-                                alt={user.name} 
-                                className={styles.avatarPopup}
+                                className={styles.popupItem}
+                                href={`/discovery/user/${user.id}/${nameToSlugName(user.name)}`}
+                                style={{ cursor: 'pointer' }} 
                             >
-                                {user.name.charAt(0).toUpperCase()}
-                            </Avatar>
-                            <span>{user.name}</span>
-                        </a>
-                    ))}
-                </div>
-             )}      
-             {createdAt && (
+                                <Avatar 
+                                    key={user.id} 
+                                    alt={user.name} 
+                                    className={styles.avatarPopup}
+                                    variant='square'
+                                >
+                                    {user.name.charAt(0).toUpperCase()}
+                                </Avatar>
+                                <span>{user.name}</span>
+                            </a>
+                        ))}
+                    </div>
+                </ClickAwayListener>
+             )}         
+        </div>
+        {createdAt && (
             <>
-                <FiberManualRecordIcon className={styles.dot} />
-                <span>{new Date(createdAt).toLocaleDateString('en-GB', {
+                <span className={styles.date}>{new Date(createdAt).toLocaleDateString('en-GB', {
                     day: '2-digit',
-                    month: 'short',
+                    month: 'long',
                     year: 'numeric',
                 })}</span>
             </>
-        )}       
-        </div>
+        )} 
             <div className={styles.shareOptions}>
                 <a href={linkedInShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
                     <LinkedInIcon className={styles.icon} />
@@ -99,8 +100,7 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
                 <a href={twitterShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
                     <XIcon className={styles.icon} />
                 </a>
-            </div>
-           
+        </div>
       </div>
     );
 };

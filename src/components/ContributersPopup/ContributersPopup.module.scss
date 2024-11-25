@@ -1,10 +1,31 @@
-.contributorsContainer {
+.shareContainer{
     display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 1rem;
     align-items: center;
-}
-.userAVA{
-    display: flex;
-    align-items: center;
+    .contributorsContainer {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border: 1px solid black;
+        padding: 20px;
+        .userAVA{
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            .avatar{
+                background-color: whitesmoke;
+                border: 1px solid black;
+                color: black;
+                width: 40px;
+                height: 40px;
+            }
+        }
+    }
+    .date{
+        font-weight: bold;
+    }
 }
 @keyframes popIn {
     0% {
@@ -16,10 +37,6 @@
         transform: scale(1);
     }
 }
-.avatar {
-    width: 40px;
-    height: 40px;
-}
 
 .contributorsText {
     font-weight: bold;
@@ -27,7 +44,6 @@
 }
 
 .popup {
-    border: 1px solid var(--foreground-color);
     padding: 10px 20px;
     max-height: 161px;
     overflow: visible;
@@ -57,11 +73,6 @@
 
 }
 
-.dot{
-    width: 10px;
-    margin-left: 15px  ;
-    margin-right: 10px  ;
-}
 
 .popup::-webkit-scrollbar {
     width: 3px; 
@@ -79,13 +90,10 @@
 .popup::-webkit-scrollbar-track {
     background-color: transparent; 
 }
-.shareConatainer{
-    display: flex;
-    justify-content: space-between;
-}
+
 .icon{
-    transform: scale(1.5);
-    margin-left:15px;
+    transform: scale(2);
+    margin:20px 10px;
 }
 .icon:hover{
     color: blue;

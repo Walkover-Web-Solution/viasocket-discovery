@@ -10,11 +10,13 @@ import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 
 const Components = {
     title: ({content, users, createdAt}) => (
-        <div className={styles.titleDiv}>
-            <h1 className = {styles.title}>
-                {content}
-            </h1>
-            <ContributorsPopup users={users} createdAt={createdAt} title={content}/>
+        <div className={styles.titleContainer}>
+            <div className={styles.titleDiv}>
+                <h1 className = {`${styles.title} heading`}>
+                    {content}
+                </h1>
+                <ContributorsPopup users={users} createdAt={createdAt} title={content}/>
+            </div>
         </div>
     ), 
     summaryList : ({appNames, integrations}) => {
@@ -47,21 +49,27 @@ const Components = {
     detailedReviews : ({content, integrations, appBlogs}) => {
         return (
             <div className = {styles.detailedReviews}>
-                <h4>Detailed Reviews</h4>
+                <div className = {styles.howWeAssess}>
+                    <h6>How We Assess and Test Apps for You</h6>
+                    <p>At AppDiscovery, our best apps roundups are written by humans who thoroughly review, test, and write about SaaS services and apps. Human insight is involved at every step, from research and testing to writing and editing. Each article then undergoes a 7-day review process to ensure accuracy. We never accept payment for app placements or links—we value the trust our readers place in us for honest, unbiased evaluations. For more details on how we select apps to feature, read the full process – <a href='https://viasocket.com/blog/how-we-choose-apps-to-feature-on-app-discovery' target='_blank'>How We Choose Apps to Feature on App Discovery</a></p>
+                </div>
                 <List>
                     {content.map(({appName, content}, idx) => (
                         <ListItem className = {styles.listItem} key = {idx}>
-                            <h5>{appName}</h5>
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            <div className={styles.appHeadingDiv}>
+                                <Avatar className = {styles.appIcon} alt={appName} src={integrations?.[appName.toLowerCase()]?.plugins[nameToSlugName(appName)]?.iconurl} variant='square'/>
+                                <h5>{appName}</h5>
+                            </div>
+                            <ReactMarkdown className = {styles.content} remarkPlugins={[remarkGfm]}>
                                 {content}
                             </ReactMarkdown>
                             <Integrations integrations = {integrations?.[appName.toLowerCase()]} appslugname = {nameToSlugName(appName)}/>
-                            <div className={styles.relatedBlogsDiv}>
+                            {appBlogs[appName]?.length > 0 && <div className={styles.relatedBlogsDiv}>
                                 {appBlogs[appName]?.length>0 && <h6> Explore More on <strong>{appName}</strong></h6>}
                                 {appBlogs[appName]?.map((blog) => {
                                     return <a key={blog.id} className={styles.relatedBlogsLink} href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${blog.meta.category}/` : ''}${nameToSlugName(blog.slugName)}`} target='_blank'>{blog.title}</a>
                                 })}
-                            </div>
+                            </div>}
                         </ListItem>
                     ))}
                 </List>
@@ -74,7 +82,7 @@ const Components = {
         </ReactMarkdown>
     ),
     additionalSection: ({content, heading}) => (
-        <div className = {styles.conclusion}>
+        <div className = {styles.additionalSection}>
             <h4>{heading}</h4>
             <ReactMarkdown className = {styles.content} remarkPlugins={[remarkGfm]}>
                 {content}
