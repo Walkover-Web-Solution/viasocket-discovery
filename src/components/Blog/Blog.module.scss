@@ -11,7 +11,7 @@
   .tag{
     background-color: transparent;
     border: none;
-    padding: 10px 5px;
+    padding: 1%;
     &::before{
       content: "#";
     }
@@ -20,7 +20,7 @@
 
 .card h3 {
   margin-top: 0;
-  font-size: 1.5rem;
+  // font-size: 1.5rem;
   color: #333;
   padding: 10px 0;
 }
@@ -29,17 +29,17 @@
   margin: 0;
   color: #666;
   line-height: 20px;
-  padding: 10px 0;
+  padding: 1%;
   font-size: 1.1rem;
 }
 .tagsContainer {
-  padding: 10px 0;
+  padding: 1%;
   margin-top: 1px;
 }
 
 .tag {
   display: inline-block;
-  padding: 0.6rem 1.2rem;
+  padding: 1%;
   margin: 4px;
   background-color: var(--light-grey);
   border: 1px solid black;
@@ -62,11 +62,19 @@
 .appIconsDiv{
   display: flex;
   gap: 0.7rem;
+  overflow: auto;
   .appIcon{
     padding: 3px;
     border: 1px solid var(--intermediate-color);
     width: 3rem;
     height: 3rem;
-    border-radius: 3px;
+    min-width: 2rem;
+    max-width: 4rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .card{
+    padding: 1px 10px ;
   }
 }

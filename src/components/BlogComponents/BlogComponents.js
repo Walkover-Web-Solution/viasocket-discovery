@@ -1,5 +1,5 @@
 import { dummyMarkdown, nameToSlugName } from '@/utils/utils';
-import { Avatar, List, ListItem } from '@mui/material';
+import { Avatar, Box, List, ListItem, Typography } from '@mui/material';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -12,9 +12,7 @@ const Components = {
     title: ({content, users, createdAt}) => (
         <div className={styles.titleContainer}>
             <div className={styles.titleDiv}>
-                <h1 className = {`${styles.title} heading`}>
-                    {content}
-                </h1>
+                <Typography variant='h1'  sx={{fontSize: { xs: '1.5rem', sm: '2.2rem', md: '3rem', lg: '4rem' },left: { xs: '0'}}} className={`${styles.title} heading`}>{content}</Typography>
                 <ContributorsPopup users={users} createdAt={createdAt} title={content}/>
             </div>
         </div>
@@ -82,12 +80,12 @@ const Components = {
         </ReactMarkdown>
     ),
     additionalSection: ({content, heading}) => (
-        <div className = {styles.additionalSection}>
-            <h4>{heading}</h4>
+        <Box className = {styles.additionalSection}>
+            <Typography variant='h4'  sx={{fontSize: { xs: '2rem', sm: '2.5rem', md: '2.7rem', lg: '3rem' },}}>{heading}</Typography>
             <ReactMarkdown className = {styles.content} remarkPlugins={[remarkGfm]}>
                 {content}
             </ReactMarkdown>
-        </div>
+        </Box>
     )
 }
 

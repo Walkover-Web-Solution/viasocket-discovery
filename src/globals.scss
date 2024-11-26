@@ -61,34 +61,16 @@
   }
 
   .heading{
-    font-size: 4rem;
+    // font-size: 4rem;
     font-weight: 500;
     font-family: var(--title-font);
     word-spacing: 5px;
   }
-
-
-  table {
-   
-    width: 100%;
-    border-collapse: collapse;
-  
-    th {
-      border: 1px solid black;
-    
-      
-    }
-  
-    td {
-      border: 1px solid black;
-    }
-  }
-  
   table {
     border: 1px solid black;
-    width: 100%;
+    width: max-content;
+    min-width: 100%;
     border-collapse: collapse;
-    // margin: 20px 0;
     font-size: 16px;
     text-align: left;
 

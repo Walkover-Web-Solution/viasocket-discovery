@@ -41,7 +41,6 @@
   margin: auto;
 }
 .homeTitle{
-  font-size: 96px;
   margin-top: 2rem;
   max-width: 14in;
   font-weight: 400;
@@ -60,8 +59,6 @@
 }
 .homep{
   margin-top: 1rem;
-  font-size: 1.2rem;
-  padding: 0 8rem;
   max-width: 12in;
 }
 
@@ -122,3 +119,4 @@
     }
   }
 }
+

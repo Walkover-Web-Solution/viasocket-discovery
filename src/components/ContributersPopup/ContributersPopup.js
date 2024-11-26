@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router'; 
-import { Avatar, ClickAwayListener } from '@mui/material';
+import { Avatar, ClickAwayListener, Box } from '@mui/material';
 import styles from '@/components/ContributersPopup/ContributersPopup.module.scss';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import XIcon from '@mui/icons-material/X';
@@ -28,7 +28,7 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
     ;
 
     return (
-      <div className={styles.shareContainer}>
+      <Box className={styles.shareContainer}>
         <div className={styles.contributorsContainer} onClick={handleMouseEnter}>
             {(!showPopup || users.length === 1) &&
                 <div className={styles.userAVA}>
@@ -101,7 +101,7 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
                     <XIcon className={styles.icon} />
                 </a>
         </div>
-      </div>
+      </Box>
     );
 };
 

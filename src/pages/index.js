@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import { SettingsSystemDaydreamSharp } from '@mui/icons-material';
 import Link from 'next/link';
 import blogstyle from '@/components/Blog/Blog.module.scss';
+import { Typography } from '@mui/material';
 
 export default function Home() {
     const [blogs, setBlogs] = useState([]);
@@ -105,7 +106,7 @@ export default function Home() {
     if(isLoading){
       return  (
         <section className={styles.Homesection}>
-          <h2 className='heading'>{title}</h2>
+          <Typography variant='h2'  sx={{ fontSize: {  xs: '55px', sm: '66px', md: '88px', lg: '96px' } }} className='heading'>{title}</Typography>
           <div className={styles.cardsGrid}>
             <Blog isLoading={isLoading} /> 
             <Blog isLoading={isLoading} /> 
@@ -120,7 +121,7 @@ export default function Home() {
     blogs?.length > 0 ? (
       <section className={styles.Homesection}>
         <div className = {styles.homesubdiv}>
-        <h2 className='heading'>{title}</h2>
+        <Typography variant='h2'  sx={{ fontSize: { xs: '55px', sm: '66px', md: '88px', lg: '96px' } }} className='heading'>{title}</Typography>
         {tagsContainer()}
         </div>
        
@@ -132,7 +133,8 @@ export default function Home() {
       </section>
     ): fallback && (
       <section className={styles.Homesection}>
-        <h2 className='heading'>{title}</h2>
+        <Typography variant='h2'  sx={{ fontSize: { xs: '55px', sm: '66px', md: '88px', lg: '96px' } }} className='heading'>{title}</Typography>
+
         <p className={styles.noData}>No results here! Press Enter or hit Ask AI</p>
       </section>
     ) 
@@ -150,8 +152,13 @@ export default function Home() {
           {
             !isOpen && !searchQuery && (
               <>
-                <h1 className={styles.homeTitle}>Find Your Ideal Tool in Seconds</h1>
-                <p className={styles.homep}>{'Follow Up With Al For Personalized Insights And Automated Recommendations Based On Real Professionals'}</p>
+                <Typography variant='h1'  sx={{
+          fontSize: { xs: '2rem', sm: '3rem', md: '4rem', lg: '6rem' }, 
+        }} className={styles.homeTitle}>Find Your Ideal Tool in Seconds</Typography>
+                <Typography sx={{
+          padding: { xs: '0 2rem', sm: '0 3rem', md: '0 4rem', lg: '0 8rem' }, 
+          fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem', lg: '1.2rem' }, 
+        }} className={styles.homep}>{'Follow Up With Al For Personalized Insights And Automated Recommendations Based On Real Professionals'}</Typography>
               </>
             )
           }     

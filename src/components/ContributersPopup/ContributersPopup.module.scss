@@ -98,3 +98,10 @@
 .icon:hover{
     color: blue;
 }
+
+@media (max-width: 700px) {
+    .shareConatainer{
+        flex-direction: column;
+    }
+  }
+  
