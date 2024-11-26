@@ -16,6 +16,7 @@ import { useUser } from '@/context/UserContext';
 import { dispatchAskAiEvent, nameToSlugName, safeParse } from '@/utils/utils';
 import BlogCard from '@/components/Blog/Blog';
 import { getCurrentEnvironment } from '@/utils/storageHelper';
+import Head from 'next/head';
 
 
 export async function getServerSideProps(context) {
@@ -185,24 +186,31 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
   };
 
   return (
-    <div>
-      <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
-        <AIresponse blogData={blogData} users={users} integrations={integrations} appBlogs={appBlogs}/>
-        {
-          relatedBlogs?.length > 0 && (
-            <div className={styles.relatedBlogsDiv}>
-              <h3>Related Blogs</h3>
-              {relatedBlogs.map((blog) => {
-                return <BlogCard key={blog.id} blog={blog} className={styles.blogOnSearch} />
-              })}
-            </div>
-          )
-        }
-        {/* {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>} */}
+    <>
+      <Head>
+        <meta name="description" content={blog.title}/>
+        <meta name="author" content={users.find(user => user.id === blog.createdBy[0])?.name} />
+        <meta name="keywords" content={[...blog.tags, ...blog.meta.SEOKeywords].join(', ')} />
+      </Head>
+      <div>
+        <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
+          <AIresponse blogData={blogData} users={users} integrations={integrations} appBlogs={appBlogs}/>
+          {
+            relatedBlogs?.length > 0 && (
+              <div className={styles.relatedBlogsDiv}>
+                <h3>Related Blogs</h3>
+                {relatedBlogs.map((blog) => {
+                  return <BlogCard key={blog.id} blog={blog} className={styles.blogOnSearch} />
+                })}
+              </div>
+            )
+          }
+          {/* {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>} */}
+        </div>
+        <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId = {blog.id} />
+        {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi={handleAskAi} placeholder='Follow up if any query with AI...' />}
+        <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} />
       </div>
-      <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId = {blog.id} />
-      {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi={handleAskAi} placeholder='Follow up if any query with AI...' />}
-      <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} />
-    </div>
+    </>
   );
 }

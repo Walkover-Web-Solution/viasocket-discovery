@@ -113,7 +113,7 @@ export default function Home() {
     if(isLoading){
       return  (
         <section className={styles.Homesection}>
-          <h2 className={styles.homeh2}>{title}</h2>
+          <h2 className='heading'>{title}</h2>
           <div className={styles.cardsGrid}>
             <Blog isLoading={isLoading} /> 
             <Blog isLoading={isLoading} /> 
@@ -128,7 +128,7 @@ export default function Home() {
     blogs?.length > 0 ? (
       <section className={styles.Homesection}>
         <div className = {styles.homesubdiv}>
-        <h2 className={styles.homeh2}>{title}</h2>
+        <h2 className='heading'>{title}</h2>
         {tagsContainer()}
         </div>
        
@@ -140,7 +140,7 @@ export default function Home() {
       </section>
     ): fallback && (
       <section className={styles.Homesection}>
-        <h2 className={styles.homeh2}>{title}</h2>
+        <h2 className='heading'>{title}</h2>
         <p className={styles.noData}>No results here! Press Enter or hit Ask AI</p>
       </section>
     ) 
@@ -154,9 +154,9 @@ export default function Home() {
       if(!user) setIsOpen(false);
     },[user])
     return (
-        <>
+        <div className={styles.homePageDiv}>
           {
-            !isOpen && (
+            !isOpen && !searchQuery && (
               <>
                 <h1 className={styles.homeTitle}>Find Your Ideal Tool in Seconds</h1>
                 <p className={styles.homep}>{'Follow Up With Al For Personalized Insights And Automated Recommendations Based On Real Professionals'}</p>
@@ -192,6 +192,6 @@ export default function Home() {
             }
           </div>
           <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId} homePage setIsOpen = {setIsOpen} isOpen = {isOpen} searchResults = {searchQuery ? blogs : null}/>
-        </>
+        </div>
     );
 }

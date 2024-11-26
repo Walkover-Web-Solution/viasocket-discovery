@@ -46,6 +46,9 @@
   color: #555;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+  &:nth-of-type(n+5){
+    display: none;
+  }
 }
 
 .tag:hover {
@@ -62,8 +65,8 @@
   .appIcon{
     padding: 3px;
     border: 1px solid var(--intermediate-color);
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 3px;
   }
 }
