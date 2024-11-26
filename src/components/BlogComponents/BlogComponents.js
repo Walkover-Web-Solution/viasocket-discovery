@@ -56,7 +56,7 @@ const Components = {
                 </div>
                 <List>
                     {content.map(({appName, content}, idx) => (
-                        <ListItem className = {styles.listItem} key = {idx}>
+                        <ListItem className = {styles.listItem} key={idx} id={nameToSlugName(appName)}>
                             <div className={styles.appHeadingDiv}>
                                 <Avatar className = {styles.appIcon} alt={appName} src={integrations?.[appName.toLowerCase()]?.plugins[nameToSlugName(appName)]?.iconurl} variant='square'>
                                     <ExtensionIcon/>
