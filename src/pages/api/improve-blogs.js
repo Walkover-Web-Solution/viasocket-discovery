@@ -1,49 +1,27 @@
-import { askAi, ValidateAiResponse, sendMessageTochannel } from "@/utils/utils";
+import { askAi, ValidateAiResponse, sendMessageTochannel, improveBlogPrompt, extractJsonFromMarkdown } from "@/utils/utils";
 import blogServices from "../../services/blogServices"
 import { improveBlogSchema } from "@/utils/schema";
+import {  getRandomAuthorByCountryAndType, insertManyAuther } from "@/services/autherServices";
 
 
 export default async function handler(req, res) {
     const { method } = req;
     const environment = req.headers['env'];
     switch (method) {
-        case 'GET': 
+        case 'GET':
+            let results = []; 
             try {
                 res.status(200).json({status:"success"})   // send immediate res 
                 const blogs = await blogServices.getLastHourBlogs(environment);
-                const bulkOperations = await Promise.all(blogs.map(async (blog) => {
-                    try{
-                    let aiResponse = await askAi(
-                      process.env.IMPROVE_BRIDGE,
-                      JSON.stringify({ blog : blog.blog })
-                    );
-                    const message_id = aiResponse.response.data.message_id;
-                    aiResponse = JSON.parse(aiResponse.response.data.content);
-                    const processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema,process.env.IMPROVE_BRIDGE,message_id,true);
-                    await distinctifyPhrase(processedBlog, environment);
-                    return {
-                        updateOne: {
-                            filter: { id: blog.id },
-                            update: { 
-                              $set: { 
-                                'blog': processedBlog.blog ,
-                                'title' : processedBlog.blog.find(section => section.section === 'title').content,
-                              }
-                            }
-                        }
-                    };
-                }catch(err){
-                    console.log(err,"error in ask ai ")
-                    sendMessageTochannel({"message":'error in improve blog askAi.' , error : err.message})
-                    return null ;
-                }
-            }));
+                const bulkOperations =await createBulkOperation(blogs,environment);
                 const validBulkOperations = bulkOperations.filter(op => op !== null);            
-                await blogServices.bulkUpdateBlogs(validBulkOperations, environment);
+                results = await blogServices.bulkUpdateBlogs(validBulkOperations, environment);
             } catch (error) {
                 console.log("error in improve blogs", error)
                 sendMessageTochannel({"message":'error in improve blog API.' , error : error.message})
              
+            }finally{
+                sendMessageTochannel({"message":'improveBlog complete ' , results : results})
             }
         default:
             // Handle unsupported request methods
@@ -51,7 +29,7 @@ export default async function handler(req, res) {
     }
 }
 
-async function distinctifyPhrase(processedBlog, environment) {
+export async function distinctifyPhrase(processedBlog, environment) {
     if(processedBlog?.phrase){
         const existingBlogs = await blogServices.searchBlogsByQuery(processedBlog.phrase.content, environment);
         if(existingBlogs.length <= 5) return;
@@ -60,4 +38,62 @@ async function distinctifyPhrase(processedBlog, environment) {
         const response = await askAi(process.env.DISTINCTIFY_PHRASE_BRIDGE, phraseSection.content, {phrase: processedBlog.phrase.content})
         phraseSection.content = response.response.data.content;
     }
+}
+
+export async function getNames (countryCode){
+    let [writer, philosopher] = await Promise.all([
+        getRandomAuthorByCountryAndType(countryCode, 'writer'),
+        getRandomAuthorByCountryAndType(countryCode, 'philosopher')
+    ]);
+
+    if(!writer){
+        writer = await getWriter(countryCode,'writer');
+    }
+    if(!philosopher){
+        philosopher =await getWriter(countryCode,'philosopher');
+    }
+    return { writer , philosopher }
+}
+export async function getWriter(countryCode,type){
+    const res = await askAi(process.env.NEXT_PUBLIC_WRITER_GENERATOR_BRIGDE,`countryCode:${countryCode} and type:${type}`,{ countryCode : countryCode , profession : type });
+    const names = JSON.parse(res.response.data.content).data;
+    try {
+        await insertManyAuther(names);
+    } catch (error) {
+        console.log(error)
+    }
+    return names[Math.floor(Math.random() * names.length)];
+}
+
+
+export async function createBulkOperation (blogs,environment){
+   return await Promise.all(blogs.map(async (blog) => {
+        try{
+        const countryCode = blog.countryCode || 'IN'; 
+        const auther =await getNames(countryCode);
+        let aiResponse = await askAi(
+          process.env.IMPROVE_BRIDGE,
+          `${improveBlogPrompt( auther.writer.name, auther.philosopher.name , countryCode )} ${JSON.stringify({blog : blog.blog , title : blog.title })}`
+        );
+        const message_id = aiResponse.response.data.message_id;
+        aiResponse = extractJsonFromMarkdown(aiResponse.response.data.content);
+        const processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema,process.env.IMPROVE_BRIDGE,message_id,true);
+        await distinctifyPhrase(processedBlog, environment);
+        return {
+            updateOne: {
+                filter: { id: blog.id },
+                update: { 
+                  $set: { 
+                    'blog': processedBlog.blog ,
+                    'title' : processedBlog.title,
+                  }
+                }
+            }
+        };
+    }catch(err){
+        console.log(err,"error in ask ai ")
+        sendMessageTochannel({"message":'error in improve blog askAi.' , error : err.message})
+        return null ;
+    }
+}));
 }

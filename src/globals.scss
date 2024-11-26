@@ -5,13 +5,13 @@
 :root {
   --title-font:  'title-font', Times, serif;
   // --background-color: #f1edec;
-  --background-color: whitesmoke;
+  --background-color: white;
   // --foreground-color: #452f2d;
   --foreground-color: black;
   --intermediate-color: #452f2d37;
-  --grey: #ccc;
+  --grey: #dee2e6;
   --blue : #007bff;
-  --light-grey: #e5e5e5;
+  --light-grey: #e9ecef;
   --sans-serif-font: Arial, sans-serif;
   --dark-grey: #6c757d;
   --gradient: linear-gradient(
@@ -25,7 +25,9 @@
     rgba(190, 245, 255, 0.6),
     rgba(230, 255, 255, 0.7)
   );
-  --blog-width: 60rem;
+  --blog-width: 45rem;
+  --outer-blog-width: 60rem;
+  --margin-between: 2rem;
 }
   
   html,
@@ -50,8 +52,65 @@
   
   p, a, button{
     font-family: "Outfit", sans-serif;
+    margin: 0;
+    padding: 0;
   }
 
   #__next{
     height: 100%;
+  }
+
+  .heading{
+    font-size: 4rem;
+    font-weight: 500;
+    font-family: var(--title-font);
+    word-spacing: 5px;
+  }
+
+
+  table {
+   
+    width: 100%;
+    border-collapse: collapse;
+  
+    th {
+      border: 1px solid black;
+    
+      
+    }
+  
+    td {
+      border: 1px solid black;
+    }
+  }
+  
+  table {
+    border: 1px solid black;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+
+    th, td {
+     border: 1px solid black;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f4f4f4;
+      font-weight: bold;
+    }
+
+    tr:nth-child(even) {
+      background-color: #E8E8E8;
+    }
+
+    a{
+      color: var(--blue);
+      &:hover{
+        text-decoration: underline;
+      }
+    }
   }

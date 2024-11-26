@@ -7,7 +7,6 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  background-color: #f8f8f8;
   background-color: var(--background-color);
   border-right: 1px solid #a59c9c;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -122,7 +121,6 @@
   transform: translateX(-50%);
   width: 100%;
   max-width: 16in;
-  background-color: var(--background-color);
   border: none;
   padding: 2rem 1rem 8rem 1rem;
   box-shadow : none;

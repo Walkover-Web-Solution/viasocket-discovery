@@ -37,7 +37,7 @@ const getAllBlogs = (userId, environment) => {
 
 const createBlog = async (blogData, environment) => {
   return await withBlogModel(environment, async (Blog) => {
-    const appNames = blogData.blog[0].content.map(app => app.appName);
+    const appNames = blogData.blog[1].content.map(app => app.appName);
     const apps = await getUpdatedApps(appNames, environment);
     const newBlog = (await Blog.create({ ...blogData, apps, id: generateNanoid(6) })).toObject();
     newBlog.apps = restoreDotsInKeys(newBlog.apps);
@@ -61,7 +61,7 @@ const getBlogById = (blogId, environment) => {
 
 const updateBlogById = (blogId, blogData, userId, environment) => {
   return withBlogModel(environment, async (Blog) => {
-  const appNames = blogData.blog[0].content.map(app => app.appName);
+  const appNames = blogData.blog[1].content.map(app => app.appName);
     const apps = await getUpdatedApps(appNames, environment);
     const updateData = {
       ...blogData,
@@ -104,6 +104,7 @@ const searchBlogsByQuery = (query, environment) => {
   return withBlogModel(environment, (Blog) => {
   return Blog.find({
       $or: [
+        { title: { $regex: query, $options: 'i' } },
         { slugName: { $regex: query, $options: 'i' } },
         { 'blog.content': { $regex: query, $options: 'i' } },
         { tags: { $regex: query, $options: 'i' } },  
@@ -234,7 +235,10 @@ const getLastHourBlogs = async (environment) => {
     oneHourAgo.setHours(oneHourAgo.getHours() - 1); 
 
     const blogs = await Blog.find({
-      createdAt: { $gte: oneHourAgo } 
+      $or: [
+        { createdAt: { $gte: oneHourAgo } },  
+        { updatedAt: { $gte: oneHourAgo } }    
+      ]
     });
 
     return blogs;
