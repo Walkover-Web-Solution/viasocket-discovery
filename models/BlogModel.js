@@ -22,6 +22,10 @@ const createBlogModel = (connection) => {
       type: Date,
       default: Date.now,
     },
+    countryCode: {
+      type: String,
+      required: true,
+    },
     updatedAt :{
     type: Date,
     default: Date.now,

@@ -24,11 +24,7 @@ In the ever-evolving world of technology, finding the perfect app or software th
 So dive in, explore, and let AI guide you to the best software out there. Discover, share, and elevate your tech experience today!
 
 Happy discovering!
-
 `;
-
-
-
 
 export const generateNanoid = (length = 6) => {
     const alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -51,14 +47,14 @@ export async function askAi(bridgeId, userMessage, variables, chatId) {
         {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json',
-            'pauthkey': PAUTH_KEY,
+              'Content-Type': 'application/json',
+              'pauthkey': PAUTH_KEY,
             },
             body: JSON.stringify({
-            user: userMessage,
-            bridge_id: bridgeId,
-            thread_id: chatId ? chatId + "" : undefined,
-            variables: variables
+              user: userMessage,
+              bridge_id: bridgeId,
+              thread_id: chatId ? chatId + "" : undefined,
+              variables: variables
             }),
         }
     );
@@ -93,7 +89,7 @@ export const  ValidateAiResponse = (response ,schema, bridgeId, message_id,sendA
           thread_id:thread_id,
       });
     }
-      return { message: response.message };
+      return { message: response.message, corrupted: true };
     }
     return validatedResponse;
   }
@@ -139,4 +135,27 @@ export const restoreDotsInKeys = (obj) => {
 };
 
 export const replaceDotsInArray = (key) => key.replace(/\./g, '~');
+
+export const improveBlogPrompt = ( writer, philosopher ) => {
+  return (`Rewrite the blog to be SEO-friendly, dynamic, and in a style resembling ${writer} —engaging and decision-focused, with humorous anecdotes, quotes, dialogue or cultural references. End in a tone akin to ${philosopher}. Use rhetorical questions, conversational tone. only response with the updated JSON  embedded in markdown  Example:
+    \n\n
+    \`\`\`
+    json\n {\"blog\": \This is an example blog.\"} \n 
+    \`\`\`
+    :- { 'blog': '<same formate as given>}
+    `)
+}
+
+export  function extractJsonFromMarkdown(markdown) {
+  const jsonRegex = /```json([^```]+)```/g;
+  const match = jsonRegex.exec(markdown);
+  if (match && match[1]) {
+      const jsonData = JSON.parse(match[1].trim());
+      return jsonData;
+  } else {
+    throw new Error("No JSON found in Markdown");
+  }
+}
+
+
 export const restoreceDotsInArray = (key) => key.replace(/~/g, '.');

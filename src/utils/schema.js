@@ -7,19 +7,41 @@ const urlSchema = Joi.object({
   tags: Joi.array().items(Joi.string()).required(),
 })
 
-export const createBlogSchema = Joi.object({
-  message: Joi.string().required(),
-  blog: Joi.object({
-    blogData: Joi.array().items(Joi.object()).required(),
-    tags: Joi.array().items(Joi.string()).required(),
-    meta: Joi.object().optional(),
-  }).required(),
-  urls: Joi.array().items(urlSchema).optional(),
+export const blueprintSchema = Joi.object({
+  metadata: Joi.object().required(), 
+  title: Joi.string().required(),
+  blogStructure: Joi.array().items(Joi.object({
+    heading: Joi.string().required(), 
+    content: Joi.string().required()
+  })).required()
+});
+
+export const createdBlogSchema = Joi.object({
+  title: Joi.string().required(),
+  blog: Joi.array().items(
+    Joi.object({
+      heading: Joi.string().required(),
+      content: Joi.alternatives().try(
+        Joi.string(),
+        Joi.array().items(
+          Joi.object({
+            appName: Joi.string().required(),
+            content: Joi.string().required()
+          })
+        )
+      ).required()
+    })
+  ).required(),
+  tags: Joi.array().items(Joi.string()).required()
 });
 
 export const searchResultsSchema = Joi.object({
   message: Joi.string().required(),
-  urls: Joi.array().items(urlSchema).optional(),
+  existingBlogs: Joi.array().items(Joi.object({
+      id: Joi.string().required()
+    }).pattern(/^((?!id).)*$/, Joi.any()).optional()
+  ).allow(null),
+  shouldCreate: Joi.boolean().optional()
 });
 
 export const updateBlogSchema = Joi.object({
@@ -29,9 +51,9 @@ export const updateBlogSchema = Joi.object({
     tags: Joi.array().items(Joi.string()).required(),
     blog: Joi.array().items(Joi.object()).required(),
     meta: Joi.object().optional(),
-  }).optional(),
+  }).optional().allow(null),
   shouldCreate: Joi.string().valid("Yes", "No").insensitive().optional(),
-  urls: Joi.array().items(urlSchema).optional(),
+  urls: Joi.array().items(urlSchema).optional().allow(null),
 });
 
 
@@ -42,9 +64,9 @@ export const improveBlogSchema = Joi.object({
   }).optional(),
   blog: Joi.array().items(
     Joi.object({
-      section: Joi.string().required(),
       content: Joi.any().required(),
-      heading: Joi.string().optional()  
+      heading: Joi.string().required()  
     })
   ).required(),
+  title: Joi.string().required()
 });
