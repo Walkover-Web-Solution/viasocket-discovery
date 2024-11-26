@@ -70,7 +70,7 @@
     border: 1px solid black;
     min-width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin: 20px 0;
     font-size: 16px;
     text-align: left;
     display: block;
@@ -108,4 +108,11 @@
 
 ::-webkit-scrollbar-thumb:hover {
     background-color: #555;
+
+    a{
+      color: var(--blue);
+      &:hover{
+        text-decoration: underline;
+      }
+    }
 }
