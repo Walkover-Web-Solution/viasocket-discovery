@@ -50,7 +50,7 @@ export default function BlogCard({ blog, isLoading, className }) {
               key={index}
               href={`/?search=%23${tag}`}
             >
-          <Typography variant='h1'  sx={{ fontSize: { xs: '0.5rem'} }} className={`${styles.tag} ${styles[tag.toLowerCase()]}`}>
+          <Typography variant='h1'  sx={{ fontSize: { xs: '.5rem', sm: '0.7rem', md: '.9rem', lg: '1rem'} }} className={`${styles.tag} ${styles[tag.toLowerCase()]}`}>
                   {tag}    
             </Typography>
             </Link>
