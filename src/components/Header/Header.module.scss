@@ -1,3 +1,56 @@
-.headerDiv{
-    background-color: transparent;
+.headerDiv {
+    .container {
+      display: flex;
+  }
+  
+    .navLinks {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      font-size: 1.1rem;
+  
+      @media (max-width: 768px) {
+        display: none; 
+        flex-direction: column;
+        background-color: #fff;
+        position: absolute;
+        z-index: 17;
+        top: 0px; 
+        right: 10px;
+        padding: 1rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        gap: 0.4rem;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 100%;
+        overflow-x:auto;
+      }
+      @media (max-width: 520px) {
+        left: 121px;
+      }
+    }
+  
+    .showMobileMenu {
+      display: flex !important; 
+    }
+  
+    .mobileMenuIcon {
+      display: none;
+      cursor: pointer;
+  
+      @media (max-width: 768px) {
+        display: block; 
+      }
+    }
+  }
+  
+
+@media (max-width: 768px) {
+  .headerDiv{
+    padding: 1rem;
+    position: relative;
+  }
+  .viasocketLogo{
+    width: 60%;
+  }
 }
