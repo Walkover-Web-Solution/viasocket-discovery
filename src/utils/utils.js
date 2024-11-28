@@ -157,3 +157,5 @@ export  function extractJsonFromMarkdown(markdown) {
   }
 }
 
+
+export const restoreceDotsInArray = (key) => key.replace(/~/g, '.');
