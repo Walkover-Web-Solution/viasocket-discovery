@@ -129,7 +129,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
     if(lastMessage?.role == 'assistant'){
       const content = lastMessage.content;
       if(content?.blog){
-        setBlogData(content.blog);
+        setBlogData({...content.blog, apps: blogData.apps});
         if( !users.find((user) => user.id === currentUser.id)) {
           users.push({ id : currentUser.id , name : currentUser.name })
         }
