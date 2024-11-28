@@ -80,7 +80,7 @@ export default async function handler(req, res) {
 
 async function updateBlog(blogId, blogData, environment, shouldCreate,userId,countrycode) {
     if(shouldCreate) {
-        return await blogServices.createBlog({...blogData , countryCode : countrycode }, environment,userId);
+        return await blogServices.createBlog({...blogData , countryCode : countrycode , createdBy : userId}, environment);
     }else{
         return await blogServices.updateBlogById(blogId, blogData, userId , environment);
     }
