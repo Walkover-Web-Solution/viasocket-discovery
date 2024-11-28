@@ -1,4 +1,4 @@
-import { askAi, createBlogPrompt, ValidateAiResponse } from '@/utils/utils';
+import { askAi, sendAlert, ValidateAiResponse } from '@/utils/utils';
 import blogServices from "../../services/blogServices"
 import { blueprintSchema, createdBlogSchema, searchResultsSchema, updateBlogSchema } from '@/utils/schema';
 import { updateProxyUser } from '@/services/proxyServices';
@@ -38,17 +38,28 @@ export default async function handler(req, res) {
                 let botResponse = parsedContent;
 
                 if(bridgeId === process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
-                    botResponse =  ValidateAiResponse(parsedContent,updateBlogSchema,bridgeId,message_id,true,chatId);
+                    botResponse =  ValidateAiResponse(parsedContent,updateBlogSchema);
+                    if(botResponse.success===true){
+                        botResponse= botResponse.value;
+                    } else {
+                        sendAlert(botResponse.errorMessages, bridgeId, message_id, chatId)
+                        botResponse = await retryResponse(bridgeId, botResponse.errorMessages, userId, countrycode, region, city, updateBlogSchema, chatId, variables );
+                    }
                     var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
                     var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate,userId,countrycode).catch(err => console.log('Error updating blog', err));
                 }else if(bridgeId === process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
-                    botResponse = ValidateAiResponse(parsedContent, searchResultsSchema, bridgeId, message_id, true, chatId);
+                    botResponse = ValidateAiResponse(parsedContent, searchResultsSchema);
+                    if(botResponse.success===true){
+                        botResponse = botResponse.value;
+                    } else {
+                        sendAlert(botResponse.errorMessages, bridgeId, message_id, chatId)
+                        botResponse = await retryResponse(bridgeId, botResponse.errorMessages, userId, countrycode, region, city, searchResultsSchema, chatId, variables );
+                    }
                     const shouldCreate = parsedContent.shouldCreate;
                     if(shouldCreate && (typeof shouldCreate !== 'string' || shouldCreate?.toLowerCase() != 'false')){
                         const newBlog = await createBlog(userMessage, environment, userId,countrycode);
                         botResponse.urls = [newBlog];
                     }else{
-                        botResponse = ValidateAiResponse(parsedContent, searchResultsSchema, bridgeId, message_id, true, chatId);
                         botResponse.urls = botResponse.existingBlogs;    
                         delete botResponse.existingBlogs;
                     }
@@ -87,8 +98,15 @@ async function updateBlog(blogId, blogData, environment, shouldCreate,userId,cou
 }
 
 async function createBlog(userMessage, environment, userId, countrycode){
-    const blueprint = JSON.parse(await askAi(process.env.BLUE_PRINT_BRIDGE, userMessage).then(res => res.response.data.content));
-    if(ValidateAiResponse(blueprint, blueprintSchema, process.env.BLUE_PRINT_BRIDGE, null, true).corrupted) throw new Error('Invalid Response from AI');
+    const threadId = Math.floor(Math.random() * 100000000);
+    const data = await askAi(process.env.BLUE_PRINT_BRIDGE, userMessage,{},threadId);
+    let blueprint = JSON.parse(data.response.data.content);
+    const validate = ValidateAiResponse(blueprint, blueprintSchema);
+    if(validate.success === false){
+        sendAlert(validate.errorMessages, process.env.BLUE_PRINT_BRIDGE, data.response.data.message_id,threadId);
+        blueprint = retryResponse(process.env.BLUE_PRINT_BRIDGE, errorMessage, userId,'','','',blueprintSchema,threadId);
+        if(blueprint.message == 'Something went wrong! Try again') throw new Error('Invalid Response from AI');
+    }
     const blogPrompt = JSON.stringify({
         title: blueprint.title,
         blog: [
@@ -107,8 +125,14 @@ async function createBlog(userMessage, environment, userId, countrycode){
         ], 
         tags: [""]
     })
-    const blogResponse = JSON.parse(await askAi(process.env.ROUGH_BLOG_BRIDGE, createBlogPrompt + blogPrompt).then(res => res.response.data.content));
-    if(ValidateAiResponse(blogResponse, createdBlogSchema, process.env.ROUGH_BLOG_BRIDGE, null, true).corrupted) throw new Error('Invalid Response from AI');
+    let AIResponse = await askAi(process.env.ROUGH_BLOG_BRIDGE,  blogPrompt,'',threadId)
+    let blogResponse = JSON.parse(AIResponse.response.data.content);
+    let validateRoughtBlog = ValidateAiResponse(blogResponse, createdBlogSchema)
+    if(validateRoughtBlog === false) {
+        sendAlert(validateRoughtBlog.errorMessages, process.env.ROUGH_BLOG_BRIDGE, AIResponse.response.data.message_id,threadId)
+        blogResponse = retryResponse(process.env.ROUGH_BLOG_BRIDGE, validateRoughtBlog.errorMessages, userId, '','','',createdBlogSchema,threadId);
+        if(blogResponse.message==='Something went wrong! Try again') throw new Error('Invalid response from AI'); 
+    }
     const {blog, tags} = blogResponse;
     const blogToCreate = {
         blog, 
@@ -121,3 +145,25 @@ async function createBlog(userMessage, environment, userId, countrycode){
     return await blogServices.createBlog(blogToCreate, environment);
 }
 
+
+
+async function retryResponse(bridgeId, errorMessage, userId, countrycode, region, city, schema, chatId, variables){
+    const data = await askAi(bridgeId, errorMessage, {
+        ...variables,
+        user_id : userId,
+        env : process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT,
+        countrycode : countrycode,
+        region : region,
+        city : city,
+        retry : true,
+     }, chatId)
+     const message_id = data.response.data.message_id;
+     const parsedContent = JSON.parse(data.response.data.content);
+     const validatedResponse =  ValidateAiResponse(parsedContent,schema,bridgeId,message_id,true,chatId,true);
+     
+     if(validatedResponse.success === true){
+        return validatedResponse.value; 
+     }
+     sendAlert( `RETRY ERROR ${validatedResponse.errorMessages}`, bridgeId, message_id, chatId );
+     return { message : "Something went wrong! Try again." }
+}

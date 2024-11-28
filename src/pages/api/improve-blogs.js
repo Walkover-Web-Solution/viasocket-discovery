@@ -1,4 +1,4 @@
-import { askAi, ValidateAiResponse, sendMessageTochannel, improveBlogPrompt, extractJsonFromMarkdown } from "@/utils/utils";
+import { askAi, ValidateAiResponse, sendMessageTochannel, sendAlert, improveBlogPrompt, extractJsonFromMarkdown } from "@/utils/utils";
 import blogServices from "../../services/blogServices"
 import { improveBlogSchema } from "@/utils/schema";
 import {  getRandomAuthorByCountryAndType, insertManyAuther } from "@/services/autherServices";
@@ -85,7 +85,13 @@ export async function createBulkOperation (blogs,environment){
         );
         const message_id = aiResponse.response.data.message_id;
         aiResponse = extractJsonFromMarkdown(aiResponse.response.data.content);
-        const processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema,process.env.IMPROVE_BRIDGE,message_id,true);
+        let processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema,process.env.IMPROVE_BRIDGE,message_id,true);
+        if(processedBlog.success===true){
+            processedBlog = processedBlog.value;
+        } else {
+            sendAlert(processedBlog.errorMessages, process.env.IMPROVE_BRIDGE, message_id, "" );
+            processedBlog = { message : processedBlog.message || "" }
+        }
         await distinctifyPhrase(processedBlog, environment);
         return {
             updateOne: {
