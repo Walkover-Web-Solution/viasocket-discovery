@@ -47,7 +47,7 @@ const Components = {
             </div>
         )
     },
-    detailedReviews : ({content, integrations, appBlogs}) => {
+    detailedReviews : ({content, integrations, appBlogs, apps }) => {
         return (
             <div className = {styles.detailedReviews}>
                 <div className = {styles.howWeAssess}>
@@ -57,12 +57,14 @@ const Components = {
                 <List>
                     {content.map(({appName, content}, idx) => (
                         <ListItem className = {styles.listItem} key={idx} id={nameToSlugName(appName)}>
-                            <div className={styles.appHeadingDiv}>
-                                <Avatar className = {styles.appIcon} alt={appName} src={integrations?.[appName.toLowerCase()]?.plugins[nameToSlugName(appName)]?.iconurl} variant='square'>
-                                    <ExtensionIcon/>
-                                </Avatar>
-                                <h5>{appName}</h5>
-                            </div>
+                            <a className={styles.appDomain} href={apps[appName]?.domain ? `https://${apps[appName].domain}` : `https://www.google.com/search?q=${appName}`} target='_blank'>
+                                <div className={styles.appHeadingDiv}>
+                                    <Avatar className = {styles.appIcon} alt={appName} src={integrations?.[appName.toLowerCase()]?.plugins[nameToSlugName(appName)]?.iconurl} variant='square'>
+                                        <ExtensionIcon/>
+                                    </Avatar>
+                                    <h5>{appName}</h5>
+                                </div>
+                            </a>
                             <ReactMarkdown className = {styles.content} remarkPlugins={[remarkGfm]}>
                                 {content}
                             </ReactMarkdown>

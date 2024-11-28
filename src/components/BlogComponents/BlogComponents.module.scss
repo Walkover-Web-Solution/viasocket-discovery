@@ -54,7 +54,7 @@
     .appHeadingDiv{
         display: flex;
         gap: 1rem;
-        align-items: flex-start;
+        align-items: center;
         max-width: var(--blog-width);
         margin: auto;
     }
@@ -88,6 +88,9 @@
         color: #0070f3;
     }
     .relatedBlogsLink:hover {
+        text-decoration: underline;
+    }
+    .appDomain:hover{
         text-decoration: underline;
     }
 }
