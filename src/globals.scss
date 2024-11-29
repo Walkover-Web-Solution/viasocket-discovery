@@ -65,6 +65,8 @@
     font-weight: 500;
     font-family: var(--title-font);
     word-spacing: 5px;
+    max-width: 100%;
+    word-wrap: break-word;
   }
 
 
@@ -112,5 +114,13 @@
       &:hover{
         text-decoration: underline;
       }
+    }
+  }
+
+
+  @media (max-width: 768px) {
+    table{
+      display: block;
+      overflow-x : auto;
     }
   }

@@ -20,6 +20,7 @@
   width: fit-content;
   padding: 1.5rem;
   margin: auto;
+  max-width: 100%;
   & > * {
     margin: 1rem auto;
   }
@@ -119,6 +120,28 @@
     left: 0;
     &>* {
       box-shadow: none !important;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .homeTitle{
+    font-size: 50px;
+    padding-right: 1.6rem;
+  }
+  .homep{
+    padding: 0 2rem;
+  }
+  .Homesection{
+    padding: 0px;
+  }
+  .searchDiv{
+    .popularTagsDiv{
+      &>*{
+        width: max-content;
+        text-wrap: wrap;
+        max-width: 80%;
+      }
     }
   }
 }
