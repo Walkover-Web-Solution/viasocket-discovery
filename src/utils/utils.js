@@ -163,7 +163,7 @@ export const restoreDotsInKeys = (obj) => {
 export const replaceDotsInArray = (key) => key.replace(/\./g, '~');
 
 export const improveBlogPrompt = ( writer, philosopher ) => {
-  return (`Rewrite the blog to be SEO-friendly, dynamic, and in a style resembling ${writer} —engaging and decision-focused, with humorous anecdotes, quotes, dialogue or cultural references not separately. End in a tone akin to ${philosopher}. Use rhetorical questions, conversational tone. Avoid altering the detailed review section of apps. only response with the updated JSON embedded in markdown Example:
+  return (`Rewrite the blog to be SEO-friendly, dynamic, and in a style resembling ${writer} —engaging and decision-focused, with humorous anecdotes, quotes, dialogue or cultural references. End in a tone akin to ${philosopher}. Use rhetorical questions, conversational tone. Avoid altering the technical sections. only response with the updated JSON embedded in markdown Example:
     \n\n
     \`\`\`
     json\n {\"blog\": \This is an example blog.\"} \n 
