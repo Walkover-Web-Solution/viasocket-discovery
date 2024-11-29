@@ -70,3 +70,15 @@
     border-radius: 3px;
   }
 }
+@media (max-width: 600px) {
+  .card{
+    padding: 1px 10px ;
+    .tag{
+      padding : 2px 5px;
+    }
+  }
+  .appIconsDiv{
+    flex-wrap:wrap
+  }
+  
+}

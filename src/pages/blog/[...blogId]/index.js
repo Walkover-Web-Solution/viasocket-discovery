@@ -104,14 +104,22 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
   useEffect(() => {
     if(!currentUser?.id) return ;
     (async () => {
+      const indexes = [];
       const chatHistoryData = await getAllPreviousMessages(`${blog.id}${currentUser?.id}`, process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE);
       let prevMessages = chatHistoryData.data
       .filter((chat) => chat.role === "user" || chat.role === "assistant")
-      .map((chat) => ({
+      .map((chat,index) => {
+        if(chat['raw_data.variables']?.retry) indexes.push(index);
+        return({
         role: chat.role,
         content:
           chat.role === "user" ? chat.content : safeParse(chat.content,process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE,`${blog.id}${currentUser?.id}`),
-      }));
+      })});
+      for (let i = indexes.length-1; i >=0 ; i--) {
+        const currentIndex = indexes[i];
+        prevMessages.splice(currentIndex , 1);
+        prevMessages.splice(currentIndex-1 , 1);
+      }
       setMessages(prevMessages);
     })();
   }, [currentUser?.id]);
@@ -121,7 +129,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
     if(lastMessage?.role == 'assistant'){
       const content = lastMessage.content;
       if(content?.blog){
-        setBlogData(content.blog);
+        setBlogData({...content.blog, apps: blogData.apps});
         if( !users.find((user) => user.id === currentUser.id)) {
           users.push({ id : currentUser.id , name : currentUser.name })
         }

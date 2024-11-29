@@ -69,14 +69,22 @@ export default function Home() {
     useEffect(() => {
       if(!user) return;
       (async () => {
+        const indexes = [];
         const chatHistoryData = await getAllPreviousMessages(chatId,process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE).catch(err => null);
         let prevMessages = chatHistoryData?.data
         .filter((chat) => chat.role === "user" || chat.role === "assistant")
-        .map((chat) => ({
+        .map((chat,index) => {
+          if(chat['raw_data.variables']?.retry) indexes.push(index);
+          return ({
           role: chat.role,
           content:
             chat.role === "user" ? chat.content : safeParse(chat.content,process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE,chatId),
-        }));
+        })});
+        for (let i = indexes.length-1; i >=0 ; i--) {
+          const currentIndex = indexes[i];
+          prevMessages.splice(currentIndex , 1);
+          prevMessages.splice(currentIndex-1 , 1);
+        }
         setMessages(prevMessages);
       })();
     }, [user]);

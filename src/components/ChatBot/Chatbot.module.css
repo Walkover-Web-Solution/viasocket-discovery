@@ -235,3 +235,12 @@
     left: 0;
   }
 }
+
+@media (max-width: 1000px) {
+  .chatbotContainer{
+    min-width: 100%;
+  }
+  .sentMessage, .receivedMessage{
+    font-size: .67rem;
+  }
+}

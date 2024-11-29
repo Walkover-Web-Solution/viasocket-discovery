@@ -83,23 +83,24 @@ export const handleSignIn = async () => {
     window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
 };
 
-export const  ValidateAiResponse = (response ,schema, bridgeId, message_id,sendAlert,thread_id) => {
-    const { error, value: validatedResponse } = schema.validate(response);
+export const  ValidateAiResponse = (response ,schema) => {
+    const { error, value: validatedResponse } = schema.validate(response, { abortEarly : false } );
     if (error) {
-       if(sendAlert === true){ 
-          sendMessageTochannel({
-          message: `"Validation error: " ${error.details[0].message}`,
-          bridgeId:bridgeId,
-          message_id:message_id,
-          link : `https://ai.walkover.in/org/7488/bridges/history/${bridgeId}?thread_id=${thread_id}`,
-          thread_id:thread_id,
-      });
+      const errorMessages = error.details.map(err => err.message).join(', ');
+      return { success: false , errorMessages : errorMessages };
     }
-      return { message: response.message, corrupted: true };
-    }
-    return validatedResponse;
+    return { success : true , value : validatedResponse };
   }
 
+export function sendAlert(message,  bridgeId, message_id, thread_id ){
+  sendMessageTochannel({
+    message: ` ${message}`,
+    bridgeId:bridgeId,
+    message_id:message_id,
+    link : ` https://ai.walkover.in/org/7488/bridges/history/${bridgeId}?thread_id=${thread_id} `,
+    thread_id:thread_id,
+});
+}
 export function nameToSlugName(name){
     return name.toLowerCase().replace(/[\s/()]+/g, '-');
 }
@@ -110,9 +111,28 @@ export function safeParse(json,bridgeId,threadId){
     let data = JSON.parse(json);
     if(bridgeId === process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
       data =  ValidateAiResponse(data,updateBlogSchema,bridgeId,threadId,false);
+      if(data.success === true){
+        data = data.value;
+      } else {
+          data = { message: "something went wrong" }
+      }
     }else if(bridgeId == process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
-      if(data.blog) data = ValidateAiResponse(data , createBlogSchema, bridgeId, threadId,false);
-      else data = ValidateAiResponse(data, searchResultsSchema, bridgeId, threadId,false);
+      if(data.blog) {
+        data = ValidateAiResponse(data , createBlogSchema, bridgeId, threadId,false);
+        if(data.success === true){
+        data= data.value; 
+        } else {
+          data = {message:"something went wrong "}
+        }
+      }
+      else {
+        data = ValidateAiResponse(data, searchResultsSchema, bridgeId, threadId,false);
+        if(data.success === true){
+          data= data.value;
+        } else {
+          data = {message:"something went wrong "}
+        }
+      }
     }
     return data;
   }
@@ -163,3 +183,5 @@ export  function extractJsonFromMarkdown(markdown) {
   }
 }
 
+
+export const restoreceDotsInArray = (key) => key.replace(/~/g, '.');

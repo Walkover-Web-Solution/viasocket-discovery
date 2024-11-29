@@ -21,7 +21,7 @@ const AIresponse = ({ blogData, users, integrations, appBlogs }) => {
               <>
                 {Components['summaryList']({appNames: detailedReviews.content.map(app => app.appName), integrations})}
                 {Components['additionalSection']?.({content : tablecomponent.content,heading: tablecomponent.heading})}
-                {Components['detailedReviews']({...detailedReviews, integrations, appBlogs})}
+                {Components['detailedReviews']({...detailedReviews, integrations, appBlogs, apps : blogData.apps})}
                 {dynamicSections.map(({content, heading}) => Components['additionalSection']?.({content, heading}))}
                 <div className={styles.tagsContainer}>
                   <h3>Related Tags</h3>
