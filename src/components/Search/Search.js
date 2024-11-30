@@ -64,7 +64,7 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 					<AutoAwesomeOutlinedIcon fontSize = 'large' sx={{color: 'black'}}/>
 				</IconButton>
 			</div>
-			<UnauthorizedPopup isOpen={unAuthPopup} onClose={onUnAuthClose} />
+			<UnauthorizedPopup isOpen={unAuthPopup} onClose={onUnAuthClose} searchQuery={searchQuery}  />
 			<UserBioPopup isOpen={userBioPopup} onClose={()=>setUserBioPopup(false)} onSave={handleClick}/>
 		</>
 	)
