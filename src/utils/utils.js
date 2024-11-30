@@ -179,3 +179,14 @@ export  function extractJsonFromMarkdown(markdown) {
 
 
 export const restoreceDotsInArray = (key) => key.replace(/~/g, '.');
+
+export function  getAppNames(sections){
+  let appNames = [];
+  for (let i = 0; i < sections.length; i++) {
+    if (Array.isArray(sections[i]?.content)) {
+      appNames = sections[i].content.map(app => app.appName);
+      break;
+    }
+  }
+  return appNames;
+}

@@ -31,18 +31,7 @@ export const createdBlogSchema = Joi.object({
         )
       ).required()
     })
-  ).required()
-  .custom((value, helpers) => {
-    if (!Array.isArray(value) || value.length === 0) {
-      return helpers.message('Blog array cannot be empty');
-    }
-
-    if (!Array.isArray(value[1]?.content)) {
-      return helpers.message('The content of the second blog entry (blog[1]) must be an array containing the app names and there details');
-    }
-    
-    return value;
-  }),
+  ).required(),
   tags: Joi.array().items(Joi.string()).required()
 });
 
@@ -60,17 +49,7 @@ export const updateBlogSchema = Joi.object({
   blog: Joi.object({
     title: Joi.string().required(),
     tags: Joi.array().items(Joi.string()).required(),
-    blog: Joi.array().items(Joi.object()).required() .custom((value, helpers) => {
-      if (!Array.isArray(value) || value.length === 0) {
-        return helpers.message('Blog array cannot be empty');
-      }
-  
-      if (!Array.isArray(value[1]?.content)) {
-        return helpers.message('The content of the second blog entry (blog[1]) must be an array containing the app names and there details');
-      }
-      
-      return value;
-    }),
+    blog: Joi.array().items(Joi.object()).required(),
     meta: Joi.object().optional(),
   }).optional().allow(null),
   shouldCreate: Joi.string().valid("Yes", "No").insensitive().optional(),
