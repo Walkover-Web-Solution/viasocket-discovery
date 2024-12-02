@@ -69,7 +69,8 @@ export async function askAi(bridgeId, userMessage, variables, chatId) {
 
 export const sendMessageTochannel = async (message) => {
     try {
-      await fetch("https://flow.sokt.io/func/scri19UK6620",{
+      const webhook =  getCurrentEnvironment() === 'prod' ? "https://flow.sokt.io/func/scri19UK6620" : "https://flow.sokt.io/func/scriTdhvDTJK" ;
+      await fetch( webhook , {
         method:'POST',
         body:JSON.stringify(message)
       })
