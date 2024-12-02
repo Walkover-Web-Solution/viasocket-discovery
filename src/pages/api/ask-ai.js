@@ -1,4 +1,4 @@
-import { askAi, sendAlert, ValidateAiResponse } from '@/utils/utils';
+import { askAi, reFormat, sendAlert, ValidateAiResponse } from '@/utils/utils';
 import blogServices from "../../services/blogServices"
 import { blueprintSchema, createdBlogSchema, searchResultsSchema, updateBlogSchema } from '@/utils/schema';
 import { updateProxyUser } from '@/services/proxyServices';
@@ -111,14 +111,14 @@ async function createBlog(userMessage, environment, userId, countrycode){
         title: blueprint.title,
         blog: [
             {
-                heading : 'Comparison Table: <about app>',
-                content :"Provide a comparative table use internal links to the real app  "
-            },
-            {
-                heading: 'Detailed Reviews', 
-                content: [{
-                    "appName" : "app name", 
-                    "content": "Engaging description with USP, pros, cons,personal opinions, and perhaps a fun anecdote in proper markdown."
+                "heading": "Comparison Table: <about apps>",
+                "what_to_cover": "Compare the features, pricing, and benefits of all apps with each other . Use internal links to direct users to real app pages for detailed insights."
+              },
+              {
+                "heading": "In-Depth Reviews //in this section include all apps", 
+                "what_to_cover": [{
+                    "appName": "App Name",
+                    "what_to_cover": "Explore App in detail, including its standout features, benefits, and how it uniquely addresses specific user needs. Focus on practical solutions and real-world use cases. Conclude with a bullet-point list of key pros and cons to help users make informed decisions."
                 }]
             }, 
             ...blueprint.blogStructure
@@ -133,11 +133,13 @@ async function createBlog(userMessage, environment, userId, countrycode){
         blogResponse = retryResponse(process.env.ROUGH_BLOG_BRIDGE, validateRoughtBlog.errorMessages, userId, '','','',createdBlogSchema,threadId);
         if(blogResponse.message==='Something went wrong! Try again') throw new Error('Invalid response from AI'); 
     }
+    blogResponse = reFormat(blogResponse);
     const {blog, tags} = blogResponse;
     const blogToCreate = {
         blog, 
         tags, 
-        title: blueprint.title, 
+        title: blueprint.title,
+        titleDescription : blueprint.title_description , 
         meta: blueprint.metadata, 
         createdBy: userId,
         countryCode : countrycode

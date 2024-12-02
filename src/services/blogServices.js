@@ -45,7 +45,8 @@ const createBlog = async (blogData, environment) => {
       blog: newBlog.blog, 
       apps: apps, 
       tags: newBlog.tags, 
-      title: newBlog.title
+      title: newBlog.title,
+      titleDescription : newBlog.titleDescription
     }
   });
 };
