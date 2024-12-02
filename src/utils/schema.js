@@ -87,7 +87,7 @@ export const improveBlogSchema = Joi.object({
   }).optional(),
   blog: Joi.array().items(
     Joi.object({
-      what_to_cover: Joi.any().required(),
+      content: Joi.any().required(),
       heading: Joi.string().required()  
     })
   ).required(),

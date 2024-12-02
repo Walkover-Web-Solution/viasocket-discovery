@@ -111,14 +111,14 @@ async function createBlog(userMessage, environment, userId, countrycode){
         title: blueprint.title,
         blog: [
             {
-                heading : 'Comparison Table: <about app>',
-                what_to_cover :"Provide a comparative table use internal links to the real app  "
-            },
-            {
-                heading: 'Detailed Reviews', 
-                what_to_cover: [{
-                    "appName" : "app name", 
-                    "what_to_cover": "Engaging description with USP, pros, cons,personal opinions, and perhaps a fun anecdote in proper markdown."
+                "heading": "Comparison Table: <about apps>",
+                "what_to_cover": "Compare the features, pricing, and benefits of all apps with each other . Use internal links to direct users to real app pages for detailed insights."
+              },
+              {
+                "heading": "In-Depth Reviews //in this section include all apps", 
+                "what_to_cover": [{
+                    "appName": "App Name",
+                    "what_to_cover": "Explore App in detail, including its standout features, benefits, and how it uniquely addresses specific user needs. Focus on practical solutions and real-world use cases. Conclude with a bullet-point list of key pros and cons to help users make informed decisions."
                 }]
             }, 
             ...blueprint.blogStructure
