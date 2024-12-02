@@ -1,4 +1,4 @@
-import { askAi, sendAlert, ValidateAiResponse } from '@/utils/utils';
+import { askAi, reFormate, sendAlert, ValidateAiResponse } from '@/utils/utils';
 import blogServices from "../../services/blogServices"
 import { blueprintSchema, createdBlogSchema, searchResultsSchema, updateBlogSchema } from '@/utils/schema';
 import { updateProxyUser } from '@/services/proxyServices';
@@ -133,6 +133,7 @@ async function createBlog(userMessage, environment, userId, countrycode){
         blogResponse = retryResponse(process.env.ROUGH_BLOG_BRIDGE, validateRoughtBlog.errorMessages, userId, '','','',createdBlogSchema,threadId);
         if(blogResponse.message==='Something went wrong! Try again') throw new Error('Invalid response from AI'); 
     }
+    blogResponse = reFormate(blogResponse);
     const {blog, tags} = blogResponse;
     const blogToCreate = {
         blog, 

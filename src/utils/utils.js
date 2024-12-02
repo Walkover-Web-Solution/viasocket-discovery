@@ -179,3 +179,15 @@ export  function extractJsonFromMarkdown(markdown) {
 
 
 export const restoreceDotsInArray = (key) => key.replace(/~/g, '.');
+
+export const reFormate = (blog) => {
+  blog.blog = blog.blog.map(item => {
+    if (item.hasOwnProperty('what_to_cover')) {
+      item.content = item.what_to_cover; 
+      delete item.what_to_cover; 
+    }
+    return item;
+  });
+  
+  return blog;
+};

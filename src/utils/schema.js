@@ -12,7 +12,7 @@ export const blueprintSchema = Joi.object({
   title: Joi.string().required(),
   blogStructure: Joi.array().items(Joi.object({
     heading: Joi.string().required(), 
-    content: Joi.string().required()
+    what_to_cover: Joi.string().required()
   })).required()
 });
 
@@ -29,7 +29,8 @@ export const createdBlogSchema = Joi.object({
             content: Joi.string().required()
           })
         )
-      ).required()
+      ).optional(),
+      what_to_cover: Joi.string().optional(),
     })
   ).required()
   .custom((value, helpers) => {
