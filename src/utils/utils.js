@@ -180,7 +180,7 @@ export  function extractJsonFromMarkdown(markdown) {
 
 export const restoreceDotsInArray = (key) => key.replace(/~/g, '.');
 
-export const reFormate = (blog) => {
+export const reFormat = (blog) => {
   blog.blog = blog.blog.map(item => {
     if (item.hasOwnProperty('what_to_cover')) {
       item.content = item.what_to_cover;
