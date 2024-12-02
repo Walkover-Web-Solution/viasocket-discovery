@@ -10,6 +10,7 @@ const urlSchema = Joi.object({
 export const blueprintSchema = Joi.object({
   metadata: Joi.object().required(), 
   title: Joi.string().required(),
+  title_description : Joi.string().optional(),
   blogStructure: Joi.array().items(Joi.object({
     heading: Joi.string().required(), 
     what_to_cover: Joi.string().required()
@@ -18,19 +19,19 @@ export const blueprintSchema = Joi.object({
 
 export const createdBlogSchema = Joi.object({
   title: Joi.string().required(),
+  title_description : Joi.string().optional(),
   blog: Joi.array().items(
     Joi.object({
       heading: Joi.string().required(),
-      content: Joi.alternatives().try(
+      what_to_cover: Joi.alternatives().try(
         Joi.string(),
         Joi.array().items(
           Joi.object({
             appName: Joi.string().required(),
-            content: Joi.string().required()
+            what_to_cover: Joi.string().required()
           })
         )
-      ).optional(),
-      what_to_cover: Joi.string().optional(),
+      ).required(),
     })
   ).required()
   .custom((value, helpers) => {
@@ -38,8 +39,8 @@ export const createdBlogSchema = Joi.object({
       return helpers.message('Blog array cannot be empty');
     }
 
-    if (!Array.isArray(value[1]?.content)) {
-      return helpers.message('The content of the second blog entry (blog[1]) must be an array containing the app names and there details');
+    if (!Array.isArray(value[1]?.what_to_cover)) {
+      return helpers.message('The what_to_cover of the second blog entry (blog[1]) must be an array containing the app names and there details');
     }
     
     return value;
@@ -66,8 +67,8 @@ export const updateBlogSchema = Joi.object({
         return helpers.message('Blog array cannot be empty');
       }
   
-      if (!Array.isArray(value[1]?.content)) {
-        return helpers.message('The content of the second blog entry (blog[1]) must be an array containing the app names and there details');
+      if (!Array.isArray(value[1]?.what_to_cover)) {
+        return helpers.message('The what_to_cover of the second blog entry (blog[1]) must be an array containing the app names and there details');
       }
       
       return value;
@@ -86,7 +87,7 @@ export const improveBlogSchema = Joi.object({
   }).optional(),
   blog: Joi.array().items(
     Joi.object({
-      content: Joi.any().required(),
+      what_to_cover: Joi.any().required(),
       heading: Joi.string().required()  
     })
   ).required(),

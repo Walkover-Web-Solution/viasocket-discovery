@@ -112,13 +112,13 @@ async function createBlog(userMessage, environment, userId, countrycode){
         blog: [
             {
                 heading : 'Comparison Table: <about app>',
-                content :"Provide a comparative table use internal links to the real app  "
+                what_to_cover :"Provide a comparative table use internal links to the real app  "
             },
             {
                 heading: 'Detailed Reviews', 
-                content: [{
+                what_to_cover: [{
                     "appName" : "app name", 
-                    "content": "Engaging description with USP, pros, cons,personal opinions, and perhaps a fun anecdote in proper markdown."
+                    "what_to_cover": "Engaging description with USP, pros, cons,personal opinions, and perhaps a fun anecdote in proper markdown."
                 }]
             }, 
             ...blueprint.blogStructure
@@ -138,7 +138,8 @@ async function createBlog(userMessage, environment, userId, countrycode){
     const blogToCreate = {
         blog, 
         tags, 
-        title: blueprint.title, 
+        title: blueprint.title,
+        titleDiscription : blueprint.title_description , 
         meta: blueprint.metadata, 
         createdBy: userId,
         countryCode : countrycode

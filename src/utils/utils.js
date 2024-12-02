@@ -183,7 +183,14 @@ export const restoreceDotsInArray = (key) => key.replace(/~/g, '.');
 export const reFormate = (blog) => {
   blog.blog = blog.blog.map(item => {
     if (item.hasOwnProperty('what_to_cover')) {
-      item.content = item.what_to_cover; 
+      item.content = item.what_to_cover;
+      if(Array.isArray(item.content)){
+       item.content = item.content.map((review)=>{
+          review.content = review.what_to_cover;
+          delete review.what_to_cover;
+          return review;
+        })
+      }
       delete item.what_to_cover; 
     }
     return item;
