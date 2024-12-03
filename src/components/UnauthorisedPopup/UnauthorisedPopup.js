@@ -1,14 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "@/components/UnauthorisedPopup/UnauthorisedPopup.module.css"
 import { handleSignIn } from "@/utils/utils";
-import { useRouter } from "next/router";
 
-const UnauthorizedPopup = ({ isOpen, onClose, searchQuery }) => {
-
-  const router = useRouter();
-  useEffect(()=>{
-    if(router.isReady && searchQuery && isOpen) router.replace({ query: {...router.query , query : searchQuery} },undefined,{shallow : false})
-  },[router.isReady, isOpen, searchQuery]);
+const UnauthorizedPopup = ({ isOpen, onClose }) => {
   if (!isOpen) {
     return (null);
   }

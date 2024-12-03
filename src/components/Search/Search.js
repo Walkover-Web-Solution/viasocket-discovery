@@ -5,6 +5,7 @@ import UnauthorizedPopup from '../UnauthorisedPopup/UnauthorisedPopup';
 import { IconButton, Input, InputAdornment, TextField } from '@mui/material';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import UserBioPopup from '../UserBioPopup/UserBioPoup';
+import { setInLocalStorage } from '@/utils/storageHelper';
 
 export default function Search({ searchQuery, setSearchQuery, handleAskAi, placeholder, className }) {
 	const { user } = useUser();
@@ -14,6 +15,7 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 
 	const handleClick = () => {
 		if (!user) {
+			setInLocalStorage('query',searchQuery)
 			setUnAuthPopup(true);
 			return;
 		}
@@ -64,7 +66,7 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 					<AutoAwesomeOutlinedIcon fontSize = 'large' sx={{color: 'black'}}/>
 				</IconButton>
 			</div>
-			<UnauthorizedPopup isOpen={unAuthPopup} onClose={onUnAuthClose} searchQuery={searchQuery}  />
+			<UnauthorizedPopup isOpen={unAuthPopup} onClose={onUnAuthClose}   />
 			<UserBioPopup isOpen={userBioPopup} onClose={()=>setUserBioPopup(false)} onSave={handleClick}/>
 		</>
 	)

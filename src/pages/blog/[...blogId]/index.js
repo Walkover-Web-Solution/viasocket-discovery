@@ -15,7 +15,7 @@ import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 import { useUser } from '@/context/UserContext';
 import { dispatchAskAiEvent, nameToSlugName, safeParse } from '@/utils/utils';
 import BlogCard from '@/components/Blog/Blog';
-import { getCurrentEnvironment } from '@/utils/storageHelper';
+import { getCurrentEnvironment, getFromLocalStorage } from '@/utils/storageHelper';
 import Head from 'next/head';
 
 
@@ -59,7 +59,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
   const [oldBlog,setOldBlog]=useState('');
   const [integrations, setIntegrations] = useState(null);
   const router= useRouter();
-  const [searchQuery, setSearchQuery] = useState(router.query.query);
+  const [searchQuery, setSearchQuery] = useState(getFromLocalStorage('query') || '');
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [isPopupOpen, setIsPopUpOpen] = useState(false);
