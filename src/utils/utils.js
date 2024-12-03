@@ -1,6 +1,7 @@
 import { customAlphabet } from 'nanoid';
 import { getCurrentEnvironment, setPathInLocalStorage } from './storageHelper';
 import { createBlogSchema, searchResultsSchema, updateBlogSchema } from './schema';
+const axios = require('axios');
 export const dummyMarkdown = `# Welcome to App Discovery: Unleash the Power of AI-Driven Software Discovery!
 
 ## Discover Tailored Solutions Just for You
@@ -40,30 +41,36 @@ export function dispatchAskAiEvent(userMessage) {
 };
 
 export async function askAi(bridgeId, userMessage, variables, chatId) {
-    const PAUTH_KEY = process.env.PAUTH_KEY;
+  const PAUTH_KEY = process.env.PAUTH_KEY;
 
-    const response = await fetch(
-        'https://routes.msg91.com/api/proxy/1258584/29gjrmh24/api/v2/model/chat/completion',
-        {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'pauthkey': PAUTH_KEY,
-            },
-            body: JSON.stringify({
+  try {
+      const response = await axios.post(
+          'https://routes.msg91.com/api/proxy/1258584/29gjrmh24/api/v2/model/chat/completion',
+          {
               user: userMessage,
               bridge_id: bridgeId,
               thread_id: chatId ? chatId + "" : undefined,
               variables: variables
-            }),
-        }
-    );
-    return await response.json()
+          },
+          {
+              headers: {
+                  'Content-Type': 'application/json',
+                  'pauthkey': PAUTH_KEY,
+              }
+          }
+      );
+
+      return await response.data;
+  } catch (error) {
+      console.error('Error in askAi:', error);
+      throw error;
+  }
 }
 
 export const sendMessageTochannel = async (message) => {
     try {
-      await fetch("https://flow.sokt.io/func/scri19UK6620",{
+      const webhook =  getCurrentEnvironment() === 'prod' ? "https://flow.sokt.io/func/scri19UK6620" : "https://flow.sokt.io/func/scriTdhvDTJK" ;
+      await fetch( webhook , {
         method:'POST',
         body:JSON.stringify(message)
       })
@@ -157,7 +164,7 @@ export const restoreDotsInKeys = (obj) => {
 export const replaceDotsInArray = (key) => key.replace(/\./g, '~');
 
 export const improveBlogPrompt = ( writer, philosopher ) => {
-  return (`Rewrite the blog to be SEO-friendly, dynamic, and in a style resembling ${writer} —engaging and decision-focused, with humorous anecdotes, quotes, dialogue or cultural references. End in a tone akin to ${philosopher}. Use rhetorical questions, conversational tone. only response with the updated JSON  embedded in markdown  Example:
+  return (`Rewrite the blog to be SEO-friendly, dynamic, and in a style resembling ${writer} —engaging and decision-focused, with humorous anecdotes, quotes, dialogue or cultural references. End in a tone akin to ${philosopher}. Use rhetorical questions, conversational tone. Avoid altering the technical sections. only response with the updated JSON embedded in markdown Example:
     \n\n
     \`\`\`
     json\n {\"blog\": \This is an example blog.\"} \n 
@@ -179,3 +186,22 @@ export  function extractJsonFromMarkdown(markdown) {
 
 
 export const restoreceDotsInArray = (key) => key.replace(/~/g, '.');
+
+export const reFormat = (blog) => {
+  blog.blog = blog.blog.map(item => {
+    if (item.hasOwnProperty('what_to_cover')) {
+      item.content = item.what_to_cover;
+      if(Array.isArray(item.content)){
+       item.content = item.content.map((review)=>{
+          review.content = review.what_to_cover;
+          delete review.what_to_cover;
+          return review;
+        })
+      }
+      delete item.what_to_cover; 
+    }
+    return item;
+  });
+  
+  return blog;
+};
