@@ -163,8 +163,17 @@ export const restoreDotsInKeys = (obj) => {
 
 export const replaceDotsInArray = (key) => key.replace(/\./g, '~');
 
-export const improveBlogPrompt = ( writer, philosopher ) => {
-  return (`Rewrite the blog to be SEO-friendly, dynamic, and in a style resembling ${writer} —engaging and decision-focused, with humorous anecdotes, quotes, dialogue or cultural references. End in a tone akin to ${philosopher}. Use rhetorical questions, conversational tone. Avoid altering the technical sections. only response with the updated JSON embedded in markdown Example:
+export const improveBlogPrompt = ( writer ) => {
+  return (`
+    Purpose: Review and rewrite the blog to ensure it solves its purpose.
+    Instructions:
+    SEO-friendly.
+    Use simple, relatable English with only 1% infusion of the writer’s ${writer} distinctive tone to make the blog unique yet seamlessly engaging.
+    Maintain a decision-focused style that guides the reader effectively.
+    Include one cultural reference and rhetorical questions to connect with the local audience.
+    Tone Preference:
+    The content should remain simple and relatable but carry a very little slight touch of the writer’s unique style to make it stand out without overwhelming the reader.
+    only response with the updated JSON embedded in markdown Example:
     \n\n
     \`\`\`
     json\n {\"blog\": \This is an example blog.\"} \n 
