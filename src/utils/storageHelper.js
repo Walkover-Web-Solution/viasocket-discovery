@@ -93,8 +93,9 @@ export const setInLocalStorage = ( key, value ) => {
 }
 export const getFromLocalStorage = ( key ) => {
   if (typeof window !== "undefined") { 
-    return localStorage.getItem(`${key}`);
+    const value = localStorage.getItem(`${key}`);
     localStorage.removeItem(`${key}`);
+    return value;
   }
 }
 
