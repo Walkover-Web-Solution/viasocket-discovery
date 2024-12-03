@@ -8,6 +8,7 @@ const createBlogModel = (connection) => {
       unique: true,
     },
     title: String,
+    titleDescription : String,
     slugName: {
       type: String,
       default: function () {

@@ -10,26 +10,29 @@ const urlSchema = Joi.object({
 export const blueprintSchema = Joi.object({
   metadata: Joi.object().required(), 
   title: Joi.string().required(),
+  title_description : Joi.string().optional(),
   blogStructure: Joi.array().items(Joi.object({
     heading: Joi.string().required(), 
-    content: Joi.string().required()
+    what_to_cover: Joi.string().required()
   })).required()
 });
 
 export const createdBlogSchema = Joi.object({
   title: Joi.string().required(),
+  title_description : Joi.string().optional(),
   blog: Joi.array().items(
     Joi.object({
       heading: Joi.string().required(),
-      content: Joi.alternatives().try(
+      what_to_cover: Joi.alternatives().try(
         Joi.string(),
         Joi.array().items(
           Joi.object({
             appName: Joi.string().required(),
-            content: Joi.string().required()
+            what_to_cover: Joi.string().required()
           })
         )
-      ).required()
+      ).required(),
+      section: Joi.string().optional(),
     })
   ).required(),
   tags: Joi.array().items(Joi.string()).required()
@@ -65,7 +68,8 @@ export const improveBlogSchema = Joi.object({
   blog: Joi.array().items(
     Joi.object({
       content: Joi.any().required(),
-      heading: Joi.string().required()  
+      heading: Joi.string().required(),
+      section: Joi.string().optional(),
     })
   ).required(),
   title: Joi.string().required()

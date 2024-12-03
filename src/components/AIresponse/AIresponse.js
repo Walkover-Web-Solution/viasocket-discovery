@@ -9,7 +9,7 @@ const AIresponse = ({ blogData, users, integrations, appBlogs }) => {
   let detailedReviews= {};
   let dynamicSections = [];
   blogData?.blog?.forEach((section)=>{
-    if(Array.isArray(section?.content)) detailedReviews = section;
+    if(section?.section === 'Detailed Reviews') detailedReviews = section;
     dynamicSections.push(section);
   })
   return (
