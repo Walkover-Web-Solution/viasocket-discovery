@@ -21,7 +21,6 @@ export default function UserBioPopup({ isOpen, onClose, onSave }) {
   }
   function handleSave(){
     onClose();
-    onSave();
   }
 
   return (

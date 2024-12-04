@@ -1,16 +1,42 @@
 import React, { useRef, useState, useEffect } from 'react';
 import styles from './Search.module.scss';
 import { useUser } from '@/context/UserContext';
-import UnauthorizedPopup from '../UnauthorisedPopup/UnauthorisedPopup';
 import { IconButton, Input, InputAdornment, TextField } from '@mui/material';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import UserBioPopup from '../UserBioPopup/UserBioPoup';
+import UnauthorizedPopup from '../UnauthorisedPopup/UnauthorisedPopup';
+import { dispatchAskAiEvent } from '@/utils/utils';
 
 export default function Search({ searchQuery, setSearchQuery, handleAskAi, placeholder, className }) {
 	const { user } = useUser();
 	const [unAuthPopup, setUnAuthPopup] = useState(false);
 	const [userBioPopup, setUserBioPopup] = useState(false);
 	const inputRef = useRef(null);
+	
+	useEffect(() => {
+		if(user?.meta?.bio && userBioPopup){
+			setUserBioPopup(false);
+		}
+	}, [user])
+
+	useEffect(() => {
+		const handleEvent = async (e) => {
+			if (!user) {
+				setUnAuthPopup(true);
+				return;
+			}
+			if(!user.meta?.bio){
+				setUserBioPopup(true);
+				return;
+			}
+			setSearchQuery('');
+			dispatchAskAiEvent(e.detail);
+		}
+		window.addEventListener('askAppAiWithAuth', handleEvent);
+		return () => {
+			window.removeEventListener('askAppAiWithAuth', handleEvent);
+		}
+	});
 
 	const handleClick = () => {
 		if (!user) {
@@ -65,7 +91,7 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 				</IconButton>
 			</div>
 			<UnauthorizedPopup isOpen={unAuthPopup} onClose={onUnAuthClose} />
-			<UserBioPopup isOpen={userBioPopup} onClose={()=>setUserBioPopup(false)} onSave={handleClick}/>
+			<UserBioPopup isOpen={userBioPopup} onClose={()=>setUserBioPopup(false)}/>
 		</>
 	)
 } 
