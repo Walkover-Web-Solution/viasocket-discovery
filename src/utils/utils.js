@@ -40,6 +40,13 @@ export function dispatchAskAiEvent(userMessage) {
     window.dispatchEvent(event); // Emit the event globally
 };
 
+export function dispatchAskAppAiWithAuth(userMessage){
+  const event = new CustomEvent('askAppAiWithAuth', {
+      detail: userMessage
+  });
+  window.dispatchEvent(event);
+}
+
 export async function askAi(bridgeId, userMessage, variables, chatId) {
   const PAUTH_KEY = process.env.PAUTH_KEY;
 

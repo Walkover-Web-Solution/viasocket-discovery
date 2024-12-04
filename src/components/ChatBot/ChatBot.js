@@ -17,6 +17,7 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
     if(divRef.current)
       divRef.current.scrollTop = divRef?.current.scrollHeight;
   };
+  
   async function sendMessageToChatBot(message = inputMessage) {
     if (message && message.trim()) {
       const userMessage = { role: 'user', content: message };

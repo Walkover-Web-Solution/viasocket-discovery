@@ -1,0 +1,194 @@
+.homePageDiv{
+  --blog-width: 800px;
+  --search-width: 900px;
+
+  height: calc(100vh - 6rem - var(--header-height));
+  border: 1px solid black;
+  overflow: scroll;
+  .homeTitle{
+    font-size: 96px;
+    margin-top: 2rem !important;
+    max-width: 14in;
+    font-weight: 400;
+    font-family: var(--title-font);
+    position: relative;
+  }
+  
+  .homep{
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    padding: 0 8rem;
+    max-width: 12in;
+  }
+
+  .Homesection {
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    margin: auto;
+    max-width: var(--search-width);
+    overflow-y: hidden;
+    & > * {
+      margin: 1rem auto;
+    }
+
+    .searchQuery{
+      width: var(--search-width);
+    }
+
+    .noData{
+      font-size: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .cardsGrid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      &>*{
+        max-width: var(--blog-width);
+      }
+    }    
+  }
+  
+  .titleSuggestion{
+    font-family: var(--title-font);
+    font-size :1.6rem;
+    color: rgba(0, 0, 0, 0.5);
+    margin-left: 1rem;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    cursor: pointer;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    &:not(:last-of-type){
+      padding-bottom: 10px;
+    }
+    &:hover{
+      color: var(--foreground-color);
+      &:before{
+        animation: slide 0.2s ease-out;
+        content: "➔";
+        position: absolute;
+        left: -2rem;
+      }
+    }
+  }
+  
+  
+  .blogsWithChatbot{
+    width: 70% !important;
+    margin-left: auto;
+  }
+  
+  .homeTitle, .homep{
+    padding-left: 1.6rem;
+    text-align: center;
+    margin: auto;
+  }
+  
+  .searchTags{
+    max-width: 100%;
+    width: var(--search-width);
+    margin: 20px auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    & > *{
+      text-wrap: nowrap;
+      &::before{
+        content: "#";
+      }
+    }
+  }
+  
+  .searchDiv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 0 15rem 0;
+    transition-duration: 0.2s;
+    height: min-content;
+    top: 0;
+    left: 0;
+    .popularTagsDiv{
+      padding: 0 10rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 12in;
+      &>*{
+        background-color: transparent;
+        transform: scale(1.1);
+        border: 1px solid black;
+        text-wrap: nowrap;
+        display: block;
+        &:hover{
+          background-color: var(--foreground-color);
+          color: var(--background-color);
+        }
+      }
+    }
+    .showInCenter{
+      position: relative;
+      transform: none;
+      top: 0;
+      left: 0;
+      &>* {
+        box-shadow: none !important;
+      }
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+  .homeTitle{
+    font-size: 50px;
+    padding-right: 1.6rem;
+  }
+  .homep{
+    padding: 0 2rem;
+  }
+  .Homesection{
+    padding: 0px;
+  }
+  .searchDiv{
+    .popularTagsDiv{
+      &>*{
+        width: max-content;
+        text-wrap: wrap;
+        max-width: 80%;
+      }
+    }
+  }
+}
+
+// @media (max-width: 1200px) {
+//   .homesubdiv{
+//     flex-direction: column;
+//     &>*{
+//       width: 100% !important; 
+//       border: none !important;
+//     }
+//     .searchSuggestion{
+//       margin: 0 !important;
+//     }
+//   }
+// }
+
+@keyframes slide{
+  from{
+    left: -3.5rem;
+    opacity: 0;
+  }
+  to{
+    left: -2rem;
+    opacity: 1;
+  }
+}
