@@ -118,10 +118,7 @@ async function createBlog(userMessage, environment, userId, countrycode){
             ...((blueprint.blogStructure).map((section)=>{
                 if(section?.section === 'detailed_reviews'){
                     hasDetailedReview = true;
-                    section.what_to_cover = [{
-                        "appName": "App Name",
-                        "what_to_cover": "Explore App in detail, including its standout features, benefits, and how it uniquely addresses specific user needs. Focus on practical solutions and real-world use cases. Conclude with a bullet-point list of key pros and cons to help users make informed decisions."
-                    }]
+                    section.what_to_cover = [detailedReviewContent]
                 }
                 return section;
             }))
@@ -132,10 +129,7 @@ async function createBlog(userMessage, environment, userId, countrycode){
         blogPrompt.blog.push({
             "heading": "Detailed Reviews",
             "section": "detailed_reviews",
-            "what_to_cover": [{
-                "appName": "App Name",
-                "what_to_cover": "Explore App in detail, including its standout features, benefits, and how it uniquely addresses specific user needs. Focus on practical solutions and real-world use cases. Conclude with a bullet-point list of key pros and cons to help users make informed decisions."
-            }]
+            "what_to_cover": [detailedReviewContent]
         })
     }
     blogPrompt = JSON.stringify(blogPrompt);
@@ -183,3 +177,8 @@ async function retryResponse(bridgeId, errorMessage, userId, countrycode, region
      sendAlert( `RETRY ERROR ${validatedResponse.errorMessages}`, bridgeId, message_id, chatId );
      return { message : "Something went wrong! Try again." }
 }
+
+const detailedReviewContent = {
+    "appName": "App Name",
+    "what_to_cover": "Explore App in detail, including its standout features, benefits, and how it uniquely addresses specific user needs. Focus on practical solutions and real-world use cases. Conclude with a bullet-point list of key pros and cons to help users make informed decisions."
+};
