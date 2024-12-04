@@ -1,3 +1,4 @@
+import { titleSuggestions } from '@/services/aiServices';
 import blogServices from '@/services/blogServices';
 import { searchTags } from '@/services/tagsServices';
 
@@ -15,8 +16,7 @@ export default async function handler(req, res) {
     case 'GET':
       try {
         let { search, userId, apps } = req.query;
-        let blogs;
-        let tags ;
+        let blogs, tags;
         if (search) {
           if (search.startsWith('#')) {
             blogs = await blogServices.searchBlogsByTag(search.slice(1),environment);

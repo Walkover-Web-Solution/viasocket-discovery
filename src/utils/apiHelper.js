@@ -107,3 +107,21 @@ export const fetchIntegrations = async (pluginNames) => {
     console.error('Error fetching integrations:', error);
   }
 };
+
+export const titleSuggestions =  async(userQuery) => {
+  try{
+    const response = await fetch(baseUrl+`/api/suggestions?search=${userQuery}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch integrations: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.data.titles;
+  } catch(error){
+    console.log("error getting title suggestions ", error);
+    return [];
+  }
+}

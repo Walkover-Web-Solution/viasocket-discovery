@@ -4,6 +4,7 @@
 
 :root {
   --title-font:  'title-font', Times, serif;
+  --para-font:  "Outfit", sans-serif;
   // --background-color: #f1edec;
   --background-color: white;
   // --foreground-color: #452f2d;
@@ -27,7 +28,7 @@
   );
   --blog-width: 45rem;
   --outer-blog-width: 60rem;
-  --margin-between: 2rem;
+  --header-height: 6.1rem;
 }
   
   html,
@@ -51,7 +52,7 @@
   }
   
   p, a, button{
-    font-family: "Outfit", sans-serif;
+    font-family: var(--para-font);
     margin: 0;
     padding: 0;
   }

@@ -76,6 +76,11 @@
         max-width: var(--blog-width);
         margin: auto;
         margin-top: 0.5rem;
+        h1, h2, h3, h4, h5, h6{
+            font-family: var(--para-font);
+            font-weight: 300 !important;
+            margin: 20px 0 10px 0;
+        }
     }
     .relatedBlogsDiv{
         display: flex;

@@ -1,17 +1,18 @@
 import { useState, useEffect, useCallback } from 'react';
 import { debounce } from 'lodash'; 
 import Blog from '@/components/Blog/Blog';
-import styles from '@/pages/home.module.css';
+import styles from '@/pages/home.module.scss';
 import { fetchBlogs } from '@/utils/apis/blogApis';
 import Search from '@/components/Search/Search';
 import { useUser } from '@/context/UserContext';
 import Chatbot from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
-import { dispatchAskAiEvent, safeParse } from '@/utils/utils';
+import { dispatchAskAiEvent, dispatchAskAppAiWithAuth, safeParse } from '@/utils/utils';
 import { useRouter } from 'next/router';
-import { SettingsSystemDaydreamSharp } from '@mui/icons-material';
 import Link from 'next/link';
 import blogstyle from '@/components/Blog/Blog.module.scss';
+import Skeleton from 'react-loading-skeleton';
+import { titleSuggestions } from '@/utils/apiHelper';
 
 export default function Home() {
     const [blogs, setBlogs] = useState([]);
@@ -30,12 +31,18 @@ export default function Home() {
       if(!router.isReady || ( isOpen && !searchQuery.length > 0 )) return ;
         const fetchAllBlogs = async () => {
         setSearchQuery(router.query?.search || '')
+        setBlogs([]);
         setIsLoading(true);
-        
           try {
-              const data = await fetchBlogs(router.query?.search ? `?search=${router.query?.search}` :'');
-              if (data.tags)setTags(data.tags);
+              const data = await fetchBlogs(router.query?.search ? `?search=${router.query?.search}` : '');
+              if (data.tags) setTags(data.tags);
               setBlogs(data?.blogs);
+              if(data?.blogs?.length < 10){
+                setIsLoading(true);
+                const titles = await titleSuggestions(router.query?.search);
+                setBlogs((prevBlogs) => [...prevBlogs, ...(titles.map(ele => ({dummy: true, title: ele})))]);
+                setIsLoading(false);
+              }
           } catch (error) {
               console.error('Error fetching blogs:', error);
           }finally{
@@ -59,7 +66,8 @@ export default function Home() {
     
     useEffect(() => {
       if(!typingStart && searchQuery?.length) setTypingStart(true);
-      setIsLoading(true)
+      setIsLoading(true);
+      setBlogs([]);
       debouncedFetchBlogs();
       return () => {
             debouncedFetchBlogs.cancel(); 
@@ -94,7 +102,7 @@ export default function Home() {
 
 
   const tagsContainer = ()=>{
-    if(!tags?.length || !searchQuery) return null;
+    if(!tags?.length || !searchQuery || isLoading) return null;
     return  (
     <div className={styles.searchTags}>
     {tags.map((tag, index) => (
@@ -109,89 +117,106 @@ export default function Home() {
   </div>
   )
   }
+  
   const renderBlogsSection = (blogs, title, fallback) => {
-    if(isLoading){
-      return  (
-        <section className={styles.Homesection}>
-          <h2 className='heading'>{title}</h2>
-          <div className={styles.cardsGrid}>
-            <Blog isLoading={isLoading} /> 
-            <Blog isLoading={isLoading} /> 
-            <Blog isLoading={isLoading} /> 
-            <Blog isLoading={isLoading} /> 
-          </div>
-        </section>
-      )
-    }
-
     return (
-    blogs?.length > 0 ? (
       <section className={styles.Homesection}>
-        <div className = {styles.homesubdiv}>
-        <h2 className='heading'>{title}</h2>
-        {tagsContainer()}
-        </div>
-       
-        <div className={styles.cardsGrid}>
-          {blogs.map((blog) => (
-            <Blog key={blog._id} blog={blog} />
-          ))}
-        </div>
-      </section>
-    ): fallback && (
-      <section className={styles.Homesection}>
-        <h2 className='heading'>{title}</h2>
-        <p className={styles.noData}>No results here! Press Enter or hit Ask AI</p>
-      </section>
-    ) 
-  )
-  }
-    const handleAskAi = async () => {
-      dispatchAskAiEvent(searchQuery);
-      setIsOpen(true);
-    }
-    useEffect(()=>{
-      if(!user) setIsOpen(false);
-    },[user])
-    return (
-        <div className={styles.homePageDiv}>
-          {
-            !isOpen && !searchQuery && (
-              <>
-                <h1 className={styles.homeTitle}>Find Your Ideal Tool in Seconds</h1>
-                <p className={styles.homep}>{'Follow Up With Al For Personalized Insights And Automated Recommendations Based On Real Professionals'}</p>
-              </>
+        <h2 className="heading">{title}</h2>
+        <div>
+          {blogs.length > 0 ? (
+            blogs.map((blog) => (
+              <a
+                target={blog.dummy ? '_self' : '_blank'}
+                rel="noopener noreferrer"
+                href={blog.dummy ? null : `/discovery/blog/${blog.id}`}
+                key={blog.id}
+                onClick={() => {
+                  if (blog.dummy) {
+                    handleAskAi(blog.title);
+                    setSearchQuery('');
+                  }
+                }}
+              >
+                <h6 className={styles.titleSuggestion}>{blog.title}</h6>
+              </a>
+            ))
+          ) : (
+            !isLoading && fallback && (
+              <h6 className={styles.titleSuggestion}>
+                No results here, hit enter or Ask AI !!!
+              </h6>
             )
-          }     
-          { typingStart &&       
-            <div className={styles.postHeaderDiv}>
-                {searchQuery && !isOpen ? (
-                    renderBlogsSection(blogs, searchQuery, true)
-                ) : (
-                    <>
-                        {renderBlogsSection(blogs)}
-                    </>
-                )}
+          )}
+        </div>
+        {isLoading && (
+          <div className={styles.cardsGrid}>
+            {[...Array(10)].map((_, index) => (
+              <Skeleton
+                height={20}
+                width={700}
+                style={{ marginBottom: "10px" }}
+                key={index}
+              />
+            ))}
+          </div>
+        )}
+        {tagsContainer()}
+      </section>
+    );    
+  }
+  
+  const handleAskAi = async (prompt) => {
+    if(prompt){
+      dispatchAskAppAiWithAuth(prompt);
+    }else{
+      dispatchAskAiEvent(searchQuery);
+    }
+    setIsOpen(true);
+  }
+  
+  useEffect(()=>{
+    if(!user) setIsOpen(false);
+  },[user])
+  
+  return (
+      <div className={styles.homePageDiv}>
+        {
+          !isOpen && !searchQuery && (
+            <>
+              <h1 className={styles.homeTitle}>Find Your Ideal Tool in Seconds</h1>
+              <p className={styles.homep}>{'Follow Up With Al For Personalized Insights And Automated Recommendations Based On Real Professionals'}</p>
+            </>
+          )
+        }     
+        { typingStart &&       
+          <div className={styles.postHeaderDiv}>
+              {searchQuery && !isOpen ? (
+                  renderBlogsSection(blogs, searchQuery, true)
+              ) : (
+                  <>
+                      {renderBlogsSection(blogs)}
+                  </>
+              )}
+          </div>
+        }
+        <div className={typingStart ? '' : styles.searchDiv}>
+          <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'SEARCH WITH AI'/>
+          {
+            !typingStart && 
+            <div className = {styles.popularTagsDiv}>
+              {popularTags.map((tag, index) => (
+              <Link
+                key={index}
+                href={`/?search=${tag}`}
+                className={`${blogstyle.tag} ${blogstyle[tag.toLowerCase()]}`}
+              >
+                {tag}
+              </Link>
+            ))}
             </div>
           }
-          <div className={typingStart ? '' : styles.searchDiv}>
-            <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'SEARCH WITH AI'/>
-            {
-              !typingStart && 
-              <div className = {styles.popularTagsDiv}>
-                {popularTags.map((tag, index) => (
-                <Link
-                  key={index}
-                  href={`/?search=${tag}`}
-                  className={`${blogstyle.tag} ${blogstyle[tag.toLowerCase()]}`}
-                >
-                  {tag}
-                </Link>
-              ))}
-              </div>
-            }
-          </div>
-          <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId} homePage setIsOpen = {setIsOpen} isOpen = {isOpen} searchResults = {searchQuery ? blogs : null}/>
         </div>
-    );
+        <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId} homePage setIsOpen = {setIsOpen} isOpen = {isOpen} searchResults = {searchQuery ? blogs.filter(blog => !blog.dummy) : null}/>
+      </div>
+  );
 }

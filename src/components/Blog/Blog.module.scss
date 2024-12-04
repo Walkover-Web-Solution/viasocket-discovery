@@ -61,6 +61,7 @@
 
 .appIconsDiv{
   display: flex;
+  flex-wrap: wrap;
   gap: 0.7rem;
   .appIcon{
     padding: 3px;
@@ -77,8 +78,4 @@
       padding : 2px 5px;
     }
   }
-  .appIconsDiv{
-    flex-wrap:wrap
-  }
-  
 }
