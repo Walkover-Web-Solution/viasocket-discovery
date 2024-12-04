@@ -207,7 +207,7 @@ export const reFormat = (blog) => {
   blog.blog = blog.blog.map(item => {
     if (item.hasOwnProperty('what_to_cover')) {
       item.content = item.what_to_cover;
-      if(item.section === 'Detailed Reviews'){
+      if(item.section === 'detailed_reviews'){
        item.content = item.content.map((review)=>{
           review.content = review.what_to_cover;
           delete review.what_to_cover;
@@ -225,7 +225,7 @@ export const reFormat = (blog) => {
 export function  getAppNames(sections){
   let appNames = [];
   for (let i = 0; i < sections.length; i++) {
-    if (sections[i]?.section === 'Detailed Reviews') {
+    if (sections[i]?.section === 'detailed_reviews') {
       appNames = sections[i].content.map(app => app.appName);
       break;
     }

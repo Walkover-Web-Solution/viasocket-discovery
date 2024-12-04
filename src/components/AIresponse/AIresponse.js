@@ -9,7 +9,7 @@ const AIresponse = ({ blogData, users, integrations, appBlogs }) => {
   let detailedReviews= {};
   let dynamicSections = [];
   blogData?.blog?.forEach((section)=>{
-    if(section?.section === 'Detailed Reviews') detailedReviews = section;
+    if(section?.section === 'detailed_reviews') detailedReviews = section;
     dynamicSections.push(section);
   })
   return (
@@ -25,8 +25,8 @@ const AIresponse = ({ blogData, users, integrations, appBlogs }) => {
             {hasMarkdown && (
               <>
                 {Components['summaryList']({appNames: detailedReviews.content.map(app => app.appName), integrations})}
-               {dynamicSections.map(({content, heading}) => (
-                  Array.isArray(content) ?
+               {dynamicSections.map(({content, heading, section}) => (
+                  (section === 'detailed_reviews') ?
                     Components['detailedReviews']({...detailedReviews, integrations, appBlogs, apps : blogData.apps}):
                     Components['additionalSection']?.({content, heading})
                 ))}
