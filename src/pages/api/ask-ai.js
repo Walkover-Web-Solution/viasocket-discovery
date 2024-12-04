@@ -134,7 +134,7 @@ async function createBlog(userMessage, environment, userId, countrycode){
             "section": "detailed_reviews",
             "what_to_cover": [{
                 "appName": "App Name",
-                "what_to_cover": "Write detailed reviews, user testimonials, and case studies that showcase the app's features, benefits, and how it uniquely addresses specific user needs. Use internal links to direct users to real app pages for detailed insights."
+                "what_to_cover": "Explore App in detail, including its standout features, benefits, and how it uniquely addresses specific user needs. Focus on practical solutions and real-world use cases. Conclude with a bullet-point list of key pros and cons to help users make informed decisions."
             }]
         })
     }
