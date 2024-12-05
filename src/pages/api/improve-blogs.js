@@ -53,18 +53,11 @@ export async function distinctifyPhrase(processedBlog, environment) {
 }
 
 export async function getNames (countryCode){
-    let [writer, philosopher] = await Promise.all([
-        getRandomAuthorByCountryAndType(countryCode, 'writer'),
-        getRandomAuthorByCountryAndType(countryCode, 'philosopher')
-    ]);
-
+    let writer = await getRandomAuthorByCountryAndType(countryCode);
     if(!writer){
         writer = await getWriter(countryCode,'writer');
     }
-    if(!philosopher){
-        philosopher =await getWriter(countryCode,'philosopher');
-    }
-    return { writer , philosopher }
+    return { writer }
 }
 export async function getWriter(countryCode,type){
     const res = await askAi(process.env.NEXT_PUBLIC_WRITER_GENERATOR_BRIGDE,`countryCode:${countryCode} and type:${type}`,{ countryCode : countryCode , profession : type });
@@ -81,7 +74,7 @@ export async function createBulkOperation (blogs,environment){
         const auther = await getNames(countryCode);
         let aiResponse = await askAi(
           process.env.IMPROVE_BRIDGE,
-          `${improveBlogPrompt( auther.writer.name, auther.philosopher.name , countryCode )} ${JSON.stringify({blog : blog.blog , title : blog.title })}`
+          `${improveBlogPrompt( auther.writer.name )} ${JSON.stringify({blog : blog.blog })}`
         );
         const message_id = aiResponse.response.data.message_id;
         aiResponse = extractJsonFromMarkdown(aiResponse.response.data.content);
@@ -99,7 +92,6 @@ export async function createBulkOperation (blogs,environment){
                 update: { 
                   $set: { 
                     'blog': processedBlog.blog ,
-                    'title' : processedBlog.title,
                   }
                 }
             }
