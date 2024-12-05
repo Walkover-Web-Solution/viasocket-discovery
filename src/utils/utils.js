@@ -113,6 +113,10 @@ export function nameToSlugName(name){
     return name.toLowerCase().replace(/[\s/()]+/g, '-');
 }
 
+export function appNameToId(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/gi, '-');
+}
+
 
 export function safeParse(json,bridgeId,threadId){
   try {
