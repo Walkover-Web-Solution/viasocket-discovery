@@ -3,7 +3,7 @@
 
 import createBlogModel from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
-import { generateNanoid, restoreceDotsInArray, restoreDotsInKeys } from '@/utils/utils';
+import { generateNanoid, getAppNames, restoreceDotsInArray, restoreDotsInKeys } from '@/utils/utils';
 import { getUpdatedApps } from './integrationServices';
 
 const withBlogModel = async (environment, callback) => {
@@ -37,7 +37,7 @@ const getAllBlogs = (userId, environment) => {
 
 const createBlog = async (blogData, environment) => {
   return await withBlogModel(environment, async (Blog) => {
-    const appNames = blogData.blog[1].content.map(app => app.appName);
+    const appNames = getAppNames(blogData.blog)
     const apps = await getUpdatedApps(appNames, environment);
     const newBlog = (await Blog.create({ ...blogData, apps, id: generateNanoid(6) })).toObject();
     return {
@@ -61,7 +61,7 @@ const getBlogById = (blogId, environment) => {
 
 const updateBlogById = (blogId, blogData, userId, environment) => {
   return withBlogModel(environment, async (Blog) => {
-  const appNames = blogData.blog[1].content.map(app => app.appName);
+    const appNames = getAppNames(blogData.blog)
     const apps = await getUpdatedApps(appNames, environment);
     const updateData = {
       ...blogData,
