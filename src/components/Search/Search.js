@@ -6,6 +6,7 @@ import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import UserBioPopup from '../UserBioPopup/UserBioPoup';
 import UnauthorizedPopup from '../UnauthorisedPopup/UnauthorisedPopup';
 import { dispatchAskAiEvent } from '@/utils/utils';
+import { setInLocalStorage } from '@/utils/storageHelper';
 
 export default function Search({ searchQuery, setSearchQuery, handleAskAi, placeholder, className }) {
 	const { user } = useUser();
@@ -40,6 +41,7 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 
 	const handleClick = () => {
 		if (!user) {
+			setInLocalStorage('query',searchQuery)
 			setUnAuthPopup(true);
 			return;
 		}
