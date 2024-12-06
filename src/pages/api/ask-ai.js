@@ -47,6 +47,9 @@ export default async function handler(req, res) {
                     }
                     var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
                     var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate,userId,countrycode).catch(err => console.log('Error updating blog', err));
+                    if(newBlog){
+                        botResponse.blog = newBlog;
+                    }
                 }else if(bridgeId === process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
                     botResponse = ValidateAiResponse(parsedContent, searchResultsSchema);
                     if(botResponse.success===true){
