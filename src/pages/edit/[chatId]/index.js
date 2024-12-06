@@ -9,6 +9,7 @@ import React , { useState, useEffect } from 'react';
 import { fetchIntegrations } from '@/utils/apiHelper';
 import blogServices from '@/services/blogServices';
 import ChatBot from '@/components/ChatBotAIMiddleWare/ChatBot';
+import { safeParse } from '@/utils/utils';
 
 
 
@@ -23,14 +24,6 @@ export async function getServerSideProps(context) {
   //   console.error('Error fetching integrations:', error);
   // }
   return {props};
-}
-export function safeParse (json){
-  try {
-    return JSON.parse(json)
-  }
-  catch (e){
-    return { message:json };
-  }
 }
 
 export default function ChatPage({ blogData: initBlogData}) {

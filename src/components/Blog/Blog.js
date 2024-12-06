@@ -4,6 +4,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import styles from '@/components/Blog/Blog.module.scss';
 import { Avatar } from '@mui/material';
 import Link from 'next/link';
+import { nameToSlugName } from '@/utils/utils';
 
 export default function BlogCard({ blog, isLoading, className }) {
   if (isLoading) {
@@ -27,7 +28,7 @@ export default function BlogCard({ blog, isLoading, className }) {
   }
   return (
     <div key={blog.id} className={`${styles.card} ${className || ''}`}>
-      <a href={blog.url || `/discovery/blog/${blog.id}`} target="_blank" rel="noopener noreferrer">
+      <a href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${blog.meta.category}/` : ''}${blog?.slugName ? nameToSlugName(blog.slugName):''}`} target="_blank" rel="noopener noreferrer">
         <h3>{blog.title}</h3>
         {/* <p>{blog.introduction || blog.blog?.find(section => section.section === 'introduction')?.content}</p> */}
         <div className={styles.appIconsDiv}>

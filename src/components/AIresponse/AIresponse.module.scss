@@ -1,16 +1,15 @@
+
 .markdownContainer {
-  padding: 16px;
-  background-color: var(--background-color);
-  border-radius: 8px;
   font-family: var(--sans-serif-font);
-  max-width: 60rem;
+  max-width: var(--outer-blog-width);
   height: 700px;
   overflow: auto;
-  width: 90%;
+  overflow-x: initial;
   height: 90%;
   margin: auto;
   // margin-bottom: 5rem; 
   padding-bottom: 0px;
+  transform: translateY(-8rem);
 }
 
 .markdownContainer::-webkit-scrollbar {
@@ -30,6 +29,7 @@
 .markdownContainer::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+
 .tagsContainer {
   margin-top: 20px;
   h3{
@@ -50,4 +50,13 @@
 }
 .tag:hover {
   background-color: #f9c6c6;
+}
+
+.containerDiv{
+  background-color: white;
+  width: 100%;
+}
+
+.blogPage{
+  width: 100%;
 }

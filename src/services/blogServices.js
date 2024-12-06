@@ -3,7 +3,7 @@
 
 import createBlogModel from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
-import { generateNanoid } from '@/utils/utils';
+import { generateNanoid, getAppNames, restoreceDotsInArray, restoreDotsInKeys } from '@/utils/utils';
 import { getUpdatedApps } from './integrationServices';
 
 const withBlogModel = async (environment, callback) => {
@@ -12,10 +12,9 @@ const withBlogModel = async (environment, callback) => {
   return callback(Blog);
 };
 
-const getAllBlogs = (userId,environment) => {
-  console.time("getAllBlogs");
-  return withBlogModel(environment, (Blog) => {
-    return Blog.aggregate([
+const getAllBlogs = (userId, environment) => {
+  return withBlogModel(environment, async(Blog) => {
+    let blogs = await Blog.aggregate([
       {
         $addFields: {
           isUserBlog: { $cond: { if: { $eq: ["$createdBy", parseInt(userId)] }, then: 1, else: 0 } }
@@ -25,37 +24,45 @@ const getAllBlogs = (userId,environment) => {
         $sort: { isUserBlog: -1 }
       },
       {
-       $project: { isUserBlog: 0 } 
+        $project: { isUserBlog: 0 }
       }
     ]).limit(20)
+    blogs = blogs.map((blog)=>{
+      blog.apps = restoreDotsInKeys(blog.apps);
+      return blog;
+    })
+    return blogs;
   });
 };
 
 const createBlog = async (blogData, environment) => {
   return await withBlogModel(environment, async (Blog) => {
-    const apps = await getUpdatedApps(blogData, environment);
+    const appNames = getAppNames(blogData.blog)
+    const apps = await getUpdatedApps(appNames, environment);
     const newBlog = (await Blog.create({ ...blogData, apps, id: generateNanoid(6) })).toObject();
     return {
       id: newBlog.id,
       blog: newBlog.blog, 
-      apps: newBlog.apps, 
+      apps: apps, 
       tags: newBlog.tags, 
-      title: newBlog.title
+      title: newBlog.title,
+      titleDescription : newBlog.titleDescription
     }
   });
 };
 
 const getBlogById = (blogId, environment) => {
   console.time("getBlogId");
-  return withBlogModel(environment,  async (Blog) => {
+  return withBlogModel(environment, async (Blog) => {
     console.timeEnd("getBlogId");
-    return JSON.parse(JSON.stringify( await Blog.findOne({ "id": blogId })));
+    return JSON.parse(JSON.stringify(await Blog.findOne({ "id": blogId })));
   });
 };
 
 const updateBlogById = (blogId, blogData, userId, environment) => {
   return withBlogModel(environment, async (Blog) => {
-    const apps = await getUpdatedApps(blogData, environment);
+    const appNames = getAppNames(blogData.blog)
+    const apps = await getUpdatedApps(appNames, environment);
     const updateData = {
       ...blogData,
       updatedAt: Date.now(),
@@ -95,10 +102,15 @@ const getOtherBlogs = (userId, environment) => {
 
 const searchBlogsByQuery = (query, environment) => {
   return withBlogModel(environment, (Blog) => {
-    return Blog.find({
-      'blog.content': { $regex: query, $options: 'i' }
+  return Blog.find({
+      $or: [
+        { title: { $regex: query, $options: 'i' } },
+        { slugName: { $regex: query, $options: 'i' } },
+        { 'blog.content': { $regex: query, $options: 'i' } },
+        { tags: { $regex: query, $options: 'i' } },  
+      ]
     },
-    { apps: 1, tags: 1, title: 1, id: 1});
+      { apps: 1, tags: 1, title: 1, id: 1, slugName:1, meta:1 });
   });
 };
 
@@ -108,16 +120,16 @@ const searchBlogsByTag = (tag, environment) => {
       'tags': {
         $regex: tag,
         $options: 'i'
-      } 
+      }
     },
-    { apps: 1, tags: 1, title: 1, id: 1}
+      { apps: 1, tags: 1, title: 1, id: 1,slugName:1, meta:1  }
     )
   });
 };
 
 const searchBlogsByTags = async (tagList , id ,category ,environment) => {
-  return withBlogModel(environment, (Blog) => {
-    const results = Blog.aggregate([
+  return withBlogModel(environment, async(Blog) => {
+    let results = await Blog.aggregate([
       {
         $match: {
           $and: [
@@ -158,43 +170,54 @@ const searchBlogsByTags = async (tagList , id ,category ,environment) => {
       },
       {
         $project: {
-          apps: 1, title: 1, id: 1
+          apps: 1, title: 1, id: 1, tags: 1, meta:1 , slugName:1
       }}
     ]);
-
-    return results;
+    results = results.map((blog)=>{
+      blog.apps = restoreDotsInKeys(blog.apps);
+      return blog;
+    })
+    return JSON.parse(JSON.stringify(results));
   });
 };
 
 const getAllBlogTags = async (environment) => {
-  return withBlogModel(environment,(Blog)=>{
+  return withBlogModel(environment, (Blog) => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set time to midnight (start of the day)
-    return  Blog.find(
+const last24Hours = new Date(today);
+last24Hours.setHours(today.getHours() - 24, 0, 0, 0); 
+    
+    return Blog.find(
       {
         $or: [
-          { createdAt: { $gt: today } },  // Condition for 'createdAt'
-          { updatedAt: { $gt: today } }   // Condition for 'updatedAt'
+          { createdAt: { $gt: last24Hours } },  // Condition for 'createdAt'
+          { updatedAt: { $gt: last24Hours } }   // Condition for 'updatedAt'
         ]
       },
-      { _id: 1, tags: 1 }  // Projection to only return '_id' and 'tags'
+      { _id: 1, tags: 1, meta: 1 }  // Projection to only return '_id' and 'tags'
     );
   })
-  
+
 }
 
-const updateBlogsTags = async (blogsTagsToUpdate,environment) => {
-  return withBlogModel(environment,async (Blog) => {
+const updateBlogsTags = async (blogsTagsToUpdate, environment) => {
+  return withBlogModel(environment, async (Blog) => {
     try {
       const bulkOperations = Object.keys(blogsTagsToUpdate).map(blogId => ({
         updateOne: {
           filter: { _id: blogId },  // Match document by _id
-          update: { $set: { tags : Array.from(blogsTagsToUpdate[blogId]) } },  // Update the 'tags' field
+          update: {
+            $set:
+            {
+              meta: blogsTagsToUpdate[blogId].meta,
+              tags: Array.from(blogsTagsToUpdate[blogId].tags)
+            }
+          },  // Update the 'tags' field
         }
       }));
 
       const result = await Blog.bulkWrite(bulkOperations);
-     return result;
+      return result;
     } catch (error) {
       console.error("Error performing bulk update:", error);
     }
@@ -206,13 +229,16 @@ const searchBlogsByUserId = async ( userId, environment ) => {
   })
 }
 
-const getLastHourBlogs = async (environment) => {
+const getBlogsForImprove = async (environment) => {
   return withBlogModel(environment, async (Blog) => {
-    const oneHourAgo = new Date();
-    oneHourAgo.setHours(oneHourAgo.getHours() - 1); 
+    const oneDayAgo = new Date();
+    oneDayAgo.setDate(oneDayAgo.getDate() - 1); 
 
     const blogs = await Blog.find({
-      createdAt: { $gte: oneHourAgo } 
+      $or: [
+        { createdAt: { $gte: oneDayAgo } },  
+        { updatedAt: { $gte: oneDayAgo } } 
+      ]
     });
 
     return blogs;
@@ -226,6 +252,44 @@ const bulkUpdateBlogs = async (bulkOperations, environment) => {
   });
 };
 
+const blogWithApps = async (apps, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    return await Blog.find({
+      $and: apps.map(appName => ({[`apps.${appName}`] : {$exists: true}}))
+    }, 
+    {_id : 0, id: 1, title: 1, apps: 1, tags: 1})
+  })
+}
 
+const searchBlogsByApps = (appNames, blogId, environment) => {
+  const apps = appNames.map((appName) => restoreceDotsInArray(appName));
+  return withBlogModel(environment, async (Blog) => {
+    let blogs = await Blog.aggregate([
+      {
+        $match: {
+          id: { $ne: blogId }, 
+          $or: apps.map(appName => ({
+            [`apps.${appName}`]: { $exists: true } 
+          }))
+        }
+      },
+      {
+        $facet: appNames.reduce((facet, appName) => {
+          facet[appName] = [
+            { $match: { [`apps.${appName}`]: { $exists: true } } }, 
+            { $limit: 4 }, 
+            { $project: { title: 1, id: 1, slugName:1, meta:1 } }  
+          ];
+          return facet;
+        }, {})
+      }
+    ]);
+    blogs = blogs.map(blogFacet => {
+      const restoredFacet = restoreDotsInKeys(blogFacet);
+      return restoredFacet;
+    });
+    return JSON.parse(JSON.stringify(blogs));
+  });
+};
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getLastHourBlogs, bulkUpdateBlogs , searchBlogsByUserId };
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getBlogsForImprove, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps, searchBlogsByApps };

@@ -1,5 +1,6 @@
 // models/Blog.js
 import mongoose from 'mongoose';
+import {  replaceDotsInKeys, restoreDotsInKeys } from '@/utils/utils';
 const createBlogModel = (connection) => {
   const BlogSchema = new mongoose.Schema({
     id: {
@@ -7,6 +8,7 @@ const createBlogModel = (connection) => {
       unique: true,
     },
     title: String,
+    titleDescription : String,
     slugName: {
       type: String,
       default: function () {
@@ -21,12 +23,60 @@ const createBlogModel = (connection) => {
       type: Date,
       default: Date.now,
     },
+    countryCode: {
+      type: String,
+      required: true,
+    },
     updatedAt :{
     type: Date,
     default: Date.now,
   },
   createdBy: Array,
   }, { minimize: false });
+
+  BlogSchema.pre('save', function (next) {
+    if (this.apps) {
+      this.apps = replaceDotsInKeys(this.apps);
+    }
+    next();
+  });
+
+  BlogSchema.pre('find', function (next) {
+    const query = this.getQuery();
+    if (query && query.$and) {
+        query.$and = query.$and.map(condition => {
+          Object.keys(condition).forEach((key) => {
+            if (key.startsWith("apps.")) {
+                const newKey = `apps.${key.slice(5).replace(/\./g, '~')}`;  // check the case where we want to access the properties of 'apps' 
+                const data = condition[key];
+                delete condition[key];
+                condition[newKey] = data;
+            }
+        });
+        return condition;
+        });
+    }
+    next();
+});
+
+  
+  BlogSchema.pre('findOneAndUpdate', function (next) {
+    const update = this.getUpdate();
+    if (update && update.apps) {
+      update.apps = replaceDotsInKeys(update.apps);
+    }
+    next();
+  });
+  
+  BlogSchema.post('find', function(docs) {
+    if (Array.isArray(docs)) {
+      docs.forEach(doc => {
+        if (doc.apps) {
+          doc.apps = restoreDotsInKeys(doc.apps);
+        }
+      });
+    }
+  });
 
   BlogSchema.index({ id: 1 });
 

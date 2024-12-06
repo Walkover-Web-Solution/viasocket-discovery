@@ -3,8 +3,9 @@ import { getCurrentEnvironment, getFromCookies, removeCookie, clearUserData } fr
 import { toast } from "react-toastify";
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
+const proxyBaseURL = "https://routes.msg91.com/api"; 
+
 export const getCurrentUser = async () => {
-    const baseURL = "https://routes.msg91.com/api"; 
     const endpoint = "/c/getDetails"; 
 
     const getToken = () => {
@@ -22,7 +23,7 @@ export const getCurrentUser = async () => {
             headers["proxy_auth_token"] = token;
         }
 
-        const response = await fetch(baseURL + endpoint, {
+        const response = await fetch(proxyBaseURL + endpoint, {
             method: 'GET',
             headers: headers,
         });
@@ -106,3 +107,21 @@ export const fetchIntegrations = async (pluginNames) => {
     console.error('Error fetching integrations:', error);
   }
 };
+
+export const titleSuggestions =  async(userQuery) => {
+  try{
+    const response = await fetch(baseUrl+`/api/suggestions?search=${userQuery}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch integrations: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.data.titles;
+  } catch(error){
+    console.log("error getting title suggestions ", error);
+    return [];
+  }
+}

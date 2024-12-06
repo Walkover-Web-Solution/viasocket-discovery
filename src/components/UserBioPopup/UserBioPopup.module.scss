@@ -1,0 +1,25 @@
+.dialogDiv {
+    box-shadow: none;
+    border-radius: 0;
+    border: 2px solid black;
+    overflow: hidden;
+    .textField{
+        margin-top: 1rem;
+        outline: none;
+        width: 100%;
+        min-height: 6rem;
+        max-height: 12rem;
+        outline: none;
+        border-radius: 0;
+        border: 2px solid #aaa;
+        padding: 5px;
+        &:focus{
+            border: 2px solid black;
+        }
+    }
+}
+
+.dialog{
+    height: auto;
+    overflow: hidden;
+}

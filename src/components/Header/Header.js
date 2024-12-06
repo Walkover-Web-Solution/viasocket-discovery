@@ -3,6 +3,8 @@ import { useUser } from "@/context/UserContext";
 import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import UserDetail from "../UserDetailPopup/UserDetailPopup";
+import styles from "./Header.module.scss";
+import { setPathInLocalStorage } from "@/utils/storageHelper";
 
 export default function Header() {
   const { user } = useUser();
@@ -12,13 +14,17 @@ export default function Header() {
   useEffect(() => {
     setIsLoggedIn(user ? true : false);
   }, [user]);
+  const handleAuth = () => {
+    setPathInLocalStorage()
+  }
 
   const toggleUserInfo = () => {
     setShowUserInfo(!showUserInfo);
   };
   return (
+    <div className = {styles.headerDiv}>
     <div
-    class="container d-flex align-items-center justify-content-between py-5"
+    className ={`container d-flex align-items-center justify-content-between py-5 ${styles.headerDiv}`}
     >
     <a href="https://viasocket.com">
       <img src="https://viasocket.com/assets/brand/logo.svg" alt="Logo" />
@@ -51,15 +57,16 @@ export default function Header() {
                 </>
             ) : (
                 <div class="d-flex align-items-center gap-4">
-                    <a href="https://viasocket.com/login?redirect_to=/discovery/auth">
-                        <button class="btn btn-outline-dark">Login</button>
+                    <a href="https://viasocket.com/login?redirect_to=/discovery/auth&utm_source=/discovery">
+                        <button class="btn btn-outline-dark" onClick={handleAuth}>Login</button>
                     </a>
-                    <a href="https://viasocket.com/signup?redirect_to=/discovery/auth">
-                        <button class="btn btn-dark text-white">Sign Up</button>
+                    <a href="https://viasocket.com/signup?redirect_to=/discovery/auth&utm_source=/discovery">
+                        <button class="btn btn-dark text-white" onClick={handleAuth}>Sign Up</button>
                     </a>
                 </div>
             )}
         </div>
+    </div>
     </div>
     </div>
   )

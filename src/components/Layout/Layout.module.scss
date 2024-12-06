@@ -1,0 +1,11 @@
+.main{
+    width: calc(100% - 160px);    
+    margin: auto;
+    background-image: url('../../static/images/background.svg');
+}
+
+@media (max-width: 600px) {
+  .main{
+    width: calc(100% - 40px); 
+  }  
+}

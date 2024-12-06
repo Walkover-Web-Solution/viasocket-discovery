@@ -8,47 +8,53 @@ import { useRouter } from 'next/router';
 import Search from '@/components/Search/Search';
 import Chatbot from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
-import { safeParse } from '@/pages/edit/[chatId]';
 import Popup from '@/components/PopupModel/PopupModel';
 import { toast } from 'react-toastify';
 import { compareBlogs } from '@/utils/apis/chatbotapis';
 import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 import { useUser } from '@/context/UserContext';
-import { dispatchAskAiEvent } from '@/utils/utils';
-import { getReletedblogs } from '@/utils/apis/blogApis';
+import { dispatchAskAiEvent, nameToSlugName, safeParse } from '@/utils/utils';
 import BlogCard from '@/components/Blog/Blog';
 import { getCurrentEnvironment } from '@/utils/storageHelper';
+import Head from 'next/head';
 
 
 export async function getServerSideProps(context) {
-  console.time("request");
-  console.timeStamp("testing");
   const { blogId } = context.params;
   const props = {};
   try {
     const blog = await blogServices.getBlogById(blogId[0],getCurrentEnvironment());
-    console.time("getUserById");
-    let users = await Promise.all(blog?.createdBy.map(async (userId) => {
-    try {
-      return await getUserById(userId);
-      } catch (error) {
-        return null;
+    if (!blog) {
+      return {
+        notFound : true
       }
-    }));
-    users = users.filter(user => user != null);
+    }
+    const relatedBlogsPromise = blogServices.searchBlogsByTags(blog.tags, blogId[0], blog?.meta?.category, getCurrentEnvironment());
+    const appKeys = Object.keys(blog.apps);
+    const appBlogsPromise = blogServices.searchBlogsByApps(appKeys, blogId[0], getCurrentEnvironment());
+    const usersPromise = Promise.all(
+      blog?.createdBy.map(async (userId) => {
+        try {
+          return await getUserById(userId);
+        } catch (error) {
+          console.error(`Error fetching user data for userId: ${userId}`, error);
+          return null;
+        }
+      }));
+    const [relatedBlogs, appBlogs, users] = await Promise.all([relatedBlogsPromise, appBlogsPromise, usersPromise]);
+    const filteredUsers = users.filter(user => user !== null);
 
-    console.timeEnd("getUserById");
     props.blog = blog;
-    props.users = users;
+    props.users = filteredUsers;
+    props.relatedBlogs = relatedBlogs;
+    props.appBlogs = appBlogs[0];
   } catch (error) {
     console.error('Error fetching blog data:', error); // Return an empty object if there's an error
   }
-  console.timeEnd("request");
-  console.timeStamp("testing1");
   return { props };
 }
 
-export default function BlogPage({ blog, users}) {
+export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
   const [blogData, setBlogData] = useState(blog);
   const [oldBlog,setOldBlog]=useState('');
   const [integrations, setIntegrations] = useState(null);
@@ -57,7 +63,6 @@ export default function BlogPage({ blog, users}) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [isPopupOpen, setIsPopUpOpen] = useState(false);
-  const [relatedBlogs, setRelatedBlogs] = useState([]);
   const currentUser = useUser().user;
   const blogDataToSend = { 
     title: blogData?.title,
@@ -71,29 +76,19 @@ export default function BlogPage({ blog, users}) {
     setSearchQuery('');
   }
 
-  const formateTitle = (title) => {
-    return title?.toLowerCase().replace(/\s+/g, '-');
-  };
+ 
 
   useEffect(() => {
     if (blog) {
       router.replace(
         {
-          pathname: `/blog/${blog.id}/${formateTitle(blog.slugName)}`,
+          pathname: `/blog/${blog.id}/${nameToSlugName(blog?.meta?.category || '')}/${nameToSlugName(blog.slugName)}`,
         },
         undefined,
         { shallow: true } // Keeps the page from reloading
       );
     }
   }, [blog?.id]);
-  useEffect(() => {
-    const fetchRelatedBlogs = async () => {
-      if (!blogData?.tags) return;
-      const blogs = await getReletedblogs( blogData?.id );
-      setRelatedBlogs(blogs);
-    }
-    fetchRelatedBlogs();
-  }, [])
 
   useEffect(() => {
     const getData = async (apps) => {
@@ -109,14 +104,22 @@ export default function BlogPage({ blog, users}) {
   useEffect(() => {
     if(!currentUser?.id) return ;
     (async () => {
+      const indexes = [];
       const chatHistoryData = await getAllPreviousMessages(`${blog.id}${currentUser?.id}`, process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE);
-      const prevMessages = chatHistoryData.data
+      let prevMessages = chatHistoryData.data
       .filter((chat) => chat.role === "user" || chat.role === "assistant")
-      .map((chat) => ({
+      .map((chat,index) => {
+        if(chat['raw_data.variables']?.retry) indexes.push(index);
+        return({
         role: chat.role,
         content:
-          chat.role === "user" ? chat.content : safeParse(chat.content),
-      }));
+          chat.role === "user" ? chat.content : safeParse(chat.content,process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE,`${blog.id}${currentUser?.id}`),
+      })});
+      for (let i = indexes.length-1; i >=0 ; i--) {
+        const currentIndex = indexes[i];
+        prevMessages.splice(currentIndex , 1);
+        prevMessages.splice(currentIndex-1 , 1);
+      }
       setMessages(prevMessages);
     })();
   }, [currentUser?.id]);
@@ -125,8 +128,12 @@ export default function BlogPage({ blog, users}) {
     const lastMessage = messages[messages.length - 1];
     if(lastMessage?.role == 'assistant'){
       const content = lastMessage.content;
-      if(content?.blog)
-        setBlogData(content.blog);
+      if(content?.blog){
+        setBlogData({...content.blog, apps: blogData.apps});
+        if( !users.find((user) => user.id === currentUser.id)) {
+          users.push({ id : currentUser.id , name : currentUser.name })
+        }
+      }
     }
   }, [messages])
   useEffect(()=>{
@@ -179,25 +186,31 @@ export default function BlogPage({ blog, users}) {
   };
 
   return (
-    <div>
-      <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
-        <AIresponse blogData={blogData} users={users} integrations={integrations} />
-        {
-          relatedBlogs?.length > 0 && (
-            <div className={styles.relatedBlogsDiv}>
-              <h3>Related Blogs</h3>
-              {relatedBlogs.map((blog) => {
-                blog.introduction = ' ';
-                return <BlogCard key={blog.id} blog={blog} className={styles.blogOnSearch} />
-              })}
-            </div>
-          )
-        }
-        {/* {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>} */}
+    <>
+      <Head>
+        <meta name="description" content={blog.title}/>
+        <meta name="author" content={users.find(user => user.id === blog.createdBy[0])?.name} />
+        <meta name="keywords" content={[...blog.tags, ...blog.meta.SEOKeywords].join(', ')} />
+      </Head>
+      <div>
+        <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
+          <AIresponse blogData={blogData} users={users} integrations={integrations} appBlogs={appBlogs}/>
+          {
+            relatedBlogs?.length > 0 && (
+              <div className={styles.relatedBlogsDiv}>
+                <h3>Related Blogs</h3>
+                {relatedBlogs.map((blog) => {
+                  return <BlogCard key={blog.id} blog={blog} className={styles.blogOnSearch} />
+                })}
+              </div>
+            )
+          }
+          {/* {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>} */}
+        </div>
+        <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId = {blog.id} />
+        {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi={handleAskAi} placeholder='Follow up if any query with AI...' />}
+        <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} />
       </div>
-      <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId = {blog.id} />
-      {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi={handleAskAi} placeholder='Follow up if any query with AI...' />}
-      <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} />
-    </div>
+    </>
   );
 }

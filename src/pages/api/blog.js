@@ -1,3 +1,4 @@
+import { titleSuggestions } from '@/services/aiServices';
 import blogServices from '@/services/blogServices';
 import { searchTags } from '@/services/tagsServices';
 
@@ -14,16 +15,18 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        const { search, userId } = req.query;
-        let blogs;
-        let tags ;
+        let { search, userId, apps } = req.query;
+        let blogs, tags;
         if (search) {
           if (search.startsWith('#')) {
             blogs = await blogServices.searchBlogsByTag(search.slice(1),environment);
           } else {
-            tags = (await searchTags(search))[0]?.matchingTags
+            tags = (await searchTags(search,environment))[0]?.matchingTags
             blogs = await blogServices.searchBlogsByQuery(search,environment);
           }
+        }else if(apps){
+          apps = Array.isArray(apps) ? apps: [apps];
+          blogs = await blogServices.blogWithApps(apps, environment);
         }else if (userId){
           blogs = await blogServices.searchBlogsByUserId(userId,environment); 
         } else blogs = await blogServices.getAllBlogs(user?.id || '',environment);

@@ -3,13 +3,13 @@ import { useRouter } from 'next/router';
 import WithAuth from '@/components/auth/WithAuth';
 // import { useUser } from '@/context/UserContext';
 
-import { getFromCookies, getCurrentEnvironment, removeCookie, setInCookies } from '@/utils/storageHelper'
+import { getFromCookies, getCurrentEnvironment, removeCookie, setInCookies, getRedirectPath, clearPath } from '@/utils/storageHelper'
 import { getCurrentUser, signUpOnBE } from '@/utils/apiHelper'
 
 export default function AuthPage() {
     const router = useRouter();
     const queryParams = router.query;
-    // const { user, setUser } = useUser();
+    const redirectPath = getRedirectPath();
 
     const redirectToHomePage = async () => {
         const token = getFromCookies(getCurrentEnvironment())
@@ -29,8 +29,8 @@ export default function AuthPage() {
                 // localStorage.setItem('accessToken', response?.data?.data?.token)
                 setInCookies(getCurrentEnvironment(), response?.data)
             }
-            window.location.href= '/discovery'
-
+            clearPath();
+            window.location.href= redirectPath ? redirectPath : '/discovery'
         }
     }
 

@@ -1,66 +1,170 @@
-.titleDiv{
-    .title{
-        color: var(--foreground-color);
-        font-family:var(--title-font);
-        font-size: 3.5rem;
-        font-weight: 900;
+.titleContainer{
+    .titleDiv{
+        position: relative;
+        max-width: var(--outer-blog-width);
+        & > *{
+            position: relative;
+        }
+        &:after{
+            content:"";
+            position: absolute;
+            bottom: -10rem;
+            left: -200%;
+            width: 500%;
+            height: 300%;
+            z-index: -1;
+        }
+        .title{
+            color: var(--foreground-color);
+            z-index: 9;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        margin: 2rem auto 10rem auto;
     }
-    margin: 20px 0;
-    padding-bottom: 2rem;
-    border-bottom: 2px solid var(--intermediate-color);
+    border: 1px solid black;    
+    background: var(--gradient);
+    background-size: 600% 600%;
+    animation: gradient 9s ease infinite;
 }
-.introduction, .summaryList, .whatToLookFor, .conclusion, .detailedReviews{
-    color: var(--foreground-color);
-    line-height: 30px;
+
+.detailedReviews{
+    .listItem{
+        display: block;
+        &:not(:last-of-type){
+            margin-bottom: 4rem;
+        }
+    }
+    .howWeAssess{
+        max-width: var(--blog-width);
+        margin: auto;
+        margin-bottom: 2rem;
+        padding: 10px 20px;
+        background-color: var(--light-grey);
+        h6{
+            font-size: 2rem;
+        }
+        a{
+            color: var(--blue);
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+    .appHeadingDiv{
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        max-width: var(--blog-width);
+        margin: auto;
+    }
+    h4{
+        margin: auto;
+    }
+    h5{
+        font-size: 2.5rem !important;
+        font-weight: 600 !important;
+        margin-bottom: 0;
+    }
+    h4, h5{
+        max-width: var(--blog-width);
+    }
+    h6{
+        font-size: 1.2rem;
+    }
+    .content{
+        max-width: var(--blog-width);
+        margin: auto;
+        margin-top: 0.5rem;
+        h1, h2, h3, h4, h5, h6{
+            font-family: var(--para-font);
+            font-weight: 300 !important;
+            margin: 20px 0 10px 0;
+        }
+    }
+    .relatedBlogsDiv{
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        max-width: var(--blog-width);
+        margin-top: 2rem;
+    }
+    .relatedBlogsLink{
+        color: #0070f3;
+    }
+    .relatedBlogsLink:hover {
+        text-decoration: underline;
+    }
+    .appDomain:hover{
+        text-decoration: underline;
+    }
+}
+
+.summaryList, .additionalSection, .detailedReviews{
+    max-width: var(--blog-width);
+    margin: auto;
+}
+
+.additionalSection{
+    margin-bottom: 2rem;
+}
+
+.summaryList, .detailedReviews, .additionalSection{
+    margin-bottom: 3rem;
     font-size: 1.2rem;   
-    padding: 20px 0;
     h4{
         font-family: var(--title-font);
         font-size: 2rem;
-        margin: 15px 0;
-    }
-}
-.summaryList, .detailedReviews{
-    .appIcon{
-        width: 3rem;
-        height: auto;
-    }
-    li{
-        display: block;
+        font-weight: 500;
     }
     .listItem{
-        padding: 25px 0; 
+        padding: 0;
     }
     h5{
-        font-family: var(--title-font);
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
+        font-weight: 500;
+        font-size: 2rem;
     }
 }
 
 .summaryList {
+    width: 100%;
+    background-color: white;
     .list{
+        .appIcon{
+            width: 3rem;
+            height: auto;
+        }
         display: flex;
-        flex-wrap: wrap;
-        gap: 1.5rem;
-        .listItem{
-            border: 1px solid var(--intermediate-color);
-            background-color: rgba(0, 0, 0, 0.05);
-            margin-bottom: 1.5rem;
-            border-radius: 5px;
-            display:flex;
-            gap: 1.4rem;
-            width: calc(50% - 1rem);
-            padding: 15px;
-            padding-right: 25px;
+        padding-top: 0;
+        flex-direction: column;
+        width: 100%;
+        .appLink{
+            &:not(:first-of-type){
+                .listItem{
+                    border-top: none;
+                }
+            }
+            .listItem{
+                padding: 25px 30px;
+                border: 1px solid black;
+                display:flex;
+                flex-direction: row;
+                gap: 1.4rem;
+                .arrowIcon{
+                    transition: transform 0.3s ease;
+                    transition-duration: 0.1s;
+                }
+                .content{
+                    width: 100%;
+                }
+                &:hover{
+                    .arrowIcon{
+                        transform: translateY(-10px);
+                    }
+                }
+            }
         }
     } 
-}
-
-.whatToLookFor{
-    .content{
-        padding-left: 20px;
-    }
 }
 
 .dummyMarkdown {
@@ -69,3 +173,60 @@
     }
     padding: 20px;
 }
+
+@keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+@keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  @media (max-width: 700px) {
+    .summaryList {
+        .list {
+            .appLink {
+                .listItem {
+                    padding:10px;
+                    align-items: normal;
+                    text-align: justify;
+                    .appIcon {
+                        width: 2.5rem; 
+                        height: 2.5rem;
+                        margin-bottom: 1rem; 
+                    }
+                    .content {
+                        width: 100%;
+                        h5{
+                            font-size: 1.4rem;
+                        }
+                    }
+                }
+            }
+            p{
+                width: inherit ;
+                font-size: 1rem;      
+            }
+        }
+    }
+    .title{
+        font-size: 40px;
+        text-align: center;
+        padding:0px 20px ;
+    }
+  }
