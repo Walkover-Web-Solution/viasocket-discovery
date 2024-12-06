@@ -104,7 +104,7 @@ async function createBlog(userMessage, environment, userId, countrycode){
     const validate = ValidateAiResponse(blueprint, blueprintSchema);
     if(validate.success === false){
         sendAlert(validate.errorMessages, process.env.BLUE_PRINT_BRIDGE, data.response.data.message_id,threadId);
-        blueprint = retryResponse(process.env.BLUE_PRINT_BRIDGE, errorMessage, userId,'','','',blueprintSchema,threadId);
+        blueprint = await retryResponse(process.env.BLUE_PRINT_BRIDGE, errorMessage, userId,'','','',blueprintSchema,threadId);
         if(blueprint.message == 'Something went wrong! Try again') throw new Error('Invalid Response from AI');
     }
     let hasDetailedReview = false;
@@ -136,9 +136,9 @@ async function createBlog(userMessage, environment, userId, countrycode){
     let AIResponse = await askAi(process.env.ROUGH_BLOG_BRIDGE,  blogPrompt,'',threadId)
     let blogResponse = JSON.parse(AIResponse.response.data.content);
     let validateRoughtBlog = ValidateAiResponse(blogResponse, createdBlogSchema)
-    if(validateRoughtBlog === false) {
+    if(validateRoughtBlog.success === false) {
         sendAlert(validateRoughtBlog.errorMessages, process.env.ROUGH_BLOG_BRIDGE, AIResponse.response.data.message_id,threadId)
-        blogResponse = retryResponse(process.env.ROUGH_BLOG_BRIDGE, validateRoughtBlog.errorMessages, userId, '','','',createdBlogSchema,threadId);
+        blogResponse = await retryResponse(process.env.ROUGH_BLOG_BRIDGE, validateRoughtBlog.errorMessages, userId, '','','',createdBlogSchema,threadId);
         if(blogResponse.message==='Something went wrong! Try again') throw new Error('Invalid response from AI'); 
     }
     blogResponse = reFormat(blogResponse);
