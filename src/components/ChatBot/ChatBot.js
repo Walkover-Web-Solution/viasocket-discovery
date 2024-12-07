@@ -35,6 +35,7 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
         }
       } catch (error) {
         console.error("Error communicating with the chatbot API:", error);
+        setMessages((prevMessages) => [...prevMessages, { role: 'assistant', content: { message : 'Something went wrong! try again'} }]);
       }
     }
   }
