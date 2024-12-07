@@ -57,6 +57,7 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
   }, [messages, searchResults]);
   
   const handleSendMessage = async () => {
+    if(isLoading) return;
     if (inputMessage.trim()) {
       setInputMessage("");
       setIsLoading(true);
