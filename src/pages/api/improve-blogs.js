@@ -53,11 +53,16 @@ export async function distinctifyPhrase(processedBlog, environment) {
 }
 
 export async function getNames (countryCode){
-    let writer = await getRandomAuthorByCountryAndType(countryCode);
-    if(!writer){
-        writer = await getWriter(countryCode,'writer');
+    try{
+        let writer = await getRandomAuthorByCountryAndType(countryCode);
+        if(!writer){
+            writer = await getWriter(countryCode,'writer');
+        }
+        return  writer ;
+    }catch(error){
+        console.log("error in getting writer name",error);
+        return { name : 'Arundhati Roy'}
     }
-    return { writer }
 }
 export async function getWriter(countryCode,type){
     const res = await askAi(process.env.NEXT_PUBLIC_WRITER_GENERATOR_BRIGDE,`countryCode:${countryCode} and type:${type}`,{ countryCode : countryCode , profession : type });
@@ -74,7 +79,7 @@ export async function createBulkOperation (blogs,environment){
         const auther = await getNames(countryCode);
         let aiResponse = await askAi(
           process.env.IMPROVE_BRIDGE,
-          `${improveBlogPrompt( auther.writer.name )} ${JSON.stringify({blog : blog.blog })}`
+          `${JSON.stringify({blog : blog.blog })}`, { writer : auther.name }
         );
         const message_id = aiResponse.response.data.message_id;
         aiResponse = extractJsonFromMarkdown(aiResponse.response.data.content);
