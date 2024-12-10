@@ -14,9 +14,13 @@ const AIresponse = ({ blogData, users, integrations, appBlogs }) => {
 
   let detailedReviews= {};
   let dynamicSections = [];
+  let faqSection = [];
   blogData?.blog?.forEach((section)=>{
     if(section?.section === 'detailed_reviews') detailedReviews = section;
-    dynamicSections.push(section);
+    if(section?.section === 'FAQ') 
+      faqSection = section ; 
+    else 
+      dynamicSections.push(section);
   })
   
   useEffect(() => {
