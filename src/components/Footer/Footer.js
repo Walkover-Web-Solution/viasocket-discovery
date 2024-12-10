@@ -1,5 +1,9 @@
 import Link from "next/link";
 import styles from "./Footer.module.scss";
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import XIcon from '@mui/icons-material/X';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
 export default function Footer() {
   return (
@@ -93,16 +97,16 @@ export default function Footer() {
             />
             <div className={styles.footerSocial}>
               <Link href="https://www.instagram.com/walkover.inc/">
-                <i className="fab fa-instagram" />
+                <InstagramIcon/>
               </Link>
               <Link href="https://www.linkedin.com/company/viasocket-walkover/">
-                <i className="fab fa-linkedin" />
+                <LinkedInIcon/>
               </Link>
               <Link href="https://x.com/viasocket">
-                <i className="fab fa-twitter" />
+                <XIcon/>
               </Link>
               <Link href="https://www.youtube.com/@viasocket">
-                <i className="fab fa-youtube" />
+                <YouTubeIcon/>
               </Link>
             </div>
           </div>
