@@ -24,7 +24,14 @@ const getAllBlogs = (userId, environment) => {
         $sort: { isUserBlog: -1 }
       },
       {
-        $project: { isUserBlog: 0 }
+        $project: { 
+          apps: 1,
+          tags: 1,
+          title: 1,
+          id: 1,
+          slugName: 1,
+          meta: 1,
+         }
       }
     ]).limit(20)
     blogs = blogs.map((blog)=>{
@@ -79,26 +86,26 @@ const updateBlogById = (blogId, blogData, userId, environment) => {
   });
 };
 
-const getUserBlogs = (userId, environment) => {
-  return withBlogModel(environment, (Blog) => {
-    return Blog.find({
-      'createdBy': userId,
-      'blog': { $exists: true },
-      'id': { $exists: true }
-    });
-  });
-};
+// const getUserBlogs = (userId, environment) => {
+//   return withBlogModel(environment, (Blog) => {
+//     return Blog.find({
+//       'createdBy': userId,
+//       'blog': { $exists: true },
+//       'id': { $exists: true }
+//     });
+//   });
+// };
 
-const getOtherBlogs = (userId, environment) => {
-  return withBlogModel(environment, (Blog) => {
-    return Blog.find({
-      'createdBy': { $ne: userId },
-      'blog': { $exists: true },
-      'id': { $exists: true },
-      'apps': { $exists: true, $ne: [] }
-    }).limit(20);
-  });
-};
+// const getOtherBlogs = (userId, environment) => {
+//   return withBlogModel(environment, (Blog) => {
+//     return Blog.find({
+//       'createdBy': { $ne: userId },
+//       'blog': { $exists: true },
+//       'id': { $exists: true },
+//       'apps': { $exists: true, $ne: [] }
+//     }).limit(20);
+//   });
+// };
 
 const searchBlogsByQuery = (query, environment) => {
   return withBlogModel(environment, (Blog) => {
@@ -225,7 +232,15 @@ const updateBlogsTags = async (blogsTagsToUpdate, environment) => {
 }
 const searchBlogsByUserId = async ( userId, environment ) => {
   return withBlogModel(environment, (Blog)=>{
-    return Blog.find({ createdBy: parseInt(userId) })
+    return Blog.find({ createdBy: parseInt(userId) },
+    {
+      apps: 1,
+      tags: 1,
+      title: 1,
+      id: 1,
+      slugName: 1,
+      meta: 1
+    })
   })
 }
 
@@ -292,4 +307,4 @@ const searchBlogsByApps = (appNames, blogId, environment) => {
   });
 };
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, getUserBlogs, getOtherBlogs, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getBlogsForImprove, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps, searchBlogsByApps };
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getBlogsForImprove, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps, searchBlogsByApps };
