@@ -3,13 +3,13 @@
     justify-content: space-between;
     flex-direction: column;
     gap: 1rem;
-    align-items: center;
     .contributorsContainer {
         cursor: pointer;
         display: flex;
         align-items: center;
         border: 1px solid black;
-        padding: 20px;
+        padding: 10px;
+        max-width: fit-content;
         .userAVA{
             display: flex;
             align-items: center;
@@ -24,7 +24,7 @@
         }
     }
     .date{
-        font-weight: bold;
+        font-size:1.1rem;
     }
 }
 @keyframes popIn {
@@ -70,7 +70,6 @@
 
 .userName{
     margin-left: 10px;
-
 }
 
 
@@ -92,9 +91,26 @@
 }
 
 .icon{
-    transform: scale(2);
+    transform: scale(1.5);
     margin:20px 10px;
 }
 .icon:hover{
     color: blue;
+}
+
+.underReview{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    h4{
+        gap: 10px;
+        color: #a81f0d;
+        text-align: center;
+        width: 100%;
+        font-size: 1.3rem;
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }

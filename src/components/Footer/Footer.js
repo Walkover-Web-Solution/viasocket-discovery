@@ -1,104 +1,132 @@
-import React from "react";
-import styles from "./Footer.module.scss"
-export default function Footer(){
-    return (
-        <>
-            <div className={styles.footerBorder}></div>
-            <div className = {styles.footerDiv}>
-            <div class={`container py-4 ${styles.pageFooter}`}>
-            <div class="row">
-            <div class="col-lg-4 d-flex flex-column align-items-start">
-                <a href="https://viasocket.com/" target="_blank">
-                <img src="https://viasocket.com/assets/brand/socket_fav_dark.svg" alt="viasocket" />
-                </a>
-                <p class="mt-3">
-                &copy; 2024 viasocket<br />All rights reserved
-                </p>
-                <div class="d-flex align-items-center gap-2">
-                <span>A product of</span>
-                <a target="_blank" href="https://walkover.in" class="d-flex align-items-center ms-2">
-                    <img src="https://viasocket.com/assets/brand/walkover.svg"class="me-1" />
-                </a>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="row">
-                <div class="col-md-3">
-                    <h5 class='h6'>Products</h5>
-                    <ul class="list-unstyled">
-                    <li>
-                        <a href="https://viasocket.com/integrations" target="_blank" class="text-dark">Integrations</a>
-                    </li>
-                    </ul>
-                </div>
-                
-                <div class="col-md-3">
-                    <h5 class='h6'>Compare</h5>
-                    <ul class="list-unstyled">
-                    <li><a href="https://viasocket.com/faq/viasocket-vs-zapier" target="_blank" class="text-dark">Viasocket vs Zapier</a></li>
-                    <li><a href="https://viasocket.com/faq/viasocket-vs-make" target="_blank" class="text-dark">Viasocket vs Make</a></li>
-                    <li><a href="https://viasocket.com/faq/viasocket-vs-pabbly" target="_blank" class="text-dark">Viasocket vs Pabbly</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class='h6'>Company</h5>
-                    <ul class="list-unstyled">
-                    <li><a href="https://walkover.in/" target="_blank" class="text-dark">About</a></li>
-                    <li><a href="https://walkover.in/" target="_blank" class="text-dark">Career</a></li>
-                    <li><a href="https://walkover.in/" target="_blank" class="text-dark">Terms of Service</a></li>
-                    <li><a href="https://walkover.in/" target="_blank" class="text-dark">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class='h6'>Solutions</h5>
-                    <ul class="list-unstyled">
-                    <li><a href="https://viasocket.com/faq/startup-policy" target="_blank" class="text-dark">Startup Policy</a></li>
-                    <li><a href="https://roadmap.viasocket.com/b/n0elp3vg/feature-ideas" target="_blank" class="text-dark">Request a Feature</a></li>
-                    <li><a href="https://calendly.com/rpaliwal71/15-mins" target="_blank" class="text-dark">Talk to Sales</a></li>
-                    </ul>
-                </div>
-                </div>
-                <div class="row">
-                <div class="col-md-3">
-                    <h5 class='h6'>Explore</h5>
-                    <ul class="list-unstyled">
-                    <li><a href="https://viasocket.com/integrations" target="_blank" class="text-dark">App</a></li>
-                    <li><a href="https://viasocket.com/experts" target="_blank" class="text-dark">Hire an Expert</a></li>
-                    <li><a href="https://viasocket.com/community" target="_blank" class="text-dark">Community</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class='h6'>Learn</h5>
-                    <ul class="list-unstyled">
-                    <li><a href="https://viasocket.com/faq" target="_blank" class="text-dark">University</a></li>
-                    <li><a href="https://viasocket.com/blog" target="_blank" class="text-dark">Blog</a></li>
-                    <li><a href="https://viasocket.com/faq/case-studies" target="_blank" class="text-dark">Case Studies</a></li>
-                    <li><a href="https://viasocket.com/faq/basic-of-viasocket" target="_blank" class="text-dark">Resources</a></li>
-                    <li><a href="https://viasocket.com/faq/help-section" target="_blank" class="text-dark">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class='h6'>Get Help</h5>
-                    <ul class="list-unstyled">
-                    <li><a href="https://calendly.com/rpaliwal71/15-mins" target="_blank" class="text-dark">Talk to Sales/Support</a></li>
-                    <li><a href="https://roadmap.viasocket.com/b/n0elp3vg/feature-ide" target="_blank" class="text-dark">Request a Feature</a></li>
-                    <li><a href="https://roadmap.viasocket.com/announcements" target="_blank" class="text-dark">New Release</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5 class='h6'>Social</h5>
-                    <ul class="list-unstyled">
-                    <li><a href="https://www.linkedin.com/company/viasocket-walkover/" target="_blank" class="text-dark">LinkedIn</a></li>
-                    <li><a href="https://www.youtube.com/@viasocket" target="_blank" class="text-dark">YouTube</a></li>
-                    <li><a href="https://x.com/viasocket?mx=2" target="_blank" class="text-dark">Twitter</a></li>
-                    <li><a href="https://www.instagram.com/walkover.inc/?igsh=MWEyZnptZmw3Z3phOQ%3D%3D" target="_blank" class="text-dark">Instagram</a></li>
-                    </ul>
-                </div>
-                </div>
-            </div>
-            </div>
+import Link from "next/link";
+import styles from "./Footer.module.scss";
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import XIcon from '@mui/icons-material/X';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+
+export default function Footer() {
+  return (
+    <footer className={styles.footer}>
+      <div className={`border-dark border-left border-right d-flex flex-lg-row flex-column-reverse ${styles.footerContainer}`}>
+        {/* Footer Left Section */}
+        <div className={`border-dark border-bottom border-left ${styles.footerLeft} flex-lg-grow-1`}>
+          <div className={styles.footerLogo}>
+            <Link href="/" aria-label="socket fav icon">
+              <img
+                src="https://viasocket.com/assets/brand/socket_fav_dark.svg"
+                alt="viasocket logo"
+                width="46"
+                height="46"
+              />
+            </Link>
+            <p>© 2024 viaSocket</p>
+            <p>All rights reserved.</p>
+          </div>
+          <div className={`mt-auto ${styles.footerProduct}`}>
+            <span>A product of</span>
+            <Link
+              href="https://walkover.in/"
+              target="_blank"
+              aria-label="walkover"
+            >
+              <img
+                src="https://viasocket.com/assets/brand/walkover.svg"
+                alt="walkover"
+                width="100"
+                height="20"
+              />
+            </Link>
+          </div>
         </div>
+
+        {/* Footer Right Section */}
+        <div className={`border-dark border-bottom border-left flex-lg-grow-1 ${styles.footerRight}`}>
+          <div className={`${styles.footerColumn} ${styles.columnBorder}`}>
+            <FooterGroup
+              title="Solutions"
+              links={[
+                { href: "https://viasocket.com/integrations", label: "Integrations" },
+                {
+                  href: "https://cal.id/team/bring-your-app-on-viasocket-marketplace",
+                  label: "List your app on our marketplace",
+                },
+              ]}
+            />
+            <FooterGroup
+              title="Compare"
+              links={[
+                { href: "https://viasocket.com/faq/viasocket-vs-zapier", label: "ViaSocket vs Zapier" },
+                { href: "https://viasocket.com/faq/viasocket-vs-make", label: "ViaSocket vs Make" },
+                { href: "https://viasocket.com/blog/viasocket-vs-pabbly", label: "ViaSocket vs Pabbly" },
+              ]}
+            />
+          </div>
+          <div className={`${styles.footerColumn} ${styles.columnBorder}`}>
+            <FooterGroup
+              title="Company"
+              links={[
+                { href: "https://walkover.in/", label: "About" },
+                {
+                  href: "https://www.google.com/search?q=walkover+linkedin",
+                  label: "We Are Hiring",
+                },
+                { href: "https://viasocket.com/terms", label: "Terms of Policy" },
+                { href: "https://viasocket.com/terms", label: "Privacy Policy" },
+              ]}
+            />
+            <FooterGroup
+              title="Get Help"
+              links={[
+                { href: "https://viasocket.com/faq/startup-policy", label: "Startups Policy" },
+                { href: "https://calendly.com/rpaliwal71/15-mins", label: "Talk to Sales" },
+                { href: "https://viasocket.com/experts", label: "Hire an Expert" },
+              ]}
+            />
+          </div>
+          <div className={styles.footerColumn}>
+            <FooterGroup
+              title="Resources"
+              links={[
+                { href: "https://viasocket.com/blog", label: "Blog" },
+                { href: "https://viasocket.com/blog/tag/client-story", label: "Client Stories" },
+                { href: "https://viasocket.com/faq/help-section", label: "Knowledge Base" },
+                { href: "https://viasocket.com/community", label: "Community" },
+                { href: "https://roadmap.viasocket.com/b/n0elp3vg/feature-ideas", label: "Request a Feature" },
+              ]}
+            />
+            <div className={styles.footerSocial}>
+              <Link href="https://www.instagram.com/walkover.inc/">
+                <InstagramIcon/>
+              </Link>
+              <Link href="https://www.linkedin.com/company/viasocket-walkover/">
+                <LinkedInIcon/>
+              </Link>
+              <Link href="https://x.com/viasocket">
+                <XIcon/>
+              </Link>
+              <Link href="https://www.youtube.com/@viasocket">
+                <YouTubeIcon/>
+              </Link>
+            </div>
+          </div>
         </div>
-      </>
-    )
+      </div>
+    </footer>
+  );
+}
+
+function FooterGroup({ title, links }) {
+  return (
+    <div className={styles.group}>
+      <h2 className={styles.groupTitle}>{title}</h2>
+      <div className={styles.groupItems}>
+        {links.map((link, index) => (
+          <Link href={link.href} key={index} aria-label={link.label}>
+            {link.label}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 }

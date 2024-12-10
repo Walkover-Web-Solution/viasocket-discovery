@@ -7,11 +7,14 @@ import XIcon from '@mui/icons-material/X';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { nameToSlugName } from '@/utils/utils';
+import TimelapseIcon from '@mui/icons-material/Timelapse';
 
-const ContributorsPopup = ({ users, createdAt, title }) => {
+const ContributorsPopup = ({ users, createdAt, title, updatedAt }) => {
     const [showPopup, setShowPopup] = useState(false);
     const router = useRouter(); 
     const currentUrl = 'http://viasocket.com/discovery'+ router.asPath ; 
+    const isWithinLast7Days = new Date(Math.max(new Date(createdAt), updatedAt ? new Date(updatedAt) : 0)) >= new Date(Date.now() - 7 * 864e5);
+
 
     const handleMouseEnter = (e) => {
         if(users.length > 1){
@@ -33,6 +36,17 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
 
     return (
       <div className={styles.shareContainer}>
+        <div className={styles.shareOptions}>
+            <a href={linkedInShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
+                <LinkedInIcon className={styles.icon} />
+            </a>
+            <a href={facebookShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
+                <FacebookIcon className={styles.icon} />
+            </a>
+            <a href={twitterShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
+                <XIcon className={styles.icon} />
+            </a>
+        </div>
         <div className={styles.contributorsContainer} onClick={handleMouseEnter}>
             {(!showPopup || users.length === 1) &&
                 <div className={styles.userAVA}>
@@ -94,17 +108,14 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
                 })}</span>
             </>
         )} 
-            <div className={styles.shareOptions}>
-                <a href={linkedInShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
-                    <LinkedInIcon className={styles.icon} />
-                </a>
-                <a href={facebookShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
-                    <FacebookIcon className={styles.icon} />
-                </a>
-                <a href={twitterShare} target="_blank" rel="noopener noreferrer" className={styles.shareLink}>
-                    <XIcon className={styles.icon} />
-                </a>
-        </div>
+
+        {
+            isWithinLast7Days && (
+                <div className={styles.underReview}>
+                    <h4><TimelapseIcon/> Under Review</h4>
+                </div>
+            )
+        }
       </div>
     );
 };

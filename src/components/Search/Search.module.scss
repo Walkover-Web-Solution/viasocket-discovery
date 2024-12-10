@@ -1,4 +1,5 @@
 .postHeader{
+    padding: 0 3.4rem;
     z-index:20;
     position: fixed;
     bottom: 1rem;
@@ -13,17 +14,18 @@
       font-size: 1.2rem;
     }
     .search {
+      transform: translateX(1.5rem);
       width: 100%;
-      max-width: var(--outer-blog-width);
       padding: 2.5rem 1.5rem;
       margin: 16px 0;
       border: 1px solid black;
       background-color: whitesmoke;
-      font-size: 1.2rem;
+      font-size: 1.6rem;
       box-sizing: border-box;
       outline: none;
       box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
-      transform: translate(1rem);
+      // transform: translate(1rem);
+      width: calc(var(--home-page-width) - 3.5rem);
     }
     .askAi{
       transform: translateX(-4rem);
@@ -37,9 +39,11 @@
   @media (max-width: 700px) {
     .postHeader{
       .search{
-        width: 80%;
-        margin-left:19px;
-        padding: 1.5rem 1.5rem;
+        transform: none;
+        padding: 0 1.5rem;
+      }
+      .askAi{
+        display: none;
       }
     }
   }

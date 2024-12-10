@@ -1,15 +1,15 @@
 
 .markdownContainer {
   font-family: var(--sans-serif-font);
-  max-width: var(--outer-blog-width);
+  max-width: calc(var(--blog-page-width) + 5rem);
   height: 700px;
-  overflow: auto;
+  position: relative;
   overflow-x: initial;
   height: 90%;
-  margin: auto;
-  // margin-bottom: 5rem; 
+  &>*{
+    margin-left: 1rem !important;
+  }
   padding-bottom: 0px;
-  transform: translateY(-8rem);
 }
 
 .markdownContainer::-webkit-scrollbar {
@@ -30,33 +30,48 @@
   background: #555; 
 }
 
-.tagsContainer {
-  margin-top: 20px;
-  h3{
-    font-weight: 100;
+.containerDiv{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.aiButtonDiv{
+  z-index: 8;
+  width: 0;
+  div{
+    border: 1px solid black;
+    display: flex;
+    position: sticky;
+    top: 90vh;
+    margin-top: 90vh;
+    width: fit-content;
+    transform: translateX(-100%);
+  }
+  button{
+    padding: 10px 20px;
+    font-family: var(--title-font);
     font-size: 1.3rem;
-    color: #999;
+    border: none;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-wrap: nowrap;
+    top: 80vh;
+  }
+  .contribute{
+    background-color: black;
+    color: white;
+  }
+  .askMore{
+    background-image: url('../../static/images/background.svg');
+    background-size: contain;
   }
 }
-
-.tag {
-  display: inline-block;
-  background-color: var(--grey);
-  border-radius: 3px;
-  padding: 10px 10px;
-  margin: 10px 5px;
-  font-size: 1.1rem;
-  cursor: pointer;
+.floaterDiv{
+  display: flex;
 }
-.tag:hover {
-  background-color: #f9c6c6;
-}
-
-.containerDiv{
-  background-color: white;
-  width: 100%;
-}
-
 .blogPage{
   width: 100%;
 }

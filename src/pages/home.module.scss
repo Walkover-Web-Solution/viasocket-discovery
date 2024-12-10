@@ -1,40 +1,73 @@
+.homePageContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - var(--header-height));
+  // width: 100%;
+  &.contentToBottom{
+    justify-content: flex-end;
+  }
+}
 .homePageDiv{
+  margin-bottom: 6rem;
   --blog-width: 800px;
-  --search-width: 900px;
-
-  height: calc(100vh - 6rem - var(--header-height));
-  border: 1px solid black;
-  overflow: scroll;
+  --search-width: 800px;
+  max-height: fit-content;
+  z-index: 3;
+  &::before{
+    background-image: url('../static/images/background.svg');
+    background-size: cover;
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1 !important;
+  }
+  background-color: transparent;
+  // height: calc(100vh - 6rem - var(--header-height));
+  max-width: var(--home-page-width);
+  // margin: auto;
+  padding-top: 2rem;
+  position: relative;
+  // width: 100%;
   .homeTitle{
     font-size: 96px;
     margin-top: 2rem !important;
-    max-width: 14in;
     font-weight: 400;
     font-family: var(--title-font);
-    position: relative;
+    width: 100%;
+    text-align: left !important;
+    z-index: 7;
   }
   
   .homep{
+    width: 100%;
     margin-top: 1rem;
     font-size: 1.2rem;
     padding: 0 8rem;
-    max-width: 12in;
+    text-align: left !important;
   }
 
   .Homesection {
-    margin-bottom: 32px;
+    // border-right: none;
+    margin-top: 10rem;
     display: flex;
     flex-direction: column;
-    padding: 1.5rem;
+    padding: 2rem;
     margin: auto;
-    max-width: var(--search-width);
+    max-width: var(--home-page-width);
     overflow-y: hidden;
+
     & > * {
       margin: 1rem auto;
     }
 
     .searchQuery{
-      width: var(--search-width);
+      width: 100%;
+      margin-bottom: 20px;
+      // border: 1px solid black;
     }
 
     .noData{
@@ -43,6 +76,8 @@
     }
 
     .cardsGrid {
+      margin: 0;
+      max-width: fit-content;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -52,28 +87,37 @@
         max-width: var(--blog-width);
       }
     }    
+
   }
-  
-  .titleSuggestion{
-    font-family: var(--title-font);
-    font-size :1.6rem;
-    color: rgba(0, 0, 0, 0.5);
-    margin-left: 1rem;
-    margin-bottom: 10px;
-    padding-bottom: 10px;
-    cursor: pointer;
-    position: relative;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    &:not(:last-of-type){
+  .blogsDiv{
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 0;
+    max-width: var(--search-width);
+    .titleSuggestion{
+      font-family: var(--title-font);
+      font-size :1.6rem;
+      // margin-left: 1rem;
+      margin-bottom: 10px;
+      color: rgba(0, 0, 0, 0.7);
       padding-bottom: 10px;
-    }
-    &:hover{
-      color: var(--foreground-color);
-      &:before{
-        animation: slide 0.2s ease-out;
-        content: "➔";
-        position: absolute;
-        left: -2rem;
+      cursor: pointer;
+      position: relative;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      &:not(:last-of-type){
+        padding-bottom: 10px;
+      }
+      &.dummy{
+        color: rgba(0, 0, 0, 0.4);
+      }
+      &:hover{
+        color: var(--foreground-color);
+        &:before{
+          animation: slide 0.2s ease-out;
+          content: "➔";
+          position: absolute;
+          left: -2rem;
+        }
       }
     }
   }
@@ -91,9 +135,8 @@
   }
   
   .searchTags{
-    max-width: 100%;
-    width: var(--search-width);
-    margin: 20px auto;
+    max-width: var(--search-width);
+    margin: 0 0 20px 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -108,20 +151,22 @@
   .searchDiv{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    // border: 1px solid red;
+    // align-items: center;
     justify-content: center;
-    padding: 3rem 0 15rem 0;
+    // padding: 3rem 0 15rem 0;
     transition-duration: 0.2s;
     height: min-content;
     top: 0;
     left: 0;
     .popularTagsDiv{
-      padding: 0 10rem;
+      // border: 1px solid yellow;
+      padding: 0 2rem;
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      // justify-content: center;
       gap: 2rem;
-      max-width: 12in;
+      max-width: calc(var(--search-width) + 14rem);
       &>*{
         background-color: transparent;
         transform: scale(1.1);
@@ -135,12 +180,17 @@
       }
     }
     .showInCenter{
+      // border: 1px solid green;
+      justify-content: start;
+      padding: 0;
       position: relative;
       transform: none;
       top: 0;
       left: 0;
+      margin: 2rem 0;
       &>* {
         box-shadow: none !important;
+        max-width: calc(var(--search-width) + 14rem);
       }
     }
   }
