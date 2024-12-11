@@ -13,18 +13,12 @@ export const createAuthor = async (data) => {
 export const getRandomAuthorByCountryAndType = async ( countryCode) => {
   const client = await dbConnect('prod');
   const Author = await createAuthorModel(client);
-
-  try {
     const randomAuthor = await Author.aggregate([
       { $match: { countryCode: countryCode } },  
       { $sample: { size: 1 } }  
     ]);
 
     return randomAuthor[0];  
-  } catch (error) {
-    console.error("Error fetching random author:", error);
-    throw error;
-  }
 };
 
 export const insertManyAuthor = async (data) => {
