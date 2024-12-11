@@ -1,7 +1,15 @@
 .titleContainer{
+    position: relative;
     .titleDiv{
         position: relative;
-        max-width: var(--outer-blog-width);
+        width: 100%;
+        margin: 2rem 3rem 10rem 1rem;
+        padding: 2rem;
+        z-index:3;
+        h3{
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
         & > *{
             position: relative;
         }
@@ -20,30 +28,58 @@
             position: relative;
             margin-bottom: 2rem;
         }
-        margin: 2rem auto 10rem auto;
+        h3{
+            font-family:var(--title-font);
+        }
     }
-    border: 1px solid black;    
-    background: var(--gradient);
-    background-size: 600% 600%;
-    animation: gradient 9s ease infinite;
+    &:before{
+        bottom: -7rem;
+        left: -20vw;
+        width: 120vw;
+        border-bottom: 1px solid black;
+        height: 150vh;
+        content: "";
+        position: absolute;
+        background-image: url('../../static/images/blog-background.svg');
+        background-position: top;
+        background-size: cover;
+        z-index: 1;
+    }
 }
 
 .detailedReviews{
+    min-width: 100%;
     .listItem{
         display: block;
-        &:not(:last-of-type){
-            margin-bottom: 4rem;
+        padding: 3rem 0;
+        position: relative;
+        &::before, &::after{
+            content: "";
+            position: absolute;
+            background-color: black;
+            left: -50vw;
+            width: 300vw;
+        }
+        &::before{
+            top: 0;
+        }
+        &::after{
+            height: 1px;
+            bottom: 0;
+        }
+        &:first-of-type::before{
+            height: 1px;
         }
     }
     .howWeAssess{
         max-width: var(--blog-width);
-        margin: auto;
-        margin-bottom: 2rem;
-        padding: 10px 20px;
-        background-color: var(--light-grey);
-        h6{
-            font-size: 2rem;
+        margin: 1rem 0 2rem;
+        p{
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            font-size: 1rem;
         }
+        border-radius: 5px;
         a{
             color: var(--blue);
             &:hover{
@@ -56,13 +92,10 @@
         gap: 1rem;
         align-items: center;
         max-width: var(--blog-width);
-        margin: auto;
-    }
-    h4{
-        margin: auto;
     }
     h5{
-        font-size: 2.5rem !important;
+        font-size: 2rem !important;
+        font-family: var(--title-font);
         font-weight: 600 !important;
         margin-bottom: 0;
     }
@@ -74,7 +107,6 @@
     }
     .content{
         max-width: var(--blog-width);
-        margin: auto;
         margin-top: 0.5rem;
         h1, h2, h3, h4, h5, h6{
             font-family: var(--para-font);
@@ -85,7 +117,6 @@
     .relatedBlogsDiv{
         display: flex;
         flex-direction: column;
-        margin: auto;
         max-width: var(--blog-width);
         margin-top: 2rem;
     }
@@ -100,38 +131,48 @@
     }
 }
 
-.summaryList, .additionalSection, .detailedReviews{
-    max-width: var(--blog-width);
-    margin: auto;
-}
-
 .additionalSection{
     margin-bottom: 2rem;
+    width: var(--outer-blog-width);
+    &:has(table){
+        border: 1px solid black;
+        max-width: max-content;
+        transform: translateX(-7vw);
+        padding: 2rem 0 0;
+        align-self: baseline;
+        h4, p{
+            padding: 5px 2rem;
+        }
+    }
 }
 
 .summaryList, .detailedReviews, .additionalSection{
+    max-width: var(--blog-width);
     margin-bottom: 3rem;
     font-size: 1.2rem;   
     h4{
         font-family: var(--title-font);
-        font-size: 2rem;
+        font-size: 2.2rem;
         font-weight: 500;
-    }
-    .listItem{
-        padding: 0;
-    }
-    h5{
-        font-weight: 500;
-        font-size: 2rem;
     }
 }
 
 .summaryList {
-    width: 100%;
-    background-color: white;
+    margin-top: -7rem;
+    z-index: 10;
+    top: 1rem;
+    max-width: 35rem;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    h5{
+        font-weight: 500;
+        font-size: 1.8rem;
+    }
     .list{
         .appIcon{
-            width: 3rem;
+            width: 2.5rem;
             height: auto;
         }
         display: flex;
@@ -145,17 +186,28 @@
                 }
             }
             .listItem{
-                padding: 25px 30px;
+                z-index: 15;
+                padding: 15px 30px;
                 border: 1px solid black;
+                background-color: white;
                 display:flex;
                 flex-direction: row;
                 gap: 1.4rem;
                 .arrowIcon{
                     transition: transform 0.3s ease;
                     transition-duration: 0.1s;
+                    display:none;
                 }
                 .content{
                     width: 100%;
+                    .description{
+                        display: -webkit-box;
+                        display: none;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        -webkit-line-clamp: 2;
+                        line-clamp: 2;       
+                    }
                 }
                 &:hover{
                     .arrowIcon{
@@ -188,45 +240,44 @@
 
 @keyframes gradient {
     0% {
-      background-position: 0% 50%;
+        background-position: 0% 50%;
     }
     50% {
-      background-position: 100% 50%;
+        background-position: 100% 50%;
     }
     100% {
-      background-position: 0% 50%;
+        background-position: 0% 50%;
     }
-  }
-  @media (max-width: 700px) {
-    .summaryList {
-        .list {
-            .appLink {
-                .listItem {
-                    padding:10px;
-                    align-items: normal;
-                    text-align: justify;
-                    .appIcon {
-                        width: 2.5rem; 
-                        height: 2.5rem;
-                        margin-bottom: 1rem; 
-                    }
-                    .content {
-                        width: 100%;
-                        h5{
-                            font-size: 1.4rem;
-                        }
+}
+
+@media (max-width: 700px) {
+.summaryList {
+    .list {
+        .appLink {
+            .listItem {
+                padding:10px;
+                align-items: normal;
+                text-align: justify;
+                .appIcon {
+                    width: 2.5rem; 
+                    height: 2.5rem;
+                    margin-bottom: 1rem; 
+                }
+                .content {
+                    width: 100%;
+                    h5{
+                        font-size: 1.4rem;
                     }
                 }
             }
-            p{
-                width: inherit ;
-                font-size: 1rem;      
-            }
+        }
+        p{
+            width: inherit ;
+            font-size: 1rem;      
         }
     }
-    .title{
-        font-size: 40px;
-        text-align: center;
-        padding:0px 20px ;
-    }
-  }
+}
+.title{
+    font-size: 40px;
+}
+}

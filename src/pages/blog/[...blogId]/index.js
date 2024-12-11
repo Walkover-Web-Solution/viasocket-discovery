@@ -17,6 +17,11 @@ import { dispatchAskAiEvent, nameToSlugName, safeParse } from '@/utils/utils';
 import BlogCard from '@/components/Blog/Blog';
 import { getCurrentEnvironment } from '@/utils/storageHelper';
 import Head from 'next/head';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { Box } from '@mui/system';
+import Image from 'next/image';
+import diamondImage from  "../../../static/images/diamond.svg";
+import Link from 'next/link';
 
 
 export async function getServerSideProps(context) {
@@ -56,13 +61,11 @@ export async function getServerSideProps(context) {
 
 export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
   const [blogData, setBlogData] = useState(blog);
-  const [oldBlog,setOldBlog]=useState('');
   const [integrations, setIntegrations] = useState(null);
   const router= useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
-  const [isPopupOpen, setIsPopUpOpen] = useState(false);
   const currentUser = useUser().user;
   const blogDataToSend = { 
     title: blogData?.title,
@@ -95,11 +98,11 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
         const data = await fetchIntegrations(apps)
         setIntegrations(data);
     }
-    if (blog?.apps) {
-      const appKeys = Object.keys(blog.apps);
+    if (blogData?.apps) {
+      const appKeys = Object.keys(blogData.apps);
       getData(appKeys)
     }
-  }, [blog?.apps]);
+  }, [blogData?.apps]);
 
   useEffect(() => {
     if(!currentUser?.id) return ;
@@ -124,66 +127,13 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
     })();
   }, [currentUser?.id]);
 
-  useEffect(() => {
-    const lastMessage = messages[messages.length - 1];
-    if(lastMessage?.role == 'assistant'){
-      const content = lastMessage.content;
-      if(content?.blog){
-        setBlogData({...content.blog, apps: blogData.apps});
-        if( !users.find((user) => user.id === currentUser.id)) {
-          users.push({ id : currentUser.id , name : currentUser.name })
-        }
-      }
-    }
-  }, [messages])
   useEffect(()=>{
     if(!currentUser) {
       setIsOpen(false);
     }
   },[currentUser])
 
-  const handlePublish = async () => {
-    const blogDataToPublish = {
-      ...blogData,
-      published: true,
-    }
-    try {
-      const res = await compareBlogs(
-        {
-          variables : {
-            current_blog: (oldBlog?.blog),
-            updated_blog: (blogData?.blog),
-          }
-        })
-      if (!oldBlog || JSON.parse(res?.content)?.ans === 'yes'){
-        await updateBlog(blog.id, blogDataToPublish);
-        setOldBlog(blogData);
-        toast.success('Blog updated successfully!');
-      } else {
-        setIsPopUpOpen(true);
-      }
-    } catch (error) {
-      console.error('Failed to publish blog:', error);
-      toast.error('An error occurred while publishing the blog: ' + error.message);
-    }
-  };
-  const handleNewPublish = async () => {
-    const blogDataToPublish = {
-      ...blogData,
-      published: true
-    };
-    try {
-      const data = await publishBlog(blogDataToPublish);
-      setOldBlog(blogData);
-      router.push(`/blog/${data.id}`);
-      toast.success('Blog published successfully!');
-    } catch (error) {
-      console.error('Failed to publish blog:', error);
-      toast.error('An error occurred while publishing the blog: ' + error.message);
-    } finally {
-      setIsPopUpOpen(false)
-    }
-  };
+
 
   return (
     <>
@@ -194,12 +144,35 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
       </Head>
       <div>
         <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
-          <AIresponse blogData={blogData} users={users} integrations={integrations} appBlogs={appBlogs}/>
+          <AIresponse blogData={blogData} users={users} integrations={integrations} appBlogs={appBlogs} isOpen={isOpen} setIsOpen={setIsOpen} />
+          <Box className={styles.searchDiv}>
+            <h1>Dive Deeper with AI</h1>
+            <p>Want to explore more? Follow up with AI for personalized insights and automated recommendations based on this blog</p>
+            <Image src={diamondImage} alt="diamond" className={styles.diamondImageSmall} />
+            <Image src={diamondImage} alt="diamond" className={styles.diamondImageLarge} />
+            {!isOpen && <Search className={styles.searchBox} searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi={handleAskAi} placeholder='Follow up if any query with AI...' />}
+          </Box>
+          <div className={styles.tagsContainer}>
+            <h3>Related Tags</h3>
+            <div className={styles.tagsDiv}>
+              {blogData?.tags?.map((tag, index) => (
+                <Link
+                href={`/?search=%23${tag}`}
+                target='_blank'
+                key={index}
+                className={styles.tag}
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+          </div>
           {
             relatedBlogs?.length > 0 && (
               <div className={styles.relatedBlogsDiv}>
                 <h3>Related Blogs</h3>
                 {relatedBlogs.map((blog) => {
+                  return <a target='_blank' href = {`/discovery/blog/${blog.id}/${blog.slugName}}`} className = {styles.blogOnSearch} key = {blog.id}><h4>{blog.title} <ArrowForwardIosIcon className={styles.arrowIcon} sx={{fontSize: '15px'}}/></h4></a>
                   return <BlogCard key={blog.id} blog={blog} className={styles.blogOnSearch} />
                 })}
               </div>
@@ -207,10 +180,75 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
           }
           {/* {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>} */}
         </div>
-        <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId = {blog.id} />
-        {!isOpen && <Search searchQuery={searchQuery} setSearchQuery={setSearchQuery} handleAskAi={handleAskAi} placeholder='Follow up if any query with AI...' />}
-        <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} />
+        <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId={blog.id}  users={users}/>
+        {/* <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} /> */}
       </div>
     </>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // const [oldBlog,setOldBlog]=useState('');
+  // const [isPopupOpen, setIsPopUpOpen] = useState(false);
+  // const handlePublish = async () => {
+  //   const blogDataToPublish = {
+  //     ...blogData,
+  //     published: true,
+  //   }
+  //   try {
+  //     const res = await compareBlogs(
+  //       {
+  //         variables : {
+  //           current_blog: (oldBlog?.blog),
+  //           updated_blog: (blogData?.blog),
+  //         }
+  //       })
+  //     if (!oldBlog || JSON.parse(res?.content)?.ans === 'yes'){
+  //       await updateBlog(blog.id, blogDataToPublish);
+  //       setOldBlog(blogData);
+  //       toast.success('Blog updated successfully!');
+  //     } else {
+  //       setIsPopUpOpen(true);
+  //     }
+  //   } catch (error) {
+  //     console.error('Failed to publish blog:', error);
+  //     toast.error('An error occurred while publishing the blog: ' + error.message);
+  //   }
+  // };
+  // const handleNewPublish = async () => {
+  //   const blogDataToPublish = {
+  //     ...blogData,
+  //     published: true
+  //   };
+  //   try {
+  //     const data = await publishBlog(blogDataToPublish);
+  //     setOldBlog(blogData);
+  //     router.push(`/blog/${data.id}`);
+  //     toast.success('Blog published successfully!');
+  //   } catch (error) {
+  //     console.error('Failed to publish blog:', error);
+  //     toast.error('An error occurred while publishing the blog: ' + error.message);
+  //   } finally {
+  //     setIsPopUpOpen(false)
+  //   }
+  // };

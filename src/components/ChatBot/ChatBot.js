@@ -1,17 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './Chatbot.module.css';
-import { Tooltip } from '@mui/material';
 import { sendMessageApi } from '@/utils/apis/chatbotapis';
 import Components from '@/components/ChatBotComponents/ChatBotComponents';
 import BlogCard from '../Blog/Blog';
 import { useRouter } from 'next/router';
+import { useUser } from '@/context/UserContext';
 
-const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage, setIsOpen, isOpen, searchResults, blogId, inPopup, msgCallback }) => {
+const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage, setIsOpen, isOpen, searchResults, blogId, inPopup, msgCallback, setBlogData }) => {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const divRef = useRef(null);
   const router = useRouter();
   const inputRef = useRef(null);
+  const currentUser = useUser().user;
 
   const handleScroll = () => {
     if(divRef.current)
@@ -30,6 +31,12 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
           setMessages((prevMessages) => [...prevMessages, botMessage]);
           if(data.created){
             router.replace('/blog/' + data.blogId);
+          }
+          if(content.blog) {
+            setBlogData(content.blog)
+            if(!users.find((user) => user.id === currentUser.id)) {
+              users.push({ id : currentUser.id , name : currentUser.name })
+            }
           }
           msgCallback?.(content);
         }
@@ -58,6 +65,7 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
   }, [messages, searchResults]);
   
   const handleSendMessage = async () => {
+    if(isLoading) return;
     if (inputMessage.trim()) {
       setInputMessage("");
       setIsLoading(true);

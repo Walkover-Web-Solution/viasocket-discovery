@@ -2,6 +2,9 @@
 import mongoose from 'mongoose';
 import {  replaceDotsInKeys, restoreDotsInKeys } from '@/utils/utils';
 const createBlogModel = (connection) => {
+  if (connection.models.Blog) {
+    return connection.models.Blog;
+  }
   const BlogSchema = new mongoose.Schema({
     id: {
       type: String,
@@ -80,7 +83,7 @@ const createBlogModel = (connection) => {
 
   BlogSchema.index({ id: 1 });
 
-  return connection.models.Blog || connection.model('Blog', BlogSchema);
+  return connection.model('Blog', BlogSchema);
 };
 
 export default createBlogModel;
