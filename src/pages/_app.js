@@ -1,14 +1,19 @@
 // pages/_app.js
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import Layout from '@/components/Layout/Layout';
 import { UserProvider } from '@/context/UserContext';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
 import '../globals.scss';
-import Script from 'next/script';
 import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    typeof document !== 'undefined' &&
+      import('bootstrap/dist/js/bootstrap.bundle.min.js');
+  }, []);
+
   return (
     <>
       <Head>
@@ -28,6 +33,7 @@ function MyApp({ Component, pageProps }) {
         embedToken={process.env.NEXT_PUBLIC_CHAT_BOT_TOKEN} 
         hideIcon="true"
       /> */}
+      
     </>
   );
 }

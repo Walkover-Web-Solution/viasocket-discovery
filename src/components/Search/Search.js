@@ -7,9 +7,10 @@ import UserBioPopup from '../UserBioPopup/UserBioPoup';
 import UnauthorizedPopup from '../UnauthorisedPopup/UnauthorisedPopup';
 import { dispatchAskAiEvent } from '@/utils/utils';
 
-export default function Search({ searchQuery, setSearchQuery, handleAskAi, placeholder, className }) {
+export default function Search({ searchQuery, setSearchQuery, handleAskAi, placeholder, className, messages }) {
 	const { user } = useUser();
 	const [unAuthPopup, setUnAuthPopup] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [userBioPopup, setUserBioPopup] = useState(false);
 	const inputRef = useRef(null);
 	
@@ -18,6 +19,13 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 			setUserBioPopup(false);
 		}
 	}, [user])
+	useEffect(()=>{
+		if(messages && messages[messages.length - 1]?.role === 'user'){
+			setIsLoading(true);
+		}else{
+			setIsLoading(false)
+		}
+	},[messages])
 
 	useEffect(() => {
 		const handleEvent = async (e) => {
@@ -39,6 +47,7 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 	});
 
 	const handleClick = () => {
+		if(isLoading) return;
 		if (!user) {
 			setUnAuthPopup(true);
 			return;
@@ -61,9 +70,6 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 		}
 	}, [user])
 
-	useEffect(() => {
-        inputRef.current.focus();
-    }, []);
 
 	return (
 		<>

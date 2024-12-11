@@ -1,7 +1,7 @@
 import { askAi, ValidateAiResponse, sendMessageTochannel, sendAlert, improveBlogPrompt, extractJsonFromMarkdown } from "@/utils/utils";
 import blogServices from "../../services/blogServices"
 import { improveBlogSchema } from "@/utils/schema";
-import {  getRandomAuthorByCountryAndType, insertManyAuther } from "@/services/autherServices";
+import {  getRandomAuthorByCountryAndType, insertManyAuthor } from "@/services/authorServices";
 
 
 export default async function handler(req, res) {
@@ -67,7 +67,7 @@ export async function getNames (countryCode){
 export async function getWriter(countryCode,type){
     const res = await askAi(process.env.NEXT_PUBLIC_WRITER_GENERATOR_BRIGDE,`countryCode:${countryCode} and type:${type}`,{ countryCode : countryCode , profession : type });
     const names = JSON.parse(res.response.data.content).data;
-    await insertManyAuther(names);
+    await insertManyAuthor(names);
     return names[Math.floor(Math.random() * names.length)];
 }
 
@@ -76,10 +76,10 @@ export async function createBulkOperation (blogs,environment){
    return await Promise.allSettled(blogs.map(async (blog) => {
 
         const countryCode = blog.countryCode || 'IN'; 
-        const auther = await getNames(countryCode);
+        const author = await getNames(countryCode);
         let aiResponse = await askAi(
           process.env.IMPROVE_BRIDGE,
-          `${JSON.stringify({blog : blog.blog })}`, { writer : auther.name }
+          `${JSON.stringify({blog : blog.blog })}`, { writer : author.name }
         );
         const message_id = aiResponse.response.data.message_id;
         aiResponse = extractJsonFromMarkdown(aiResponse.response.data.content);
