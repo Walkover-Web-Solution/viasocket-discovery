@@ -1,4 +1,4 @@
-import { dummyMarkdown, nameToSlugName } from '@/utils/utils';
+import { appNameToId, dummyMarkdown, nameToSlugName } from '@/utils/utils';
 import { Avatar, List, ListItem } from '@mui/material';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -63,7 +63,7 @@ const Components = {
                 </div>
                 <List>
                     {content.map(({appName, content}, idx) => (
-                        <ListItem className = {styles.listItem} key={idx} id={nameToSlugName(appName)}>
+                        <ListItem className = {styles.listItem} key={idx} id={appNameToId(appName)}>
                             <a className={styles.appDomain} href={apps[appName]?.domain ? `https://${apps[appName].domain}` : `https://www.google.com/search?q=${appName}`} target='_blank'>
                                 <div className={styles.appHeadingDiv}>
                                     <Avatar className = {styles.appIcon} alt={appName} src={integrations?.[appName.toLowerCase()]?.plugins[nameToSlugName(appName)]?.iconurl} variant='square'>
