@@ -1,8 +1,103 @@
+.footer {
+    padding: 40px 20px;
+    // background-color: #f8f9fa;
+    border-top: 1px solid #e7e7e7;
+    a{
+      padding: 5px 0;
+    }
+  }
+  .footerContainer{
+    width: 80%;
+    margin: auto;
+  }
+  .footerLeft{
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    padding: 30px;
+  }
+  
+  .footerLogo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 32px;
+    padding: 16px 0;
+  }
+  
+  .footerProduct {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  
+  .footerRight {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    border:1px solid black;
+  }
+  
+  .footerColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 42px;
+    padding: 40px 32px;
+    flex: 1;
+  }
+  
+  .columnBorder {
+    border-right: 1px solid black;
+    border-bottom: 0px;
+  }
+  
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .groupTitle {
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .groupItems a {
+    text-decoration: none;
+    color: black;
+    transition: color 0.3s;
+  }
 
-
-.pageFooter{
-    margin-bottom: 3rem;
-}
-.footerDiv{
-    // background-color: var(--background-color);
-}
+  .groupItems{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .groupItems a:hover {
+    color: blue;
+  }
+  
+  .footerSocial {
+    display: flex;
+    gap: 16px;
+    margin-top: auto;
+  }
+  
+  .footerSocial a {
+    text-decoration: none;
+    color: black;
+    font-size: 24px;
+    transition: color 0.3s;
+  }
+  
+  .footerSocial a:hover {
+    color: #007bff;
+  }
+  
+  @media (max-width: 767px) {
+    .columnBorder {
+      border-right: 0px;
+      border-bottom: 1px solid black;
+    }
+  }
+  

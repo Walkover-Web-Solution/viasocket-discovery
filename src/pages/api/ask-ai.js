@@ -121,7 +121,17 @@ async function createBlog(userMessage, environment, userId, countrycode){
                     section.what_to_cover = [detailedReviewContent]
                 }
                 return section;
-            }))
+            })),
+             {
+                section : "FAQ",
+                heading : "",
+                what_to_cover : [
+                    {
+                        question:"",
+                        answer:"",
+                    }
+                ]
+            },
         ], 
         tags: [""]
     }

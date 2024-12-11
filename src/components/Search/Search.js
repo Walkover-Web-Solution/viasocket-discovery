@@ -61,9 +61,6 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 		}
 	}, [user])
 
-	useEffect(() => {
-        inputRef.current.focus();
-    }, []);
 
 	return (
 		<>
