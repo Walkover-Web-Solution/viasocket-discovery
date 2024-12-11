@@ -91,10 +91,10 @@ export const setInLocalStorage = ( key, value ) => {
     localStorage.setItem( `${key}`, value );
   }
 }
-export const getFromLocalStorage = ( key ) => {
+export const getFromLocalStorage = ( key , removeKey ) => {
   if (typeof window !== "undefined") { 
     const value = localStorage.getItem(`${key}`);
-    localStorage.removeItem(`${key}`);
+    if(removeKey) localStorage.removeItem(`${key}`);
     return value;
   }
 }

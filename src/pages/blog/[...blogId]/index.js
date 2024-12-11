@@ -59,7 +59,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
   const [oldBlog,setOldBlog]=useState('');
   const [integrations, setIntegrations] = useState(null);
   const router= useRouter();
-  const [searchQuery, setSearchQuery] = useState(getFromLocalStorage('query') || '');
+  const [searchQuery, setSearchQuery] = useState(getFromLocalStorage('query' ,true) || '');
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [isPopupOpen, setIsPopUpOpen] = useState(false);
