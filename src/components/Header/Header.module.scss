@@ -29,6 +29,7 @@
   .viaMenu .viaBgAccent {
     background-color: #a8200d;
     color: white;
+    cursor: pointer;
   }
   .viaMenu .viaMenuLg a {
     height: 56px !important;
@@ -36,7 +37,7 @@
   }
   .viaMenu .viaMenuSm a {
     height: 56px !important;
-    width: 56px !important;
+    min-width: 56px !important;
   }
   .viaDropdown {
     height: 56px !important;
@@ -58,4 +59,7 @@
   .viaIconBlack:hover {
     fill: white;
   }
-  
+
+  .userDetailCatch{
+    position: relative;
+  }
