@@ -199,7 +199,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
       </Head>
       <div>
         <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
-          <AIresponse blogData={blogData} users={users} integrations={integrations} appBlogs={appBlogs}/>
+          <AIresponse blogData={blogData} users={users} integrations={integrations} appBlogs={appBlogs} isOpen={isOpen} setIsOpen={setIsOpen} />
           <Box className={styles.searchDiv}>
             <h1>Dive Deeper with AI</h1>
             <p>Want to explore more? Follow up with AI for personalized insights and automated recommendations based on this blog</p>

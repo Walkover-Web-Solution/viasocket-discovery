@@ -78,9 +78,11 @@ const Components = {
                             <Integrations integrations = {integrations?.[appName.toLowerCase()]} appslugname = {nameToSlugName(appName)}/>
                             {appBlogs[appName]?.length > 0 && <div className={styles.relatedBlogsDiv}>
                                 {appBlogs[appName]?.length>0 && <h6> Explore More on <strong>{appName}</strong></h6>}
+                                <ul>
                                 {appBlogs[appName]?.map((blog) => {
-                                    return <a key={blog.id} className={styles.relatedBlogsLink} href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${blog.meta.category}/` : ''}${nameToSlugName(blog.slugName)}`} target='_blank'>{blog.title}</a>
+                                    return <li key={blog.id}><a className={styles.relatedBlogsLink} href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${blog.meta.category}/` : ''}${nameToSlugName(blog.slugName)}`} target='_blank'>{blog.title}</a></li>
                                 })}
+                                </ul>
                             </div>}
                         </ListItem>
                     ))}

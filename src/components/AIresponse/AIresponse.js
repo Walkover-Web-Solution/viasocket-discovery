@@ -8,7 +8,7 @@ import { Box } from '@mui/material';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import AddIcon from '@mui/icons-material/Add';
 
-const AIresponse = ({ blogData, users, integrations, appBlogs }) => {
+const AIresponse = ({ blogData, users, integrations, appBlogs, isOpen, setIsOpen }) => {
   const hasMarkdown = blogData?.blog;
   const [slHeight, setSlHeight] = useState(0);
 
@@ -19,6 +19,10 @@ const AIresponse = ({ blogData, users, integrations, appBlogs }) => {
     dynamicSections.push(section);
   })
   
+  function openChatBot(){
+    setIsOpen(true);
+  }
+
   useEffect(() => {
     const dr = document.getElementById('detailed-reviews')?.getBoundingClientRect().top;
     const sc = document.getElementById('summary-container')?.getBoundingClientRect().top; // Summary Container should end before detailed reviews
@@ -45,17 +49,17 @@ const AIresponse = ({ blogData, users, integrations, appBlogs }) => {
               </>
             )}
           </div>
-          <div className={styles.floaterDiv}>
-          <Box className={styles.summaryContainer} id='summary-container' height={slHeight}>
-            {Components['summaryList']({appNames: detailedReviews.content.map(app => app.appName), integrations})}
-          </Box>
-          <Box className={styles.aiButtonDiv}>
-            <div>
-              <button className={styles.contribute}><AddIcon/> Contribute</button>
-              <button className={styles.askMore}><AutoAwesomeOutlinedIcon/> Ask More</button>
-            </div>
-          </Box>
-          </div>
+          {!isOpen && <div className={styles.floaterDiv}>
+            <Box className={styles.summaryContainer} id='summary-container' height={slHeight}>
+              {Components['summaryList']({appNames: detailedReviews.content.map(app => app.appName), integrations})}
+            </Box>
+            <Box className={styles.aiButtonDiv}>
+              <div>
+                <button onClick={openChatBot} className={styles.contribute}><AddIcon/> Contribute</button>
+                <button onClick={openChatBot} className={styles.askMore}><AutoAwesomeOutlinedIcon/> Ask More</button>
+              </div>
+            </Box>
+          </div>}
         </div>
       </div>
     </>
