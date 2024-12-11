@@ -3,7 +3,7 @@
 import createAuthorModel from '../../models/AuthorModel';
 import dbConnect from '../../lib/mongoDb';
 
-export const createAuther = async (data) => {
+export const createAuthor = async (data) => {
   const client = await dbConnect('prod');
   const Author = createAuthorModel(client);
   const author = await Author.create(data);
@@ -27,7 +27,7 @@ export const getRandomAuthorByCountryAndType = async ( countryCode) => {
   }
 };
 
-export const insertManyAuther = async (data) => {
+export const insertManyAuthor = async (data) => {
   const client = await dbConnect('prod');
   const Author = createAuthorModel(client);
   const author = await Author.insertMany(data);

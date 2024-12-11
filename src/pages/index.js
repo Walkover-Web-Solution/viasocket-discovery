@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { debounce } from 'lodash'; 
 import Blog from '@/components/Blog/Blog';
 import styles from '@/pages/home.module.scss';
@@ -26,6 +26,7 @@ export default function Home() {
     const router = useRouter();
     const [typingStart, setTypingStart] = useState(false);
     const popularTags = ["Customer Relationship Management", "Project Management", "Database Management", "Sales and Marketing", "Human Resource", "Finance Hub"]
+    const divRef = useRef(null);
 
     useEffect(() => {
       if(!router.isReady || ( isOpen && !searchQuery.length > 0 )) return ;
@@ -97,6 +98,9 @@ export default function Home() {
       })();
     }, [user]);
 
+    useEffect(() => {
+      divRef.current.scrollIntoView();      
+    });
 
   // Conditional blog rendering
 
@@ -121,8 +125,22 @@ export default function Home() {
   const renderBlogsSection = (blogs, title, fallback) => {
     return (
       <section className={styles.Homesection}>
-        <h2 className="heading">{title}</h2>
-        <div>
+        {/* <h2 className={"heading " + styles.searchQuery}>{title}</h2> */}
+        {tagsContainer()}
+        {isLoading && (
+          <div className={styles.cardsGrid}>
+            {[...Array(10)].map((_, index) => (
+              <Skeleton
+                className={styles.skeleton}
+                height={20}
+                width={750}
+                style={{ marginBottom: "10px", borderRadius: "20px" }}
+                key={index}
+              />
+            ))}
+          </div>
+        )}
+        <div className={styles.blogsDiv}>
           {blogs.length > 0 ? (
             blogs.map((blog) => (
               <a
@@ -137,7 +155,7 @@ export default function Home() {
                   }
                 }}
               >
-                <h6 className={styles.titleSuggestion}>{blog.title}</h6>
+                <h6 className={styles.titleSuggestion + ' ' + (blog.dummy ? styles.dummy : '')}>{blog.title}</h6>
               </a>
             ))
           ) : (
@@ -148,19 +166,6 @@ export default function Home() {
             )
           )}
         </div>
-        {isLoading && (
-          <div className={styles.cardsGrid}>
-            {[...Array(10)].map((_, index) => (
-              <Skeleton
-                height={20}
-                width={700}
-                style={{ marginBottom: "10px" }}
-                key={index}
-              />
-            ))}
-          </div>
-        )}
-        {tagsContainer()}
       </section>
     );    
   }
@@ -179,6 +184,7 @@ export default function Home() {
   },[user])
   
   return (
+    <div className={styles.homePageContainer + ' ' + (searchQuery ? styles.contentToBottom: '')}>
       <div className={styles.homePageDiv}>
         {
           !isOpen && !searchQuery && (
@@ -200,7 +206,7 @@ export default function Home() {
           </div>
         }
         <div className={typingStart ? '' : styles.searchDiv}>
-          <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'SEARCH WITH AI'/>
+          <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'SEARCH WITH AI' messages={messages}/>
           {
             !typingStart && 
             <div className = {styles.popularTagsDiv}>
@@ -218,5 +224,7 @@ export default function Home() {
         </div>
         <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId} homePage setIsOpen = {setIsOpen} isOpen = {isOpen} searchResults = {searchQuery ? blogs.filter(blog => !blog.dummy) : null}/>
       </div>
+      <div ref={divRef}></div>
+    </div>
   );
 }

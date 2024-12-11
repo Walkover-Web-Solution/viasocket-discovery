@@ -1,29 +1,17 @@
-import { useEffect, useRef } from 'react';
 import styles from "@/components/UserDetailPopup/UserDetailPopup.module.css";
 import { clearUserData } from '@/utils/storageHelper';
 import { useUser } from '@/context/UserContext';
 import { useRouter } from 'next/router';
+import { ClickAwayListener } from '@mui/material';
 
 const UserDetail = ({ isOpen, onClose }) => {
     const {user , setUser}=useUser();
-    const popupRef = useRef(null);
     const router= useRouter();
 
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (popupRef.current && !popupRef.current.contains(event.target)) {
-                onClose();
-            }
-        };
-
-        if (isOpen) {
-            document.addEventListener('mousedown', handleClickOutside);
-        }
-
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [isOpen, onClose]);
-
+    const handleMouseLeave = () => {
+        onClose();
+    };
     const handleLogout = async () => {
 
         clearUserData();
@@ -38,7 +26,8 @@ const UserDetail = ({ isOpen, onClose }) => {
 
     return (
         <>
-            <div ref={popupRef} className={styles.popupContainer}>
+        <ClickAwayListener onClickAway={handleMouseLeave}>
+            <div  className={styles.popupContainer}>
                 <div className={styles.userDetails}>
                         <>
                             <p><b>{user?.name || ""}</b></p>
@@ -47,6 +36,7 @@ const UserDetail = ({ isOpen, onClose }) => {
                         </>
                 </div>
             </div>
+        </ClickAwayListener>
         </>
     );
 };

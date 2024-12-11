@@ -15,20 +15,11 @@
   --light-grey: #e9ecef;
   --sans-serif-font: Arial, sans-serif;
   --dark-grey: #6c757d;
-  --gradient: linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0.8),
-    rgba(255, 239, 244, 0.7),
-    rgba(253, 224, 235, 0.7),
-    rgba(249, 210, 255, 0.6),
-    rgba(239, 200, 255, 0.6),
-    rgba(221, 189, 255, 0.6),
-    rgba(190, 245, 255, 0.6),
-    rgba(230, 255, 255, 0.7)
-  );
   --blog-width: 45rem;
   --outer-blog-width: 60rem;
+  --blog-page-width: 100rem;
   --header-height: 6.1rem;
+  --home-page-width: 90rem;
 }
   
   html,
@@ -37,6 +28,7 @@
     height: 100%;
     overflow-x: hidden;
     color: var(--foreground-color);
+    background-color: #fef7f0;
   }
   
   
@@ -70,52 +62,38 @@
     word-wrap: break-word;
   }
 
-
-  table {
-   
-    width: 100%;
-    border-collapse: collapse;
-  
-    th {
-      border: 1px solid black;
-    
-      
-    }
-  
-    td {
-      border: 1px solid black;
-    }
-  }
   
   table {
-    border: 1px solid black;
-    width: 100%;
+    width: var(--outer-blog-width);
     border-collapse: collapse;
-    margin: 20px 0;
+    margin: 20px 0 0;
     font-size: 16px;
     text-align: left;
-
     th, td {
-     border: 1px solid black;
-      padding: 8px;
-      text-align: center;
+      border: 1px solid black;
+      padding: 8px 12px 8px 2rem;
+      &:first-of-type{
+        border-left: none;
+      }
+      &:last-of-type{
+        border-right: none;
+      }
     }
-
     th {
-      background-color: #f4f4f4;
       font-weight: bold;
     }
-
-    tr:nth-child(even) {
-      background-color: #E8E8E8;
-    }
-
     a{
       color: var(--blue);
       &:hover{
         text-decoration: underline;
       }
     }
+  }
+
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(8.8px);
   }
 
 
