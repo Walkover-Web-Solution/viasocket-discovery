@@ -5,10 +5,11 @@ export default async function handler(req, res) {
   const { method } = req;
 
   switch (method) {
-    case 'GET':
+    case 'POST':
       try {
         let { search } = req.query;
-        const titles = await titleSuggestions(search);
+        let { existingTitles } = req.body;
+        const titles = await titleSuggestions(search, existingTitles);
         res.status(200).json({ success: true, data: { titles } });
       } catch (error) {
          res.status(400).json({ success: false, error: error.message });

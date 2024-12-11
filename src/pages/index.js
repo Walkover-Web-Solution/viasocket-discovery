@@ -40,7 +40,7 @@ export default function Home() {
               setBlogs(data?.blogs);
               if(data?.blogs?.length < 10){
                 setIsLoading(true);
-                const titles = await titleSuggestions(router.query?.search);
+                const titles = await titleSuggestions(router.query?.search, data.blogs.map(blog => blog.title));
                 setBlogs((prevBlogs) => [...prevBlogs, ...(titles.map(ele => ({dummy: true, title: ele})))]);
                 setIsLoading(false);
               }
