@@ -144,7 +144,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
       <Head>
         <meta name="description" content={blog.title}/>
         <meta name="author" content={users.find(user => user.id === blog.createdBy[0])?.name} />
-        <meta name="keywords" content={[...blog.tags, ...blog.meta.SEOKeywords].join(', ')} />
+        <meta name="keywords" content={[...blog.tags, ...(blog.meta.SEOKeywords || [])].join(', ')} />
       </Head>
       <div>
         <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
