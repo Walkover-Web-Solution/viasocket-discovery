@@ -86,6 +86,18 @@ export const setPathInLocalStorage = () => {
     localStorage.setItem('loginRedirectionPath',fullPath);
   }
 }
+export const setInLocalStorage = ( key, value ) => {
+  if (typeof window !== "undefined") { 
+    localStorage.setItem( `${key}`, value );
+  }
+}
+export const getFromLocalStorage = ( key , removeKey ) => {
+  if (typeof window !== "undefined") { 
+    const value = localStorage.getItem(`${key}`);
+    if(removeKey) localStorage.removeItem(`${key}`);
+    return value;
+  }
+}
 
 export const getRedirectPath = () => {
   if (typeof window !== "undefined") { 
