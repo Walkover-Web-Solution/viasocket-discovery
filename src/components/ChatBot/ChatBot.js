@@ -6,7 +6,7 @@ import BlogCard from '../Blog/Blog';
 import { useRouter } from 'next/router';
 import { useUser } from '@/context/UserContext';
 
-const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage, setIsOpen, isOpen, searchResults, blogId, inPopup, msgCallback, setBlogData }) => {
+const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage, setIsOpen, isOpen, searchResults, blogId, inPopup, msgCallback, setBlogData, users }) => {
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const divRef = useRef(null);
@@ -32,7 +32,7 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
           if(data.created){
             router.replace('/blog/' + data.blogId);
           }
-          if(content.blog) {
+          if(content?.blog) {
             setBlogData(content.blog)
             if(!users.find((user) => user.id === currentUser.id)) {
               users.push({ id : currentUser.id , name : currentUser.name })
