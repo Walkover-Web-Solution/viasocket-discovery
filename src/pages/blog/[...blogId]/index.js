@@ -22,7 +22,8 @@ import { Box } from '@mui/system';
 import Image from 'next/image';
 import diamondImage from  "../../../static/images/diamond.svg";
 import Link from 'next/link';
-
+import { Accordion, AccordionDetails, AccordionSummary   } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export async function getServerSideProps(context) {
   const { blogId } = context.params;
@@ -48,7 +49,7 @@ export async function getServerSideProps(context) {
       }));
     const [relatedBlogs, appBlogs, users] = await Promise.all([relatedBlogsPromise, appBlogsPromise, usersPromise]);
     const filteredUsers = users.filter(user => user !== null);
-
+    props.faq = blog.blog.find((section)=> section?.section=== 'FAQ')?.content || [];
     props.blog = blog;
     props.users = filteredUsers;
     props.relatedBlogs = relatedBlogs;
@@ -59,7 +60,7 @@ export async function getServerSideProps(context) {
   return { props };
 }
 
-export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
+export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
   const [blogData, setBlogData] = useState(blog);
   const [integrations, setIntegrations] = useState(null);
   const router= useRouter();
@@ -67,6 +68,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const currentUser = useUser().user;
+  const [FAQs, setFAQs] = useState(faq || []);
   const blogDataToSend = { 
     title: blogData?.title,
     tags: blogData?.tags, 
@@ -79,7 +81,9 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
     setSearchQuery('');
   }
 
- 
+ useEffect(()=>{
+  setFAQs(blogData?.blog?.find(blog => blog?.section === 'FAQ')?.content);
+ },[blogData])
 
   useEffect(() => {
     if (blog) {
@@ -177,6 +181,27 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs}) {
                 })}
               </div>
             )
+          }
+         {FAQs?.length > 0 &&
+            <div className={styles.FAQContainer} >
+              <h2>Frequently Asked Questions</h2>
+              { FAQs?.map((faq, index) => (
+                <Accordion className={styles.FAQaccordian} key={index}  >
+                  <AccordionSummary 
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls={`panel${index + 1}a-content`}
+                    id={`panel${index + 1}a-header`}
+                    sx= {{ boxShadow:"none" }}
+                  >
+                    <p>{faq.question}</p>
+                  </AccordionSummary>
+                  <AccordionDetails className={styles.FAQaccordianDetail} >
+                    <p>{faq.answer}</p>
+                  </AccordionDetails>
+                 </Accordion>
+              ))
+            }
+            </div>
           }
           {/* {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>} */}
         </div>
