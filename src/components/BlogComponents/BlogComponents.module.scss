@@ -31,6 +31,22 @@
         h3{
             font-family:var(--title-font);
         }
+        .underReview{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            h4{
+                cursor: pointer;
+                gap: 10px;
+                color: #a81f0d;
+                text-align: center;
+                font-size: 1.3rem;
+                font-weight: 600;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
     }
     &:before{
         bottom: -7rem;
@@ -85,6 +101,13 @@
             &:hover{
                 text-decoration: underline;
             }
+        }
+        .tooltipText{
+            border: 1px solid red;
+        }
+        .infoIcon{
+            margin-left: 10px;
+            cursor: pointer;
         }
     }
     .appHeadingDiv{
@@ -168,11 +191,12 @@
     position: sticky;
     h5{
         font-weight: 500;
-        font-size: 1.8rem;
+        font-size: 1.3rem;
     }
     .list{
         .appIcon{
             width: 2.5rem;
+            min-height: 2.5rem;
             height: auto;
         }
         display: flex;
@@ -187,7 +211,7 @@
             }
             .listItem{
                 z-index: 15;
-                padding: 15px 30px;
+                padding: 10px 15px;
                 border: 1px solid black;
                 background-color: white;
                 display:flex;

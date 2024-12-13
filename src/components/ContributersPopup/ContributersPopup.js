@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router'; 
-import { Avatar, ClickAwayListener } from '@mui/material';
+import { Avatar, ClickAwayListener, Tooltip } from '@mui/material';
 import styles from '@/components/ContributersPopup/ContributersPopup.module.scss';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import XIcon from '@mui/icons-material/X';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import { nameToSlugName } from '@/utils/utils';
-import TimelapseIcon from '@mui/icons-material/Timelapse';
 
-const ContributorsPopup = ({ users, createdAt, title, updatedAt }) => {
+const ContributorsPopup = ({ users, createdAt, title }) => {
     const [showPopup, setShowPopup] = useState(false);
     const router = useRouter(); 
     const currentUrl = 'http://viasocket.com/discovery'+ router.asPath ; 
-    const isWithinLast7Days = new Date(Math.max(new Date(createdAt), updatedAt ? new Date(updatedAt) : 0)) >= new Date(Date.now() - 7 * 864e5);
 
 
     const handleMouseEnter = (e) => {
@@ -108,14 +106,6 @@ const ContributorsPopup = ({ users, createdAt, title, updatedAt }) => {
                 })}</span>
             </>
         )} 
-
-        {
-            isWithinLast7Days && (
-                <div className={styles.underReview}>
-                    <h4><TimelapseIcon/> Under Review</h4>
-                </div>
-            )
-        }
       </div>
     );
 };
