@@ -151,7 +151,7 @@ export default function Home() {
                 onClick={() => {
                   if (blog.dummy) {
                     handleAskAi(blog.title);
-                    setSearchQuery('');
+                    setSearchQuery(user ? '' : blog.title);
                   }
                 }}
               >
