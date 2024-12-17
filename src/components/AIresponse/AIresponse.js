@@ -39,7 +39,7 @@ const AIresponse = ({ blogData, users, integrations, appBlogs, isOpen, setIsOpen
         <title>{(blogData?.title || "New chat") + ' | Viasocket'}</title>
       </Head>
       <div className = {styles.blogPage}>
-        {Components['title']({users, createdAt: blogData.createdAt, content: blogData.title, subHeading: blogData.titleDescription, updatedAt: blogData.updatedAt})}
+        {Components['title']({users, createdAt: blogData.createdAt, content: blogData.title, subHeading: blogData.titleDescription, updatedAt: blogData.updatedAt , imageUrl:blogData.imageUrl})}
         <div className={styles.containerDiv}>
           <div className={styles.markdownContainer}>
             {!hasMarkdown && Components['dummy']()}

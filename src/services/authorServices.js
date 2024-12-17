@@ -10,11 +10,11 @@ export const createAuthor = async (data) => {
   return author;
 }
 
-export const getRandomAuthorByCountryAndType = async ( countryCode) => {
+export const getRandomAuthorByCountryAndType = async ( countryCode , profession = 'writer') => {
   const client = await dbConnect('prod');
   const Author = await createAuthorModel(client);
     const randomAuthor = await Author.aggregate([
-      { $match: { countryCode: countryCode } },  
+      { $match: { countryCode: countryCode, profession : profession } },  
       { $sample: { size: 1 } }  
     ]);
 

@@ -11,11 +11,11 @@ const createAuthorModel = (connection) => {
       type: String,
       required: true,
     },
-    // profession: {
-    //   type: String,
-    //   enum: ['writer', 'philosopher'],
-    //   required: true,
-    // },
+    profession: {
+      type: String,
+      required: true,
+      default: 'writer'
+    },
   });
 
   return  connection.model('Author', authorSchema);
