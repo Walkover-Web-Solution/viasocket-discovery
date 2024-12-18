@@ -92,6 +92,7 @@ export async function createBulkOperation (blogs,environment){
 }
 
 export async function improveBlog(blog, author){
+    throw new Error("We don't want to anything");   
     let drIdx = 0;
     let [detailedReviews, dynamicSections] = blog.reduce((acc, section, idx) => {
         if (section.section === 'detailed_reviews') {
