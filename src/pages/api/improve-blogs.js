@@ -14,7 +14,7 @@ export default async function handler(req, res) {
             try {
                 res.status(200).json({status:"success"})   // send immediate res 
                 const blogs = await blogServices.getBlogsForImprove(environment);
-                const bulkOperations =await createBulkOperation(blogs,environment);
+                const bulkOperations = await createBulkOperation(blogs,environment);
                 let validBulkOperations = [];
                 bulkOperations.forEach((result, index) => {
                     if (result.status === 'fulfilled') {
@@ -74,36 +74,24 @@ export async function getWriter(countryCode,type){
 
 export async function createBulkOperation (blogs,environment){
    return await Promise.allSettled(blogs.map(async (blog) => {
-        const imagePromise =  imageGenerator(blog.title,blog.meta?.SEOMetaDescription);
+         const imagePromise =  imageGenerator(blog.title,blog.meta?.SEOMetaDescription);
         const countryCode = blog.countryCode || 'IN'; 
         const author = await getNames(countryCode);
-        let aiResponse = await askAi(
-          process.env.IMPROVE_BRIDGE,
-          `${JSON.stringify({blog : blog.blog })}`, { writer : author.name }
-        );
-        const message_id = aiResponse.response.data.message_id;
-        aiResponse = extractJsonFromMarkdown(aiResponse.response.data.content);
-        let processedBlog = ValidateAiResponse(aiResponse, improveBlogSchema,process.env.IMPROVE_BRIDGE,message_id,true);
-        if(processedBlog.success===true){
-            processedBlog = processedBlog.value;
-        } else {
-            sendAlert(processedBlog.errorMessages, process.env.IMPROVE_BRIDGE, message_id, "" );
-            processedBlog = { message : processedBlog.message || "" }
-        }
-        await distinctifyPhrase(processedBlog, environment);
-        const imageUrl = await imagePromise; 
+        let processedBlog = await improveBlog(blog.blog, author.name);
+        // await distinctifyPhrase(processedBlog, environment);
+        const imageUrl = await imagePromise;
         return {
             updateOne: {
                 filter: { id: blog.id },
                 update: { 
                   $set: { 
-                    'blog': processedBlog.blog ,
+                    'blog': processedBlog,
                     'imageUrl': imageUrl
                   }
                 }
-            }
+              }
         };
-}));
+    }));
 }
 
 
@@ -112,4 +100,56 @@ async function imageGenerator (article_name, meta_description){
     const imagePrompt = await askAi(process.env.IMAGE_PROMPT_GENERATOR_PROMPT,'',{cinematographer_name ,article_name, meta_description });
     const imageURL = await askAi(process.env.IMAGE_GENERATOR_BRIDGE,JSON.parse(imagePrompt.response.data.content).prompt);
     return imageURL.response.data.image_url;
+}
+
+export async function improveBlog(blog, author){
+    let drIdx = 0;
+    let [detailedReviews, dynamicSections] = blog.reduce((acc, section, idx) => {
+        if (section.section === 'detailed_reviews') {
+            drIdx = idx;
+            acc[0] = section;
+        }else{
+            acc[1].push(section);
+        }
+        return acc;
+    }, [null, []]);
+
+    detailedReviews.content = await Promise.all(detailedReviews.content.map(async (appReview) => {
+        const content = JSON.parse( await askAi(
+                process.env.DETAILED_REVIEW_IMPROVE, 
+                appReview.content
+            )
+            .then(res => res.response.data.content)
+        ).content
+        appReview.content = content;
+        return appReview;
+    }))
+
+    let newDynamicSections = await askAi(
+        process.env.IMPROVE_BRIDGE,
+        `${JSON.stringify({blog : dynamicSections })}`, { writer : author }
+    );
+
+    const messageId = newDynamicSections.response.data.message_id;
+
+    newDynamicSections = extractJsonFromMarkdown(newDynamicSections.response.data.content).blog;
+    
+    const newBlog = [];
+
+    for(let i = 0;i < newDynamicSections.length;i++){
+        if(i === drIdx){
+            newBlog.push(detailedReviews);
+        }
+        newBlog.push(newDynamicSections[i]);
+    }
+    let processedBlog = ValidateAiResponse(newBlog, improveBlogSchema);
+    if(processedBlog.success === true){
+        processedBlog = processedBlog.value;
+    } else {
+        sendAlert(processedBlog.errorMessages, process.env.IMPROVE_BRIDGE, messageId, "" );
+        console.error(processedBlog.errorMessages);
+        throw new Error("Invalid Response from AI");
+    }
+
+    return processedBlog;
 }
