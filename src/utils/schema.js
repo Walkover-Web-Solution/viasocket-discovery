@@ -128,16 +128,10 @@ export const updateBlogSchema = Joi.object({
 });
 
 
-export const improveBlogSchema = Joi.object({
-  phrase: Joi.object({
-    content: Joi.string().required(),
-    section: Joi.string().required(),
-  }).optional(),
-  blog: Joi.array().items(
+export const improveBlogSchema = Joi.array().items(
     Joi.object({
       content: Joi.any().required(),
       heading: Joi.string().required(),
       section: Joi.string().optional(),
     })
-  ).required(),
-});
+);
