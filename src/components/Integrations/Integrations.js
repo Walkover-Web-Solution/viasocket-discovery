@@ -9,7 +9,7 @@ const Integrations = ({ integrations, appslugname }) => {
   if (!integrations?.combinations?.length) return null;  
   return (
     <div className={styles.integrationDiv}>
-        <h3 className = {styles.integrationHeading}>Get Started with Prebuild Templates</h3>
+        <h3 className = {styles.integrationHeading}>Start Automating with viaSocket Templates</h3>
         <List className = {styles.integrationList}>
             {integrations?.combinations?.slice(0, 5).map((integration, index) => (
                 <Link key={index} target = '_blank' href = {`https://flow.viasocket.com/makeflow/trigger/${integration.trigger.id}/action?utm_source=integration_page&events=${integration.actions[0].id}&integrations=${integrations.plugins[integration.trigger.name].rowid},${integrations.plugins[integration.actions[0].name].rowid}`} className = {styles.integrationLink}>

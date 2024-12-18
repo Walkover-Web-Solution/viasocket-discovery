@@ -189,8 +189,8 @@ export default function Home() {
         {
           !isOpen && !searchQuery && (
             <>
-              <h1 className={styles.homeTitle}>Find Your Ideal Tool in Seconds</h1>
-              <p className={styles.homep}>{'Follow Up With Al For Personalized Insights And Automated Recommendations Based On Real Professionals'}</p>
+              <h1 className={styles.homeTitle}>Discover Top Software</h1>
+              <p className={styles.homep}>{'Find top software from every category, thoughtfully curated by industry experts and individuals just like you.'}</p>
             </>
           )
         }     
