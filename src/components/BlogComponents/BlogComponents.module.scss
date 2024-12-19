@@ -129,12 +129,13 @@
         font-size: 1.2rem;
     }
     .content{
+        line-height: 30px;
         max-width: var(--blog-width);
         margin-top: 0.5rem;
-        h1, h2, h3, h4, h5, h6{
+        h1, h2, h3, h4, h5, h6, strong{
             font-family: var(--para-font);
-            font-weight: 300 !important;
-            margin: 20px 0 10px 0;
+            font-weight: bolder;
+            font-size: 1.2rem;
         }
     }
     .relatedBlogsDiv{
