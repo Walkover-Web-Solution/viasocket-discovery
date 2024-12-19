@@ -116,19 +116,21 @@ async function createBlog(userMessage, environment, userId, countrycode){
         blog: [
             {
                 "heading": "Comparison Table: <about apps>",
-                "what_to_cover": "Compare the features, pricing, and benefits of all apps with each other . Use internal links to direct users to real app pages for detailed insights."
+                "content": "Compare the features, pricing, and benefits of all apps with each other . Use internal links to direct users to real app pages for detailed insights."
               },
             ...((blueprint.blogStructure).map((section)=>{
                 if(section?.section === 'detailed_reviews'){
                     hasDetailedReview = true;
-                    section.what_to_cover = [detailedReviewContent]
+                    section.content = [detailedReviewContent];
+                    delete section.what_to_cover;
+
                 }
                 return section;
             })),
              {
                 section : "FAQ",
                 heading : "Frequently Asked Questions",
-                what_to_cover : [
+                content : [
                     {
                         question:"",
                         answer:"",
@@ -142,9 +144,10 @@ async function createBlog(userMessage, environment, userId, countrycode){
         blogPrompt.blog.push({
             "heading": "Detailed Reviews",
             "section": "detailed_reviews",
-            "what_to_cover": [detailedReviewContent]
+            "content": [detailedReviewContent]
         })
     }
+    blogPrompt = reFormat(blogPrompt);
     blogPrompt = JSON.stringify(blogPrompt);
     let AIResponse = await askAi(process.env.ROUGH_BLOG_BRIDGE,  blogPrompt,'',threadId)
     let blogResponse = JSON.parse(AIResponse.response.data.content);
@@ -154,7 +157,6 @@ async function createBlog(userMessage, environment, userId, countrycode){
         blogResponse = await retryResponse(process.env.ROUGH_BLOG_BRIDGE, validateRoughtBlog.errorMessages, userId, '','','',createdBlogSchema,threadId);
         if(blogResponse.message==='Something went wrong! Try again') throw new Error('Invalid response from AI'); 
     }
-    blogResponse = reFormat(blogResponse);
     const {blog, tags} = blogResponse;
     const blogToCreate = {
         blog, 
@@ -193,5 +195,5 @@ async function retryResponse(bridgeId, errorMessage, userId, countrycode, region
 
 const detailedReviewContent = {
     "appName": "App Name",
-    "what_to_cover": "Explore App in detail, including its standout features, benefits, and how it uniquely addresses specific user needs. Focus on practical solutions and real-world use cases. Conclude with a bullet-point list of key pros and cons to help users make informed decisions."
+    "content": "Explore App in detail, including its standout features, benefits, and how it uniquely addresses specific user needs. Focus on practical solutions and real-world use cases. Conclude with a bullet-point list of key pros and cons to help users make informed decisions."
 };

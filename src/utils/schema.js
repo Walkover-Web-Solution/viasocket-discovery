@@ -24,13 +24,13 @@ export const createdBlogSchema = Joi.object({
   blog: Joi.array().items(
     Joi.object({
       heading: Joi.string().required(),
-      what_to_cover: Joi.alternatives().try(
+      content: Joi.alternatives().try(
         Joi.string(),
         Joi.array().items(
           Joi.alternatives().try(
             Joi.object({
               appName: Joi.string().required(),
-              what_to_cover: Joi.string().required()
+              content: Joi.string().required()
             }),
             Joi.object({
               question: Joi.string().required(),
@@ -50,25 +50,25 @@ export const createdBlogSchema = Joi.object({
       if (blog.section === 'detailed_reviews') {
         hasDetailedReview = true;
         
-        const isArrayOfObjects = Array.isArray(blog.what_to_cover) &&
-          blog.what_to_cover.every(item => typeof item === 'object' && item.appName && item.what_to_cover);
+        const isArrayOfObjects = Array.isArray(blog.content) &&
+          blog.content.every(item => typeof item === 'object' && item.appName && item.content);
         
         if (!isArrayOfObjects) {
-          return helpers.message('When the key "section" is "detailed_reviews", the key "what_to_cover" must be an array of objects. Each object must contain two keys: "appName" (a string representing the name of the app) and "what_to_cover" (a string describing the content or feature of the app).');
+          return helpers.message('When the key "section" is "detailed_reviews", the key "content" must be an array of objects. Each object must contain two keys: "appName" (a string representing the name of the app) and "content" (a string describing the content or feature of the app).');
         }
       }else if(blog.section === 'FAQ') {
-        const isArrayOfObjects = Array.isArray(blog.what_to_cover) &&
-          blog.what_to_cover.every(item => typeof item === 'object' && item.question && item.answer);
+        const isArrayOfObjects = Array.isArray(blog.content) &&
+          blog.content.every(item => typeof item === 'object' && item.question && item.answer);
         
         if (!isArrayOfObjects) {
-          return helpers.message('When the key "section" is "FAQ", the key "what_to_cover" must be an array of objects. Each object must contain two keys: "question" (a string representing the question) and "answer" (a string describing the answer of the question).');
+          return helpers.message('When the key "section" is "FAQ", the key "content" must be an array of objects. Each object must contain two keys: "question" (a string representing the question) and "answer" (a string describing the answer of the question).');
         }
       }else{
-        if(typeof blog.what_to_cover !== 'string') return helpers.message('what_to_cover in sections other than "detailed_reviews" and "FAQ" must be a string.');
+        if(typeof blog.content !== 'string') return helpers.message('content in sections other than "detailed_reviews" and "FAQ" must be a string.');
       }
     }
     if (!hasDetailedReview) {
-      return helpers.message('The blog array must contain an element where the key "section" is "detailed_reviews", the key "heading" is a string (e.g., "some heading"), and the key "what_to_cover" is an array of objects. Each object in the "what_to_cover" array must contain the key "appName" (a string representing the app name) and the key "what_to_cover" (a string describing the app).');
+      return helpers.message('The blog array must contain an element where the key "section" is "detailed_reviews", the key "heading" is a string (e.g., "some heading"), and the key "content" is an array of objects. Each object in the "content" array must contain the key "appName" (a string representing the app name) and the key "content" (a string describing the app).');
     }
 
     return blogs;
