@@ -127,7 +127,7 @@ async function createBlog(userMessage, environment, userId, countrycode){
             })),
              {
                 section : "FAQ",
-                heading : "",
+                heading : "Frequently Asked Questions",
                 what_to_cover : [
                     {
                         question:"",

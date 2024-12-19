@@ -142,7 +142,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
   return (
     <>
       <Head>
-        <meta name="description" content={blog.title}/>
+        <meta name="description" content={blog?.meta?.SEOMetaDescription || blog.title}/>
         <meta name="author" content={users.find(user => user.id === blog.createdBy[0])?.name} />
         <meta name="keywords" content={[...blog.tags, ...(blog.meta.SEOKeywords || [])].join(', ')} />
       </Head>

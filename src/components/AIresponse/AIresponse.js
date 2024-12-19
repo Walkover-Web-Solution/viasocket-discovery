@@ -36,7 +36,7 @@ const AIresponse = ({ blogData, users, integrations, appBlogs, isOpen, setIsOpen
   return (
     <>
       <Head>
-        <title>{(blogData?.title || "New chat") + ' | Viasocket'}</title>
+        <title>{((blogData?.meta?.headerTitle || blogData?.title) || "New chat") + ' | Viasocket'}</title>
       </Head>
       <div className = {styles.blogPage}>
         {Components['title']({users, createdAt: blogData.createdAt, content: blogData.title, subHeading: blogData.titleDescription, updatedAt: blogData.updatedAt})}
