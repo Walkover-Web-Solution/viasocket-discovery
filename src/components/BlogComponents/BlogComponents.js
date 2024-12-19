@@ -1,6 +1,6 @@
 import { appNameToId, dummyMarkdown, nameToSlugName } from '@/utils/utils';
 import { Avatar, List, ListItem, styled } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import styles from './BlogComponents.module.scss'
@@ -27,10 +27,8 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   }));
 
 const Components = {
-    title: ({content, users, createdAt, subHeading, updatedAt, imageUrl}) => {
-        useEffect(() => {
-            if(imageUrl) document.documentElement.style.setProperty("--blogTitleBackground", `url(${imageUrl})`);   
-        }, [imageUrl]); 
+    title: ({content, users, createdAt, subHeading, updatedAt}) => {
+        
         
         const isWithinLast7Days = new Date(Math.max(new Date(createdAt), updatedAt ? new Date(updatedAt) : 0)) >= new Date(Date.now() - 7 * 864e5);
         return (
