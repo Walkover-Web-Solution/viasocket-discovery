@@ -85,6 +85,10 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
   setFAQs(blogData?.blog?.find(blog => blog?.section === 'FAQ')?.content);
  },[blogData])
 
+ useEffect(() => {
+  if(imageUrl) document.documentElement.style.setProperty("--blogTitleBackground", `url(${imageUrl})`);   
+}, [imageUrl]); 
+
   useEffect(() => {
     if (blog) {
       router.replace(
