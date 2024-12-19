@@ -86,8 +86,8 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
  },[blogData])
 
  useEffect(() => {
-  if(imageUrl) document.documentElement.style.setProperty("--blogTitleBackground", `url(${imageUrl})`);   
-}, [imageUrl]); 
+  if(blogData.imageUrl) document.documentElement.style.setProperty("--blogTitleBackground", `url(${blogData.imageUrl})`);   
+}, [blogData.imageUrl]); 
 
   useEffect(() => {
     if (blog) {

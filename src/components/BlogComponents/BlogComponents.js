@@ -27,7 +27,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   }));
 
 const Components = {
-    title: ({content, users, createdAt, subHeading, updatedAt, imageUrl}) => {
+    title: ({content, users, createdAt, subHeading, updatedAt}) => {
         
         
         const isWithinLast7Days = new Date(Math.max(new Date(createdAt), updatedAt ? new Date(updatedAt) : 0)) >= new Date(Date.now() - 7 * 864e5);
