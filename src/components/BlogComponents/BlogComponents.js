@@ -66,7 +66,7 @@ const Components = {
                         return (
                             <a className = {styles.appLink} key = {idx} href = {appData ? `https://viasocket.com/integrations/${appSlugName}` : null} target='_blank'>
                                 <ListItem  className = {styles.listItem}>
-                                    <Avatar className = {styles.appIcon} alt={app} src={appData?.iconurl || 'https://thingsofbrand.com/api/viasocket.com/logos/viasocket_logo_1'} variant='square'/>
+                                    <Avatar className = {styles.appIcon} alt={app} src={appData?.iconurl || 'https://thingsofbrand.com/api/viasocket.com/logos/viasocket_logo'} variant='square'/>
                                     <div className = {styles.content}>
                                         <h5>{app}</h5>
                                     <ReactMarkdown className = {styles.description} remarkPlugins={[remarkGfm]}>
