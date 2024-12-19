@@ -65,7 +65,7 @@
 
   
   table {
-    width: var(--outer-blog-width);
+    // width: var(--outer-blog-width);
     border-collapse: collapse;
     margin: 20px 0 0;
     font-size: 16px;
@@ -98,10 +98,10 @@
   }
 
 
-  @media (max-width: 768px) {
-    table{
-      display: block;
-      overflow-x : auto;
-      max-width: 100%;
-    }
-  }
+  // @media (max-width: 768px) {
+  //   table{
+  //     display: block;
+  //     overflow-x : auto;
+  //     max-width: 100%;
+  //   }
+  // }
