@@ -21,6 +21,7 @@ const createBlogModel = (connection) => {
     blog: Object,
     tags: Array,
     apps: Object,
+    imageUrl: String,
     meta: Object, 
     createdAt: {
       type: Date,

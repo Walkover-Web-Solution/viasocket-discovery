@@ -74,21 +74,32 @@ export async function getWriter(countryCode,type){
 
 export async function createBulkOperation (blogs,environment){
    return await Promise.allSettled(blogs.map(async (blog) => {
+         const imagePromise =  imageGenerator(blog.title,blog.meta?.SEOMetaDescription);
         const countryCode = blog.countryCode || 'IN'; 
         const author = await getNames(countryCode);
         let processedBlog = await improveBlog(blog.blog, author.name);
         // await distinctifyPhrase(processedBlog, environment);
+        const imageUrl = await imagePromise;
         return {
             updateOne: {
                 filter: { id: blog.id },
                 update: { 
                   $set: { 
-                    'blog': processedBlog ,
+                    'blog': processedBlog,
+                    'imageUrl': imageUrl
                   }
                 }
-            }
+              }
         };
     }));
+}
+
+
+async function imageGenerator (article_name, meta_description){
+    const cinematographer_name = await getRandomAuthorByCountryAndType(null , 'Cinematographer').name;
+    const imagePrompt = await askAi(process.env.IMAGE_PROMPT_GENERATOR_PROMPT,'',{cinematographer_name ,article_name, meta_description });
+    const imageURL = await askAi(process.env.IMAGE_GENERATOR_BRIDGE,JSON.parse(imagePrompt.response.data.content).prompt);
+    return imageURL.response.data.image_url;
 }
 
 export async function improveBlog(blog, author){

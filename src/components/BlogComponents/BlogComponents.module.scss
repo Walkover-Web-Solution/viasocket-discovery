@@ -56,7 +56,7 @@
         height: 150vh;
         content: "";
         position: absolute;
-        background-image: url('../../static/images/blog-background.svg');
+        background-image: var(--blogTitleBackground);
         background-position: top;
         background-size: cover;
         z-index: 1;
