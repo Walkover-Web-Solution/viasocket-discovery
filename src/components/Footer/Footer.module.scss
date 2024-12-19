@@ -11,8 +11,8 @@
     margin: auto;
   }
   .footerLeft{
-    border-top: 1px solid black;
-    border-left: 1px solid black;
+    border: 1px solid black;
+    border-right: none;
     padding: 30px;
   }
   
@@ -98,6 +98,14 @@
     .columnBorder {
       border-right: 0px;
       border-bottom: 1px solid black;
+    }
+  }
+  
+
+  @media (max-width: 990px) {
+    .footerLeft{
+      border-right: 1px solid black;
+      border-top: none;
     }
   }
   
