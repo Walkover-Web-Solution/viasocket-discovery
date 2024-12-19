@@ -135,6 +135,7 @@
   }
   .tagsDiv{
     display: flex;
+    flex-wrap: wrap;
   }
   .tag {
     display: inline-block;

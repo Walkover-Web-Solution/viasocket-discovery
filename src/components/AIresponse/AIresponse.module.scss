@@ -1,6 +1,7 @@
 
 .markdownContainer {
   font-family: var(--sans-serif-font);
+  width: 100%;
   max-width: calc(var(--blog-page-width) + 5rem);
   height: 700px;
   position: relative;
@@ -74,4 +75,12 @@
 }
 .blogPage{
   width: 100%;
+}
+
+@media (max-width: 600px) {
+  .markdownContainer {
+    &>*{
+      margin-left: 0rem !important;
+    }
+  }
 }
