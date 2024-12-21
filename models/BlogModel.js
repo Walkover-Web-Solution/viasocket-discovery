@@ -21,6 +21,7 @@ const createBlogModel = (connection) => {
     blog: Object,
     tags: Array,
     apps: Object,
+    appNames : Array,
     imageUrl: String,
     meta: Object, 
     createdAt: {
@@ -40,6 +41,7 @@ const createBlogModel = (connection) => {
 
   BlogSchema.pre('save', function (next) {
     if (this.apps) {
+      this.appNames = Object.keys(this.apps);
       this.apps = replaceDotsInKeys(this.apps);
     }
     next();
@@ -67,6 +69,7 @@ const createBlogModel = (connection) => {
   BlogSchema.pre('findOneAndUpdate', function (next) {
     const update = this.getUpdate();
     if (update && update.apps) {
+      update.appNames = Object.keys(update.apps).map((name) => name.replace(/~/g, '.'));
       update.apps = replaceDotsInKeys(update.apps);
     }
     next();
@@ -82,7 +85,14 @@ const createBlogModel = (connection) => {
     }
   });
 
-  BlogSchema.index({ id: 1 });
+  BlogSchema.index({
+    'title': 'text',
+    'tags': 'text',
+    'meta.category': 'text',
+    'meta.SEOKeywords': 'text',
+    'meta.audience': 'text',
+    'appNames': 'text'
+  });
 
   return connection.model('Blog', BlogSchema);
 };

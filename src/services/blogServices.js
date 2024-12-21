@@ -109,15 +109,23 @@ const updateBlogById = (blogId, blogData, userId, environment) => {
 
 const searchBlogsByQuery = (query, environment) => {
   return withBlogModel(environment, (Blog) => {
-  return Blog.find({
-      $or: [
-        { title: { $regex: query, $options: 'i' } },
-        { slugName: { $regex: query, $options: 'i' } },
-        { 'blog.content': { $regex: query, $options: 'i' } },
-        { tags: { $regex: query, $options: 'i' } },  
-      ]
-    },
-      { apps: 1, tags: 1, title: 1, id: 1, slugName:1, meta:1 });
+  const formattedQuery = query.split(' ').map(word => `"${word}"`).join(' ');
+    return Blog.find({
+      '$text': { '$search': formattedQuery },
+    }, { apps: 1, tags: 1, title: 1, id: 1, slugName: 1, meta: 1 });  
+  
+    // return Blog.find({
+    //   $or: [
+    //     { title: { $regex: query, $options: 'i' } },
+    //     // { slugName: { $regex: query, $options: 'i' } },
+    //     // { 'blog.content': { $regex: query, $options: 'i' } },
+    //     { tags: { $regex: query, $options: 'i' } },  
+    //     { meta : { $regex: query, $options: 'i' } }, 
+
+    //   ]
+    // },
+    //   { apps: 1, tags: 1, title: 1, id: 1, slugName:1, meta:1 });
+
   });
 };
 
