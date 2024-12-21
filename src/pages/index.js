@@ -206,7 +206,7 @@ export default function Home() {
           </div>
         }
         <div className={typingStart ? '' : styles.searchDiv}>
-          <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'SEARCH WITH AI' messages={messages}/>
+          <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'SEARCH' messages={messages}/>
           {
             !typingStart && 
             <div className = {styles.popularTagsDiv}>
