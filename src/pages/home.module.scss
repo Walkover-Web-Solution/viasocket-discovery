@@ -191,6 +191,7 @@
       &>* {
         box-shadow: none !important;
         max-width: calc(var(--search-width) + 14rem);
+        width: 100%;
       }
     }
   }
@@ -198,25 +199,31 @@
 
 
 @media (max-width: 768px) {
-  .homeTitle{
-    font-size: 50px;
+  .homePageDiv .homeTitle {
+    font-size: 60px;
     padding-right: 1.6rem;
+    text-align: center !important
   }
-  .homep{
-    padding: 0 2rem;
-  }
-  .Homesection{
-    padding: 0px;
-  }
+  
+ 
+  .homePageDiv{
   .searchDiv{
     .popularTagsDiv{
       &>*{
         width: max-content;
         text-wrap: wrap;
-        max-width: 80%;
+        // max-width: 80%;
       }
     }
   }
+  .homep{
+    padding: 0 2rem;
+    text-align: center !important
+  }
+  .Homesection{
+    padding: 2rem 0px;
+  }
+}
 }
 
 // @media (max-width: 1200px) {
