@@ -17,10 +17,16 @@ import blogServices from '@/services/blogServices';
 import { Avatar } from '@mui/material';
 
 export async function getServerSideProps(){
-  let popularUsers = await blogServices.getPopularUsers(process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT);
-  popularUsers = await getAllUsers(popularUsers);
-  return {
-    props: { popularUsers }
+  try{
+    let popularUsers = await blogServices.getPopularUsers(process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT);
+    popularUsers = await getAllUsers(popularUsers);
+    return {
+      props: { popularUsers }
+    }
+  }catch(error){
+    return {
+      props: { popularUsers: [] }
+    }
   }
 }
 
