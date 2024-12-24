@@ -17,7 +17,7 @@ export const getUserById = async (id) => {
     const userData = data?.data?.data?.[0];
     return userData;
   } catch (error) {
-    console.error('Error fetching user data:', error);
+    console.error('Error fetching user data:', error , "id" , id  );
     return null; 
   }
 };
