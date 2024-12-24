@@ -16,6 +16,11 @@
   font-weight: 500;
 }
 
+.userDetails a p:hover {
+  color: blue;
+
+}
+
 .logoutButton {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;
