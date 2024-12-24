@@ -24,7 +24,7 @@ export async function getServerSideProps(){
   }
 }
 
-export default function Home({ popularUsers }) {
+export default function Home({ popularUsers = [] }) {
     const [blogs, setBlogs] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [messages, setMessages] = useState([]);
