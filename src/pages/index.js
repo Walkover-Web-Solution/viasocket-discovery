@@ -20,6 +20,7 @@ export async function getServerSideProps(){
   try{
     let popularUsers = await blogServices.getPopularUsers(process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT);
     popularUsers = await getAllUsers(popularUsers);
+    popularUsers = popularUsers.filter(user => user !== null);
     return {
       props: { popularUsers }
     }
