@@ -315,4 +315,16 @@ const searchBlogsByApps = (appNames, blogId, environment) => {
   });
 };
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getBlogsForImprove, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps, searchBlogsByApps };
+const getPopularUsers = (environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    const popularUsers = await Blog.aggregate([
+      { $unwind: "$createdBy" },
+      { $group: { _id: "$createdBy", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 5 }
+    ])
+    return popularUsers.map(user => user._id);
+  });
+}
+
+export default { getAllBlogs, createBlog, getBlogById, updateBlogById, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getBlogsForImprove, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps, searchBlogsByApps, getPopularUsers };

@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 import { compareBlogs } from '@/utils/apis/chatbotapis';
 import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 import { useUser } from '@/context/UserContext';
-import { dispatchAskAiEvent, nameToSlugName, safeParse } from '@/utils/utils';
+import { dispatchAskAiEvent, getAllUsers, nameToSlugName, safeParse } from '@/utils/utils';
 import BlogCard from '@/components/Blog/Blog';
 import { getCurrentEnvironment, getFromLocalStorage } from '@/utils/storageHelper';
 import Head from 'next/head';
@@ -38,15 +38,7 @@ export async function getServerSideProps(context) {
     const relatedBlogsPromise = blogServices.searchBlogsByTags(blog.tags, blogId[0], blog?.meta?.category, getCurrentEnvironment());
     const appKeys = Object.keys(blog.apps);
     const appBlogsPromise = blogServices.searchBlogsByApps(appKeys, blogId[0], getCurrentEnvironment());
-    const usersPromise = Promise.all(
-      blog?.createdBy.map(async (userId) => {
-        try {
-          return await getUserById(userId);
-        } catch (error) {
-          console.error(`Error fetching user data for userId: ${userId}`, error);
-          return null;
-        }
-      }));
+    const usersPromise = getAllUsers(blog?.createdBy);
     const [relatedBlogs, appBlogs, users] = await Promise.all([relatedBlogsPromise, appBlogsPromise, usersPromise]);
     const filteredUsers = users.filter(user => user !== null);
     props.faq = blog.blog.find((section)=> section?.section=== 'FAQ')?.content || [];

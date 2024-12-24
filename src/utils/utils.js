@@ -1,6 +1,7 @@
 import { customAlphabet } from 'nanoid';
 import { getCurrentEnvironment, setPathInLocalStorage } from './storageHelper';
 import { createBlogSchema, searchResultsSchema, updateBlogSchema } from './schema';
+import { getUserById } from '@/services/proxyServices';
 const axios = require('axios');
 export const dummyMarkdown = `# Welcome to App Discovery: Unleash the Power of AI-Driven Software Discovery!
 
@@ -228,4 +229,16 @@ export function  getAppNames(sections){
     }
   }
   return appNames;
+}
+
+export function getAllUsers(userIds){
+  return Promise.all(
+    userIds.map(async (userId) => {
+      try {
+        return await getUserById(userId);
+      } catch (error) {
+        console.error(`Error fetching user data for userId: ${userId}`, error);
+        return null;
+      }
+    }));
 }

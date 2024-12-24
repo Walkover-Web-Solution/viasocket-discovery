@@ -7,14 +7,24 @@ import Search from '@/components/Search/Search';
 import { useUser } from '@/context/UserContext';
 import Chatbot from '@/components/ChatBot/ChatBot';
 import { getAllPreviousMessages } from '@/utils/apis/chatbotapis';
-import { dispatchAskAiEvent, dispatchAskAppAiWithAuth, safeParse } from '@/utils/utils';
+import { dispatchAskAiEvent, dispatchAskAppAiWithAuth, getAllUsers, safeParse } from '@/utils/utils';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import blogstyle from '@/components/Blog/Blog.module.scss';
 import Skeleton from 'react-loading-skeleton';
 import { titleSuggestions } from '@/utils/apiHelper';
+import blogServices from '@/services/blogServices';
+import { Avatar } from '@mui/material';
 
-export default function Home() {
+export async function getServerSideProps(){
+  let popularUsers = await blogServices.getPopularUsers(process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT);
+  popularUsers = await getAllUsers(popularUsers);
+  return {
+    props: { popularUsers }
+  }
+}
+
+export default function Home({ popularUsers }) {
     const [blogs, setBlogs] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [messages, setMessages] = useState([]);
@@ -209,17 +219,30 @@ export default function Home() {
           <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'SEARCH' messages={messages}/>
           {
             !typingStart && 
-            <div className = {styles.popularTagsDiv}>
-              {popularTags.map((tag, index) => (
-              <Link
-                key={index}
-                href={`/?search=${tag}`}
-                className={`${blogstyle.tag} ${blogstyle[tag.toLowerCase()]}`}
-              >
-                {tag}
-              </Link>
-            ))}
-            </div>
+            <>
+              <div className = {styles.popularTagsDiv}>
+                {popularTags.map((tag, index) => (
+                <Link
+                  key={index}
+                  href={`/?search=${tag}`}
+                  className={`${blogstyle.tag} ${blogstyle[tag.toLowerCase()]}`}
+                >
+                  {tag}
+                </Link>
+              ))}
+              </div>
+              <h4 className={styles.popularUsers}>Top Contributors</h4>
+              <div className = {styles.popularUsersDiv}>
+                {popularUsers.map((user, index) => (
+                  <Link target='_blank' key={index} href={`/user/${user.id}`} className={styles.userLink}>
+                    <Avatar alt={user.name} className={styles.userAvatar}>
+                      {user.name.split(" ").map((name) => name.charAt(0).toUpperCase()).splice(0, 2).join("")}
+                    </Avatar>
+                    <p className={styles.userName}>{user.name}</p>
+                  </Link>
+                ))}
+              </div>
+            </>
           }
         </div>
         <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId} homePage setIsOpen = {setIsOpen} isOpen = {isOpen} searchResults = {searchQuery ? blogs.filter(blog => !blog.dummy) : null}/>
