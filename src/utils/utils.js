@@ -231,14 +231,10 @@ export function  getAppNames(sections){
   return appNames;
 }
 
-export function getAllUsers(userIds){
-  return Promise.all(
-    userIds.map(async (userId) => {
-      try {
-        return await getUserById(userId);
-      } catch (error) {
-        console.error(`Error fetching user data for userId: ${userId}`, error);
-        return null;
-      }
+
+export async function getAllUsers(userIds){
+  return await Promise.all(
+    userIds.map( (userId) => {
+      getUserById(userId);
     }));
 }

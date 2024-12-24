@@ -1,6 +1,7 @@
 const proxyBaseURL = 'https://routes.msg91.com/api'
 export const getUserById = async (id) => {
   try {
+    console.log("userId:" ,id);
     const response = await fetch(`${proxyBaseURL}/${process.env.PROXY_USER_REFERENCE_ID}/getDetails?user_id=${id}`, {
       method: 'GET',
       headers: {
