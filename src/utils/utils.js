@@ -235,6 +235,6 @@ export function  getAppNames(sections){
 export async function getAllUsers(userIds){
   return await Promise.all(
     userIds.map( (userId) => {
-      getUserById(userId);
+     return  getUserById(userId);
     }));
 }
