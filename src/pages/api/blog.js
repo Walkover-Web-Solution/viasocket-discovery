@@ -1,8 +1,8 @@
 import blogServices from '@/services/blogServices';
 import { searchTags } from '@/services/tagsServices';
+import { createBlog } from './ask-ai';
 
 export default async function handler(req, res) {
-
   const { method } = req;
   const profileHeader = req.headers['x-profile'];
   const environment = req.headers['env'];
@@ -37,8 +37,10 @@ export default async function handler(req, res) {
 
     case 'POST':
       try {
-        const blog = await blogServices.createBlog({ ...req.body }, environment);
-        res.status(201).json({ success: true, data: blog });
+        const { userMessage } = req.body;
+        const countryCode = req.headers["cf-ipcountry"] || "IN";
+        const newBlog = await createBlog(userMessage, environment, user.id, countryCode);
+        res.status(201).json({ success: true, data: {id : newBlog.id} });
       } catch (error) {
         res.status(400).json({ success: false, error: error.message });
       }
