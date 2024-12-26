@@ -5,6 +5,7 @@ import createBlogModel from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
 import { generateNanoid, getAppNames, restoreceDotsInArray, restoreDotsInKeys } from '@/utils/utils';
 import { getUpdatedApps } from './integrationServices';
+import stopWords from '@/utils/stopWords';
 
 const withBlogModel = async (environment, callback) => {
   const client = await dbConnect(environment);
@@ -109,7 +110,7 @@ const updateBlogById = (blogId, blogData, userId, environment) => {
 
 const searchBlogsByQuery = (query, environment) => {
   return withBlogModel(environment, (Blog) => {
-  const formattedQuery = query.split(' ').map(word => `"${word}"`).join(' ');
+  const formattedQuery = query.split(' ').filter(word => !stopWords.has(word.toLowerCase())).map(word => `"${word}"`).join(' ');
     return Blog.find({
       '$text': { '$search': formattedQuery },
     }, { apps: 1, tags: 1, title: 1, id: 1, slugName: 1, meta: 1 });  
