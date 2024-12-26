@@ -8,7 +8,7 @@ import UnauthorizedPopup from '../UnauthorisedPopup/UnauthorisedPopup';
 import { dispatchAskAiEvent } from '@/utils/utils';
 import { setInLocalStorage } from '@/utils/storageHelper';
 
-export default function Search({ searchQuery, setSearchQuery, handleAskAi, placeholder, className, messages }) {
+export default function Search({ searchQuery, setSearchQuery, handleAskAi, placeholder, className, messages, disableEnter }) {
 	const { user } = useUser();
 	const [unAuthPopup, setUnAuthPopup] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -83,7 +83,7 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 					value={searchQuery}
 					onChange={(e) => setSearchQuery(e.target.value)}
 					onKeyDown={(e) => {
-						if (e.key === 'Enter') {
+						if (e.key === 'Enter' && !disableEnter) {
 							handleClick()
 						}
 					}}
