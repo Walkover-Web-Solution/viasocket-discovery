@@ -1,6 +1,8 @@
 import axios from '@/utils/interceptor'
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+const proxyUrl = process.env.NEXT_PUBLIC_PROXY_URL;
+
 export const SearchBlogs = async (searchQuery) => {
   try {
     const response = await axios.get(`http://localhost:3000/discovery/api/blog?search=${searchQuery}`);
@@ -60,7 +62,7 @@ export const getReletedblogs = async (id) => {
 
 export const createBlog = async(blogTitle) => {
   try{
-    const response = await axios.post(baseUrl + '/api/blog', {userMessage: blogTitle});
+    const response = await axios.post(proxyUrl + '/api/blog', {userMessage: blogTitle});
     return response?.data?.data.id;
   }catch(error){
     return null;
