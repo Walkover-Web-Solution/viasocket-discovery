@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { debounce } from 'lodash'; 
 import Blog from '@/components/Blog/Blog';
 import styles from '@/pages/home.module.scss';
-import { fetchBlogs } from '@/utils/apis/blogApis';
+import { createBlog, fetchBlogs } from '@/utils/apis/blogApis';
 import Search from '@/components/Search/Search';
 import { useUser } from '@/context/UserContext';
 import Chatbot from '@/components/ChatBot/ChatBot';
@@ -15,6 +15,9 @@ import Skeleton from 'react-loading-skeleton';
 import { titleSuggestions } from '@/utils/apiHelper';
 import blogServices from '@/services/blogServices';
 import { Avatar } from '@mui/material';
+import { toast } from 'react-toastify';
+import UnauthorizedPopup from '@/components/UnauthorisedPopup/UnauthorisedPopup';
+import UserBioPopup from '@/components/UserBioPopup/UserBioPoup';
 
 export async function getServerSideProps(){
   try{
@@ -37,6 +40,7 @@ export default function Home({ popularUsers = [] }) {
     const [messages, setMessages] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [blogCreating, setBlogCreating] = useState(false);
     const [tags , setTags]= useState([])
     const user = useUser().user;
     const chatId = user?.id || Math.random();
@@ -44,6 +48,9 @@ export default function Home({ popularUsers = [] }) {
     const [typingStart, setTypingStart] = useState(false);
     const popularTags = ["Customer Relationship Management", "Project Management", "Database Management", "Sales and Marketing", "Human Resource", "Finance Hub"]
     const divRef = useRef(null);
+    const [unAuthPopup, setUnAuthPopup] = useState(false);
+    const [userBioPopup, setUserBioPopup] = useState(false);
+
 
     useEffect(() => {
       if(!router.isReady || ( isOpen && !searchQuery.length > 0 )) return ;
@@ -165,10 +172,11 @@ export default function Home({ popularUsers = [] }) {
                 rel="noopener noreferrer"
                 href={blog.dummy ? null : `/discovery/blog/${blog.id}`}
                 key={blog.id}
-                onClick={() => {
+                onClick={async () => {
                   if (blog.dummy) {
-                    handleAskAi(blog.title);
-                    setSearchQuery(user ? '' : blog.title);
+                    // handleAskAi(blog.title);
+                    await handleCreateBlog(blog.title);
+                    // setSearchQuery(user ? '' : blog.title);
                   }
                 }}
               >
@@ -194,6 +202,25 @@ export default function Home({ popularUsers = [] }) {
       dispatchAskAiEvent(searchQuery);
     }
     setIsOpen(true);
+  }
+
+  async function handleCreateBlog(title) {
+    if(!user){
+      setUnAuthPopup(true);
+      return;
+    }
+    if(!user.meta.bio){
+      setUserBioPopup(true);
+      return;
+    }
+    setBlogCreating(true);
+    const blogId = await createBlog(title);
+    if(!blogId){
+      toast.error("We got some Error creating the blog, Please try again")
+      setBlogCreating(false);
+    }else{
+      router.push(`/blog/${blogId}`);
+    }
   }
   
   useEffect(()=>{
@@ -223,7 +250,7 @@ export default function Home({ popularUsers = [] }) {
           </div>
         }
         <div className={typingStart ? '' : styles.searchDiv}>
-          <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'SEARCH' messages={messages}/>
+          <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'SEARCH' messages={messages} disableEnter/>
           {
             !typingStart && 
             <>
@@ -254,6 +281,14 @@ export default function Home({ popularUsers = [] }) {
         </div>
         <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId} homePage setIsOpen = {setIsOpen} isOpen = {isOpen} searchResults = {searchQuery ? blogs.filter(blog => !blog.dummy) : null}/>
       </div>
+      {blogCreating && 
+        <div className = {styles.createBlogLoaderContainer}>
+          <h3>Hang on !!! We are working to get the best apps for you.</h3>
+          <div class={styles.createBlogLoader}></div>
+        </div>
+      }
+      <UnauthorizedPopup isOpen={unAuthPopup} onClose={() => setUnAuthPopup(false)} />
+			<UserBioPopup isOpen={userBioPopup} onClose={()=>setUserBioPopup(false)}/>
       <div ref={divRef}></div>
     </div>
   );

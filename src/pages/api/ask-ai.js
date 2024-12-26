@@ -100,7 +100,7 @@ async function updateBlog(blogId, blogData, environment, shouldCreate,userId,cou
     }
 }
 
-async function createBlog(userMessage, environment, userId, countrycode){
+export async function createBlog(userMessage, environment, userId, countrycode){
     const threadId = Math.floor(Math.random() * 100000000);
     const data = await askAi(process.env.BLUE_PRINT_BRIDGE, userMessage,{},threadId);
     let blueprint = JSON.parse(data.response.data.content);
@@ -115,7 +115,7 @@ async function createBlog(userMessage, environment, userId, countrycode){
         title: blueprint.title,
         blog: [
             {
-                "heading": "Comparison Table: <about apps>",
+                "heading": "Comparison Table: <Brief about apps>",
                 "content": "Compare the features, pricing, and benefits of all apps with each other . Use internal links to direct users to real app pages for detailed insights."
               },
             ...((blueprint.blogStructure).map((section)=>{

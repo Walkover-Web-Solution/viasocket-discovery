@@ -57,3 +57,12 @@ export const getReletedblogs = async (id) => {
     console.error('failed to get releted blogs:', error);
   }
 };
+
+export const createBlog = async(blogTitle) => {
+  try{
+    const response = await axios.post(baseUrl + '/api/blog', {userMessage: blogTitle});
+    return response?.data?.data.id;
+  }catch(error){
+    return null;
+  }
+}
