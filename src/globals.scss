@@ -99,7 +99,10 @@
     -webkit-backdrop-filter: blur(8.8px);
   }
 
-
+.heading_h2{
+  font-family: var(--title-font);
+  font-size: 2rem;
+}
   // @media (max-width: 768px) {
   //   table{
   //     display: block;
