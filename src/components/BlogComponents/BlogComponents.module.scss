@@ -87,6 +87,23 @@
         &:first-of-type::before{
             height: 1px;
         }
+        .appTitleDiv{
+            display: flex;
+            justify-content: space-between;
+            max-width: var(--blog-width);
+            align-items: center;
+            .visitIntegrations{
+                font-size: 1rem;
+                border: 1px solid black;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0.3rem 1rem;
+                background-color: black;
+                color: white;
+                gap: 8px;
+            }
+        }
     }
     .howWeAssess{
         max-width: var(--blog-width);

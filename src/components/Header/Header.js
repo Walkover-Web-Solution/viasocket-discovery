@@ -92,7 +92,7 @@ const Header = () => {
           </>
             :
             <>
-              <strong className={` d-flex justify-content-center align-items-center text-sm font-semibold border  border-dark px-4 text-decoration-none glass-effect ${styles.viaBgAccent}`}  onClick = {toggleUserInfo}> {user?.email} </strong>
+              <strong className={` d-flex justify-content-center align-items-center text-sm font-semibold border  border-dark px-4 text-decoration-none glass-effect ${styles.viaBgAccent}`}  onClick = {toggleUserInfo}> {user?.name} </strong>
               <div className={styles.userDetailCatch}>
                 <UserDetail isOpen={showUserInfo} onClose={toggleUserInfo} />
               </div>

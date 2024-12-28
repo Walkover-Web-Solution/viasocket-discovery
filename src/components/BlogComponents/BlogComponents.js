@@ -11,6 +11,7 @@ import ExtensionIcon from '@mui/icons-material/Extension';
 import InfoIcon from '@mui/icons-material/Info';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import TimelapseIcon from '@mui/icons-material/Timelapse';
+import Link from 'next/link';
 
 
 
@@ -61,10 +62,10 @@ const Components = {
                 <List className={styles.list}>
                     {appNames.map((app, idx) => {
                         const appName = app.toLowerCase();
-                        const appSlugName = nameToSlugName(app);
+                        const appSlugName = appNameToId(app);
                         const appData = integrations?.[appName]?.plugins[appSlugName];
                         return (
-                            <a className = {styles.appLink} key = {idx} href = {appData ? `https://viasocket.com/integrations/${appSlugName}` : null} target='_blank'>
+                            <a className = {styles.appLink} key = {idx} href = {`#${appSlugName}`}>
                                 <ListItem  className = {styles.listItem}>
                                     <Avatar className = {styles.appIcon} alt={app} src={appData?.iconurl || 'https://thingsofbrand.com/api/viasocket.com/logos/viasocket_logo'} variant='square'/>
                                     <div className = {styles.content}>
@@ -102,14 +103,22 @@ const Components = {
                 <List>
                     {content.map(({appName, content}, idx) => (
                         <ListItem className = {styles.listItem} key={idx} id={appNameToId(appName)}>
-                            <a className={styles.appDomain} href={apps[appName]?.domain ? `https://${apps[appName].domain}` : `https://www.google.com/search?q=${appName}`} target='_blank'>
-                                <div className={styles.appHeadingDiv}>
-                                    <Avatar className = {styles.appIcon} alt={appName} src={integrations?.[appName.toLowerCase()]?.plugins[nameToSlugName(appName)]?.iconurl} variant='square'>
-                                        <ExtensionIcon/>
-                                    </Avatar>
-                                    <h5>{appName}</h5>
-                                </div>
-                            </a>
+                            <div className={styles.appTitleDiv}>
+                                <a className={styles.appDomain} href={apps[appName]?.domain ? `https://${apps[appName].domain}` : `https://www.google.com/search?q=${appName}`} target='_blank'>
+                                    <div className={styles.appHeadingDiv}>
+                                        <Avatar className = {styles.appIcon} alt={appName} src={integrations?.[appName.toLowerCase()]?.plugins[nameToSlugName(appName)]?.iconurl} variant='square'>
+                                            <ExtensionIcon/>
+                                        </Avatar>
+                                        <h5>{appName}</h5>
+                                    </div>
+                                </a>
+                                {
+                                    integrations?.[appName.toLowerCase()] &&
+                                    <Link className={styles.visitIntegrations} href = {`https://viasocket.com/integrations/${nameToSlugName(appName)}`} target='_blank'>
+                                        View Integrations <ArrowOutwardIcon fontSize='small'/>
+                                    </Link>
+                                }   
+                            </div>
                             <ReactMarkdown className = {styles.content} remarkPlugins={[remarkGfm]}>
                                 {content}
                             </ReactMarkdown>
