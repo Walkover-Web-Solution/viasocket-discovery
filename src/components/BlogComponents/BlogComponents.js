@@ -35,10 +35,13 @@ const Components = {
         return (
             <div className={styles.titleContainer}>
                 <div className={styles.titleDiv + ' glass-effect'}>
+                    <div>
+
                     <h1 className = {`${styles.title} heading`}>
                         {content}
                     </h1>
                     <h3>{subHeading}</h3>
+                    </div>
                     <ContributorsPopup users={users} createdAt={createdAt} title={content}/>
                     { isWithinLast7Days && (
                         <div className={styles.underReview}>

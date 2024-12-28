@@ -1,6 +1,9 @@
 .titleContainer{
     position: relative;
     .titleDiv{
+        display: flex;
+        flex-direction: column;
+        gap:24px;
         position: relative;
         width: 100%;
         margin: 2rem 3rem 10rem 1rem;
@@ -26,10 +29,9 @@
             color: var(--foreground-color);
             z-index: 9;
             position: relative;
-            margin-bottom: 2rem;
         }
         h3{
-            font-family:var(--title-font);
+            font-family:var(--para-font);
         }
         .underReview{
             width: 100%;

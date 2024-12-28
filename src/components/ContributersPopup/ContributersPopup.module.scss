@@ -2,13 +2,11 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    gap: 1rem;
+    gap: 36px;
     .contributorsContainer {
         cursor: pointer;
         display: flex;
         align-items: center;
-        border: 1px solid black;
-        padding: 10px;
         max-width: fit-content;
         .userAVA{
             display: flex;
@@ -89,11 +87,19 @@
 .popup::-webkit-scrollbar-track {
     background-color: transparent; 
 }
+.shareOptions{
+    display: flex;
+     gap: 18px;
+}
+.shareLink{
+    display: flex;
+    height: fit-content;
 
+}
 .icon{
-    transform: scale(1.5);
-    margin:20px 10px;
+    transform: scale(1.6);
+    color: #4D4D4D;
 }
 .icon:hover{
-    color: blue;
+    color: black;
 }
