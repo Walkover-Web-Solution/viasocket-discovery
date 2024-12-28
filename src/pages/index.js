@@ -18,6 +18,7 @@ import { Avatar } from '@mui/material';
 import { toast } from 'react-toastify';
 import UnauthorizedPopup from '@/components/UnauthorisedPopup/UnauthorisedPopup';
 import UserBioPopup from '@/components/UserBioPopup/UserBioPoup';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 export async function getServerSideProps(){
   try{
@@ -232,10 +233,10 @@ export default function Home({ popularUsers = [] }) {
       <div className={styles.homePageDiv}>
         {
           !isOpen && !searchQuery && (
-            <>
+            <div className = {styles.homeTitleDiv}>
               <h1 className={styles.homeTitle}>Discover Top Software</h1>
               <p className={styles.homep}>{'Find top software from every category, thoughtfully curated by industry experts and individuals just like you.'}</p>
-            </>
+            </div>
           )
         }     
         { typingStart &&       
@@ -250,7 +251,7 @@ export default function Home({ popularUsers = [] }) {
           </div>
         }
         <div className={typingStart ? '' : styles.searchDiv}>
-          <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'SEARCH' messages={messages} disableEnter/>
+          <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'Search' messages={messages} disableEnter/>
           {
             !typingStart && 
             <>
@@ -269,10 +270,13 @@ export default function Home({ popularUsers = [] }) {
               <div className = {styles.popularUsersDiv}>
                 {popularUsers.map((user, index) => (
                   <Link target='_blank' key={index} href={`/user/${user.id}`} className={styles.userLink}>
-                    <Avatar alt={user.name} className={styles.userAvatar}>
-                      {user.name.split(" ").map((name) => name.charAt(0).toUpperCase()).splice(0, 2).join("")}
-                    </Avatar>
-                    <p className={styles.userName}>{user.name}</p>
+                    <div className = {styles.userHeader}>
+                      <h5>{user.name}</h5>
+                      <OpenInNewIcon className={styles.userLinkIcon}/>
+                    </div>
+                    <p>
+                      {user.meta?.bio || 'Viasocket User'}
+                    </p>
                   </Link>
                 ))}
               </div>
