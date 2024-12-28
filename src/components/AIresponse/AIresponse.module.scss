@@ -1,7 +1,7 @@
 
 .markdownContainer {
   font-family: var(--sans-serif-font);
-  width: 100%;
+  width: calc(100% - 18.5rem);
   max-width: calc(var(--blog-page-width) + 5rem);
   height: 700px;
   position: relative;
@@ -30,7 +30,9 @@
 .markdownContainer::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
-
+.makeFullWidth{
+  width: 100%;
+}
 .containerDiv{
   width: 100%;
   display: flex;
@@ -77,8 +79,10 @@
   width: 100%;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .markdownContainer {
+    width: 100%;
+
     &>*{
       margin-left: 0rem !important;
     }

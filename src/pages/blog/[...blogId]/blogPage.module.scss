@@ -3,12 +3,19 @@
   flex-direction: column;
   gap: 2rem;
   padding-bottom: 4rem;
+  
   // background-color: white;
 }
 .containerOpen{
   animation: shrink 0.2s ease-out;
-  width: 70%;
-  margin-left: auto;
+  width: auto;
+  margin-left: max(30vw,30rem);  
+}
+.containerOpen *div{
+ :has(table){
+    transform:none; 
+    max-width: 100%;
+ }
 }
 .publishButton{
   text-wrap: nowrap;
