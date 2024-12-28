@@ -48,7 +48,7 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 	});
 
 	const handleClick = () => {
-		if(isLoading) return;
+		if(isLoading || disableEnter) return;
 		if (!user) {
 			setInLocalStorage('query',searchQuery)
 			setUnAuthPopup(true);
