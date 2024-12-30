@@ -13,30 +13,27 @@ const UserDetail = ({ isOpen, onClose }) => {
         onClose();
     };
     const handleLogout = async () => {
-
         clearUserData();
         setUser(null);
         onClose();
         // router.reload();
-        
-
     };
 
     if (!isOpen) return null;
 
     return (
         <>
-        <ClickAwayListener onClickAway={handleMouseLeave}>
-            <div  className={styles.popupContainer}>
-                <div className={styles.userDetails}>
-                        <>
-                            <p><b>{user?.name || ""}</b></p>
-                            <p><b>{user?.email || ""}</b></p>
-                            <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
-                        </>
+            <ClickAwayListener onClickAway={handleMouseLeave}>
+                <div  className={styles.popupContainer}>
+                    <div className={styles.userDetails}>
+                            <>
+                                <p><b>{user?.name || ""}</b></p>
+                                <p><b>{user?.email || ""}</b></p>
+                                <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
+                            </>
+                    </div>
                 </div>
-            </div>
-        </ClickAwayListener>
+            </ClickAwayListener>
         </>
     );
 };
