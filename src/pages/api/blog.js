@@ -39,7 +39,7 @@ export default async function handler(req, res) {
       try {
         const { userMessage } = req.body;
         const countryCode = req.headers["cf-ipcountry"] || "IN";
-        const newBlog = await createBlog(userMessage, environment, user.id, countryCode);
+        const newBlog = await createBlog(userMessage, environment, parseInt(user.id), countryCode);
         res.status(201).json({ success: true, data: {id : newBlog.id} });
       } catch (error) {
         res.status(400).json({ success: false, error: error.message });
