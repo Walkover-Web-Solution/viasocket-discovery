@@ -31,11 +31,11 @@
     color: white;
     cursor: pointer;
   }
-  .viaMenu .viaMenuLg a {
+  .viaMenu .viaMenuLg > a {
     height: 56px !important;
     width: 146px !important;
   }
-  .viaMenu .viaMenuSm a {
+  .viaMenu .viaMenuSm > a {
     height: 56px !important;
     min-width: 56px !important;
   }

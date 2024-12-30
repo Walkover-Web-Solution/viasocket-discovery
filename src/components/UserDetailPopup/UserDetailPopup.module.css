@@ -16,9 +16,28 @@
   font-weight: 500;
 }
 
-.logoutButton {
+.blogsLink{
+  color: var(--blue) !important;
+  height: min-content !important;
+  border: 1px solid black;
+  padding: 0.75rem 1rem;
+  &:hover{
+    text-shadow: none;
+    background-color: transparent !important;
+    text-decoration: underline;
+  }
+}
+
+.buttonContainer{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
   margin-top: 1rem;
-  padding: 0.75rem 1.5rem;
+}
+
+.logoutButton {
+  padding: 0.75rem 1rem;
   background-color: #d9534f;
   color: #fff;
   border: none;
@@ -30,6 +49,7 @@
 .logoutButton:hover {
   background-color: #c9302c;
 }
+
 .signInButton {
   margin-top: 1rem;
   padding: 0.75rem 1.5rem;

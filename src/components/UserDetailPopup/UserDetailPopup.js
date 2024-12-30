@@ -3,6 +3,7 @@ import { clearUserData } from '@/utils/storageHelper';
 import { useUser } from '@/context/UserContext';
 import { useRouter } from 'next/router';
 import { ClickAwayListener } from '@mui/material';
+import Link from "next/link";
 
 const UserDetail = ({ isOpen, onClose }) => {
     const {user , setUser}=useUser();
@@ -29,7 +30,10 @@ const UserDetail = ({ isOpen, onClose }) => {
                             <>
                                 <p><b>{user?.name || ""}</b></p>
                                 <p><b>{user?.email || ""}</b></p>
-                                <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
+                                <div className={styles.buttonContainer}>
+                                    <Link className={styles.blogsLink} href={`/user/${user.id}`}><b>My Discoveries</b></Link>
+                                    <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
+                                </div>
                             </>
                     </div>
                 </div>
