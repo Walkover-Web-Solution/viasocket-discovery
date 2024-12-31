@@ -115,7 +115,7 @@ export async function createBlog(userMessage, environment, userId, countrycode){
         title: blueprint.title,
         blog: [
             {
-                "heading": "Comparison Table: <Brief about apps>",
+                "heading": "Comparison Table: <Add some description about table here>",
                 "content": "Compare the features, pricing, and benefits of all apps with each other . Use internal links to direct users to real app pages for detailed insights."
               },
             ...((blueprint.blogStructure).map((section)=>{
