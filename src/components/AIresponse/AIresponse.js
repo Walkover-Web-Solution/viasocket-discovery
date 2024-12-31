@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { Box } from '@mui/material';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import AddIcon from '@mui/icons-material/Add';
+import { dispatchAskAppAiWithAuth } from '@/utils/utils';
 
 const AIresponse = ({ blogData, users, integrations, appBlogs, isOpen, setIsOpen }) => {
   const hasMarkdown = blogData?.blog;
@@ -24,7 +25,9 @@ const AIresponse = ({ blogData, users, integrations, appBlogs, isOpen, setIsOpen
   })
   
   function openChatBot(){
-    setIsOpen(true);
+    dispatchAskAppAiWithAuth(null, ()=>{
+      setIsOpen(true);
+    });
   }
 
   useEffect(() => {

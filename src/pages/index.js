@@ -124,8 +124,9 @@ export default function Home({ popularUsers = [] }) {
     }, [user]);
 
     useEffect(() => {
-      divRef.current.scrollIntoView();      
-    });
+      if(typingStart)
+        divRef.current.scrollIntoView();      
+    }, [blogs]);
 
   // Conditional blog rendering
 

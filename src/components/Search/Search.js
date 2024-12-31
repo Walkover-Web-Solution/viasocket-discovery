@@ -5,7 +5,7 @@ import { IconButton, Input, InputAdornment, TextField } from '@mui/material';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import UserBioPopup from '../UserBioPopup/UserBioPoup';
 import UnauthorizedPopup from '../UnauthorisedPopup/UnauthorisedPopup';
-import { dispatchAskAiEvent } from '@/utils/utils';
+import { dispatchAskAiEvent, dispatchAskAppAiWithAuth } from '@/utils/utils';
 import { setInLocalStorage } from '@/utils/storageHelper';
 
 export default function Search({ searchQuery, setSearchQuery, handleAskAi, placeholder, className, messages, disableEnter }) {
@@ -28,38 +28,34 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 		}
 	},[messages])
 
-	useEffect(() => {
-		const handleEvent = async (e) => {
-			if (!user) {
-				setUnAuthPopup(true);
-				return;
-			}
-			if(!user.meta?.bio){
-				setUserBioPopup(true);
-				return;
-			}
-			setSearchQuery('');
-			dispatchAskAiEvent(e.detail);
-		}
-		window.addEventListener('askAppAiWithAuth', handleEvent);
-		return () => {
-			window.removeEventListener('askAppAiWithAuth', handleEvent);
-		}
-	});
+	// useEffect(() => {
+	// 	const handleEvent = async (e) => {
+	// 		console.log("Hello int the event");
+	// 		if (!user) {
+	// 			console.log("Not user");
+	// 			setUnAuthPopup(true);
+	// 			return;
+	// 		}
+	// 		if(!user.meta?.bio){
+	// 			console.log("Not bio");
+	// 			setUserBioPopup(true);
+	// 			return;
+	// 		}
+	// 		setSearchQuery('');
+	// 		dispatchAskAiEvent(e.detail);
+	// 	}
+	// 	window.addEventListener('askAppAiWithAuth', handleEvent);
+	// 	return () => {
+	// 		window.removeEventListener('askAppAiWithAuth', handleEvent);
+	// 	}
+	// });
 
 	const handleClick = () => {
 		if(isLoading || disableEnter) return;
-		if (!user) {
-			setInLocalStorage('query',searchQuery)
-			setUnAuthPopup(true);
-			return;
-		}
-		if(!user.meta?.bio){
-			setUserBioPopup(true);
-            return;
-		}
-		setSearchQuery("")
-		handleAskAi();
+		dispatchAskAppAiWithAuth(searchQuery, () => {
+			setSearchQuery("")
+			handleAskAi();
+		})
 	}
 
 	const onUnAuthClose = () => {

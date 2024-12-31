@@ -41,9 +41,12 @@ export function dispatchAskAiEvent(userMessage) {
     window.dispatchEvent(event); // Emit the event globally
 };
 
-export function dispatchAskAppAiWithAuth(userMessage){
+export function dispatchAskAppAiWithAuth(userMessage, callbackFunc){
   const event = new CustomEvent('askAppAiWithAuth', {
-      detail: userMessage
+      detail: {
+        message: userMessage, 
+        callback: callbackFunc
+      }
   });
   window.dispatchEvent(event);
 }
