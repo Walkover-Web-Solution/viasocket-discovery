@@ -19,8 +19,8 @@ export const blueprintSchema = Joi.object({
 });
 
 export const createdBlogSchema = Joi.object({
-  title: Joi.string().required(),
-  title_description : Joi.string().optional(),
+  // title: Joi.string().required(),
+  // title_description : Joi.string().optional(),
   blog: Joi.array().items(
     Joi.object({
       heading: Joi.string().required(),
