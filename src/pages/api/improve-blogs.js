@@ -29,7 +29,7 @@ export default async function handler(req, res) {
                 
                 results = await blogServices.bulkUpdateBlogs(validBulkOperations, environment);
             } catch (error) {
-                console.log("error in improve blogs", error)
+                console.error("error in improve blogs", error)
                 sendMessageTochannel({"message":'error in improve blog API.' , error : error.message})
              
             }finally{

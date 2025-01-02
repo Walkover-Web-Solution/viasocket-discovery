@@ -81,10 +81,11 @@ export async function askAi(bridgeId, userMessage, variables, chatId) {
 export const sendMessageTochannel = async (message) => {
     try {
       const webhook =  getCurrentEnvironment() === 'prod' ? "https://flow.sokt.io/func/scri19UK6620" : "https://flow.sokt.io/func/scriTdhvDTJK" ;
-      await fetch( webhook , {
+      const res = await fetch( webhook , {
         method:'POST',
         body:JSON.stringify(message)
       })
+      if(!res.ok) throw new Error(res.text());
     } catch (error) {
       console.log("error sending alerts to channel ", error);
     }
