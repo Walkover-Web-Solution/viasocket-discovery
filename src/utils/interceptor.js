@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getCurrentEnvironment, getFromCookies, removeCookie } from "./storageHelper";
+import { toast } from "react-toastify";
 
 axios.interceptors.request.use(
     async (config) => {
@@ -23,7 +24,8 @@ axios.interceptors.response.use(
     async function (error) {
         if (error?.response?.status === 401) {
             removeCookie(getCurrentEnvironment())
-            window.location.href = "/discovery";
+            toast.error('Your session has expired. Please log in again to continue.');
+            window.clearUserGlobally();
         }
         return Promise.reject(error);
     }

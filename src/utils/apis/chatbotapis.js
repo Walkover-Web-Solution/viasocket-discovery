@@ -19,8 +19,13 @@ export const sendMessageApi = async (content, chatId, bridgeId, variables, blogI
 
 
 export const getAllPreviousMessages = async (chatId, bridgeId) => {
+    try{
     const response = await axios.get(proxyUrl+`/api/gethistory?chatId=${chatId}&bridgeId=${bridgeId}`);
     return response?.data?.data;
+    }catch(error){
+        console.error(error);
+        return {data:[]};
+    }
 };
 
 export const compareBlogs = async (variables) => {
