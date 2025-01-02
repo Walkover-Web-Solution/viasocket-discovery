@@ -322,7 +322,7 @@ const getPopularUsers = (environment) => {
       { $unwind: "$createdBy" },
       { $group: { _id: "$createdBy", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
-      { $limit: 5 }
+      { $limit: 6 }
     ])
     return popularUsers.map(user => user._id);
   });
