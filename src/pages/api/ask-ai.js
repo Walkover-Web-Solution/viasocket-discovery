@@ -2,6 +2,7 @@ import { askAi, reFormat, sendAlert, ValidateAiResponse } from '@/utils/utils';
 import blogServices from "../../services/blogServices"
 import { blueprintSchema, createdBlogSchema, searchResultsSchema, updateBlogSchema } from '@/utils/schema';
 import { updateProxyUser } from '@/services/proxyServices';
+const _ = require('lodash'); 
 
 export const config = {
   maxDuration: 30,
@@ -40,15 +41,20 @@ export default async function handler(req, res) {
                 if(bridgeId === process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE){
                     botResponse =  ValidateAiResponse(parsedContent,updateBlogSchema);
                     if(botResponse.success===true){
-                        botResponse= botResponse.value;
-                    } else {
-                        sendAlert(botResponse.errorMessages, bridgeId, message_id, chatId)
-                        botResponse = await retryResponse(bridgeId, botResponse.errorMessages, userId, countrycode, region, city, updateBlogSchema, chatId, variables );
-                    }
-                    var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
+                            botResponse= botResponse.value;
+                        } else {
+                                sendAlert(botResponse.errorMessages, bridgeId, message_id, chatId)
+                                botResponse = await retryResponse(bridgeId, botResponse.errorMessages, userId, countrycode, region, city, updateBlogSchema, chatId, variables );
+                            }
+                            var shouldCreate = (botResponse.shouldCreate || "no").toLowerCase() === "yes";
+                            if (botResponse?.operations?.length > 0) botResponse.blog = applyOperations(botResponse.operations, variables.blogData);
                     var newBlog = await updateBlog(blogId, botResponse.blog, environment, shouldCreate,userId,countrycode).catch(err => console.log('Error updating blog', err));
                     if(newBlog){
                         botResponse.blog = newBlog;
+                    }
+                    if(botResponse.existingBlogs) {
+                        botResponse.urls = botResponse.existingBlogs;    
+                        delete botResponse.existingBlogs;
                     }
                 }else if(bridgeId === process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
                     botResponse = ValidateAiResponse(parsedContent, searchResultsSchema);
@@ -197,3 +203,83 @@ const detailedReviewContent = {
     "appName": "App Name",
     "content": "Explore App in detail, including its standout features, benefits, and how it uniquely addresses specific user needs. Focus on practical solutions and real-world use cases. Conclude with a bullet-point list of key pros and cons to help users make informed decisions."
 };
+
+
+
+
+function applyOperations(operations, blog) {
+    const updatedBlog = blog;
+    operations.forEach((operation) => {
+        const { data, operation: type } = operation;
+
+        
+         switch (type) {
+            case "add_content":
+                const newSection = {
+                    heading: data.heading,
+                    content: data.content,
+                };
+                updatedBlog.blog.splice(data.position, 0, newSection);
+                break;
+
+            case "remove_content":
+                if (updatedBlog.blog[data.position].section !== 'detailed_reviews') {
+                    updatedBlog.blog.splice(data.position, 1);
+                } else {
+                    throw Error('cannot remove detailed_reviews section at position');
+                }
+                break;
+
+            case "add_app":
+                const detailedReviews = updatedBlog.blog.find(
+                    (section) => section.section === "detailed_reviews"
+                );
+                if (detailedReviews) {
+                    detailedReviews.content.splice(data.position, 0, {
+                        appName: data.appName,
+                        content: data.content,
+                    });
+                }
+                break;
+
+            case "remove_app":
+                const detailedReviewsSection = updatedBlog.blog.find(
+                    (section) => section.section === "detailed_reviews"
+                );
+                if (detailedReviewsSection) {
+                    detailedReviewsSection.content.splice(data.position, 1);
+                }
+                break;
+
+            case "update":
+                _.set(updatedBlog, data.path, data.content);
+                break;
+
+             case "reorder":
+                 const reorderTarget = updatedBlog.blog.find(
+                    (section) => section.section === "detailed_reviews"
+                ).content;
+                 if (Array.isArray(reorderTarget)) {
+                     const reorderedArray = [];
+
+                     data.order.forEach((index) => {
+                         if (index >= 0 && index < reorderTarget.length) {
+                             reorderedArray.push(reorderTarget[index]);
+                         } else {
+                             console.error(`Invalid index ${index} in the order array.`);
+                         }
+                     });
+
+                     reorderTarget.length = 0; 
+                     reorderTarget.push(...reorderedArray); 
+                 } else {
+                     throw Error(`Path ${data.path} does not point to an array for reorder.`);
+                 }
+                 break;
+            default:
+                console.error(`Unsupported operation: ${type}`);
+        }
+    });
+
+    return updatedBlog;
+}
