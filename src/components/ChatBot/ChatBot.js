@@ -111,7 +111,7 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
               className={isBot ? styles.receivedMessage : styles.sentMessage}
               cursor={clickable ? 'pointer' : 'default'}
             >
-              {isBot ? message.content.message : message.content}
+              {isBot ? Components.botMessage(message.content.message) : message.content}
               {/* {clickable &&
                 <Tooltip title="revert to this version">
                   <button
