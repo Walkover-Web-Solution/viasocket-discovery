@@ -7,6 +7,52 @@ const urlSchema = Joi.object({
   tags: Joi.array().items(Joi.string()).required(),
 })
 
+export const operationsSchema = Joi.array().items(Joi.object({
+  operation: Joi.string().valid('add_content', 'remove_content', 'add_app', 'remove_app', 'reorder', 'update').required(),
+  data: Joi.object().when('operation', {
+    is: 'add_content',
+    then: Joi.object({
+      heading: Joi.string().required(),
+      content: Joi.string().required(),
+      position: Joi.number().integer().min(0).required()
+    }),
+    otherwise: Joi.object().when('operation', {
+      is: 'remove_content',
+      then: Joi.object({
+        position: Joi.number().integer().min(0).required()
+      }),
+      otherwise: Joi.object().when('operation', {
+        is: 'add_app',
+        then: Joi.object({
+          appName: Joi.string().required(),
+          content: Joi.string().required(),
+          position: Joi.number().integer().min(0).required()
+        }),
+        otherwise: Joi.object().when('operation', {
+          is: 'remove_app',
+          then: Joi.object({
+            position: Joi.number().integer().min(0).required()
+          }),
+          otherwise: Joi.object().when('operation', {
+            is: 'reorder',
+            then: Joi.object({
+              order: Joi.array().items(Joi.number().integer().min(0)).required()
+            }),
+            otherwise: Joi.object().when('operation', {
+              is: 'update',
+              then: Joi.object({
+                path: Joi.string().required(),
+                content: Joi.string().required()
+              }),
+              otherwise: Joi.object()
+            })
+          })
+        })
+      })
+    })
+  }).required()
+})).optional().allow(null);
+
 export const blueprintSchema = Joi.object({
   metadata: Joi.object().required(), 
   title: Joi.string().required(),
@@ -111,7 +157,7 @@ export const updateBlogSchema = Joi.object({
             return helpers.message('When the key "section" is "FAQ", the key "content" must be an array of objects. Each object must contain two keys: "question" (a string representing the question) and "answer" (a string describing the answer of the question).');
           }
         }else{
-            if(typeof blog.content !== 'string') return helpers.message('Content in sections other than "detailed_reviews" must be a string.');
+            if(typeof blog.content !== 'string') return helpers.message('content in sections other than "detailed_reviews" and "FAQ" must be a string.');
         }
       }
   
@@ -124,7 +170,8 @@ export const updateBlogSchema = Joi.object({
     meta: Joi.object().optional(),
   }).optional().allow(null),
   shouldCreate: Joi.string().valid("Yes", "No").insensitive().optional(),
-  urls: Joi.array().items(urlSchema).optional().allow(null),
+  existingBlogs: Joi.array().items(urlSchema).optional().allow(null),
+  operations : (operationsSchema),
 });
 
 
