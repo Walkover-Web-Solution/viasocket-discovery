@@ -58,7 +58,7 @@ const AIresponse = ({ blogData, users, integrations, appBlogs, isOpen, setIsOpen
           </div>
           {!isOpen && <div className={styles.floaterDiv}>
             <Box className={styles.summaryContainer} id='summary-container' height={slHeight}>
-              {Components['summaryList']({appNames: detailedReviews.content.map(app => app.appName), integrations})}
+              {Components['summaryList']({appNames: detailedReviews.content.map(app => app.appName), integrations, meta: blogData.meta})}
             </Box>
             <Box className={styles.aiButtonDiv}>
               <div>
