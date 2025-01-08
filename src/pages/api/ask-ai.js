@@ -72,6 +72,11 @@ export default async function handler(req, res) {
                         await updateProxyUser(userId, {meta: {...userMeta, bio: parsedContent.bio}} );
                     }
                     botResponse = parsedContent;
+                }else if (bridgeId === process.env.NEXT_PUBLIC_COMMENT_BRIDGE){
+                    if(botResponse.comment){
+                       const commentId = await blogServices.createComment(blogId, { text : botResponse.comment , createdBy : userId },environment);
+                       botResponse.commentId=commentId;
+                    }
                 }else{
                     botResponse = parsedContent;
                 }

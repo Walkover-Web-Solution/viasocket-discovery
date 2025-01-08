@@ -67,23 +67,34 @@ const getBlogById = (blogId, environment) => {
   });
 };
 
-const updateBlogById = (blogId, blogData, userId, environment) => {
+const updateBlogById = (blogId, blogData, userIds, environment) => {
   return withBlogModel(environment, async (Blog) => {
-    const appNames = getAppNames(blogData.blog)
+    const appNames = getAppNames(blogData.blog);
     const apps = await getUpdatedApps(appNames, environment);
+    
     const updateData = {
       ...blogData,
       updatedAt: Date.now(),
       apps,
-      $addToSet: { createdBy: userId },
     };
+    const userIdsArray = Array.isArray(userIds) ? userIds : [userIds];
 
-    return Blog.findOneAndUpdate(
+
+    const updateResult = await Blog.findOneAndUpdate(
       { "id": blogId },
-      updateData,
+      { $set: updateData },
       { new: true } 
     ).lean();
 
+    if (updateResult) {
+      await Blog.findOneAndUpdate(
+        { "id": blogId },
+        { $addToSet: { createdBy: { $each: userIdsArray } } },
+        { new: true }
+      ).lean();
+    }
+
+    return updateResult;
   });
 };
 
@@ -328,4 +339,120 @@ const getPopularUsers = (environment) => {
   });
 }
 
-export default { getAllBlogs, createBlog, getBlogById, updateBlogById, searchBlogsByQuery, searchBlogsByTags, getAllBlogTags,updateBlogsTags,searchBlogsByTag, getBlogsForImprove, bulkUpdateBlogs , searchBlogsByUserId, blogWithApps, searchBlogsByApps, getPopularUsers };
+
+
+
+const createComment = async (blogId, commentData, environment) => {
+  return withBlogModel(environment, async(Blog) => {
+    const commentId = generateNanoid(5);
+
+    const comment = {
+      text: commentData.text,
+      createdBy: commentData.createdBy,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      status: commentData.status || 'pending',
+    };
+
+    await Blog.updateOne(
+      { id: blogId },
+      { $set: { 
+        [`comments.${commentId}`]: comment,
+        toUpdate: true,
+       }
+      }
+    );
+
+    return { commentId, ...comment };
+  });
+};
+
+const getAllComments = async (blogId, environment) => {
+  return withBlogModel(environment, async(Blog) => {
+    const blog = await Blog.findOne({ id: blogId });
+
+    if (!blog) {
+      throw new Error("Blog not found");
+    }
+
+    return blog.comments;
+  });
+};
+
+const getCommentById = async (blogId, commentId, environment) => {
+  return withBlogModel(environment, async(Blog) => {
+    const blog = await Blog.findOne({ id: blogId });
+
+    if (!blog || !blog.comments.has(commentId)) {
+      throw new Error("Comment not found");
+    }
+
+    return blog.comments.get(commentId);
+  });
+};
+
+const updateComment = async (blogId, commentId, commentData, environment) => {
+  return withBlogModel(environment, async(Blog) => {
+    const updateData = {
+      "text": commentData.text,
+      "status": commentData.status,
+      "updatedAt": new Date(),
+    };
+
+    await Blog.updateOne(
+      { id: blogId },
+      { $set: { [`comments.${commentId}`]: updateData } }
+    );
+
+    return updateData;
+  });
+};
+
+const deleteComment = async (blogId, commentId, userId, environment) => {
+  return withBlogModel(environment, async(Blog) => {
+    const blog = await Blog.findOne({ id: blogId });
+
+    if (!blog) {
+      throw new Error("Blog not found");
+    }
+   
+    const comment = blog.comments.get(commentId);
+
+    if (!comment) {
+      throw new Error("Comment not found");
+    }
+    if(comment.createdBy != userId){
+      throw new Error("You are not authorized to delete this comment");
+    }
+
+    blog.comments.delete(commentId);
+
+    await blog.save();
+    return blog;
+  });
+};
+
+export default {
+  getAllBlogs,
+  createBlog,
+  getBlogById,
+  updateBlogById,
+  searchBlogsByQuery,
+  searchBlogsByTags,
+  getAllBlogTags,
+  updateBlogsTags,
+  searchBlogsByTag,
+  getBlogsForImprove,
+  bulkUpdateBlogs,
+  searchBlogsByUserId,
+  blogWithApps,
+  searchBlogsByApps,
+  getPopularUsers,
+  createComment,
+  getAllComments,
+  getCommentById,
+  updateComment,
+  deleteComment
+};
+
+

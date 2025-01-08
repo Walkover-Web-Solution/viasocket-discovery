@@ -1,5 +1,5 @@
 
-import dbConnect from '../../../../lib/mongoDb'; // A utility to connect to MongoDB
+import dbConnect from '../../../../../lib/mongoDb'; // A utility to connect to MongoDB
 import blogServices from '@/services/blogServices';
 
 export default async function handler(req, res) {

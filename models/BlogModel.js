@@ -23,7 +23,35 @@ const createBlogModel = (connection) => {
     apps: Object,
     appNames : Array,
     imageUrl: String,
-    meta: Object, 
+    meta: Object,
+    comments: {
+      type: Object
+    }, 
+    // comments: {
+    //   type: Map,
+    //   of: new mongoose.Schema({
+    //     text: String,
+    //     createdBy: Number,  
+    //     createdAt: {
+    //       type: Date,
+    //       default: Date.now,
+    //     },
+    //     updatedAt: {
+    //       type: Date,
+    //       default: Date.now,
+    //     },
+    //     status: {
+    //       type: String,
+    //       enum: ['approved', 'pending', 'rejected'],
+    //       default: 'pending',
+    //     },
+    //   }),
+    //   default: {},
+    // },
+    toUpdate: {
+      type: Boolean,
+      default: true,
+    },
     createdAt: {
       type: Date,
       default: Date.now,

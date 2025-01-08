@@ -24,6 +24,7 @@ import diamondImage from  "../../../static/images/diamond.svg";
 import Link from 'next/link';
 import { Accordion, AccordionDetails, AccordionSummary   } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { deleteComment } from '@/utils/apis/commentApis';
 
 export async function getServerSideProps(context) {
   const { blogId } = context.params;
@@ -133,6 +134,18 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
     }
   },[currentUser])
 
+  const handleDeleteComment = async(commentId) => {
+    const deleted = await deleteComment(commentId, blogData.id);
+    
+    if(deleted){
+      setBlogData((prevBlogData) => {
+        const updatedComments = { ...prevBlogData.comments };
+        delete updatedComments[commentId];  
+        return { ...prevBlogData, comments: updatedComments }; 
+      });
+    }
+  };
+  
 
 
   return (
@@ -199,9 +212,37 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
             }
             </div>
           }
+
+
+
+
+
+        {blogData.comments && Object.keys(blogData.comments).length > 0 && (
+          <div className={styles.commentContainer}>
+            <h2>Comments</h2>
+            {Object.entries(blogData.comments).map(([commentId, comment]) => (
+              <div key={commentId} className={styles.comment}>
+                <p><strong>Comment:</strong> {comment.text}</p>
+                <p><em>Status:</em> {comment.status}</p>
+                
+                {comment.createdBy == currentUser?.id && (
+                  <button
+                    onClick={() => handleDeleteComment(commentId)}
+                    className={styles.deleteButton}
+                  >
+                    Delete Comment
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+
+
           {/* {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>} */}
         </div>
-        <Chatbot bridgeId={process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId={blog.id}  users={users}/>
+        <Chatbot bridgeId={process.env.NEXT_PUBLIC_COMMENT_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId={blog.id}  users={users}/>
         {/* <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} /> */}
       </div>
     </>
