@@ -1,4 +1,5 @@
 import blogServices from '@/services/blogServices';
+import { getUserById } from '@/services/proxyServices';
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -31,8 +32,7 @@ export default async function handler(req, res) {
         };
 
         const newComment = await blogServices.createComment(blogId, commentData, environment);
-
-        res.status(201).json({ success: true, data: { commentId: newComment.commentId } });
+        res.status(201).json({ success: true, data: { comment: newComment } });
       } catch (error) {
         res.status(400).json({ success: false, error: error.message });
       }

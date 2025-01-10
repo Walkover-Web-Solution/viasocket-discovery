@@ -66,7 +66,7 @@ const Components = {
     return (
       <div className={styles.summaryList}>
         <List className={styles.list}>
-          {appNames.map((app, idx) => {
+          {appNames?.map((app, idx) => {
             const appName = app.toLowerCase();
             const appSlugName = appNameToId(app);
             const appData = integrations?.[appName]?.plugins[appSlugName];

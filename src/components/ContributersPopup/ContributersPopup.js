@@ -73,7 +73,7 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
         >
           {(!showPopup || users.length === 1) && (
             <div className={styles.userAVA}>
-              {users.length > 0 &&
+              {users?.length > 0 &&
                 users.slice(0, 3).map((user) => (
                   <Avatar
                     key={user.id}
@@ -84,12 +84,12 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
                     {user.name.charAt(0).toUpperCase()}
                   </Avatar>
                 ))}
-              {users.length > 1 ? (
+              {users?.length > 1 ? (
                 <span className={styles.contributorsText}>
                   {users.length > 3 ? `+ ${users.length - 3}` : ""} Contributors
                 </span>
               ) : (
-                users.length === 1 && (
+                users?.length === 1 && (
                   <a
                     href={`/discovery/user/${users[0].id}/${nameToSlugName(
                       users[0].name

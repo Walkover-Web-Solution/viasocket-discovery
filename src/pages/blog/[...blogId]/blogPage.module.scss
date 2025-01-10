@@ -62,7 +62,7 @@
       padding-bottom: 1rem;
       font-family: var(--title-font);
       font-weight: 100;
-      font-size: 2rem;
+      font-size: 3rem;
   }
   .blogOnSearch{
     margin-top: 1rem;
@@ -138,7 +138,7 @@
   h3{
     font-weight: 100;
     font-family: var(--title-font);
-    font-size: 2rem;
+    font-size: 3rem;
   }
   .tagsDiv{
     display: flex;
@@ -170,7 +170,7 @@
       padding-bottom: 1rem;
       font-family: var(--title-font);
       font-weight: 100;
-      font-size: 60px;
+      font-size: 3rem;
       line-height: 69px;
       letter-spacing: -0.5px;
   }
@@ -188,6 +188,64 @@
     color : rgb(0, 0, 0);
     border:none;
 
+  }
+}
+
+.commentContainer{
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  .responses{
+    font-weight: 100;
+    font-family: var(--title-font);
+    font-size: 3rem;
+  }
+  .comment{
+    &:not(:last-child){
+      border-bottom: 1px solid var(--grey);
+    }
+    &:first-of-type{
+      padding-top: 1rem;
+    }
+    padding: 1.5rem 0;
+    .commentHeader{
+      display: flex;
+      gap: 1rem;
+      max-width: var(--outer-blog-width);
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      .userDetails{
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        a{
+          font-size: 1.2rem;
+          &:hover{
+            text-decoration: underline;
+          }
+        }
+        .commentDate{
+          color: var(--dark-grey);
+          font-size: 1rem;
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+      }
+      .deleteButton{
+        border: none;
+        color: var(--dark-grey);
+        background-color: transparent;
+        &:hover{
+          color: darkred;
+        }
+      }
+    }
+    .commentText{
+      max-width: var(--outer-blog-width);
+      margin-top: 0.5rem;
+      color: var(--dark-grey);
+      font-size: 1.2rem;
+    }
   }
 }
 @keyframes shrink {

@@ -297,7 +297,7 @@ const blogWithApps = async (apps, environment) => {
 }
 
 const searchBlogsByApps = (appNames, blogId, environment) => {
-  const apps = appNames.map((appName) => restoreceDotsInArray(appName));
+  const apps = appNames?.map((appName) => restoreceDotsInArray(appName));
   return withBlogModel(environment, async (Blog) => {
     let blogs = await Blog.aggregate([
       {
@@ -343,28 +343,31 @@ const getPopularUsers = (environment) => {
 
 
 const createComment = async (blogId, commentData, environment) => {
-  return withBlogModel(environment, async(Blog) => {
-    const commentId = generateNanoid(5);
-
-    const comment = {
-      text: commentData.text,
-      createdBy: commentData.createdBy,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      status: commentData.status || 'pending',
-    };
-
-    await Blog.updateOne(
-      { id: blogId },
-      { $set: { 
-        [`comments.${commentId}`]: comment,
-        toUpdate: true,
-       }
-      }
-    );
-
-    return { commentId, ...comment };
-  });
+  try{
+    return withBlogModel(environment, async(Blog) => {
+      const commentId = generateNanoid(5);
+      const comment = {
+        text: commentData.text,
+        createdBy: commentData.createdBy,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        status: commentData.status || 'pending',
+      };
+  
+      await Blog.updateOne(
+        { id: blogId },
+        { $set: { 
+          [`comments.${commentId}`]: comment,
+          toUpdate: true,
+         }
+        }
+      );
+  
+      return { commentId, ...comment };
+    });
+  }catch(err){
+    console.error("Errror fghj", err);
+  }
 };
 
 const getAllComments = async (blogId, environment) => {
@@ -387,7 +390,7 @@ const getCommentById = async (blogId, commentId, environment) => {
       throw new Error("Comment not found");
     }
 
-    return blog.comments.get(commentId);
+    return blog.comments[commentId];
   });
 };
 
@@ -416,7 +419,7 @@ const deleteComment = async (blogId, commentId, userId, environment) => {
       throw new Error("Blog not found");
     }
    
-    const comment = blog.comments.get(commentId);
+    const comment = blog.comments[commentId];
 
     if (!comment) {
       throw new Error("Comment not found");
@@ -425,10 +428,10 @@ const deleteComment = async (blogId, commentId, userId, environment) => {
       throw new Error("You are not authorized to delete this comment");
     }
 
-    blog.comments.delete(commentId);
-
-    await blog.save();
-    return blog;
+    return await Blog.updateOne(
+      { id: blogId },
+      { $unset: { [`comments.${commentId}`]: "" } }
+    )
   });
 };
 

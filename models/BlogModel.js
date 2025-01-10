@@ -24,9 +24,7 @@ const createBlogModel = (connection) => {
     appNames : Array,
     imageUrl: String,
     meta: Object,
-    comments: {
-      type: Object
-    }, 
+    comments: Object, 
     // comments: {
     //   type: Map,
     //   of: new mongoose.Schema({

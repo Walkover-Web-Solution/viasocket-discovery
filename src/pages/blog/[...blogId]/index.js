@@ -22,9 +22,12 @@ import { Box } from '@mui/system';
 import Image from 'next/image';
 import diamondImage from  "../../../static/images/diamond.svg";
 import Link from 'next/link';
-import { Accordion, AccordionDetails, AccordionSummary   } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Avatar   } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { deleteComment } from '@/utils/apis/commentApis';
+import { formatDistanceToNow } from 'date-fns';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 export async function getServerSideProps(context) {
   const { blogId } = context.params;
@@ -39,12 +42,17 @@ export async function getServerSideProps(context) {
     const relatedBlogsPromise = blogServices.searchBlogsByTags(blog.tags, blogId[0], blog?.meta?.category, getCurrentEnvironment());
     const appKeys = Object.keys(blog.apps);
     const appBlogsPromise = blogServices.searchBlogsByApps(appKeys, blogId[0], getCurrentEnvironment());
-    const usersPromise = getAllUsers(blog?.createdBy);
+    const usersSet = new Set(blog.createdBy);
+    Object.values(blog.comments || {}).forEach(comment => usersSet.add(comment.createdBy));
+    const usersPromise = getAllUsers(Array.from(usersSet));
     const [relatedBlogs, appBlogs, users] = await Promise.all([relatedBlogsPromise, appBlogsPromise, usersPromise]);
     const filteredUsers = users.filter(user => user !== null);
     props.faq = blog.blog.find((section)=> section?.section=== 'FAQ')?.content || [];
     props.blog = blog;
-    props.users = filteredUsers;
+    props.users = filteredUsers.reduce((acc, user) => {
+      acc[user.id] = user;
+      return acc;
+    }, {});
     props.relatedBlogs = relatedBlogs;
     props.appBlogs = appBlogs[0];
   } catch (error) {
@@ -54,6 +62,7 @@ export async function getServerSideProps(context) {
 }
 
 export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
+  console.log('users', users);
   const [blogData, setBlogData] = useState(blog);
   const [integrations, setIntegrations] = useState(null);
   const router= useRouter();
@@ -62,6 +71,12 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
   const [messages, setMessages] = useState([]);
   const currentUser = useUser().user;
   const [FAQs, setFAQs] = useState(faq || []);
+  const [comments, setComments] = useState(blogData?.comments || {});
+  const {user} = useUser();
+  if(user){
+    users[user.id] = user;
+  }
+  const createdBy = blogData?.createdBy.map(userId => users[userId]).filter(user => user);
   const blogDataToSend = { 
     title: blogData?.title,
     tags: blogData?.tags, 
@@ -79,8 +94,9 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
  },[blogData])
 
  useEffect(() => {
-  if(blogData.imageUrl) document.documentElement.style.setProperty("--blogTitleBackground", `url(${blogData.imageUrl})`);   
-}, [blogData.imageUrl]); 
+  if(blogData?.imageUrl) document.documentElement.style.setProperty("--blogTitleBackground", `url(${blogData.imageUrl})`);   
+}, [blogData?.imageUrl]); 
+
 
   useEffect(() => {
     if (blog) {
@@ -109,7 +125,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
     if(!currentUser?.id) return ;
     (async () => {
       const indexes = [];
-      const chatHistoryData = await getAllPreviousMessages(`${blog.id}${currentUser?.id}`, process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE);
+      const chatHistoryData = await getAllPreviousMessages(`${blog?.id}${currentUser?.id}`, process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE);
       let prevMessages = chatHistoryData.data
       .filter((chat) => chat.role === "user" || chat.role === "assistant")
       .map((chat,index) => {
@@ -138,26 +154,24 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
     const deleted = await deleteComment(commentId, blogData.id);
     
     if(deleted){
-      setBlogData((prevBlogData) => {
-        const updatedComments = { ...prevBlogData.comments };
-        delete updatedComments[commentId];  
-        return { ...prevBlogData, comments: updatedComments }; 
+      setComments((comments) => {
+        const updatedComments = { ...comments };
+        delete updatedComments[commentId];
+        return updatedComments;
       });
     }
   };
   
-
-
   return (
     <>
       <Head>
-        <meta name="description" content={blog?.meta?.SEOMetaDescription || blog.title}/>
-        <meta name="author" content={users.find(user => user.id === blog.createdBy[0])?.name} />
-        <meta name="keywords" content={[...blog.tags, ...(blog.meta.SEOKeywords || [])].join(', ')} />
+        <meta name="description" content={blog?.meta?.SEOMetaDescription || blog?.title}/>
+        <meta name="author" content={users?.[blog?.createdBy[0]].name}/>
+        <meta name="keywords" content={[...blog?.tags||[], ...(blog?.meta?.SEOKeywords || [])].join(', ')} />
       </Head>
       <div>
         <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
-          <AIresponse blogData={blogData} users={users} integrations={integrations} appBlogs={appBlogs} isOpen={isOpen} setIsOpen={setIsOpen} />
+          <AIresponse blogData={blogData} users={createdBy} integrations={integrations} appBlogs={appBlogs} isOpen={isOpen} setIsOpen={setIsOpen} setComments = {setComments} />
           <Box className={styles.searchDiv}>
             <h1>Dive Deeper with AI</h1>
             <p>Want to explore more? Follow up with AI for personalized insights and automated recommendations based on this blog</p>
@@ -180,6 +194,35 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
               ))}
             </div>
           </div>
+          {comments && Object.keys(comments).length > 0 && (
+            <div className={styles.commentContainer}>
+              <h2 className={styles.responses}>Responses</h2>
+              {Object.entries(comments || {}).map(([commentId, comment]) => (
+                <div key={commentId} className={styles.comment}>
+                  <div className = {styles.commentHeader}>
+                    <div className = {styles.userDetails}>
+                      <Link href={`/user/${comment.createdBy}`} target='_blank'>
+                        {users[comment.createdBy]?.name}
+                      </Link>
+                      <span className = {styles.commentDate}>{formatDistanceToNow(new Date(comment.createdAt)) + " ago"}</span>
+                    </div>
+                    {comment.createdBy == currentUser?.id && (
+                      <button
+                        onClick={() => handleDeleteComment(commentId)}
+                        className={styles.deleteButton}
+                      >
+                        <DeleteIcon/>
+                      </button>
+                    )}
+                  </div>
+                  <div>
+                    <p className = {styles.commentText}>{comment.text}</p>
+                  </div>
+                  
+                </div>
+              ))}
+            </div>
+          )}
           {
             relatedBlogs?.length > 0 && (
               <div className={styles.relatedBlogsDiv}>
@@ -213,36 +256,9 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
             </div>
           }
 
-
-
-
-
-        {blogData.comments && Object.keys(blogData.comments).length > 0 && (
-          <div className={styles.commentContainer}>
-            <h2>Comments</h2>
-            {Object.entries(blogData.comments).map(([commentId, comment]) => (
-              <div key={commentId} className={styles.comment}>
-                <p><strong>Comment:</strong> {comment.text}</p>
-                <p><em>Status:</em> {comment.status}</p>
-                
-                {comment.createdBy == currentUser?.id && (
-                  <button
-                    onClick={() => handleDeleteComment(commentId)}
-                    className={styles.deleteButton}
-                  >
-                    Delete Comment
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-
-
-
           {/* {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>} */}
         </div>
-        <Chatbot bridgeId={process.env.NEXT_PUBLIC_COMMENT_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId={blog.id}  users={users}/>
+        <Chatbot bridgeId={process.env.NEXT_PUBLIC_COMMENT_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog?.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId={blog?.id}  users={createdBy}/>
         {/* <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} /> */}
       </div>
     </>
