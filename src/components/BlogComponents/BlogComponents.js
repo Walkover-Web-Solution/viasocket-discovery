@@ -62,7 +62,7 @@ const Components = {
       <h2 className={styles.subTitle}>{content}</h2>
     </div>
   ),
-  summaryList: ({ appNames, integrations }) => {
+  summaryList: ({ appNames, integrations, meta }) => {
     return (
       <div className={styles.summaryList}>
         <List className={styles.list}>
@@ -99,6 +99,12 @@ const Components = {
               </a>
             );
           })}
+          <a className = {`${styles.appLink} ${styles.viewAllLink}`} href={`https://viasocket.com/integrations/${meta.category}`} target="_blank">
+            <ListItem className={styles.listItem}>
+              <h5>View All from {meta.category}</h5>
+              <ArrowOutwardIcon className={styles.arrowIcon} fontSize='small' />
+            </ListItem>
+          </a>
         </List>
       </div>
     );

@@ -2,6 +2,9 @@ import React from 'react';
 import styles from './ChatBotComponents.module.scss';
 import { List } from '@mui/material';
 import BlogCard from '../Blog/Blog';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
 const Components = {
     urls : (content) => {
         return (
@@ -15,6 +18,14 @@ const Components = {
                     }
                 </List>
             </div>
+        )
+    }, 
+    
+    botMessage: (message) => {
+        return (
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {message}
+            </ReactMarkdown>
         )
     }
 }

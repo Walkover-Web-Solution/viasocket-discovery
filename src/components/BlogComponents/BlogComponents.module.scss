@@ -237,52 +237,57 @@
     font-family: var(--title-font);
   }
   .list {
-    .appIcon {
-      width: 2.5rem;
-      min-height: 2.5rem;
-      height: auto;
-    }
     display: flex;
     padding-top: 0;
     flex-direction: column;
     width: 100%;
-    .appLink {
-      &:not(:first-of-type) {
-        .listItem {
-          border-top: none;
+  }
+  .appIcon {
+    width: 2.5rem;
+    min-height: 2.5rem;
+    height: auto;
+  }
+  .appLink {
+    &:not(:first-of-type) {
+      .listItem {
+        border-top: none;
+      }
+    }
+    .listItem {
+      z-index: 15;
+      padding: 10px 15px;
+      border: 1px solid black;
+      background-color: white;
+      display: flex;
+      flex-direction: row;
+      gap: 1.4rem;
+      min-width: 17rem;
+      .arrowIcon {
+        transition: transform 0.3s ease;
+      }
+      .content {
+        width: 100%;
+        .description {
+          display: -webkit-box;
+          display: none;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          -webkit-line-clamp: 2;
+          line-clamp: 2;
         }
       }
-      .listItem {
-        z-index: 15;
-        padding: 10px 15px;
-        border: 1px solid black;
-        background-color: white;
-        display: flex;
-        flex-direction: row;
-        gap: 1.4rem;
-        min-width: 17rem;
+      &:hover {
         .arrowIcon {
-          transition: transform 0.3s ease;
-          transition-duration: 0.1s;
-        }
-        .content {
-          width: 100%;
-          .description {
-            display: -webkit-box;
-            display: none;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            -webkit-line-clamp: 2;
-            line-clamp: 2;
-          }
-        }
-        &:hover {
-          .arrowIcon {
-            transform: translateY(-10px);
-          }
+          transform: translateY(-10px);
         }
       }
     }
+  }
+  .viewAllLink .listItem{
+    background-color: #a81f0d;
+    color: white;
+    justify-content: space-between;
+    padding-top: 1rem;
   }
 }
 
