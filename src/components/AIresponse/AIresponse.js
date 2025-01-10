@@ -8,10 +8,14 @@ import { Box } from '@mui/material';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import { dispatchAskAppAiWithAuth } from '@/utils/utils';
+import AddCommentPopup from '../AddCommentPopup/AddCommentPopup';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 
-const AIresponse = ({ blogData, users, integrations, appBlogs, isOpen, setIsOpen }) => {
+const AIresponse = ({ blogData, users, integrations, appBlogs, isOpen, setIsOpen, setComments }) => {
   const hasMarkdown = blogData?.blog;
   const [slHeight, setSlHeight] = useState(0);
+  const [commentPopup, setCommentPopup] = useState(false);
+
 
   let detailedReviews= {};
   let dynamicSections = [];
@@ -42,7 +46,7 @@ const AIresponse = ({ blogData, users, integrations, appBlogs, isOpen, setIsOpen
         <title>{((blogData?.meta?.headerTitle || blogData?.title) || "New chat") + ' | Viasocket'}</title>
       </Head>
       <div className = {`${styles.blogPage} ${isOpen?styles.addLeftMargin:''}`}>
-        {Components['title']({users, createdAt: blogData.createdAt, content: blogData.title, subHeading: blogData.titleDescription, updatedAt: blogData.updatedAt })}
+        {Components['title']({users, createdAt: blogData?.createdAt, content: blogData?.title, subHeading: blogData?.titleDescription, updatedAt: blogData?.updatedAt })}
         <div className={styles.containerDiv}>
           <div className={`${styles.markdownContainer} ${isOpen ? styles.makeFullWidth: ''}`}>
             {!hasMarkdown && Components['dummy']()}
@@ -62,13 +66,14 @@ const AIresponse = ({ blogData, users, integrations, appBlogs, isOpen, setIsOpen
             </Box>
             <Box className={styles.aiButtonDiv}>
               <div>
-                <button onClick={openChatBot} className={styles.contribute}><AddIcon/> Contribute</button>
+                <button onClick={() => setCommentPopup(true)} className={styles.contribute}><ChatBubbleIcon/> Contribute</button>
                 <button onClick={openChatBot} className={styles.askMore}><AutoAwesomeOutlinedIcon/> Ask More</button>
               </div>
             </Box>
           </div>}
         </div>
       </div>
+      <AddCommentPopup open = {commentPopup} onClose = {() => setCommentPopup(false)} setComments = {setComments} blogId = {blogData?.id} />
     </>
   );
 };

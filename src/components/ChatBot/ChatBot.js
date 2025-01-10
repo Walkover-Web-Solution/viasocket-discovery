@@ -38,6 +38,12 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
               users.push({ id : currentUser.id , name : currentUser.name })
             }
           }
+          if(content?.commentId){
+            setBlogData((blogData)=>{
+              blogData.comments[content?.commentId.commentId]= {...content?.commentId}
+              return blogData
+            })
+          }
           msgCallback?.(content);
         }
       } catch (error) {
