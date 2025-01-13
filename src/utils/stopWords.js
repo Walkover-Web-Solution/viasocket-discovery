@@ -204,8 +204,40 @@ const stopWords = new Set([
     "scalability",
     "user-friendly",
     "intuitive",
-    "cloud-based",
-    "cloud"
+
+    // -- Other Stopwords
+    "also",
+    "also known as",
+    "and",
+    "as",
+    "at",
+    "by",
+    "can",
+    "could",
+    "for",
+    "from",
+    "has",
+    "have",
+    "in",
+    "is",
+    "it",
+    "its",
+    "of",
+    "on",
+    "or",
+    "the",
+    "to",
+    "was",
+    "were",
+    "will",
+    "with",
+    "you",
+    "that",
+    "are",
+    "be",
+    "but",
+    "if",
+    "so"
   ]);
   
   export default stopWords;
