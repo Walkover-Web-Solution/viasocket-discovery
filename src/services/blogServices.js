@@ -264,21 +264,36 @@ const searchBlogsByUserId = async ( userId, environment ) => {
   })
 }
 
-const getBlogsForImprove = async (environment) => {
+const getBlogsUpdatedNDaysAgo = async (n, environment) => {
   return withBlogModel(environment, async (Blog) => {
-    const oneDayAgo = new Date();
-    oneDayAgo.setDate(oneDayAgo.getDate() - 1); 
+    const nDaysAgo = new Date();
+    nDaysAgo.setDate(nDaysAgo.getDate() - n); 
 
     const blogs = await Blog.find({
       $or: [
-        { createdAt: { $gte: oneDayAgo } },  
-        { updatedAt: { $gte: oneDayAgo } } 
+        { createdAt: { $gte: nDaysAgo } },  
+        { updatedAt: { $gte: nDaysAgo } } 
       ]
     });
 
     return blogs;
   });
-};
+}
+
+const getBlogsBeforeNDays = async (n, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    const nDaysAgo = new Date();
+    nDaysAgo.setDate(nDaysAgo.getDate() - n); 
+
+    const blogs = await Blog.find({
+      $or: [
+        { createdAt: { $lte: nDaysAgo } },  
+      ], 
+    }, {id: 1, title: 1, slugName: 1, meta: 1});
+
+    return blogs;
+  });
+}
 
 const bulkUpdateBlogs = async (bulkOperations, environment) => {
   return withBlogModel(environment, async (Blog) => {
@@ -445,7 +460,6 @@ export default {
   getAllBlogTags,
   updateBlogsTags,
   searchBlogsByTag,
-  getBlogsForImprove,
   bulkUpdateBlogs,
   searchBlogsByUserId,
   blogWithApps,
@@ -455,7 +469,9 @@ export default {
   getAllComments,
   getCommentById,
   updateComment,
-  deleteComment
+  deleteComment, 
+  getBlogsBeforeNDays, 
+  getBlogsUpdatedNDaysAgo
 };
 
 
