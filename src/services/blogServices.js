@@ -3,7 +3,7 @@
 
 import createBlogModel from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
-import { generateNanoid, getAppNames, restoreceDotsInArray, restoreDotsInKeys } from '@/utils/utils';
+import { generateNanoid, getAppNames, nameToSlugName, restoreceDotsInArray, restoreDotsInKeys } from '@/utils/utils';
 import { getUpdatedApps } from './integrationServices';
 import stopWords from '@/utils/stopWords';
 
