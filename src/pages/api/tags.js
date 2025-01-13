@@ -32,7 +32,9 @@ export default async function handler(req, res) {
         const allPreviousCategories = await getCategoriesFromDbDash();
 
         const allPreviousTagsSet = new Set(allPreviousTags)
-        const allPreviousCategoriesSet = new Set(allPreviousCategories);
+        const allPreviousCategoriesSet = new Set(allPreviousCategories.map(category => category.name));
+        const nameToSlugnameMap = new Map(allPreviousCategories.map(category => [category.name, category.slug]));
+
         const allPreviousParametersSet = new Set(allPreviousParameters);
        
         const notAvailableTags = [] // all tags that are not present in  our database 
@@ -102,7 +104,7 @@ export default async function handler(req, res) {
         Object.keys(aiResponseCategories).forEach(key => {
           if (brigeToAllTagsAndParametersMap[key]?.meta?.category) {
             brigeToAllTagsAndParametersMap[key].meta.category = aiResponseCategories[key];
-            brigeToAllTagsAndParametersMap[key].meta.categorySlug = nameToSlugName(aiResponseCategories[key]);
+            brigeToAllTagsAndParametersMap[key].meta.categorySlug = nameToSlugnameMap[aiResponseCategories[key]] || 'it';
             if (!allPreviousCategoriesSet.has(aiResponseCategories[key])) newCategories.push(aiResponseCategories[key]);
           }
         });
@@ -143,7 +145,7 @@ async function getCategoriesFromDbDash() {
   });
 
   const data = await response.json();
-  const categories = data.data.rows.map(row => row.name).filter(name => name !== 'All');
+  const categories = data.data.rows.map((row) => {return {name:row.name,slug:row.slug}}).filter(row => row.name !== 'All');
   return categories;
 }
 
