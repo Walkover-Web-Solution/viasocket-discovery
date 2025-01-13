@@ -62,7 +62,6 @@ export async function getServerSideProps(context) {
 }
 
 export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
-  console.log('users', users);
   const [blogData, setBlogData] = useState(blog);
   const [integrations, setIntegrations] = useState(null);
   const router= useRouter();
@@ -93,9 +92,9 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
   setFAQs(blogData?.blog?.find(blog => blog?.section === 'FAQ')?.content);
  },[blogData])
 
- useEffect(() => {
-  if(blogData?.imageUrl) document.documentElement.style.setProperty("--blogTitleBackground", `url(${blogData.imageUrl})`);   
-}, [blogData?.imageUrl]); 
+//  useEffect(() => {
+//   if(blogData?.imageUrl) document.documentElement.style.setProperty("--blogTitleBackground", `url(${blogData.imageUrl})`);   
+// }, [blogData?.imageUrl]); 
 
 
   useEffect(() => {

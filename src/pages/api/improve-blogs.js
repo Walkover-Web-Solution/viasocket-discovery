@@ -74,19 +74,19 @@ export async function getWriter(countryCode,type){
 
 export async function createBulkOperation (blogs,environment){
    return await Promise.allSettled(blogs.map(async (blog) => {
-         const imagePromise =  imageGenerator(blog.title,blog.meta?.SEOMetaDescription);
+        //  const imagePromise =  imageGenerator(blog.title,blog.meta?.SEOMetaDescription);
         const countryCode = blog.countryCode || 'IN'; 
         const author = await getNames(countryCode);
         let processedBlog = await improveBlog(blog.blog, author.name);
         // await distinctifyPhrase(processedBlog, environment);
-        const imageUrl = await imagePromise;
+        // const imageUrl = await imagePromise;
         return {
             updateOne: {
                 filter: { id: blog.id },
                 update: { 
                   $set: { 
                     'blog': processedBlog,
-                    'imageUrl': imageUrl
+                    // 'imageUrl': imageUrl
                   }
                 }
               }
