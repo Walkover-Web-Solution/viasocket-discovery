@@ -21,7 +21,8 @@ export default async function handler(req, res) {
   }
 }
 
-const updateBlogUsingComments = async (blogId, environment) => {
+export const updateBlogUsingComments = async (blogId, environment) => {
+
   let blog = await blogServices.getBlogById(blogId, environment);
   const usefulBlog = {
     blog: blog.blog, 
@@ -42,7 +43,7 @@ const updateBlogUsingComments = async (blogId, environment) => {
   //make updateOperations using crux of comments
   const updatedOperations = await askAi(
     process.env.UPDATE_OPERATION_GENERATOR,
-    crux.action,
+    crux.action || "No changes",
     {
       blog: usefulBlog,
     }
@@ -50,7 +51,7 @@ const updateBlogUsingComments = async (blogId, environment) => {
 
   const operations = JSON.parse(
     updatedOperations.response.data.content
-  ).operations;
+  ).operations || [];
   
   // operations.forEach(async(operation,index)=>{
   //   if(operation.operation === 'add_app'){
@@ -101,6 +102,7 @@ const updateBlogUsingComments = async (blogId, environment) => {
 
   //apply operations to blog  and update comments status  to approved  and return updated blog
   blog = applyOperations(operations, blog);
+  blog.toUpdate = false;
   let userIds = crux.applicableComments.map(id => blog.comments[id].createdBy);
   commentsArray.forEach((comment) => {
     blog.comments[comment.id].status = "approved";
