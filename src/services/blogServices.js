@@ -289,7 +289,7 @@ const getBlogsBeforeNDays = async (n, environment) => {
       $or: [
         { createdAt: { $lte: nDaysAgo } },  
       ], 
-    }, {id: 1, title: 1, slugName: 1, meta: 1});
+    }, {id: 1, title: 1, slugName: 1, meta: 1, updatedAt: 1, _id : 0});
 
     return blogs;
   });
