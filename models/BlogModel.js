@@ -54,6 +54,9 @@ const createBlogModel = (connection) => {
       type: Date,
       default: Date.now,
     },
+    lastImproved: {
+      type: Date,
+    },
     countryCode: {
       type: String,
       required: true,
