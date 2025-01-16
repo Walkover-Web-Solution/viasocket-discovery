@@ -259,7 +259,8 @@ const searchBlogsByUserId = async ( userId, environment ) => {
       title: 1,
       id: 1,
       slugName: 1,
-      meta: 1
+      meta: 1,
+      createdBy:1
     })
   })
 }

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { fetchBlogs } from "@/utils/apis/blogApis";
 import { useRouter } from "next/router";
 import { nameToSlugName } from "@/utils/utils";
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
 export async function getServerSideProps(context) {
   const { userId } = context.params;
@@ -26,6 +27,7 @@ export default function UserPage({ user }) {
   const router = useRouter();
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [count, setCount] = useState({});
   useEffect(() => {
     if (user) {
       router.replace(
@@ -41,6 +43,16 @@ export default function UserPage({ user }) {
     const fetchData = async ()=>{
       const data = await fetchBlogs(`?userId=${user.id}`);
       setBlogs(data.blogs);
+      setCount(()=>{
+        let c = 0;
+        data.blogs.forEach((blog)=>{
+          if(blog?.createdBy[0] === user.id) c++;
+        });
+        return {
+          createdCount : c ,
+          contributed : data.blogs.length - c
+        }
+      });
       setIsLoading(false);
     }
     fetchData();
@@ -51,7 +63,9 @@ export default function UserPage({ user }) {
     if (isLoading) {
       return (
         <section className={styles.Homesection}>
-          <h2 className={styles.homeh2}>{title}</h2>
+          <h2 className={styles.homeh2}>
+            <b>{title}</b>
+            </h2>
           <div className={styles.cardsGrid}>
             <BlogCard isLoading={isLoading} />
             <BlogCard isLoading={isLoading} />
@@ -83,20 +97,31 @@ export default function UserPage({ user }) {
       )
     )
   }
-
   return (
     <div className={styles.container}>
       <div className={styles.userContainer}>
         <div className={styles.author}>
-        <Avatar className={styles.avatar}>
-          {user.name.charAt(0).toUpperCase()}
-        </Avatar>
-        <span className={styles.name}><strong>{user.name}</strong></span>
+          <PersonOutlineOutlinedIcon  className={styles.iconStyle}/>
+          <h3 className={styles.name}>{user.name}</h3>
         </div>
-        <p className={styles.contribution}>{blogs.length} blog{blogs.length !== 1 ? 's' : ''} contributed</p>
+        <p className={styles.contribution}>{user.meta.bio}</p>
+        <b>
+        <p className={styles.contribution}>
+          {count.createdCount > 0 ?
+             `${count.createdCount} blog${blogs.length > 1 ? 's' : ''} `
+             : ''
+          } 
+          {(count.createdCount > 0 && (blogs.length-count.createdCount)>0) 
+            ? `and `: ``
+          } 
+          {count.contributed > 0 ?
+            `${count.contributed} contributed ` : ''
+          }
+          </p>
+        </b>
       </div>
       <div className={styles.postHeaderDiv}>
-          {renderBlogsSection(blogs, `Exploring Apps by ${user.name}`)}
+          {renderBlogsSection(blogs, `Explore Blogs by ${user.name.trim().split(" ")[0]}`)}
       </div>
     </div>
   );
