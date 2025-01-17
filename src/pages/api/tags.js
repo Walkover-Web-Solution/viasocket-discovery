@@ -1,6 +1,6 @@
 import blogServices from "@/services/blogServices";
 import { addNewCategories, addNewParmeters, addNewTags, getAllTagsCategoriesAndParameters } from "@/services/tagsServices";
-import { askAi } from "@/utils/utils";
+import { askAi, nameToSlugName } from "@/utils/utils";
 import axios from "axios";
 
 
@@ -32,7 +32,9 @@ export default async function handler(req, res) {
         const allPreviousCategories = await getCategoriesFromDbDash();
 
         const allPreviousTagsSet = new Set(allPreviousTags)
-        const allPreviousCategoriesSet = new Set(allPreviousCategories);
+        const allPreviousCategoriesSet = new Set(allPreviousCategories.map(category => category.name));
+        const nameToSlugnameMap = new Map(allPreviousCategories.map(category => [category.name, category.slug]));
+
         const allPreviousParametersSet = new Set(allPreviousParameters);
        
         const notAvailableTags = [] // all tags that are not present in  our database 
@@ -54,9 +56,15 @@ export default async function handler(req, res) {
           notAvailableParameters.push(...missingParameters);
   
           if (category && !allPreviousCategoriesSet.has(category)) {
-              notAvailableCategories.add(category);
-              categoryToBridgeArrMap[category] = [...(categoryToBridgeArrMap[category] || []), item._id];
+            notAvailableCategories.add(
+              JSON.stringify(
+                { category : category,
+                  title : item.title,
+                  id : item._id
+                }));
+            categoryToBridgeArrMap[category] = [...(categoryToBridgeArrMap[category] || []), item._id];
           }
+          // return  res.status(201).json({ success: true, data: [] });
   
           // Map tags, parameters, and categories to blog entries
           missingTags.forEach(tag => {
@@ -88,8 +96,17 @@ export default async function handler(req, res) {
           brigeToAllTagsAndParametersMap[id].tags.add(originalTag);
         });
 
-        applyReplacements(aiResponseCategories, categoryToBridgeArrMap, (id, originalCategory) => {
-          brigeToAllTagsAndParametersMap[id].meta.category = originalCategory;
+        // applyReplacements(aiResponseCategories, categoryToBridgeArrMap, (id, originalCategory) => {
+        //   brigeToAllTagsAndParametersMap[id].meta.category = originalCategory;
+        // });
+        
+        const newCategories = [];
+        Object.keys(aiResponseCategories).forEach(key => {
+          if (brigeToAllTagsAndParametersMap[key]?.meta?.category) {
+            brigeToAllTagsAndParametersMap[key].meta.category = aiResponseCategories[key];
+            brigeToAllTagsAndParametersMap[key].meta.categorySlug = nameToSlugnameMap[aiResponseCategories[key]] || 'it';
+            if (!allPreviousCategoriesSet.has(aiResponseCategories[key])) newCategories.push(aiResponseCategories[key]);
+          }
         });
 
         applyReplacements(aiResponseParameters, parameterToBridgeArrMap, (id, originalParameter, replacement) => {
@@ -103,7 +120,7 @@ export default async function handler(req, res) {
           addNewTags(aiResponseTags.newTags, environment),
           addNewParmeters(aiResponseParameters.newParameters, environment),
           // addNewCategories(aiResponseCategories.newCategories, environment)
-          addCategoriesToDbDash(aiResponseCategories.newCategories) // add to db dash()
+          // addCategoriesToDbDash(newCategories) // add to db dash()
       ]);
         res.status(201).json({ success: true, data: [] });
         // res.status(201).json({ success: true, data: allTags });
@@ -119,24 +136,31 @@ export default async function handler(req, res) {
   }
 }
 
-async function getCategoriesFromDbDash(){
-  const categories = await axios.get('https://table-api.viasocket.com/65d2ed33fa9d1a94a5224235/tblh9c91k', {
-    headers:{
-      'auth-key' : process.env.DBDASH_VIASOCKET_WEBSITE_KEY
+async function getCategoriesFromDbDash() {
+  const response = await fetch('https://table-api.viasocket.com/65d2ed33fa9d1a94a5224235/tblh9c91k', {
+    method: 'GET',
+    headers: {
+      'auth-key': process.env.DBDASH_VIASOCKET_WEBSITE_KEY
     }
-  }).then(res => res.data.data.rows.map(row => row.name).filter(name => name !== 'All'));
+  });
+
+  const data = await response.json();
+  const categories = data.data.rows.map((row) => {return {name:row.name,slug:row.slug}}).filter(row => row.name !== 'All');
   return categories;
 }
 
-async function addCategoriesToDbDash(categories){
-  await axios.post('https://table-api.viasocket.com/65d2ed33fa9d1a94a5224235/tblh9c91k', {
-    records: categories.map(category => ({
-      name : category, 
-      hidden: true
-    }))
-  }, {
-    headers: {
-      'auth-key' : process.env.DBDASH_VIASOCKET_WEBSITE_KEY
-    }
-  })
-}
+// async function addCategoriesToDbDash(categories) {
+//   await fetch('https://table-api.viasocket.com/65d2ed33fa9d1a94a5224235/tblh9c91k', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'auth-key': process.env.DBDASH_VIASOCKET_WEBSITE_KEY
+//     },
+//     body: JSON.stringify({
+//       records: categories.map(category => ({
+//         name: category,
+//         hidden: true
+//       }))
+//     })
+//   });
+// }
