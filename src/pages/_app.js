@@ -20,6 +20,7 @@ function MyApp({ Component, pageProps }) {
         <title>viaSocket Discovery</title>
         <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32x32.png"></link>
         <link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/favicon-16x16.png"></link>
+        <script type="text/javascript" async="" src="https://www.googletagmanager.com/gtag/js?id=G-0DFEMF0FTJ&amp;l=dataLayer&amp;cx=c&amp;gtm=45He51d0v9194133166za200"></script>
       </Head>
       <UserProvider>
         <Layout>

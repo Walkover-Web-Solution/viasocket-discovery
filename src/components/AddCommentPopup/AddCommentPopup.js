@@ -7,10 +7,12 @@ const AddCommentPopup = ({ open, onClose, blogId, setComments }) => {
     async function onSubmit(){
         onClose();
         const comment = await postComment(blogId, text);
-        setComments(prev => {
-            console.log(prev, "Hello Prev", comment);
-            return {...prev, [comment.commentId] : comment};
-        })
+        if(comment?.commentId){
+            setComments(prev => {
+                console.log(prev, "Hello Prev", comment);
+                return {...prev, [comment.commentId] : comment};
+            })
+        }
     }
     return (
         <Dialog open = {open}>
