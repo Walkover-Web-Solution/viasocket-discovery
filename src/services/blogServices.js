@@ -443,10 +443,20 @@ const deleteComment = async (blogId, commentId, userId, environment) => {
     if(comment.createdBy != userId){
       throw new Error("You are not authorized to delete this comment");
     }
+    let toUpdate = false;
+    Object.entries(blog.comments).forEach(([key, comment]) => {
+      if (key != commentId && comment.status == 'pending') {
+        toUpdate = true;
+      } 
+    });
+    
 
     return await Blog.updateOne(
       { id: blogId },
-      { $unset: { [`comments.${commentId}`]: "" } }
+      { 
+        $unset: { [`comments.${commentId}`]: "" },
+        $set : { toUpdate: toUpdate }
+      },
     )
   });
 };
