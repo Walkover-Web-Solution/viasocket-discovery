@@ -451,6 +451,16 @@ const deleteComment = async (blogId, commentId, userId, environment) => {
   });
 };
 
+const getBlogsToMergeComments = (environment) =>{
+  return withBlogModel(environment, async(Blog) => {
+    const data = await Blog.find(
+     {toUpdate : true},
+     { id : 1 }
+    );
+    return data;
+  });
+}
+
 export default {
   getAllBlogs,
   createBlog,
@@ -472,7 +482,8 @@ export default {
   updateComment,
   deleteComment, 
   getBlogsBeforeNDays, 
-  getBlogsUpdatedNDaysAgo
+  getBlogsUpdatedNDaysAgo,
+  getBlogsToMergeComments
 };
 
 
