@@ -19,6 +19,7 @@ import { toast } from 'react-toastify';
 import UnauthorizedPopup from '@/components/UnauthorisedPopup/UnauthorisedPopup';
 import UserBioPopup from '@/components/UserBioPopup/UserBioPoup';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import Head from 'next/head';
 
 export async function getServerSideProps(){
   try{
@@ -231,6 +232,9 @@ export default function Home({ popularUsers = [] }) {
   
   return (
     <div className={styles.homePageContainer + ' ' + (searchQuery ? styles.contentToBottom: '')}>
+      <Head>
+        <title>{searchQuery ? `${searchQuery}` : 'Discover Top Software | viasocket discovery'}</title>
+      </Head>
       <div className={styles.homePageDiv}>
         {
           !isOpen && !searchQuery && (
