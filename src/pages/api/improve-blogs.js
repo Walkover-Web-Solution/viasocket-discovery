@@ -86,7 +86,8 @@ export async function createBulkOperation (blogs,environment){
                 update: { 
                   $set: { 
                     'blog': processedBlog,
-                    'imageUrl': imageUrl
+                    'imageUrl': imageUrl,
+                    'lastImproved' : Date.now(),
                   }
                 }
               }
