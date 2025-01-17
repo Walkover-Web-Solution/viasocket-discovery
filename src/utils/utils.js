@@ -115,7 +115,11 @@ export function sendAlert(message,  bridgeId, message_id, thread_id ){
 });
 }
 export function nameToSlugName(name){
-    return name.toLowerCase().replace(/[\s/()]+/g, '-');
+    return name.toLowerCase()                   // Convert text to lowercase
+    .trim()                          // Remove whitespace from both sides
+    .replace(/[^\w\s-]/g, '')        // Remove special characters
+    .replace(/\s+/g, '-')            // Replace spaces with hyphens
+    .replace(/-+/g, '-');            // Replace multiple hyphens with a single hyphen
 }
 
 export function appNameToId(name) {

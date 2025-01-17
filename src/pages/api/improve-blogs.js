@@ -13,7 +13,7 @@ export default async function handler(req, res) {
             let failedBlogs = [];  
             try {
                 res.status(200).json({status:"success"})   // send immediate res 
-                const blogs = await blogServices.getBlogsForImprove(environment);
+                const blogs = await blogServices.getBlogsUpdatedNDaysAgo(1, environment);
                 const bulkOperations = await createBulkOperation(blogs,environment);
                 let validBulkOperations = [];
                 bulkOperations.forEach((result, index) => {
@@ -86,7 +86,8 @@ export async function createBulkOperation (blogs,environment){
                 update: { 
                   $set: { 
                     'blog': processedBlog,
-                    // 'imageUrl': imageUrl
+                    // 'imageUrl': imageUrl,
+                    'lastImproved' : Date.now(),
                   }
                 }
               }

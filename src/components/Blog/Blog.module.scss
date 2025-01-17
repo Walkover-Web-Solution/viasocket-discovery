@@ -1,28 +1,39 @@
 .card {
   border: 1px solid black;
+  border-bottom: none ;
   border-radius: 2px;
-  padding: 1rem 1.5rem;
+  padding: 2rem 2.5rem;
   cursor: pointer;
   transition: 0.2s ease, transform 0.2s ease;
   width: 100%;
-  margin-bottom: 1.2rem;
-  // background-color: #e4e0df
   background-color: var(--background-color);
   .tag{
     background-color: transparent;
     border: none;
-    padding: 10px 5px;
-    &::before{
-      content: "#";
-    }
+  }
+  transition: background-color .4s ease, color 0.3s ease, transform 0.3s ease; 
+  &:hover {    
+      background-color: black;
+      color:rgb(228, 228, 228);
+      .tag{
+        color:rgb(192, 192, 192);
+        &:hover{
+          background-color:rgb(228, 228, 228);
+          color: black;
+        }
+      }
+
+  }
+  &:last-child{
+    border-bottom: 1px solid black;
   }
 }
 
 .card h3 {
   margin-top: 0;
-  font-size: 1.5rem;
-  color: #333;
-  padding: 10px 0;
+  font-size: 20px;
+  font-family: var(--para-font);
+  padding-bottom: 10px;
 }
 
 .card p {
@@ -33,22 +44,26 @@
   font-size: 1.1rem;
 }
 .tagsContainer {
-  padding: 10px 0;
+  padding-top: 4px;
   margin-top: 1px;
 }
 
 .tag {
   display: inline-block;
-  padding: 0.6rem 1.2rem;
-  margin: 4px;
+  font-size: 16px;
   background-color: var(--light-grey);
   border: 1px solid black;
   color: #555;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+  padding: 0px 10px ;
   &:nth-of-type(n+5){
     display: none;
   }
+  &:first-child{
+    margin-left: -5px;
+  }
+
 }
 
 .tag:hover {
@@ -62,13 +77,15 @@
 .appIconsDiv{
   display: flex;
   flex-wrap: wrap;
-  gap: 0.7rem;
+  gap: 0.3rem;
   .appIcon{
     padding: 3px;
-    border: 1px solid var(--intermediate-color);
-    width: 3rem;
-    height: 3rem;
+    width: 30px;
+    height: 30px;
     border-radius: 3px;
+    img{
+      object-fit: contain;
+    }
   }
 }
 @media (max-width: 600px) {
