@@ -91,10 +91,10 @@ const Components = {
                       {appData?.description || ""}
                     </ReactMarkdown>
                   </div>
-                  <ArrowOutwardIcon
+                  {/* <ArrowOutwardIcon
                     className={styles.arrowIcon}
                     fontSize='small'
-                  />
+                  /> */}
                 </ListItem>
               </a>
             );
