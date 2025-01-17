@@ -233,7 +233,7 @@ export default function Home({ popularUsers = [] }) {
   return (
     <div className={styles.homePageContainer + ' ' + (searchQuery ? styles.contentToBottom: '')}>
       <Head>
-        <title>{searchQuery ? `${searchQuery}` : 'Discover Top Software | viasocket discovery'}</title>
+        <title>{searchQuery ? `${searchQuery} ` : 'Discover Top Software '}| Viasocket Discovery</title>
       </Head>
       <div className={styles.homePageDiv}>
         {
