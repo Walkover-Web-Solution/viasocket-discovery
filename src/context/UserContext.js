@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
     //   return ;
     // }
     const token = getFromCookies(getCurrentEnvironment())
-    if (!token) return 
+    if (!token) { setUser(null); return }
     const userInfo = await getCurrentUser();
     const userData = userInfo?.data[0]
     // localStorage.setItem("userDetail", JSON.stringify({ name: userData.name, email: userData.email, id: userData.id }));
@@ -30,10 +30,15 @@ export const UserProvider = ({ children }) => {
   }
   useEffect(() => {
     getCurrentUserFunction()
+    window.clearUserGlobally = clearUser;
   }, []);
+  const clearUser = () => {
+    setUser(null);
+  };
+
 
   return (
-    <UserContext.Provider value={{ user, setUser, loading ,isChatOpen ,setIsChatOpen}}>
+    <UserContext.Provider value={{ user, setUser, loading ,isChatOpen ,setIsChatOpen,clearUser}}>
       {children}
     </UserContext.Provider>
   );
