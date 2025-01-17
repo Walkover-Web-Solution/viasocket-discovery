@@ -1,19 +1,21 @@
 .footer {
-    padding: 40px 20px;
-    // background-color: #f8f9fa;
+    padding-top: 40px ;
     border-top: 1px solid #e7e7e7;
     a{
       padding: 5px 0;
     }
   }
   .footerContainer{
-    width: 80%;
+    width: 100%;
     margin: auto;
   }
   .footerLeft{
     border: 1px solid black;
     border-right: none;
+    border-left: none;
     padding: 30px;
+    display: flex;
+    flex-direction: column;
   }
   
   .footerLogo {
@@ -36,6 +38,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     border:1px solid black;
+    border-right: none;
   }
   
   .footerColumn {

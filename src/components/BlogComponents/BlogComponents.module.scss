@@ -98,8 +98,9 @@
       justify-content: space-between;
       max-width: var(--blog-width);
       align-items: center;
-      .visitIntegrations {
+      .visitIntegrations ,.visitWebsite {
         font-size: 1rem;
+        font-family: Courier Prime;
         border: 1px solid black;
         display: flex;
         justify-content: center;
@@ -108,6 +109,14 @@
         background-color: black;
         color: white;
         gap: 8px;
+        // &:hover{
+        //   box-shadow: 0 4px 7px rgba(0, 0, 0, 0.2); 
+        // }
+      }
+      .visitWebsite{
+        color: #252525;
+        background-color: #FAFAFA;
+        border:1px solid #252525;
       }
     }
   }
@@ -183,6 +192,10 @@
   }
   .appDomain:hover {
     text-decoration: underline;
+  }
+  .buttons{
+    display: flex;
+    gap:1rem;
   }
 }
 

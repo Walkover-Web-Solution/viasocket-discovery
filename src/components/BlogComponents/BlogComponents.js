@@ -179,17 +179,28 @@ const Components = {
                     <h5>{appName}</h5>
                   </div>
                 </a>
-                {integrations?.[appName.toLowerCase()] && (
-                  <Link
-                    className={styles.visitIntegrations}
-                    href={`https://viasocket.com/integrations/${nameToSlugName(
-                      appName
-                    )}`}
-                    target='_blank'
-                  >
-                    View Integrations <ArrowOutwardIcon fontSize='small' />
-                  </Link>
-                )}
+                <div className={styles.buttons}>
+                  {apps[appName]?.domain && (
+                    <Link
+                      className={styles.visitWebsite}
+                      href={`https://${apps[appName].domain}`}
+                      target='_blank'
+                    >
+                      Visit Website <ArrowOutwardIcon fontSize='small' className={styles.arrowIcon} />
+                    </Link>
+                  )}
+                  {integrations?.[appName.toLowerCase()] && (
+                    <Link
+                      className={styles.visitIntegrations}
+                      href={`https://viasocket.com/integrations/${nameToSlugName(
+                        appName
+                      )}`}
+                      target='_blank'
+                    >
+                      View Integrations <ArrowOutwardIcon fontSize='small' className={styles.arrowIcon} />
+                    </Link>
+                  )}
+                </div>
               </div>
               <ReactMarkdown
                 className={styles.content}
