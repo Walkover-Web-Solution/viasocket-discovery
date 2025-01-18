@@ -67,7 +67,8 @@ export async function askAi(bridgeId, userMessage, variables, chatId) {
               headers: {
                   'Content-Type': 'application/json',
                   'pauthkey': PAUTH_KEY,
-              }
+              },
+              timeout: 1000 * 60 * 3,
           }
       );
 
