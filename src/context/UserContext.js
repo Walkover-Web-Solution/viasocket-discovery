@@ -18,14 +18,16 @@ export const UserProvider = ({ children }) => {
     const token = getFromCookies(getCurrentEnvironment())
     if (!token) { setUser(null); return }
     const userInfo = await getCurrentUser();
-    const userData = userInfo?.data[0]
     // localStorage.setItem("userDetail", JSON.stringify({ name: userData.name, email: userData.email, id: userData.id }));
-    setUser({
-      name: userData.name,
-      email: userData.email,
-      id: userData.id,
-      meta: userData.meta,
-    });
+    if(userInfo){
+      const userData = userInfo?.data[0]
+      setUser({
+        name: userData.name,
+        email: userData.email,
+        id: userData.id,
+        meta: userData.meta,
+      });
+    }
     setLoading(false);
   }
   useEffect(() => {

@@ -45,7 +45,6 @@ export const getCurrentUser = async () => {
 
     } catch (error) {
         console.error("Error fetching current user details:", error);
-        throw error;
     }
 };
 
