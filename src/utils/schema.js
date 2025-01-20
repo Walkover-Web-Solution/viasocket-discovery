@@ -202,5 +202,6 @@ export const blogSchema = Joi.object({
   countryCode: Joi.string().optional(),
   createdAt :Joi.any().optional(),
   updatedAt : Joi.any().optional(),
+  imageUrl: Joi.any().optional(),
   __v: Joi.any().optional()
 });
