@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Box } from '@mui/material';
 import AutoAwesomeOutlinedIcon from '@mui/icons-material/AutoAwesomeOutlined';
 import AddIcon from '@mui/icons-material/Add';
-import { dispatchAskAppAiWithAuth } from '@/utils/utils';
+import { dispatchAskAppAiWithAuth, restoreDotsInKeys } from '@/utils/utils';
 import AddCommentPopup from '../AddCommentPopup/AddCommentPopup';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 
@@ -54,7 +54,7 @@ const AIresponse = ({ blogData, users, integrations, appBlogs, isOpen, setIsOpen
               <>
                {dynamicSections.map(({content, heading, section}) => (
                   (section === 'detailed_reviews') ?
-                    Components['detailedReviews']({...detailedReviews, integrations, appBlogs, apps : blogData.apps}):
+                    Components['detailedReviews']({...detailedReviews, integrations, appBlogs, apps : restoreDotsInKeys(blogData.apps)}):
                     Components['additionalSection']?.({content, heading})
                 ))}
               </>

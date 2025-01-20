@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 import { compareBlogs } from '@/utils/apis/chatbotapis';
 import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 import { useUser } from '@/context/UserContext';
-import { dispatchAskAiEvent, getAllUsers, nameToSlugName, safeParse } from '@/utils/utils';
+import { dispatchAskAiEvent, getAllUsers, nameToSlugName, restoreDotsInKeys, safeParse } from '@/utils/utils';
 import BlogCard from '@/components/Blog/Blog';
 import { getCurrentEnvironment, getFromLocalStorage } from '@/utils/storageHelper';
 import Head from 'next/head';
@@ -115,10 +115,11 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
         setIntegrations(data);
     }
     if (blogData?.apps) {
+      blogData.apps = restoreDotsInKeys(blogData.apps);
       const appKeys = Object.keys(blogData.apps);
       getData(appKeys)
     }
-  }, [blogData?.apps]);
+  }, []);
 
   useEffect(() => {
     if(!currentUser?.id) return ;
