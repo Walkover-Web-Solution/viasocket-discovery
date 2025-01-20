@@ -10,6 +10,9 @@
   .tag{
     background-color: transparent;
     border: none;
+    &:first-child{
+    margin-left: -5px;
+  }
   }
   transition: background-color .4s ease, color 0.3s ease, transform 0.3s ease; 
   &:hover {    
@@ -60,9 +63,7 @@
   &:nth-of-type(n+5){
     display: none;
   }
-  &:first-child{
-    margin-left: -5px;
-  }
+
 
 }
 

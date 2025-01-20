@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
 import '../globals.scss';
 import Head from 'next/head';
+import { getCurrentEnvironment } from '@/utils/storageHelper';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -21,7 +22,11 @@ function MyApp({ Component, pageProps }) {
         <title>viaSocket Discovery</title>
         <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32x32.png"/>
         <link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/favicon-16x16.png"/>
-        <script type="text/javascript" async src="https://www.googletagmanager.com/gtag/js?id=G-0DFEMF0FTJ&l=dataLayer&cx=c&gtm=45He51d0v9194133166za200"></script>
+        
+        
+        {getCurrentEnvironment() === 'prod' && 
+        <>
+          <script type="text/javascript" async src="https://www.googletagmanager.com/gtag/js?id=G-0DFEMF0FTJ&l=dataLayer&cx=c&gtm=45He51d0v9194133166za200"></script>
 
         {/* Google Tag Manager (noscript) */}
         <noscript>
@@ -46,6 +51,10 @@ function MyApp({ Component, pageProps }) {
             })(window,document,'script','dataLayer','GTM-THTCRSLN');
           `}
         </script>
+        </>
+        }
+
+        
       </Head>
       <UserProvider>
         <Layout>
