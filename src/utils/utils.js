@@ -204,13 +204,18 @@ export const improveBlogPrompt = ( writer ) => {
 }
 
 export  function extractJsonFromMarkdown(markdown) {
-  const jsonRegex = /```json([^```]+)```/g;
-  const match = jsonRegex.exec(markdown);
-  if (match && match[1]) {
-      const jsonData = JSON.parse(match[1].trim());
-      return jsonData;
-  } else {
-    throw new Error("No JSON found in Markdown");
+  try {
+    const jsonRegex = /```json([^```]+)```/g;
+    const match = jsonRegex.exec(markdown);
+    // if (match && match[1]) {
+        const jsonData = JSON.parse(match[1].trim());
+        return jsonData;
+    // } else {
+    //   throw new Error("No JSON found in Markdown");
+    // }
+  } catch (error) {
+    throw new Error("Not able to extract JSON from Markdown !");
+    
   }
 }
 
