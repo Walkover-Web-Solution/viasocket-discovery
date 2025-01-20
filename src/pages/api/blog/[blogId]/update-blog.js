@@ -1,6 +1,7 @@
 import blogServices from "@/services/blogServices";
+import { blogSchema } from "@/utils/schema";
 const _ = require("lodash");
-import { askAi, extractJsonFromMarkdown } from "@/utils/utils";
+import { askAi, extractJsonFromMarkdown, ValidateAiResponse } from "@/utils/utils";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -13,7 +14,7 @@ export default async function handler(req, res) {
         await updateBlogUsingComments(blogId, environment);
       } catch (error) {
         console.log(error);
-        return res.status(200).json({ success: false, error: error });
+        return res.status(400).json({ success: false, error: error.message });
       }
       return res.status(200).json({ success: true });
     default:
@@ -107,6 +108,11 @@ export const updateBlogUsingComments = async (blogId, environment) => {
   commentsArray.forEach((comment) => {
     blog.comments[comment.id].status = "approved";
   });
+  
+  const validate = ValidateAiResponse(blog,blogSchema);
+  if(validate.success == false){
+    throw new Error(`the updated blog doesn't pass the validation -- ${validate.errorMessages}`);
+  }
 
   //finaly update the update according to all the changes
   const newBlog = await blogServices.updateBlogById(

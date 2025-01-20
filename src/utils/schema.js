@@ -135,3 +135,72 @@ export const improveBlogSchema = Joi.array().items(
       section: Joi.string().optional(),
     })
 );
+export const blogSchema = Joi.object({
+  _id: Joi.any(),
+  id: Joi.string().required(), 
+  title: Joi.string().required(),
+  titleDescription: Joi.string().optional(),
+  blog: Joi.array().items(
+    Joi.object({
+      heading: Joi.string().required(),
+      content: Joi.alternatives().try(
+        Joi.string(),
+        Joi.array().items(
+          Joi.alternatives().try(
+            Joi.object({
+              appName: Joi.string().required(),
+              content: Joi.string().required()
+            }),
+            Joi.object({
+              question: Joi.string().required(),
+              answer: Joi.string().required()
+            })
+          )
+        )
+      ).required(),
+      section: Joi.string().optional(),
+    })
+  ).required().custom((blogs, helpers) => {
+    let hasDetailedReview = false;
+
+    for (let blog of blogs) {
+      if (blog.section === 'detailed_reviews') {
+        hasDetailedReview = true;
+
+        const isArrayOfObjects = Array.isArray(blog.content) &&
+          blog.content.every(item => typeof item === 'object' && item.appName && item.content);
+
+        if (!isArrayOfObjects) {
+          return helpers.message('When the key "section" is "detailed_reviews", the key "content" must be an array of objects. Each object must contain two keys: "appName" (a string representing the name of the app) and "content" (a string describing the content or feature of the app).');
+        }
+      } else if (blog.section === 'FAQ') {
+        const isArrayOfObjects = Array.isArray(blog.content) &&
+          blog.content.every(item => typeof item === 'object' && item.question && item.answer);
+
+        if (!isArrayOfObjects) {
+          return helpers.message('When the key "section" is "FAQ", the key "content" must be an array of objects. Each object must contain two keys: "question" (a string representing the question) and "answer" (a string describing the answer of the question).');
+        }
+      } else {
+        if (typeof blog.content !== 'string') return helpers.message('Content in sections other than "detailed_reviews" and "FAQ" must be a string.');
+      }
+    }
+
+    if (!hasDetailedReview) {
+      return helpers.message('The blog array must contain an element where the key "section" is "detailed_reviews", the key "heading" is a string (e.g., "some heading"), and the key "content" is an array of objects. Each object in the "content" array must contain the key "appName" (a string representing the app name) and the key "content" (a string describing the app).');
+    }
+
+    return blogs;
+  }),
+  tags: Joi.array().items(Joi.string()).required(),
+  meta: Joi.object().required(),
+  slugName: Joi.string().required(),
+  apps: Joi.object().required(),
+  createdBy: Joi.array().items(Joi.number()).required(),
+  appNames: Joi.array().items(Joi.string()).optional(),
+  comments: Joi.object().allow(null).optional(),
+  toUpdate : Joi.boolean().optional(),
+  countryCode: Joi.string().optional(),
+  createdAt :Joi.any().optional(),
+  updatedAt : Joi.any().optional(),
+  __v: Joi.any().optional()
+});
