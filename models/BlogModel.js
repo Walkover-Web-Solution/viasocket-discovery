@@ -97,9 +97,9 @@ const createBlogModel = (connection) => {
   
   BlogSchema.pre('findOneAndUpdate', function (next) {
     const update = this.getUpdate();
-    if (update && update.apps) {
-      update.appNames = Object.keys(update.apps).map((name) => name.replace(/~/g, '.'));
-      update.apps = replaceDotsInKeys(update.apps);
+    if (update && update["$set"]?.apps) {
+      update["$set"].appNames = Object.keys(update["$set"].apps).map((name) => name.replace(/~/g, '.'));
+      update["$set"].apps = replaceDotsInKeys(update["$set"].apps);
     }
     next();
   });
