@@ -88,6 +88,7 @@ export async function createBulkOperation (blogs,environment){
                     'blog': processedBlog,
                     // 'imageUrl': imageUrl,
                     'lastImproved' : Date.now(),
+                    'toImprove': false,
                   }
                 }
               }
