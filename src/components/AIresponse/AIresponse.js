@@ -46,7 +46,7 @@ const AIresponse = ({ blogData, users, integrations, appBlogs, isOpen, setIsOpen
         <title>{((blogData?.meta?.headerTitle || blogData?.title) || "New chat") + ' | Viasocket'}</title>
       </Head>
       <div className = {`${styles.blogPage} ${isOpen?styles.addLeftMargin:''}`}>
-        {Components['title']({users, createdAt: blogData?.createdAt, content: blogData?.title, subHeading: blogData?.titleDescription, updatedAt: blogData?.updatedAt })}
+        {Components['title']({users, createdAt: blogData?.createdAt, content: blogData?.title, subHeading: blogData?.titleDescription, updatedAt: blogData?.updatedAt, isUndereview: blogData?.toImprove })}
         <div className={styles.containerDiv}>
           <div className={`${styles.markdownContainer} ${isOpen ? styles.makeFullWidth: ''}`}>
             {!hasMarkdown && Components['dummy']()}

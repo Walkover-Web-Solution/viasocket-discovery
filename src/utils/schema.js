@@ -203,5 +203,7 @@ export const blogSchema = Joi.object({
   createdAt :Joi.any().optional(),
   updatedAt : Joi.any().optional(),
   imageUrl: Joi.any().optional(),
+  lastImproved : Joi.any().optional(),
+  toImprove : Joi.boolean().optional(),
   __v: Joi.any().optional()
 });

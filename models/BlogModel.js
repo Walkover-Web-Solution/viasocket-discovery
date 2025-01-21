@@ -50,6 +50,9 @@ const createBlogModel = (connection) => {
       type: Boolean,
       default: true,
     },
+    toImprove: {
+      type: Boolean,
+    },
     createdAt: {
       type: Date,
       default: Date.now,

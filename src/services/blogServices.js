@@ -47,7 +47,12 @@ const createBlog = async (blogData, environment) => {
   return await withBlogModel(environment, async (Blog) => {
     const appNames = getAppNames(blogData.blog)
     const apps = await getUpdatedApps(appNames, environment);
-    const newBlog = (await Blog.create({ ...blogData, apps, id: generateNanoid(6) })).toObject();
+    const newBlog = (await Blog.create({ 
+      ...blogData,
+      apps,
+      id: generateNanoid(6),
+      toImprove : true 
+    })).toObject();
     return {
       id: newBlog.id,
       blog: newBlog.blog, 
@@ -281,6 +286,16 @@ const getBlogsUpdatedNDaysAgo = async (n, environment) => {
   });
 }
 
+const getImprovedBlogs = async (improved, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    const blogs = await Blog.find({
+      toImprove: improved
+    });
+
+    return blogs;
+  });
+}
+
 const getBlogsBeforeNDays = async (n, environment) => {
   return withBlogModel(environment, async (Blog) => {
     const nDaysAgo = new Date();
@@ -493,7 +508,8 @@ export default {
   deleteComment, 
   getBlogsBeforeNDays, 
   getBlogsUpdatedNDaysAgo,
-  getBlogsToMergeComments
+  getBlogsToMergeComments,
+  getImprovedBlogs
 };
 
 
