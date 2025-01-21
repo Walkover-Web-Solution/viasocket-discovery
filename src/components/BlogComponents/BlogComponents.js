@@ -26,7 +26,7 @@ const HtmlTooltip = styled(({ className, ...props }) => (
 }));
 
 const Components = {
-  title: ({ content, users, createdAt, subHeading, updatedAt }) => {
+  title: ({ content, users, createdAt, subHeading, updatedAt, isUndereview }) => {
     const isWithinLast7Days =
       new Date(
         Math.max(new Date(createdAt), updatedAt ? new Date(updatedAt) : 0)
@@ -43,7 +43,7 @@ const Components = {
             createdAt={createdAt}
             title={content}
           />
-          {isWithinLast7Days && (
+          {isUndereview != false && (
             <div className={styles.underReview}>
               <HtmlTooltip title='This article is currently under review by our expert team.'>
                 <h4>

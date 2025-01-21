@@ -133,8 +133,37 @@ export const improveBlogSchema = Joi.array().items(
       content: Joi.any().required(),
       heading: Joi.string().required(),
       section: Joi.string().optional(),
-    })
-);
+    })).custom((blogs, helpers) => {
+      let hasDetailedReview = false;
+
+      for (let blog of blogs) {
+        if (blog.section === 'detailed_reviews') {
+          hasDetailedReview = true;
+
+          const isArrayOfObjects = Array.isArray(blog.content) &&
+            blog.content.every(item => typeof item === 'object' && item.appName && item.content);
+
+          if (!isArrayOfObjects) {
+            return helpers.message('When the key "section" is "detailed_reviews", the key "content" must be an array of objects. Each object must contain two keys: "appName" (a string representing the name of the app) and "content" (a string describing the content or feature of the app).');
+          }
+        } else if (blog.section === 'FAQ') {
+          const isArrayOfObjects = Array.isArray(blog.content) &&
+            blog.content.every(item => typeof item === 'object' && item.question && item.answer);
+
+          if (!isArrayOfObjects) {
+            return helpers.message('When the key "section" is "FAQ", the key "content" must be an array of objects. Each object must contain two keys: "question" (a string representing the question) and "answer" (a string describing the answer of the question).');
+          }
+        } else {
+          if (typeof blog.content !== 'string') return helpers.message('Content in sections other than "detailed_reviews" and "FAQ" must be a string.');
+        }
+      }
+
+      if (!hasDetailedReview) {
+        return helpers.message('The blog array must contain an element where the key "section" is "detailed_reviews", the key "heading" is a string, and the key "content" is an array of objects. Each object in the "content" array must contain the key "appName" (a string representing the app name) and the key "content" (a string describing the app).');
+      }
+
+      return blogs;
+    });
 export const blogSchema = Joi.object({
   _id: Joi.any(),
   id: Joi.string().required(), 
@@ -203,5 +232,7 @@ export const blogSchema = Joi.object({
   createdAt :Joi.any().optional(),
   updatedAt : Joi.any().optional(),
   imageUrl: Joi.any().optional(),
+  lastImproved : Joi.any().optional(),
+  toImprove : Joi.boolean().optional(),
   __v: Joi.any().optional()
 });
