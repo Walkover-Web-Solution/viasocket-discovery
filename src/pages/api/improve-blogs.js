@@ -11,6 +11,7 @@ export default async function handler(req, res) {
         case 'POST':
             let results = {}; 
             let failedBlogs = [];  
+            let successBlogsIds = []; 
             try {
                 res.status(200).json({status:"success"})   // send immediate res 
                 const blogs = await blogServices.getImprovedBlogs(true, environment);
@@ -19,6 +20,7 @@ export default async function handler(req, res) {
                 bulkOperations.forEach((result, index) => {
                     if (result.status === 'fulfilled') {
                         validBulkOperations.push(result.value);
+                        successBlogsIds.push(blogs[index].id);
                     } else if (result.status === 'rejected') {
                         failedBlogs.push({
                             id: blogs[index].id,
@@ -33,7 +35,7 @@ export default async function handler(req, res) {
                 sendMessageTochannel({"message":'error in improve blog API.' , error : error.message})
              
             }finally{
-                sendMessageTochannel({"message":`improveBlog complete ${results?.result?.nModified} blogs updated ` , failedBlogs : failedBlogs})
+                sendMessageTochannel({"message":`improveBlog complete ${results?.result?.nModified} blogs improved , ids: ${successBlogsIds} ` , failedBlogs : failedBlogs})
             }
         default:
             // Handle unsupported request methods
