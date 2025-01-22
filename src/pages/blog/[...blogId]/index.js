@@ -161,6 +161,36 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
       });
     }
   };
+
+  const jsonLd = {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": blogData.title,
+    "author": Object.values(users).map(user => ({
+      "@type": "Person",
+      "name": user?.name,
+      "url": `https://viasocket.com/discovery/user/${user?.id}`,
+    })),
+    "datePublished": blogData.createdAt,
+    "dateModified": blogData.updatedAt ,
+    "mainEntityOfPage": `https://viasocket.com/discovery/blog/${blogData?.id}`,
+    "publisher": {
+      "@type": "Organization",
+      "name": "Viasocket",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://viasocket.com/assets/brand/logo.svg"
+      }
+    },
+    "description": blogData?.meta?.SEOMetaDescription || blogData?.title,
+    "keywords": [...blogData?.tags || [], ...(blogData?.meta?.SEOKeywords || [])].join(', ').slice(0, -2),
+    "url": `https://viasocket.com/discovery/blog/${blogData?.id}`,
+    "contactPoint":{
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "url": "https://viasocket.com/support"
+    }
+  };
   
   return (
     <>
@@ -168,6 +198,10 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
         <meta name="description" content={blog?.meta?.SEOMetaDescription || blog?.title}/>
         <meta name="author" content={users?.[blog?.createdBy[0]]?.name}/>
         <meta name="keywords" content={[...blog?.tags||[], ...(blog?.meta?.SEOKeywords || [])].join(', ')} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </Head>
       <div>
         <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
