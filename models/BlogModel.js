@@ -47,8 +47,7 @@ const createBlogModel = (connection) => {
     //   default: {},
     // },
     toUpdate: {
-      type: Boolean,
-      default: true,
+      type: Boolean
     },
     toImprove: {
       type: Boolean,
