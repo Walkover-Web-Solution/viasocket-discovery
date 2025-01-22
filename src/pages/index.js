@@ -229,68 +229,6 @@ export default function Home({ popularUsers = [] }) {
   useEffect(()=>{
     if(!user) setIsOpen(false);
   },[user])
-  
-   // JSON-LD Structured Data
-   const jsonLdData = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Viasocket Discovery",
-    "description": searchQuery
-        ? `Search results for "${searchQuery}" on Viasocket Discovery. Explore top software in various categories curated by experts and users. ${
-              blogs.length > 0
-                  ? `"${blogs.slice(0, 2).map(blog => blog.title).join('", ')}".`
-                  : ''
-          }`
-        : `Viasocket Discovery offers a platform to explore and discover top software in various categories. Curated by experts and users, it's your go-to place to find the best software solutions.`,
-    "url": `https://viasocket.com/discovery${searchQuery ? `?search=${searchQuery}` : ''}`,
-    "mainEntityOfPage": "True",
-    "publisher": {
-        "@type": "Organization",
-        "name": "Viasocket",
-        "logo": {
-            "@type": "ImageObject",
-            "url": "https://viasocket.com/logo.png"
-        }
-    },
-    "author": {
-        "@type": "Organization",
-        "name": "Viasocket Team"
-    },
-    "keywords": searchQuery ? searchQuery : "software, discovery, technology, top software, blog",
-    "breadcrumb": {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://viasocket.com"
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Discovery",
-                "item": "https://viasocket.com/discovery"
-            }
-        ]
-    },
-    "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://viasocket.com/discovery?search={search_term_string}",
-        "query-input": "required name=search_term_string"
-    },
-    "blogPosts": blogs.slice(0, 5).map(blog => ({
-        "@type": "BlogPosting",
-        "headline": blog.title,
-        "url": `https://viasocket.com/discovery/blog/${blog.id}`,
-        "author": {
-            "@type": "Person",
-            "name": blog.author?.name || 'Viasocket Team'
-        },
-        "datePublished": blog.publishedDate,
-        "description": blog.description || "No description available for this blog."
-    }))
-};
 
   
   return (
