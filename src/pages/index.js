@@ -234,6 +234,20 @@ export default function Home({ popularUsers = [] }) {
     <div className={styles.homePageContainer + ' ' + (searchQuery ? styles.contentToBottom: '')}>
       <Head>
         <title>{searchQuery ? `${searchQuery} ` : 'Discover Top Software '}| Viasocket Discovery</title>
+        <meta
+          name="description"
+          content={
+            searchQuery
+              ? `Search results for "${searchQuery}" on Viasocket Discovery. Explore top software in various categories curated by experts and users. ${
+                  blogs.length > 0
+                    ? `"${blogs.slice(0, 2).map(blog => blog.title).join('", ')}".`
+                    : ''
+                }`
+              : 'Viasocket Discovery offers a platform to explore and discover top software in various categories. Curated by experts and users, it\'s your go-to place to find the best software solutions.'
+          }
+        />
+
+      
       </Head>
       <div className={styles.homePageDiv}>
         {
