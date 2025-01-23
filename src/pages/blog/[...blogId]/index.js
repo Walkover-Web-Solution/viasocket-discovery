@@ -125,7 +125,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
     if(!currentUser?.id) return ;
     (async () => {
       const indexes = [];
-      const chatHistoryData = await getAllPreviousMessages(`${blog?.id}${currentUser?.id}`, process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE);
+      const chatHistoryData = await getAllPreviousMessages(`${blog?.id}${currentUser?.id}`, process.env.NEXT_PUBLIC_COMMENT_BRIDGE);
       let prevMessages = chatHistoryData.data
       .filter((chat) => chat.role === "user" || chat.role === "assistant")
       .map((chat,index) => {
@@ -133,7 +133,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
         return({
         role: chat.role,
         content:
-          chat.role === "user" ? chat.content : safeParse(chat.content,process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE,`${blog.id}${currentUser?.id}`),
+          chat.role === "user" ? chat.content : safeParse(chat.content,process.env.NEXT_PUBLIC_COMMENT_BRIDGE,`${blog.id}${currentUser?.id}`),
       })});
       for (let i = indexes.length-1; i >=0 ; i--) {
         const currentIndex = indexes[i];
