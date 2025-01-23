@@ -292,7 +292,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
 
           {/* {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>} */}
         </div>
-        <Chatbot bridgeId={process.env.NEXT_PUBLIC_COMMENT_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog?.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId={blog?.id}  users={createdBy}/>
+        <Chatbot bridgeId={process.env.NEXT_PUBLIC_COMMENT_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog?.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId={blog?.id}  users={createdBy} setComments={setComments}/>
         {/* <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} /> */}
       </div>
     </>
