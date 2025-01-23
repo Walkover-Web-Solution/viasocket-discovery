@@ -27,24 +27,24 @@ export default function BlogCard({ blog, isLoading, className }) {
     );
   }
   return (
-    <div key={blog.id} className={`${styles.card} ${className || ''}`}>
-      <a href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${blog.meta.category}/` : ''}${blog?.slugName ? nameToSlugName(blog.slugName):''}`} target="_blank" rel="noopener noreferrer">
+    <a href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${blog.meta.category}/` : ''}${blog?.slugName ? nameToSlugName(blog.slugName) : ''}`} target="_blank" rel="noopener noreferrer">
+      <div key={blog.id} className={`${styles.card} ${className || ''}`}>
         <h3>{blog.title}</h3>
         <div className={styles.appIconsDiv}>
-          {Object.entries(blog?.apps||{}).map(([appName, {iconUrl}], index) => {
-            if(!iconUrl) return null;
-            return (<Avatar 
+          {Object.entries(blog?.apps || {}).map(([appName, { iconUrl }], index) => {
+            if (!iconUrl) return null;
+            return (<Avatar
               key={index}
               className={styles.appIcon}
               src={iconUrl}
               alt={appName}
-              variant = 'square'
+              variant='square'
             />
-          )})}
+            )
+          })}
         </div>
-      </a>
-      <div className={styles.tagsContainer}>
-        {blog.tags?.map((tag, index) => (
+        <div className={styles.tagsContainer}>
+          {blog.tags?.map((tag, index) => (
             <Link
               key={index}
               href={`/?search=%23${tag}`}
@@ -52,8 +52,9 @@ export default function BlogCard({ blog, isLoading, className }) {
             >
               {tag}
             </Link>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+    </a>
   );
 }

@@ -125,7 +125,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
     if(!currentUser?.id) return ;
     (async () => {
       const indexes = [];
-      const chatHistoryData = await getAllPreviousMessages(`${blog?.id}${currentUser?.id}`, process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE);
+      const chatHistoryData = await getAllPreviousMessages(`${blog?.id}${currentUser?.id}`, process.env.NEXT_PUBLIC_COMMENT_BRIDGE);
       let prevMessages = chatHistoryData.data
       .filter((chat) => chat.role === "user" || chat.role === "assistant")
       .map((chat,index) => {
@@ -133,7 +133,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
         return({
         role: chat.role,
         content:
-          chat.role === "user" ? chat.content : safeParse(chat.content,process.env.NEXT_PUBLIC_UPDATE_PAGE_BRIDGE,`${blog.id}${currentUser?.id}`),
+          chat.role === "user" ? chat.content : safeParse(chat.content,process.env.NEXT_PUBLIC_COMMENT_BRIDGE,`${blog.id}${currentUser?.id}`),
       })});
       for (let i = indexes.length-1; i >=0 ; i--) {
         const currentIndex = indexes[i];
@@ -292,7 +292,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
 
           {/* {isOpen && <button onClick={handlePublish} className={styles.publishButton}>Publish Changes</button>} */}
         </div>
-        <Chatbot bridgeId={process.env.NEXT_PUBLIC_COMMENT_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog?.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId={blog?.id}  users={createdBy}/>
+        <Chatbot bridgeId={process.env.NEXT_PUBLIC_COMMENT_BRIDGE} messages={messages} setMessages={setMessages} chatId={`${blog?.id}${currentUser?.id}`} setBlogData={setBlogData} variables={{ blogData: blogDataToSend }} setIsOpen={setIsOpen} isOpen={isOpen} blogId={blog?.id}  users={createdBy} setComments={setComments}/>
         {/* <Popup isOpen={isPopupOpen} onClose={() => setIsPopUpOpen(false)} handlePublish={handleNewPublish} /> */}
       </div>
     </>
