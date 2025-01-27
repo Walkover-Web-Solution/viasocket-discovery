@@ -146,6 +146,7 @@ export async function improveBlog(blog, author){
         }
         newBlog.push(newDynamicSections[i]);
     }
+    if(newDynamicSections.length === drIdx) newBlog.push(detailedReviews);
     let processedBlog = ValidateAiResponse(newBlog, improveBlogSchema);
     if(processedBlog.success === true){
         processedBlog = processedBlog.value;
