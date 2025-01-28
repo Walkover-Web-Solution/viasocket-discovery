@@ -28,7 +28,7 @@ export default async function handler(req, res) {
           blogs = await blogServices.blogWithApps(apps, environment);
         }else if (userId){
           blogs = await blogServices.searchBlogsByUserId(userId,environment); 
-        } else blogs = await blogServices.getAllBlogs(user?.id || '',environment);
+        } else blogs = await blogServices.getAllBlogs(user?.id || '',20, { apps: 1, tags: 1, title: 1, id: 1, slugName: 1, meta: 1} ,environment);
          res.status(200).json({ success: true, data: {blogs ,tags} });
       } catch (error) {
          res.status(400).json({ success: false, error: error.message });

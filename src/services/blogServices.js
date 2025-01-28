@@ -13,7 +13,7 @@ const withBlogModel = async (environment, callback) => {
   return callback(Blog);
 };
 
-const getAllBlogs = (userId, environment) => {
+const getAllBlogs = (userId, limit, fields, environment) => {
   return withBlogModel(environment, async(Blog) => {
     let blogs = await Blog.aggregate([
       {
@@ -25,16 +25,9 @@ const getAllBlogs = (userId, environment) => {
         $sort: { isUserBlog: -1 }
       },
       {
-        $project: { 
-          apps: 1,
-          tags: 1,
-          title: 1,
-          id: 1,
-          slugName: 1,
-          meta: 1,
-         }
+        $project: fields
       }
-    ]).limit(20)
+    ]).limit(limit)
     blogs = blogs.map((blog)=>{
       blog.apps = restoreDotsInKeys(blog.apps);
       return blog;
@@ -98,6 +91,24 @@ const updateBlogById = (blogId, blogData, userIds, environment) => {
         { new: true }
       ).lean();
     }
+
+    return updateResult;
+  });
+};
+const syncBlogApps = (blogId, blogData, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    const appNames = getAppNames(blogData.blog);
+    const apps = await getUpdatedApps(appNames, environment);
+    
+    const updateData = {
+      apps,
+    };
+
+    const updateResult = await Blog.findOneAndUpdate(
+      { "id": blogId },
+      { $set: updateData },
+      { new: true } 
+    ).lean();
 
     return updateResult;
   });
@@ -487,6 +498,7 @@ const getBlogsToMergeComments = (environment) =>{
 }
 
 export default {
+  syncBlogApps,
   getAllBlogs,
   createBlog,
   getBlogById,
