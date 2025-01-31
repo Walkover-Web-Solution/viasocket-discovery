@@ -30,10 +30,10 @@ const UserDetail = ({ isOpen, onClose }) => {
                             <>
                                 <p><b>{user?.name || ""}</b></p>
                                 <p><b>{user?.email || ""}</b></p>
-                                <div className={styles.buttonContainer}>
+                                {/* <div className={styles.buttonContainer}> */}
                                     <Link className={styles.blogsLink} href={`/user/${user.id}`}><b>My Discoveries</b></Link>
                                     <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
-                                </div>
+                                {/* </div> */}
                             </>
                     </div>
                 </div>

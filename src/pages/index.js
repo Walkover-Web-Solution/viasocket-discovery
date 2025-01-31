@@ -20,27 +20,51 @@ import UnauthorizedPopup from '@/components/UnauthorisedPopup/UnauthorisedPopup'
 import UserBioPopup from '@/components/UserBioPopup/UserBioPoup';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Head from 'next/head';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import userStyles from '@/pages/user/UserPage.module.css'; 
+import { getCategoriesFromDbDash } from './api/tags';
+
 
 export async function getServerSideProps(){
   try{
-    let popularUsers = await blogServices.getPopularUsers(process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT);
-    popularUsers = await getAllUsers(popularUsers);
-    popularUsers = popularUsers.filter(user => user !== null);
-    return {
-      props: { popularUsers }
-    }
-  }catch(error){
-    return {
-      props: { popularUsers: [] }
-    }
+    const env = process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT;
+
+    const popularUsers = await blogServices.getPopularUsers(env) || [];
+
+    // if (!popularUsers.length) {
+    //   return { props: { popularUsers: [], categories: [] } };
+    // }
+
+    const userIds = popularUsers.map(user => user._id);
+
+    const [usersResult, categoriesResult] = await Promise.allSettled([
+      getAllUsers(userIds),
+      getCategoriesFromDbDash(),
+    ]);
+
+    let users = usersResult.status === "fulfilled" ? usersResult.value : [];
+    const categories = categoriesResult.status === "fulfilled" ? categoriesResult.value : [];
+
+       const enrichedUsers = users
+      .map((user, index) => user && ({
+        ...user,
+        createdBlogs: popularUsers[index]?.createdBlogs || 0,
+        contributedBlogs: popularUsers[index]?.contributedBlogs || 0,
+      }))
+      .filter(Boolean);
+
+    return { props: { popularUsers: enrichedUsers, categories } };
+  } catch {
+    return { props: { popularUsers: [], categories: [] } };
   }
 }
 
-export default function Home({ popularUsers = [] }) {
+export default function Home({ popularUsers = [] , categories = []}) {
     const [blogs, setBlogs] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [messages, setMessages] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [isCategoryClicked, setIsCategoryClicked] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [blogCreating, setBlogCreating] = useState(false);
     const [tags , setTags]= useState([])
@@ -52,11 +76,12 @@ export default function Home({ popularUsers = [] }) {
     const divRef = useRef(null);
     const [unAuthPopup, setUnAuthPopup] = useState(false);
     const [userBioPopup, setUserBioPopup] = useState(false);
+    const [searchCategories,setSearchCategories] = useState(categories)
 
 
     useEffect(() => {
-      if(!router.isReady || ( isOpen && !searchQuery.length > 0 )) return ;
-        const fetchAllBlogs = async () => {
+      if(!router.isReady || ( isOpen && !searchQuery.length > 0 && !isCategoryClicked)) return ;
+      const fetchAllBlogs = async () => {
         setSearchQuery(router.query?.search || '')
         setBlogs([]);
         setIsLoading(true);
@@ -101,6 +126,11 @@ export default function Home({ popularUsers = [] }) {
         };
     }, [searchQuery, isOpen]);
 
+    useEffect(()=>{
+      setSearchCategories(categories.filter(item => item.name.toLowerCase().includes(searchQuery.trim().toLowerCase())));
+      if(searchCategories.length == 0) setIsCategoryClicked(true)
+      if(searchQuery.length == 0 ) setIsCategoryClicked(false)
+    },[searchQuery])
     useEffect(() => {
       if(!user) return;
       (async () => {
@@ -148,6 +178,21 @@ export default function Home({ popularUsers = [] }) {
   </div>
   )
   }
+  const highlightText = (text, query) => {
+    if (!query) return text;
+    const queryWords = query.split(" ");
+    const regex = new RegExp(`(${queryWords.join("|")})`, "gi");
+    return text.split(regex).map((part, index) =>
+      queryWords.some((word) => part.toLowerCase() === word.toLowerCase()) ? (
+        <span key={index} className={styles.highlight}>
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
+  };
+  
   
   const renderBlogsSection = (blogs, title, fallback) => {
     return (
@@ -183,7 +228,8 @@ export default function Home({ popularUsers = [] }) {
                   }
                 }}
               >
-                <h6 className={styles.titleSuggestion + ' ' + (blog.dummy ? styles.dummy : '')}>{blog.title}</h6>
+                <h6 className={styles.titleSuggestion + ' ' + (blog.dummy ? styles.dummy : '')}>{highlightText(blog.title, searchQuery)}
+                </h6>
               </a>
             ))
           ) : (
@@ -192,6 +238,30 @@ export default function Home({ popularUsers = [] }) {
                 No results here, hit enter or Ask AI !!!
               </h6>
             )
+          )}
+        </div>
+      </section>
+    );    
+  }
+  const renderCategories = (categories) => {
+    return (
+      <section className={styles.Homesection}>
+        <div className={styles.blogsDiv}>
+          {categories.length > 0 && (
+            categories.map((category) => (
+              <a
+                target={'_self'}
+                rel="noopener noreferrer"
+                href={null}
+                key={category.name}
+                onClick={async () => {
+                  setSearchQuery(category.name);
+                  setIsCategoryClicked(true);
+                }}
+              >
+                <h6 className={styles.titleSuggestion}>{category.name}</h6>
+              </a>
+            ))
           )}
         </div>
       </section>
@@ -252,7 +322,8 @@ export default function Home({ popularUsers = [] }) {
       </Head>
       <div className={styles.homePageDiv}>
         {
-          !isOpen && !searchQuery && (
+          !isOpen && !searchQuery && !typingStart &&(
+
             <div className = {styles.homeTitleDiv}>
               <h1 className={styles.homeTitle}>Discover Top Software</h1>
               <p className={styles.homep}>{'Find top software from every category, thoughtfully curated by industry experts and individuals just like you.'}</p>
@@ -261,17 +332,18 @@ export default function Home({ popularUsers = [] }) {
         }     
         { typingStart &&       
           <div className={styles.postHeaderDiv}>
-              {searchQuery && !isOpen ? (
+              {isCategoryClicked && searchQuery && !isOpen ? (
                   renderBlogsSection(blogs, searchQuery, true)
               ) : (
                   <>
-                      {renderBlogsSection(blogs)}
+                      {!isCategoryClicked && renderCategories(searchCategories)}
+                      {isCategoryClicked && renderBlogsSection(blogs)}
                   </>
               )}
           </div>
         }
         <div className={typingStart ? '' : styles.searchDiv}>
-          <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = 'Search' messages={messages} disableEnter/>
+          <Search className={typingStart ? styles.showInBottom :  styles.showInCenter} searchQuery={searchQuery} setSearchQuery={handleSetSearchQuery} handleAskAi = {handleAskAi} placeholder = {(isCategoryClicked || !typingStart)  ? 'Search' : 'Search or pick a category' } messages={messages} disableEnter setTypingStart={setTypingStart} setIsCategoryClicked={setIsCategoryClicked}/>
           {
             !typingStart && 
             <>
@@ -281,6 +353,9 @@ export default function Home({ popularUsers = [] }) {
                   key={index}
                   href={`/?search=${tag}`}
                   className={`${blogstyle.tag} ${blogstyle[tag.toLowerCase()]}`}
+                  onClick={()=>{
+                    setIsCategoryClicked(true);
+                  }}
                 >
                   {tag}
                 </Link>
@@ -291,12 +366,29 @@ export default function Home({ popularUsers = [] }) {
                 {popularUsers.map((user, index) => (
                   <Link target='_blank' key={index} href={`/user/${user.id}`} className={styles.userLink}>
                     <div className = {styles.userHeader}>
-                      <h5>{user.name}</h5>
+                    <PersonOutlineOutlinedIcon  className={userStyles.iconStyle}/>
+                      <h5>{user.name.split(" ")[0].charAt(0).toUpperCase() + user.name.slice(1)}</h5>
                       <OpenInNewIcon className={styles.userLinkIcon}/>
                     </div>
-                    <p>
-                      {user.meta?.bio || 'Viasocket User'}
-                    </p>
+                      <p>
+                        {user.meta?.bio
+                          ? user.meta.bio.split(" ").slice(0, 50).join(" ") + (user.meta.bio.split(" ").length > 50 ? "..." : "")
+                          : 'Viasocket User'}
+                      </p>
+                      <p className={userStyles.contribution}>
+                        <b>
+                        {user.createdBlogs > 0 ?
+                          `${user.createdBlogs} blog${user.createdBlogs > 1 ? 's' : ''} `
+                          : ''
+                        } 
+                        {(user.contributedBlogs > 0 && (user.createdBlogs)>0) 
+                          ? `and `: ``
+                        } 
+                        {user.contributedBlogs > 0 ?
+                          `${user.contributedBlogs} contribution${user.contributedBlogs > 1 ? 's' : ''} ` : ''
+                        }
+                        </b>
+                      </p>
                   </Link>
                 ))}
               </div>

@@ -24,9 +24,10 @@
   position: relative;
   // width: 100%;
   &::before{
-    background-image: url('../static/images/background.svg');
-    background-size: cover;
+    // background-image: url('../static/images/background.svg');
+    // background-size: cover;
     content: "";
+    background-color: var(--background-color);
     position: fixed;
     top: 0;
     left: 0;
@@ -107,7 +108,12 @@
       padding-bottom: 10px;
       cursor: pointer;
       position: relative;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      .highlight {
+        color: #A8200D;                
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      
       &:not(:last-of-type){
         padding-bottom: 10px;
       }
@@ -171,14 +177,16 @@
       gap: 10px;
       max-width: calc(var(--search-width) + 14rem);
       &>*{
-        background-color: rgba(255, 255, 255, 0.4);
+        background-color: var(--background-color);
         border: 1px solid #aaa;
         text-wrap: nowrap;
         display: block;
         padding: 0.8rem;
         font-size: 1.1rem;
         &:hover{
-          background-color: var(--background-color);
+          background-color: var(--foreground-color);
+          color: white;
+          
         }
       }
     }
@@ -205,19 +213,26 @@
           gap: 1rem;
           .userLinkIcon{
             color: transparent;
+            transition: color 0.2s ease, transform 0.2s ease;
           }
           h5{
-            font-size: 1.2rem;
+            font-size: 1.25rem;
+            font-weight: 600;
             font-family: var(--title-font);
           }
         }
         p{
           color: var(--dark-grey);
+          padding-left:60px;
         }
         &:hover{
-          background-color: var(--background-color);
+          background-color: var(--foreground-color);
+          color: var(--background-color);
           .userLinkIcon{
-            color: black;
+            color: rgb(255, 255, 255);
+          }
+          p{
+            color:rgb(201, 199, 199);
           }
         }
       }

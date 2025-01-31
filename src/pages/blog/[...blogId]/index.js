@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 import { compareBlogs } from '@/utils/apis/chatbotapis';
 import { publishBlog, updateBlog } from '@/utils/apis/blogApis';
 import { useUser } from '@/context/UserContext';
-import { dispatchAskAiEvent, getAllUsers, nameToSlugName, restoreDotsInKeys, safeParse } from '@/utils/utils';
+import { dispatchAskAiEvent, formatDate, getAllUsers, nameToSlugName, restoreDotsInKeys, safeParse } from '@/utils/utils';
 import BlogCard from '@/components/Blog/Blog';
 import { getCurrentEnvironment, getFromLocalStorage } from '@/utils/storageHelper';
 import Head from 'next/head';
@@ -230,15 +230,15 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
           </div>
           {comments && Object.keys(comments).length > 0 && (
             <div className={styles.commentContainer}>
-              <h2 className={styles.responses}>Responses</h2>
+              <h2 className={styles.responses}>Contributors</h2>
               {Object.entries(comments || {}).map(([commentId, comment]) => (
                 <div key={commentId} className={styles.comment}>
                   <div className = {styles.commentHeader}>
                     <div className = {styles.userDetails}>
                       <Link href={`/user/${comment.createdBy}`} target='_blank'>
-                        {users[comment.createdBy]?.name}
+                        {users[comment.createdBy]?.name?.charAt(0).toUpperCase()+ users[comment.createdBy]?.name?.slice(1)},
                       </Link>
-                      <span className = {styles.commentDate}>{formatDistanceToNow(new Date(comment.createdAt)) + " ago"}</span>
+                      <span className = {styles.commentDate}>{formatDate(new Date(comment.createdAt))}</span>
                     </div>
                     {comment.createdBy == currentUser?.id && (
                       <button
