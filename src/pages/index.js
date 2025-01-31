@@ -29,28 +29,31 @@ export async function getServerSideProps(){
   try{
     const env = process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT;
 
-    const [popularUsersResult, categoriesResult] = await Promise.allSettled([
-      blogServices.getPopularUsers(env),
+    const popularUsers = await blogServices.getPopularUsers(env) || [];
+
+    // if (!popularUsers.length) {
+    //   return { props: { popularUsers: [], categories: [] } };
+    // }
+
+    const userIds = popularUsers.map(user => user._id);
+
+    const [usersResult, categoriesResult] = await Promise.allSettled([
+      getAllUsers(userIds),
       getCategoriesFromDbDash(),
     ]);
 
-    let popularUsers = popularUsersResult.status === "fulfilled" ? popularUsersResult.value : [];
+    let users = usersResult.status === "fulfilled" ? usersResult.value : [];
     const categories = categoriesResult.status === "fulfilled" ? categoriesResult.value : [];
 
-    if (popularUsers.length) {
-      const userIds = popularUsers.map(user => user._id);
-      const users = await getAllUsers(userIds);
+       const enrichedUsers = users
+      .map((user, index) => user && ({
+        ...user,
+        createdBlogs: popularUsers[index]?.createdBlogs || 0,
+        contributedBlogs: popularUsers[index]?.contributedBlogs || 0,
+      }))
+      .filter(Boolean);
 
-      popularUsers = users
-        .map((user, index) => user && ({
-          ...user,
-          createdBlogs: popularUsers[index]?.createdBlogs || 0,
-          contributedBlogs: popularUsers[index]?.contributedBlogs || 0,
-        }))
-        .filter(Boolean);
-    }
-
-    return { props: { popularUsers, categories } };
+    return { props: { popularUsers: enrichedUsers, categories } };
   } catch {
     return { props: { popularUsers: [], categories: [] } };
   }
