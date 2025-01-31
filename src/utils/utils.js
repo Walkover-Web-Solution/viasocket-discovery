@@ -252,3 +252,19 @@ export async function getAllUsers(userIds){
      return  getUserById(userId);
     }));
 }
+export function formatDate(date) {
+  const now = new Date();
+  const diff = Math.floor((now - date) / 1000); 
+
+  const minutes = Math.floor(diff / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+  const weeks = Math.floor(days / 7);
+
+  if (minutes < 60) return "Today";
+  if (days < 7) return `${days} Day${days>1?'s':''} ago`;
+  if (weeks < 4) return `${weeks} Week${weeks>1?'s':''} ago`;
+
+  const options = { month: "long", day: "numeric", year: "numeric" };
+  return `on ${date.toLocaleDateString("en-US", options)}`;
+}

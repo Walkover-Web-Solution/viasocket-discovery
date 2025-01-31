@@ -35,11 +35,12 @@ const Header = () => {
           alt="viasocket"
           src="https://viasocket.com/assets/brand/socket_fav_dark.svg"
           loading="lazy"
+
         />
       </a>
       <a
         aria-label="logo"
-        className={`${styles.viaLogo} d-none d-md-flex justify-content-center align-items-center border border-dark px-4 glass-effect`}
+        className={`${styles.viaLogo} d-none d-md-flex justify-content-center border border-dark px-2 align-items-center`}
         target="_blank"
         href="https://viasocket.com"
       >
@@ -47,6 +48,8 @@ const Header = () => {
           alt="viasocket"
           src="https://viasocket.com/assets/brand/logo.svg"
           loading="lazy"
+          width="auto"
+          height="40px"
         />
       </a>
 
@@ -92,7 +95,9 @@ const Header = () => {
           </>
             :
             <>
-              <strong role='button' className={` d-flex justify-content-center align-items-center text-sm font-semibold border  border-dark px-4 text-decoration-none glass-effect`}  onClick = {toggleUserInfo}> {user?.name} </strong>
+              <strong role='button' className={` ${styles.viaIconBlack} ${styles.viaDropdown} d-flex justify-content-center align-items-center text-sm font-semibold border  border-dark px-4 text-decoration-none glass-effect`}  onClick = {toggleUserInfo}> 
+                {user?.name ? user.name.split(" ")[0].charAt(0).toUpperCase() + user.name.split(" ")[0].slice(1) : ""} 
+              </strong>
               <div className={styles.userDetailCatch}>
                 <UserDetail isOpen={showUserInfo} onClose={toggleUserInfo} />
               </div>

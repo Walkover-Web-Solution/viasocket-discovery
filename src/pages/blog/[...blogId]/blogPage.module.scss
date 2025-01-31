@@ -196,7 +196,7 @@
   flex-direction: column;
   padding: 1rem;
   .responses{
-    font-weight: 100;
+    font-weight: 600;
     font-family: var(--title-font);
     font-size: 3rem;
   }
@@ -211,23 +211,26 @@
     .commentHeader{
       display: flex;
       gap: 1rem;
-      max-width: var(--outer-blog-width);
+      // max-width: var(--outer-blog-width);
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: flex-start;
       .userDetails{
+        font-family: "Times Now" !important;
         display: flex;
-        flex-direction: column;
-        gap: 5px;
+        // flex-direction: column;
+        align-items: center;
+        gap: 10px;
         a{
           font-size: 1.2rem;
+          font-weight: 600;
           &:hover{
             text-decoration: underline;
           }
         }
         .commentDate{
           color: var(--dark-grey);
-          font-size: 1rem;
+          font-size: 16px;
           font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
       }
@@ -243,7 +246,8 @@
     .commentText{
       max-width: var(--outer-blog-width);
       margin-top: 0.5rem;
-      color: var(--dark-grey);
+      // color: var(--dark-grey);
+
       font-size: 1.2rem;
     }
   }
