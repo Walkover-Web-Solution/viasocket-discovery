@@ -10,6 +10,7 @@
   // --foreground-color: #452f2d;
   --foreground-color: black;
   --intermediate-color: #452f2d37;
+  --search-box-color: #A8200D;
   --grey: #dee2e6;
   --blue : #007bff;
   --light-grey: #e9ecef;
@@ -29,7 +30,7 @@
     height: 100%;
     overflow-x: hidden;
     color: var(--foreground-color);
-    background-color: #fef7f0;
+    background-color: #FEF6EF;
     font-family: var(--para-font);
   }
   

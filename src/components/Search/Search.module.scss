@@ -1,5 +1,7 @@
 .postHeader{
     padding: 0 3.4rem;
+    padding-left: 60px;
+
     z-index:20;
     position: fixed;
     bottom: 1rem;
@@ -18,8 +20,8 @@
       width: 100%;
       padding: 2rem 1.5rem;
       margin: 16px 0;
-      border: 1px solid black;
-      background-color: whitesmoke;
+      border: 2px solid var(--search-box-color);
+      background-color: var(--background-color);
       font-size: 1.6rem;
       box-sizing: border-box;
       outline: none;
@@ -34,6 +36,9 @@
       height: 4rem;
       width: 4rem;
       flex: 0;
+      svg{
+        color: var(--search-box-color);
+      }
     }
   
   }
@@ -42,6 +47,7 @@
     .postHeader{
       .search{
         transform: none;
+        padding-left:none;
         padding: 0 1.5rem;
       }
       .askAi{

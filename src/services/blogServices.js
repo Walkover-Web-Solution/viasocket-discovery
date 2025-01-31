@@ -361,14 +361,54 @@ const searchBlogsByApps = (appNames, blogId, environment) => {
 const getPopularUsers = (environment) => {
   return withBlogModel(environment, async (Blog) => {
     const popularUsers = await Blog.aggregate([
-      { $unwind: "$createdBy" },
-      { $group: { _id: "$createdBy", count: { $sum: 1 } } },
-      { $sort: { count: -1 } },
-      { $limit: 6 }
-    ])
-    return popularUsers.map(user => user._id);
+      {
+        $facet: {
+          // Count blogs created by each user (createdBy[0])
+          createdCounts: [
+            {
+              $group: {
+                _id: { $arrayElemAt: ["$createdBy", 0] }, // First user is the creator
+                createdBlogs: { $sum: 1 } // Count occurrences
+              }
+            }
+          ],
+          // Count blogs contributed by each user (createdBy[1 to n])
+          contributedCounts: [
+            { $unwind: { path: "$createdBy", includeArrayIndex: "index" } }, // Unwind while keeping index
+            { $match: { index: { $gt: 0 } } }, // Only contributors (index > 0)
+            {
+              $group: {
+                _id: "$createdBy", // Group by contributor ID
+                contributedBlogs: { $sum: 1 } // Count occurrences
+              }
+            }
+          ]
+        }
+      },
+      {
+        $project: {
+          users: {
+            $concatArrays: ["$createdCounts", "$contributedCounts"] // Merge both result sets
+          }
+        }
+      },
+      { $unwind: "$users" }, // Unwind merged array
+      {
+        $group: {
+          _id: "$users._id", // Group by user ID
+          createdBlogs: { $sum: { $ifNull: ["$users.createdBlogs", 0] } }, // Sum created count
+          contributedBlogs: { $sum: { $ifNull: ["$users.contributedBlogs", 0] } } // Sum contributed count
+        }
+      },
+      { $sort: { createdBlogs: -1, contributedBlogs: -1 } }, // Sort by created first, then contributed
+      { $limit: 6 } // Get top 6 users
+    ]);
+    return popularUsers;
   });
-}
+};
+
+
+
 
 
 

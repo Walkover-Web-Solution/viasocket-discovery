@@ -8,7 +8,7 @@ import UnauthorizedPopup from '../UnauthorisedPopup/UnauthorisedPopup';
 import { dispatchAskAiEvent, dispatchAskAppAiWithAuth } from '@/utils/utils';
 import { setInLocalStorage } from '@/utils/storageHelper';
 
-export default function Search({ searchQuery, setSearchQuery, handleAskAi, placeholder, className, messages, disableEnter }) {
+export default function Search({ searchQuery, setSearchQuery, handleAskAi, placeholder, className, messages, disableEnter, setTypingStart , setIsCategoryClicked}) {
 	const { user } = useUser();
 	const [unAuthPopup, setUnAuthPopup] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -71,7 +71,7 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 
 	return (
 		<>
-			<div className={`${styles.postHeader} ${className}`}>
+			<div className={`${styles.postHeader} ${className}`} onClick={()=> setTypingStart(true)}>
 				<input
 					type="text"
 					className={styles.search}
@@ -79,7 +79,8 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 					value={searchQuery}
 					onChange={(e) => setSearchQuery(e.target.value)}
 					onKeyDown={(e) => {
-						if (e.key === 'Enter' && !disableEnter) {
+						if (e.key === 'Enter') {
+							setIsCategoryClicked(true)
 							handleClick()
 						}
 					}}

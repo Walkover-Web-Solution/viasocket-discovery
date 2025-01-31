@@ -52,14 +52,16 @@
     }
   }
   &:before {
-    bottom: -7rem;
-    left: -20vw;
-    width: 120vw;
+    // bottom: -7rem;
+    // left: -20vw;
+    // width: 120vw;
     border-bottom: 1px solid black;
     height: 150vh;
     content: "";
     position: absolute;
-    background-image: var(--blogTitleBackground);
+    // background-image: var(--blogTitleBackground);
+    background-color: white;
+
     background-position: top;
     background-size: cover;
     z-index: 1;

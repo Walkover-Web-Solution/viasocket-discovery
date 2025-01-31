@@ -136,7 +136,7 @@ export default async function handler(req, res) {
   }
 }
 
-async function getCategoriesFromDbDash() {
+export async function getCategoriesFromDbDash() {
   const response = await fetch('https://table-api.viasocket.com/65d2ed33fa9d1a94a5224235/tblh9c91k', {
     method: 'GET',
     headers: {
