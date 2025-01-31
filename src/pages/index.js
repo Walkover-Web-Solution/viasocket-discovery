@@ -27,27 +27,32 @@ import { getCategoriesFromDbDash } from './api/tags';
 
 export async function getServerSideProps(){
   try{
-    let popularUsers = await blogServices.getPopularUsers(process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT);
-    const userIds = popularUsers.map((user)=>user._id);
-    popularUsers =(await getAllUsers(userIds)).map(
-      (user,index)=>
-        {
-          console.log(popularUsers[index])
-          return {
-            ...user,
-            createdBlogs: popularUsers[index]?.createdBlogs || 0,
-            contributedBlogs: popularUsers[index]?.contributedBlogs || 0
-          }})
-          popularUsers = popularUsers.filter(user => user !== null);
-          const categories = await getCategoriesFromDbDash();
-    return {
-      props: { popularUsers , categories }
+    const env = process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT;
+
+    const [popularUsersResult, categoriesResult] = await Promise.allSettled([
+      blogServices.getPopularUsers(env),
+      getCategoriesFromDbDash(),
+    ]);
+
+    let popularUsers = popularUsersResult.status === "fulfilled" ? popularUsersResult.value : [];
+    const categories = categoriesResult.status === "fulfilled" ? categoriesResult.value : [];
+
+    if (popularUsers.length) {
+      const userIds = popularUsers.map(user => user._id);
+      const users = await getAllUsers(userIds);
+
+      popularUsers = users
+        .map((user, index) => user && ({
+          ...user,
+          createdBlogs: popularUsers[index]?.createdBlogs || 0,
+          contributedBlogs: popularUsers[index]?.contributedBlogs || 0,
+        }))
+        .filter(Boolean);
     }
 
-  }catch(error){
-    return {
-      props: { popularUsers: [] , categories : []}
-    }
+    return { props: { popularUsers, categories } };
+  } catch {
+    return { props: { popularUsers: [], categories: [] } };
   }
 }
 
@@ -377,7 +382,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
                           ? `and `: ``
                         } 
                         {user.contributedBlogs > 0 ?
-                          `${user.contributedBlogs} contributed ` : ''
+                          `${user.contributedBlogs} contribution${user.contributedBlogs > 1 ? 's' : ''} ` : ''
                         }
                         </b>
                       </p>
