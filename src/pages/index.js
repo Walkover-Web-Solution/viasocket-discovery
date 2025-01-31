@@ -44,6 +44,7 @@ export async function getServerSideProps(){
 
     let users = usersResult.status === "fulfilled" ? usersResult.value : [];
     const categories = categoriesResult.status === "fulfilled" ? categoriesResult.value : [];
+    if(categoriesResult.status != "fulfilled") console.error("error getting categories", categoriesResult.reason)
 
        const enrichedUsers = users
       .map((user, index) => user && ({
@@ -54,7 +55,8 @@ export async function getServerSideProps(){
       .filter(Boolean);
 
     return { props: { popularUsers: enrichedUsers, categories } };
-  } catch {
+  } catch (error){
+    console.error("error on home page serverside props", error)
     return { props: { popularUsers: [], categories: [] } };
   }
 }
