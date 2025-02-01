@@ -66,7 +66,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
     const [searchQuery, setSearchQuery] = useState('');
     const [messages, setMessages] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
-    const [isCategoryClicked, setIsCategoryClicked] = useState(false);
+    const [isCategoryClicked, setIsCategoryClicked] = useState("not known");
     const [isLoading, setIsLoading] = useState(true);
     const [blogCreating, setBlogCreating] = useState(false);
     const [tags , setTags]= useState([])
@@ -129,9 +129,13 @@ export default function Home({ popularUsers = [] , categories = []}) {
     }, [searchQuery, isOpen]);
 
     useEffect(()=>{
-      setSearchCategories(categories.filter(item => item.name.toLowerCase().includes(searchQuery.trim().toLowerCase())));
-      if(searchCategories.length == 0) setIsCategoryClicked(true)
-      if(searchQuery.length == 0 ) setIsCategoryClicked(false)
+      let filteredCategories = categories.filter(item => item.name.toLowerCase().includes(searchQuery.trim().toLowerCase()));
+      setSearchCategories(filteredCategories);
+      if(filteredCategories.length == 0) setIsCategoryClicked(true)
+      if(isCategoryClicked == "not known") setIsCategoryClicked(false);
+      if(searchQuery.length == 0 ){ 
+        setIsCategoryClicked(false)
+      }
     },[searchQuery])
     useEffect(() => {
       if(!user) return;

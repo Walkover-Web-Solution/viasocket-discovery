@@ -266,7 +266,7 @@ const searchBlogsByUserId = async ( userId, environment ) => {
       slugName: 1,
       meta: 1,
       createdBy:1
-    })
+    }).sort({ createdAt: -1 });
   })
 }
 
