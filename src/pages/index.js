@@ -79,6 +79,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
     const [unAuthPopup, setUnAuthPopup] = useState(false);
     const [userBioPopup, setUserBioPopup] = useState(false);
     const [searchCategories,setSearchCategories] = useState(categories)
+    const [allcategories,setAllcategories] = useState(categories)
 
 
     useEffect(() => {
@@ -129,14 +130,16 @@ export default function Home({ popularUsers = [] , categories = []}) {
     }, [searchQuery, isOpen]);
 
     useEffect(()=>{
-      let filteredCategories = categories.filter(item => item.name.toLowerCase().includes(searchQuery.trim().toLowerCase()));
+      let filteredCategories = allcategories.filter(item => item.name.toLowerCase().includes(searchQuery.trim().toLowerCase()));
       setSearchCategories(filteredCategories);
       if(filteredCategories.length == 0) setIsCategoryClicked(true)
       if(isCategoryClicked == "not known") setIsCategoryClicked(false);
       if(searchQuery.length == 0 ){ 
         setIsCategoryClicked(false)
+        setSearchCategories(allcategories);
       }
-    },[searchQuery])
+    },[searchQuery,isCategoryClicked])
+   
     useEffect(() => {
       if(!user) return;
       (async () => {
