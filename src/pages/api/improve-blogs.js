@@ -136,7 +136,7 @@ export async function improveBlog(blog, author){
 
     const messageId = newDynamicSections.response.data.message_id;
 
-    newDynamicSections = extractJsonFromMarkdown(newDynamicSections.response.data.content).blog;
+    newDynamicSections = JSON.parse(newDynamicSections.response.data.content).blog;
     
     const newBlog = [];
 

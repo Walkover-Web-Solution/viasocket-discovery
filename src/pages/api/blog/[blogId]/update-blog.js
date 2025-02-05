@@ -89,11 +89,11 @@ export const updateBlogUsingComments = async (blogId, environment) => {
 
         operations[index].data.content = content;
       } else if (operation.operation === "update") {   /// what about add-content
-        const content = extractJsonFromMarkdown(
-          await askAi(process.env.IMPROVE_BRIDGE, operation.data.content).then(
+        const content = JSON.parse(
+          await askAi(process.env.IMPROVE_UPDATED_CONTENT_BRIDGE, operation.data.content).then(
             (res) => res.response.data.content
           )
-        ).blog;
+        ).content;
         operations[index].data.content = content;
       }
     }
