@@ -22,7 +22,7 @@ export default function Layout({ children }) {
         setUnAuthPopup(true);
         return;
       }
-      if(!user.meta?.bio){
+      if(!user?.meta?.bio){
         setUserBioPopup(true);
         return;
       }
