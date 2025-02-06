@@ -291,7 +291,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
       setUnAuthPopup(true);
       return;
     }
-    if(!user.meta.bio){
+    if(!user?.meta?.bio){
       setUserBioPopup(true);
       return;
     }
@@ -380,7 +380,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
                       <OpenInNewIcon className={styles.userLinkIcon}/>
                     </div>
                       <p>
-                        {user.meta?.bio
+                        {user?.meta?.bio
                           ? user.meta.bio.split(" ").slice(0, 50).join(" ") + (user.meta.bio.split(" ").length > 50 ? "..." : "")
                           : 'Viasocket User'}
                       </p>
