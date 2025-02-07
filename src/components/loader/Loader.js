@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "./Loader.module.scss"; // Assume you have appropriate CSS here
+import styles from "@/components/loader/loader.module.scss";
 
 const steps = [
   "Initializing blog creation...",
