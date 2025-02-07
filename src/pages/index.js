@@ -23,6 +23,7 @@ import Head from 'next/head';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import userStyles from '@/pages/user/UserPage.module.css'; 
 import { getCategoriesFromDbDash } from './api/tags';
+import Loader from '@/components/loader/Loader';
 
 
 export async function getServerSideProps(){
@@ -311,7 +312,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
 
   
   return (
-    <div className={styles.homePageContainer + ' ' + (searchQuery ? styles.contentToBottom: '')}>
+    <div className={styles.homePageContainer + ' ' + (searchQuery ? styles.contentToBottom: '') + ' ' + (blogCreating ? styles.addMargin:'')}>
       <Head>
         <title>{searchQuery ? `${searchQuery} ` : 'Discover Top Software '}| Viasocket Discovery</title>
         <meta
@@ -329,7 +330,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
 
       
       </Head>
-      <div className={styles.homePageDiv}>
+      {!blogCreating && <div className={styles.homePageDiv}>
         {
           !isOpen && !searchQuery && !typingStart &&(
 
@@ -405,11 +406,17 @@ export default function Home({ popularUsers = [] , categories = []}) {
           }
         </div>
         <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId} homePage setIsOpen = {setIsOpen} isOpen = {isOpen} searchResults = {searchQuery ? blogs.filter(blog => !blog.dummy) : null}/>
-      </div>
+      </div>}
       {blogCreating && 
+      // blogCreating && 
+        // <div className = {styles.createBlogLoaderContainer}>
+        //   <h3>Hang on !!! We are working to get the best apps for you.</h3>
+        //   <div class={styles.createBlogLoader}></div>
+        // </div>
+        // <EnhancedLoader />
         <div className = {styles.createBlogLoaderContainer}>
-          <h3>Hang on !!! We are working to get the best apps for you.</h3>
-          <div class={styles.createBlogLoader}></div>
+
+        <Loader />
         </div>
       }
       <UnauthorizedPopup isOpen={unAuthPopup} onClose={() => setUnAuthPopup(false)} />
