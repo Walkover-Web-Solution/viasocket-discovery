@@ -260,28 +260,48 @@
   .homePageDiv .homeTitle {
     font-size: 60px;
     padding-right: 1.6rem;
-    text-align: center !important
+    padding-right:1.6rem;
+    // text-align: center !important
   }
   
  
   .homePageDiv{
     .searchDiv{
+      padding-left: 1.6rem;
+      padding-right:1.6rem;
+      margin: auto;
       .popularTagsDiv{
+        padding: 0;
         &>*{
           width: max-content;
           text-wrap: wrap;
           // max-width: 80%;
         }
       }
+      .popularUsersDiv{
+        padding: 0;
+      }
+      .popularUsers{
+        padding: 0;
+      }
     }
     .homep{
       padding: 0 2rem;
-      text-align: center !important
+      // text-align: center !important
     }
-    .Homesection{
-      padding: 2rem 0px;
+    .Homesection{   
+      padding: 2rem 2rem;
+    //   .cardsGrid{
+    //     // max-width: fit-content;
+    //     &>*{
+    //       max-width: min(var(--blog-width), 80vw);
+    //     }
+    //     padding: 2rem ;
+    //   }
     }
+
   }
+ 
 }
 
 .createBlogLoaderContainer{

@@ -76,3 +76,16 @@
   height: 40px !important;
   gap:10px;
 }
+
+@media (max-width: 768px) {
+  .container{
+    padding:0;
+  }
+  .name {
+    font-size: 20px;
+    align-self: center;
+  }
+  .cardsGrid{
+    gap:10px;
+  }
+}

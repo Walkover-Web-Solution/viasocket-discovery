@@ -260,3 +260,10 @@
     width: 70%;
   }
 }
+
+@media (max-width: 768px) {
+  .relatedBlogsDiv , .FAQContainer{
+    margin : 0;
+    padding-left : 1rem; 
+  }
+}
