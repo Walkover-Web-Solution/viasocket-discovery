@@ -71,7 +71,7 @@ export default function Search({ searchQuery, setSearchQuery, handleAskAi, place
 
 	return (
 		<>
-			<div className={`${styles.postHeader} ${className}`} onClick={()=> setTypingStart(true)}>
+			<div className={`${styles.postHeader} ${className}`} onClick={()=> {if(setTypingStart) setTypingStart(true)}}>
 				<input
 					type="text"
 					className={styles.search}

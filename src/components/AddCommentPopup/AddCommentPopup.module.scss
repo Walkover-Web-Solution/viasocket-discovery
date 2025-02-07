@@ -1,5 +1,5 @@
 .container{
-    max-width: 30rem;
+    max-width: min(30rem,80vw);
     width: 30rem;
     background: url('../../static/images/background.svg');
     background-size: cover;
@@ -25,3 +25,9 @@
         color: white;
     }
 }
+@media (max-width: 768px) {
+    .container{
+        padding: 1.5rem;
+
+    }
+  }

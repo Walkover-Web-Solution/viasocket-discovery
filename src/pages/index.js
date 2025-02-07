@@ -215,7 +215,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
                 className={styles.skeleton}
                 height={20}
                 width={750}
-                style={{ marginBottom: "10px", borderRadius: "20px" }}
+                style={{ marginBottom: "10px", borderRadius: "20px" ,maxWidth: "80vw"}}
                 key={index}
               />
             ))}

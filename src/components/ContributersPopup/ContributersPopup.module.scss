@@ -103,3 +103,10 @@
 .icon:hover{
     color: black;
 }
+
+@media (max-width: 768px) {
+    .icon{
+        transform: scale(1.2);
+
+    }
+  }
