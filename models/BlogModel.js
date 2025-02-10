@@ -1,6 +1,6 @@
 // models/Blog.js
 import mongoose from 'mongoose';
-import {  replaceDotsInKeys, restoreDotsInKeys } from '@/utils/utils';
+import {  nameToSlugName, replaceDotsInKeys, restoreDotsInKeys } from '@/utils/utils';
 const createBlogModel = (connection) => {
   if (connection.models.Blog) {
     return connection.models.Blog;
@@ -15,7 +15,7 @@ const createBlogModel = (connection) => {
     slugName: {
       type: String,
       default: function () {
-        return this.title ? this.title.replace(/\s+/g, '-').toLowerCase() : ''; 
+        return this.title ? nameToSlugName(this.title) : ''; 
       },
     },
     blog: Object,
