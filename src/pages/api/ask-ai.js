@@ -107,7 +107,7 @@ async function updateBlog(blogId, blogData, environment, shouldCreate,userId,cou
 
 export async function createBlog(userMessage, environment, userId, countrycode){
     const threadId = Math.floor(Math.random() * 100000000);
-    const data = await askAi(process.env.BLUE_PRINT_BRIDGE, userMessage,{},threadId);
+    const data = await askAi(process.env.BLUE_PRINT_BRIDGE, userMessage,undefined,threadId);
     let blueprint = JSON.parse(data.response.data.content);
     const validate = ValidateAiResponse(blueprint, blueprintSchema);
     if(validate.success === false){
@@ -154,7 +154,7 @@ export async function createBlog(userMessage, environment, userId, countrycode){
     }
     blogPrompt = reFormat(blogPrompt);
     blogPrompt = JSON.stringify(blogPrompt);
-    let AIResponse = await askAi(process.env.ROUGH_BLOG_BRIDGE,  blogPrompt,'',threadId)
+    let AIResponse = await askAi(process.env.ROUGH_BLOG_BRIDGE,  blogPrompt,undefined,threadId)
     let blogResponse = JSON.parse(AIResponse.response.data.content);
     let validateRoughtBlog = ValidateAiResponse(blogResponse, createdBlogSchema)
     if(validateRoughtBlog.success === false) {
