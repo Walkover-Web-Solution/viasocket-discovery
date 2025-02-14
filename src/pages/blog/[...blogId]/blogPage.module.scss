@@ -98,7 +98,7 @@
     z-index: -1 !important;
     left: -50vw;
   }
-  h1{
+  h2{
     font-family: var(--title-font);
     font-size: 4rem;
     z-index: 1;
@@ -109,6 +109,7 @@
     font-weight: 100;
     text-align: center;
     margin-bottom: 1rem;
+    z-index: 1;
   }
   .searchBox{
     position: static;
@@ -265,5 +266,11 @@
   .relatedBlogsDiv , .FAQContainer{
     margin : 0;
     padding-left : 1rem; 
+  }
+  .searchDiv{
+    h2{
+      font-size: 2rem;
+      text-align: center;
+    }
   }
 }

@@ -207,7 +207,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs,faq}) {
         <div className={`${styles.container} ${isOpen ? styles.containerOpen : ''}`}>
           <AIresponse blogData={blogData} users={createdBy} integrations={integrations} appBlogs={appBlogs} isOpen={isOpen} setIsOpen={setIsOpen} setComments = {setComments} />
           <Box className={styles.searchDiv}>
-            <h1>Dive Deeper with AI</h1>
+            <h2>Dive Deeper with AI</h2>
             <p>Want to explore more? Follow up with AI for personalized insights and automated recommendations based on this blog</p>
             <Image src={diamondImage} alt="diamond" className={styles.diamondImageSmall} />
             <Image src={diamondImage} alt="diamond" className={styles.diamondImageLarge} />
