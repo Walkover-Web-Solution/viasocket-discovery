@@ -23,6 +23,7 @@ import Head from 'next/head';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import userStyles from '@/pages/user/UserPage.module.css'; 
 import { getCategoriesFromDbDash } from './api/tags';
+import Loader from '@/components/loader/Loader';
 
 
 export async function getServerSideProps(){
@@ -44,6 +45,7 @@ export async function getServerSideProps(){
 
     let users = usersResult.status === "fulfilled" ? usersResult.value : [];
     const categories = categoriesResult.status === "fulfilled" ? categoriesResult.value : [];
+    if(categoriesResult.status != "fulfilled") console.error("error getting categories", categoriesResult.reason)
 
        const enrichedUsers = users
       .map((user, index) => user && ({
@@ -54,7 +56,8 @@ export async function getServerSideProps(){
       .filter(Boolean);
 
     return { props: { popularUsers: enrichedUsers, categories } };
-  } catch {
+  } catch (error){
+    console.error("error on home page serverside props", error)
     return { props: { popularUsers: [], categories: [] } };
   }
 }
@@ -64,7 +67,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
     const [searchQuery, setSearchQuery] = useState('');
     const [messages, setMessages] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
-    const [isCategoryClicked, setIsCategoryClicked] = useState(false);
+    const [isCategoryClicked, setIsCategoryClicked] = useState("not known");
     const [isLoading, setIsLoading] = useState(true);
     const [blogCreating, setBlogCreating] = useState(false);
     const [tags , setTags]= useState([])
@@ -77,6 +80,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
     const [unAuthPopup, setUnAuthPopup] = useState(false);
     const [userBioPopup, setUserBioPopup] = useState(false);
     const [searchCategories,setSearchCategories] = useState(categories)
+    const [allcategories,setAllcategories] = useState(categories)
 
 
     useEffect(() => {
@@ -127,10 +131,16 @@ export default function Home({ popularUsers = [] , categories = []}) {
     }, [searchQuery, isOpen]);
 
     useEffect(()=>{
-      setSearchCategories(categories.filter(item => item.name.toLowerCase().includes(searchQuery.trim().toLowerCase())));
-      if(searchCategories.length == 0) setIsCategoryClicked(true)
-      if(searchQuery.length == 0 ) setIsCategoryClicked(false)
-    },[searchQuery])
+      let filteredCategories = allcategories.filter(item => item.name.toLowerCase().includes(searchQuery.trim().toLowerCase()));
+      setSearchCategories(filteredCategories);
+      if(filteredCategories.length == 0) setIsCategoryClicked(true)
+      if(isCategoryClicked == "not known") setIsCategoryClicked(false);
+      if(searchQuery.length == 0 ){ 
+        setIsCategoryClicked(false)
+        setSearchCategories(allcategories);
+      }
+    },[searchQuery,isCategoryClicked])
+   
     useEffect(() => {
       if(!user) return;
       (async () => {
@@ -206,7 +216,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
                 className={styles.skeleton}
                 height={20}
                 width={750}
-                style={{ marginBottom: "10px", borderRadius: "20px" }}
+                style={{ marginBottom: "10px", borderRadius: "20px" ,maxWidth: "80vw"}}
                 key={index}
               />
             ))}
@@ -282,7 +292,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
       setUnAuthPopup(true);
       return;
     }
-    if(!user.meta.bio){
+    if(!user?.meta?.bio){
       setUserBioPopup(true);
       return;
     }
@@ -302,7 +312,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
 
   
   return (
-    <div className={styles.homePageContainer + ' ' + (searchQuery ? styles.contentToBottom: '')}>
+    <div className={styles.homePageContainer + ' ' + (searchQuery ? styles.contentToBottom: '') + ' ' + (blogCreating ? styles.addMargin:'')}>
       <Head>
         <title>{searchQuery ? `${searchQuery} ` : 'Discover Top Software '}| Viasocket Discovery</title>
         <meta
@@ -320,7 +330,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
 
       
       </Head>
-      <div className={styles.homePageDiv}>
+      {!blogCreating && <div className={styles.homePageDiv}>
         {
           !isOpen && !searchQuery && !typingStart &&(
 
@@ -371,7 +381,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
                       <OpenInNewIcon className={styles.userLinkIcon}/>
                     </div>
                       <p>
-                        {user.meta?.bio
+                        {user?.meta?.bio
                           ? user.meta.bio.split(" ").slice(0, 50).join(" ") + (user.meta.bio.split(" ").length > 50 ? "..." : "")
                           : 'Viasocket User'}
                       </p>
@@ -396,11 +406,17 @@ export default function Home({ popularUsers = [] , categories = []}) {
           }
         </div>
         <Chatbot bridgeId = {process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE} messages={messages} setMessages = {setMessages} chatId = {chatId} homePage setIsOpen = {setIsOpen} isOpen = {isOpen} searchResults = {searchQuery ? blogs.filter(blog => !blog.dummy) : null}/>
-      </div>
+      </div>}
       {blogCreating && 
+      // blogCreating && 
+        // <div className = {styles.createBlogLoaderContainer}>
+        //   <h3>Hang on !!! We are working to get the best apps for you.</h3>
+        //   <div class={styles.createBlogLoader}></div>
+        // </div>
+        // <EnhancedLoader />
         <div className = {styles.createBlogLoaderContainer}>
-          <h3>Hang on !!! We are working to get the best apps for you.</h3>
-          <div class={styles.createBlogLoader}></div>
+
+        <Loader />
         </div>
       }
       <UnauthorizedPopup isOpen={unAuthPopup} onClose={() => setUnAuthPopup(false)} />

@@ -15,7 +15,7 @@ export default function UserBioPopup({ isOpen, onClose, onSave }) {
   }]);
   async function updateUserBio(content) {
     if(content?.bio){
-      setUser(prevUser => ({...prevUser, meta: {...prevUser.meta, bio: content.bio}}));
+      setUser(prevUser => ({...prevUser, meta: {...prevUser?.meta, bio: content.bio}}));
       handleSave();
     }
   }

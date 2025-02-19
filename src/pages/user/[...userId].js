@@ -104,7 +104,7 @@ export default function UserPage({ user }) {
           <PersonOutlineOutlinedIcon  className={styles.iconStyle}/>
           <h3 className={styles.name}>{user.name}</h3>
         </div>
-        <p className={styles.contribution}>{user.meta.bio}</p>
+        <p className={styles.contribution}>{user?.meta?.bio || ''}</p>
         <b>
         <p className={styles.contribution}>
           {count.createdCount > 0 ?

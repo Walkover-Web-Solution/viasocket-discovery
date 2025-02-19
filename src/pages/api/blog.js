@@ -1,6 +1,7 @@
 import blogServices from '@/services/blogServices';
 import { searchTags } from '@/services/tagsServices';
 import { createBlog } from './ask-ai';
+import { sendMessageTochannel } from '@/utils/utils';
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -42,6 +43,8 @@ export default async function handler(req, res) {
         const newBlog = await createBlog(userMessage, environment, parseInt(user.id), countryCode);
         res.status(201).json({ success: true, data: {id : newBlog.id} });
       } catch (error) {
+        console.error("error creating blog",error);
+        sendMessageTochannel({message:"error creating blog", error:error.message})
         res.status(400).json({ success: false, error: error.message });
       }
       break;

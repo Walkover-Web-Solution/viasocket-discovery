@@ -2,9 +2,10 @@ const axios = require('axios');
 
 async function getPluginsByName(pluginNames, fields,environment, firstTime) {
     const url = `${process.env.DBDASH_URL}/${process.env.PLUGINS_DBID}/${process.env.PLUGINS_TABLEID}`
+    const escapedNames = pluginNames.map(p => `'${p.replace(/'/g, "''")}'`).join(',');
     const plugins = await axios.get(url, {
         params: {
-            filter: `name ILIKE ANY (ARRAY[${pluginNames.map(p => `'${p}'`)}]) AND audience = 'Public'`,
+            filter: `name ILIKE ANY (ARRAY[${escapedNames}]) AND audience = 'Public'`,
             fields: fields
         },
         headers: {
