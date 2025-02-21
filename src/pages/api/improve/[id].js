@@ -21,7 +21,7 @@ export default async function handler(req, res) {
                 return res.status(200).json({ success: true, message: `succesfully improved the blog ${id}`});
                 
             } catch (error) {
-                console.log("error in improve blog by ID", error)
+                console.error("error in improve blog by ID", error)
                 sendMessageTochannel({"message":'error in improve blog by ID API.' , error : error.message})
                 res.status(400).json({ success: false, error: error.message });
              

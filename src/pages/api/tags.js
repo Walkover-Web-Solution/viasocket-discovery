@@ -125,7 +125,7 @@ export default async function handler(req, res) {
         res.status(201).json({ success: true, data: [] });
         // res.status(201).json({ success: true, data: allTags });
       } catch (error) {
-        console.log("error getting releted blogs", error)
+        console.error("error in merging tags and categories", error)
         res.status(400).json({ success: false, error: error.message });
       }
       break;

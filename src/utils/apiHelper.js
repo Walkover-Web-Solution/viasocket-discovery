@@ -122,7 +122,7 @@ export const titleSuggestions =  async(userQuery, existingTitles) => {
     const data = await response.json();
     return data.data.titles;
   } catch(error){
-    console.log("error getting title suggestions ", error);
+    console.error("error getting title suggestions ", error);
     return [];
   }
 }

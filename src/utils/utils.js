@@ -88,7 +88,7 @@ export const sendMessageTochannel = async (message) => {
       })
       if(!res.ok) throw new Error(res.text());
     } catch (error) {
-      console.log("error sending alerts to channel ", error);
+      console.error("error sending alerts to channel ", error);
     }
 }
 

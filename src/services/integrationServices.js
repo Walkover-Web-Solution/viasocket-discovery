@@ -12,7 +12,7 @@ async function getPluginsByName(pluginNames, fields,environment, firstTime) {
             'auth-key' : process.env.PLUGINS_AUTHKEY    
         }
     }).catch(err => {
-        console.log(err);
+        console.error(err);
     }).then(res => res.data.data.rows);
 
     let pluginsSet =  pluginNames.reduce((acc,name)=>{
@@ -94,7 +94,7 @@ async function getUpdatedApps(pluginNames,environment) {
         }, {});
         return apps;
     } catch (error) {
-        console.log("error in getting app icon urls ", error);
+        console.error("error in getting app icon urls ", error);
         
         const apps = pluginNames?.reduce((acc, app) => {
             acc[app] = {};
