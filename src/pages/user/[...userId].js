@@ -1,12 +1,18 @@
 import { getUserById } from "@/services/proxyServices"; 
 import Avatar from '@mui/material/Avatar';
-import styles from './UserPage.module.css'; 
+import styles from '@/pages/user/UserPage.module.scss'; 
 import BlogCard from "@/components/Blog/Blog";
 import { useEffect, useState } from "react";
 import { fetchBlogs } from "@/utils/apis/blogApis";
 import { useRouter } from "next/router";
 import { nameToSlugName } from "@/utils/utils";
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import UserBioPopup from "@/components/UserBioPopup/UserBioPoup";
+import  {useUser}  from "@/context/UserContext";
+import EditIcon from '@mui/icons-material/Edit';
+import Tooltip from '@mui/material/Tooltip';
+
+
 
 export async function getServerSideProps(context) {
   const { userId } = context.params;
@@ -28,6 +34,9 @@ export default function UserPage({ user }) {
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState({});
+  const [userBioPopup, setUserBioPopup] = useState(false);
+  const currentUser = useUser().user;
+
   useEffect(() => {
     if (user) {
       router.replace(
@@ -101,10 +110,26 @@ export default function UserPage({ user }) {
     <div className={styles.container}>
       <div className={styles.userContainer}>
         <div className={styles.author}>
-          <PersonOutlineOutlinedIcon  className={styles.iconStyle}/>
-          <h3 className={styles.name}>{user.name}</h3>
+          <div className={styles.authorInfo}>
+            <PersonOutlineOutlinedIcon  className={styles.iconStyle}/>
+            <h3 className={styles.name}>{user.name}</h3>
+            {user?.id === currentUser?.id && (
+              <Tooltip title="Update Bio" arrow>
+                <EditIcon
+                  className={styles.editIcon}
+                  onClick={() => setUserBioPopup(true)}
+                  style={{ cursor: 'pointer', marginLeft: '8px', alignSelf: 'center' }}
+                />
+              </Tooltip>
+            )}
+          </div>
+          <UserBioPopup 
+            isOpen={userBioPopup}
+            onClose={() => setUserBioPopup(false)}
+            firstMessage={`Would you like to update your bio? Let us know what details you'd like to change or add, and we'll update it accordingly while keeping your existing information intact`}  
+          />
         </div>
-        <p className={styles.contribution}>{user?.meta?.bio || ''}</p>
+        <p className={styles.contribution}>{user.id == currentUser?.id ? (currentUser?.meta?.bio || '') : (user?.meta?.bio || '')}</p>
         <b>
         <p className={styles.contribution}>
           {count.createdCount > 0 ?
