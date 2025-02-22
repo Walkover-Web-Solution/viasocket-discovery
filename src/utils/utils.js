@@ -291,8 +291,8 @@ export async function updateRecord(id,updatedBlog,env) {
         }
       );
     } catch (error) {
-        sendMessageTochannel(`Error while updating blog row in db dash :, ${error.response ? error.response.data : error.message}`)
-        console.error('Error while updating blog row in db dash:', error.response ? error.response.data : error.message);
+        sendMessageTochannel(`Error while updating blog row in db dash :, ${ error.message}`)
+        console.error('Error while updating blog row in db dash:',  error.message);
     }
 }
 
