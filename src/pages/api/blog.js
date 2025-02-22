@@ -1,7 +1,7 @@
 import blogServices from '@/services/blogServices';
 import { searchTags } from '@/services/tagsServices';
 import { createBlog } from './ask-ai';
-import { sendMessageTochannel } from '@/utils/utils';
+import { sendMessageTochannel, SendNewBlogTODbDash } from '@/utils/utils';
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -41,6 +41,7 @@ export default async function handler(req, res) {
         const { userMessage } = req.body;
         const countryCode = req.headers["cf-ipcountry"] || "IN";
         const newBlog = await createBlog(userMessage, environment, parseInt(user.id), countryCode);
+        SendNewBlogTODbDash(newBlog,environment)
         res.status(201).json({ success: true, data: {id : newBlog.id} });
       } catch (error) {
         console.error("error creating blog",error);

@@ -1,7 +1,7 @@
 import blogServices from "@/services/blogServices";
 import { blogSchema } from "@/utils/schema";
 const _ = require("lodash");
-import { askAi, extractJsonFromMarkdown, ValidateAiResponse } from "@/utils/utils";
+import { askAi, extractJsonFromMarkdown, formatBlogDataForDbDash, updateRecord, ValidateAiResponse } from "@/utils/utils";
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -121,6 +121,8 @@ export const updateBlogUsingComments = async (blogId, environment) => {
     userIds,
     environment
   );
+  
+  updateRecord(newBlog.id,formatBlogDataForDbDash(newBlog),environment)
   return newBlog;
 };
 
