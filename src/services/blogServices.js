@@ -3,7 +3,7 @@
 
 import createBlogModel from '../../models/BlogModel';
 import dbConnect from '../../lib/mongoDb';
-import { generateNanoid, getAppNames, nameToSlugName, restoreceDotsInArray, restoreDotsInKeys } from '@/utils/utils';
+import { formatBlogDataForDbDash, generateNanoid, getAppNames, nameToSlugName, restoreceDotsInArray, restoreDotsInKeys, updateRecord } from '@/utils/utils';
 import { getUpdatedApps } from './integrationServices';
 import stopWords from '@/utils/stopWords';
 
@@ -54,6 +54,7 @@ const createBlog = async (blogData, environment) => {
       toImprove : true 
     })).toObject();
     return {
+      ...newBlog,
       id: newBlog.id,
       blog: newBlog.blog, 
       apps: apps, 
@@ -102,7 +103,23 @@ const updateBlogById = (blogId, blogData, userIds, environment) => {
     return updateResult;
   });
 };
-
+const directUpdateBlog = (blogId, blogData, environment) => {
+  return withBlogModel(environment, async (Blog) => {
+    const appNames = getAppNames(blogData.blog);
+    const apps = await getUpdatedApps(appNames, environment);
+    
+    const updateData = {
+      ...blogData,
+      apps,
+    };
+    const updateResult = await Blog.findOneAndUpdate(
+      { "id": blogId },
+      { $set: updateData },
+      { new: true } 
+    ).lean();
+    return updateResult;
+  });
+};
 // const getUserBlogs = (userId, environment) => {
 //   return withBlogModel(environment, (Blog) => {
 //     return Blog.find({
@@ -235,7 +252,12 @@ last24Hours.setHours(today.getHours() - 24, 0, 0, 0);
 const updateBlogsTags = async (blogsTagsToUpdate, environment) => {
   return withBlogModel(environment, async (Blog) => {
     try {
-      const bulkOperations = (Object.keys(blogsTagsToUpdate)).map(blogId => ({
+      const bulkOperations = (Object.keys(blogsTagsToUpdate)).map(blogId => {
+        updateRecord(blogId,formatBlogDataForDbDash({
+          meta: blogsTagsToUpdate[blogId].meta,
+          tags: Array.from(blogsTagsToUpdate[blogId].tags)
+        }),environment)
+        return ({
         updateOne: {
           filter: { _id: blogId },  // Match document by _id
           update: {
@@ -246,7 +268,8 @@ const updateBlogsTags = async (blogsTagsToUpdate, environment) => {
             }
           },  // Update the 'tags' field
         }
-      }));
+      })
+    });
 
       const result = await Blog.bulkWrite(bulkOperations);
       return result;
@@ -527,6 +550,7 @@ const getBlogsToMergeComments = (environment) =>{
 }
 
 export default {
+  directUpdateBlog,
   getAllBlogs,
   createBlog,
   getBlogById,

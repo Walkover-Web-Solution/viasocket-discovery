@@ -268,3 +268,70 @@ export function formatDate(date) {
   const options = { month: "long", day: "numeric", year: "numeric" };
   return `on ${date.toLocaleDateString("en-US", options)}`;
 }
+
+export async function updateRecord(id,updatedBlog,env) {
+    if(env != 'prod') return ;
+    try {
+      const response = await axios.patch(
+        'https://table-api.viasocket.com/67936e431fbdc1e11a5c9cc4/tblprvr4a',
+        {
+          records: [
+            {
+              where: `id = "${id}"`,
+              fields: updatedBlog,
+            }
+          ]
+        },
+        {
+          headers: {
+            'accept': 'application/json',
+            'content-type': 'application/json',
+            'auth-key': process.env.AUTH_KEY_BLOG_DATA
+          }
+        }
+      );
+    } catch (error) {
+        sendMessageTochannel(`Error while updating blog row in db dash :, ${error.response ? error.response.data : error.message}`)
+        console.error('Error while updating blog row in db dash:', error.response ? error.response.data : error.message);
+    }
+}
+
+
+
+export function formatBlogDataForDbDash(obj) {
+  if (!obj || typeof obj !== 'object') return {};
+  const keyMap = {
+    blog: 'blog',
+    title: 'title',
+    titleDescription: 'titledescription',
+    tags: 'tags',
+    apps: 'apps',
+    meta: 'meta',
+    countryCode: 'countrycode',
+    createdBy: 'created_by',
+    slugName: 'slugname',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    appNames: 'appnames',
+    comments: 'comments',
+    toUpdate: 'toupdate',
+    lastImproved: 'lastimproved',
+    toImprove: 'toimprove'
+  };
+  return Object.keys(obj).reduce((formatted, key) => {
+    const formattedKey = keyMap[key] || key; 
+    formatted[formattedKey] = obj[key];
+    return formatted;
+  }, {});
+}
+export async function SendNewBlogTODbDash(newBlog,env) {
+  if(env != "prod") return ;
+  try {
+    await axios.post("https://flow.sokt.io/func/scril46vLH1K", newBlog, {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (err) {
+    sendMessageTochannel(`Error creating blog in db dash : ${err.message}`);
+    console.error("Error creating blog in db dash :", err);
+  }
+}
