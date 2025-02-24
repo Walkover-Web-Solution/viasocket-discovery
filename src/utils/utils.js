@@ -277,7 +277,7 @@ export async function updateRecord(id,updatedBlog,env) {
         {
           records: [
             {
-              where: `id = "${id}"`,
+              where: `id = '${id}'`,
               fields: updatedBlog,
             }
           ]
@@ -291,8 +291,8 @@ export async function updateRecord(id,updatedBlog,env) {
         }
       );
     } catch (error) {
-        sendMessageTochannel(`Error while updating blog row in db dash :, ${ error.message}`)
-        console.error('Error while updating blog row in db dash:',  error.message);
+        sendMessageTochannel({message:`Error while updating blog row in db dash :, ${ error.response ? error.response.data : error.message}`})
+        console.error('Error while updating blog row in db dash:',  error.response ? error.response.data : error.message);
     }
 }
 
