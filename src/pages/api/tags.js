@@ -55,7 +55,7 @@ export default async function handler(req, res) {
           notAvailableTags.push(...missingTags);
           notAvailableParameters.push(...missingParameters);
   
-          if (category && !allPreviousCategoriesSet.has(category)) {
+          // if (category && !allPreviousCategoriesSet.has(category)) {
             notAvailableCategories.add(
               JSON.stringify(
                 { category : category,
@@ -63,7 +63,7 @@ export default async function handler(req, res) {
                   id : item._id
                 }));
             categoryToBridgeArrMap[category] = [...(categoryToBridgeArrMap[category] || []), item._id];
-          }
+          // }
           // return  res.status(201).json({ success: true, data: [] });
   
           // Map tags, parameters, and categories to blog entries
@@ -99,13 +99,17 @@ export default async function handler(req, res) {
         // applyReplacements(aiResponseCategories, categoryToBridgeArrMap, (id, originalCategory) => {
         //   brigeToAllTagsAndParametersMap[id].meta.category = originalCategory;
         // });
+        const transformedCategories = aiResponseCategories?.categories?.reduce((acc, { id, name }) => {
+          acc[id] = name;
+          return acc;
+        }, {});
         
         const newCategories = [];
-        Object.keys(aiResponseCategories).forEach(key => {
+        Object.keys(transformedCategories).forEach(key => {
           if (brigeToAllTagsAndParametersMap[key]?.meta?.category) {
-            brigeToAllTagsAndParametersMap[key].meta.category = aiResponseCategories[key];
-            brigeToAllTagsAndParametersMap[key].meta.categorySlug = nameToSlugnameMap[aiResponseCategories[key]] || 'it';
-            if (!allPreviousCategoriesSet.has(aiResponseCategories[key])) newCategories.push(aiResponseCategories[key]);
+            brigeToAllTagsAndParametersMap[key].meta.category = transformedCategories[key];
+            brigeToAllTagsAndParametersMap[key].meta.categorySlug = nameToSlugnameMap.get(transformedCategories[key]) || 'it';
+            if (!allPreviousCategoriesSet.has(transformedCategories[key])) newCategories.push(transformedCategories[key]);
           }
         });
 
@@ -125,7 +129,7 @@ export default async function handler(req, res) {
         res.status(201).json({ success: true, data: [] });
         // res.status(201).json({ success: true, data: allTags });
       } catch (error) {
-        console.log("error getting releted blogs", error)
+        console.error("error in merging tags and categories", error)
         res.status(400).json({ success: false, error: error.message });
       }
       break;

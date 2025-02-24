@@ -1,4 +1,4 @@
-import { askAi, ValidateAiResponse, sendMessageTochannel, sendAlert, improveBlogPrompt, extractJsonFromMarkdown } from "@/utils/utils";
+import { askAi, ValidateAiResponse, sendMessageTochannel, sendAlert, improveBlogPrompt, extractJsonFromMarkdown, updateRecord, formatBlogDataForDbDash } from "@/utils/utils";
 import blogServices from "../../services/blogServices"
 import { improveBlogSchema } from "@/utils/schema";
 import {  getRandomAuthorByCountryAndType, insertManyAuthor } from "@/services/authorServices";
@@ -80,6 +80,13 @@ export async function createBulkOperation (blogs,environment){
         const countryCode = blog.countryCode || 'IN'; 
         const author = await getNames(countryCode);
         let processedBlog = await improveBlog(blog.blog, author.name);
+        updateRecord(blog.id , formatBlogDataForDbDash(
+            { 
+                'blog': processedBlog,
+                'lastImproved' : Date.now(),
+                'toImprove': false,
+            }
+        ),environment)
         // await distinctifyPhrase(processedBlog, environment);
         // const imageUrl = await imagePromise;
         return {

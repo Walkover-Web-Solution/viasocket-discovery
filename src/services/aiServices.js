@@ -12,7 +12,7 @@ export async function titleSuggestions(userQuery, existingTitles){
         const suggestions = JSON.parse(data.response.data.content).suggestions;
         return suggestions;
     }catch(err){
-        console.log(err);
+        console.error(err);
         return [];
     }
 }

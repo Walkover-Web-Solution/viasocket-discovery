@@ -4,13 +4,13 @@ import { Dialog } from "@mui/material";
 import { useUser } from "@/context/UserContext";
 import Chatbot from "../ChatBot/ChatBot";
 
-export default function UserBioPopup({ isOpen, onClose, onSave }) {
+export default function UserBioPopup({ isOpen, onClose, onSave, firstMessage }) {
   const {user, setUser} = useUser();
   const chatId = useMemo(() => user ? `${user.id}_${Math.random()}` : null, [user]);
   const [messages, setMessages] = useState([{
     role: 'assistant', 
     content: {
-      message:'Hi! Could you start by sharing a bit about yourself, your work, and your industry? That will help us move forward.'
+      message: firstMessage || 'Hi! Could you start by sharing a bit about yourself, your work, and your industry? That will help us move forward.'
     }
   }]);
   async function updateUserBio(content) {
@@ -25,7 +25,7 @@ export default function UserBioPopup({ isOpen, onClose, onSave }) {
 
   return (
     <Dialog open = {isOpen} className = {styles.dialog}>
-      <Chatbot bridgeId = {process.env.NEXT_PUBLIC_USER_BIO_BRIDGE} messages = {messages} setMessages = {setMessages} chatId = {chatId} isOpen = {true} msgCallback = {updateUserBio} inPopup/>
+      <Chatbot bridgeId = {process.env.NEXT_PUBLIC_USER_BIO_BRIDGE} messages = {messages} setMessages = {setMessages} chatId = {chatId} isOpen = {true} msgCallback = {updateUserBio} variables={{bio : user?.meta?.bio || ''}} inPopup/>
     </Dialog>
   );
 }

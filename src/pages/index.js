@@ -21,7 +21,7 @@ import UserBioPopup from '@/components/UserBioPopup/UserBioPoup';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import Head from 'next/head';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import userStyles from '@/pages/user/UserPage.module.css'; 
+import userStyles from '@/pages/user/UserPage.module.scss'; 
 import { getCategoriesFromDbDash } from './api/tags';
 import Loader from '@/components/loader/Loader';
 

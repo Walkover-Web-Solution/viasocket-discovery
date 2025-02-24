@@ -99,7 +99,7 @@ const Components = {
               </a>
             );
           })}
-          <a className = {`${styles.appLink} ${styles.viewAllLink}`} href={`https://viasocket.com/integrations/category/${meta.categorySlug}`} target="_blank">
+          <a className = {`${styles.appLink} ${styles.viewAllLink}`} href={`https://viasocket.com/integrations/category/${meta.categorySlug || 'all'}`} target="_blank">
             <ListItem className={styles.listItem}>
               <h5>View All from {meta.category}</h5>
               <ArrowOutwardIcon className={styles.arrowIcon} fontSize='small' />

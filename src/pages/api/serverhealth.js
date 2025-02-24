@@ -6,7 +6,7 @@ export default async function handler(req, res) {
       message: 'Server is healthy'
     })
   } catch (error) {
-    console.log("healthcheck failed",error)
+    console.error("healthcheck failed",error)
     return res.status(400).json({
       status: 'error',
       message: 'server is not healthy',

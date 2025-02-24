@@ -9,7 +9,6 @@ const AddCommentPopup = ({ open, onClose, blogId, setComments }) => {
         const comment = await postComment(blogId, text);
         if(comment?.commentId){
             setComments(prev => {
-                console.log(prev, "Hello Prev", comment);
                 return {...prev, [comment.commentId] : comment};
             })
         }

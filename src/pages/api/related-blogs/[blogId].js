@@ -13,7 +13,7 @@ export default async function handler(req, res) {
         const blogs = await blogServices.searchBlogsByTags( blog.tags, blogId, blog.meta?.category, environment );
         res.status(200).json({ success: true, data: blogs });
       } catch (error) {
-        console.log("error getting releted blogs", error)
+        console.error("error getting releted blogs", error)
         res.status(400).json({ success: false, error: error.stack });
       }
       break;
