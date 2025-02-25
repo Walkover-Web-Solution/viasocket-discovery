@@ -1,7 +1,7 @@
 import { askAi, reFormat, sendAlert, ValidateAiResponse } from '@/utils/utils';
 import blogServices from "../../services/blogServices"
 import { blueprintSchema, createdBlogSchema, searchResultsSchema, updateBlogSchema } from '@/utils/schema';
-import { updateProxyUser } from '@/services/proxyServices';
+import { getUserById, updateProxyUser } from '@/services/proxyServices';
 
 export const config = {
   maxDuration: 30,
@@ -68,7 +68,8 @@ export default async function handler(req, res) {
                     }
                 } else if(bridgeId === process.env.NEXT_PUBLIC_USER_BIO_BRIDGE){
                     if(parsedContent.bio){
-                        const userMeta = userData.meta || {};
+                        const userDetails = await getUserById(userId);
+                        const userMeta = userDetails.meta || {};
                         await updateProxyUser(userId, {meta: {...userMeta, bio: parsedContent.bio}} );
                     }
                     botResponse = parsedContent;
