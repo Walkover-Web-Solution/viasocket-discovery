@@ -1,10 +1,10 @@
 .headerDiv{
-    width: 90% !important;
-    max-width: var(--home-page-width) !important;
-    margin: auto;
-    padding: 1rem !important;
-    padding-top: 3rem !important;
-    padding-bottom: 5px !important;
+    // width: 90% !important;
+    // max-width: var(--home-page-width) !important;
+    // margin: auto;
+    // padding: 1rem !important;
+    // padding-top: 3rem !important;
+    // padding-bottom: 5px !important;
     &>*{
       z-index: 4;
     }
@@ -12,55 +12,55 @@
       background-color: white;
     }
 }
-.viaLogo {
-    // height: 56px !important;
-    padding-left:6px !important;
-  }
-  // .viaLogo img {
-    // height: 24px !important;
-  // }
+// .viaLogo {
+//     // height: 56px !important;
+//     padding-left:6px !important;
+//   }
+//   // .viaLogo img {
+//     // height: 24px !important;
+//   // }
   
-  .viaMenu a {
-    color: black;
-  }
-  .viaMenu a:hover {
-    background-color: black;
-    color: white;
-  }
-  .viaMenu .viaBgAccent {
-    background-color: #a8200d;
-    color: white;
-    cursor: pointer;
-  }
-  .viaMenu .viaMenuLg > a {
-    height: 56px !important;
-    width: 146px !important;
-  }
-  .viaMenu .viaMenuSm > a {
-    height: 56px !important;
-    min-width: 56px !important;
-  }
-  .viaDropdown {
-    height: 56px !important;
-    min-width: 56px !important;
-    color: black;
-  }
-  .viaDropdown:hover {
-    background-color: black;
-    color: white;
-  }
-  .viaDropdown .dropdownMenu a {
-    height: 35px !important;
-    min-width: 100% !important;
-  }
+//   .viaMenu a {
+//     color: black;
+//   }
+//   .viaMenu a:hover {
+//     background-color: black;
+//     color: white;
+//   }
+//   .viaMenu .viaBgAccent {
+//     background-color: #a8200d;
+//     color: white;
+//     cursor: pointer;
+//   }
+//   .viaMenu .viaMenuLg > a {
+//     height: 56px !important;
+//     width: 146px !important;
+//   }
+//   .viaMenu .viaMenuSm > a {
+//     height: 56px !important;
+//     min-width: 56px !important;
+//   }
+//   .viaDropdown {
+//     height: 56px !important;
+//     min-width: 56px !important;
+//     color: black;
+//   }
+//   .viaDropdown:hover {
+//     background-color: black;
+//     color: white;
+//   }
+//   .viaDropdown .dropdownMenu a {
+//     height: 35px !important;
+//     min-width: 100% !important;
+//   }
   
-  .viaIconBlack {
-    fill: black;
-  }
-  .viaIconBlack:hover {
-    fill: white;
-  }
+//   .viaIconBlack {
+//     fill: black;
+//   }
+//   .viaIconBlack:hover {
+//     fill: white;
+//   }
 
-  .userDetailCatch{
-    position: relative;
-  }
+//   .userDetailCatch{
+//     position: relative;
+//   }

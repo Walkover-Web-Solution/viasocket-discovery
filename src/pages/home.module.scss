@@ -60,12 +60,12 @@
 
   .Homesection {
     // border-right: none;
-    margin-top: 10rem;
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    padding: 0 3rem;
     // padding: 2rem 3.4rem;
     margin: auto;
+    margin-bottom: -3rem;
     max-width: var(--home-page-width);
     overflow-y: hidden;
 

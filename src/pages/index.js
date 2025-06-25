@@ -226,7 +226,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
           {blogs.length > 0 ? (
             blogs.map((blog) => (
               <a
-                target={blog.dummy ? '_self' : '_blank'}
+                // target={blog.dummy ? '_self' : '_blank'}
                 rel="noopener noreferrer"
                 href={blog.dummy ? null : `/discovery/blog/${blog.id}`}
                 key={blog.id}
@@ -374,7 +374,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
               <h4 className={styles.popularUsers}>Top Contributors</h4>
               <div className = {styles.popularUsersDiv}>
                 {popularUsers.map((user, index) => (
-                  <Link target='_blank' key={index} href={`/user/${user.id}`} className={styles.userLink}>
+                  <a key={index} href={`/discovery/user/${user.id}`} className={styles.userLink}>
                     <div className = {styles.userHeader}>
                     <PersonOutlineOutlinedIcon  className={userStyles.iconStyle}/>
                       <h5>{user.name.split(" ")[0].charAt(0).toUpperCase() + user.name.slice(1)}</h5>
@@ -399,7 +399,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
                         }
                         </b>
                       </p>
-                  </Link>
+                  </a>
                 ))}
               </div>
             </>
