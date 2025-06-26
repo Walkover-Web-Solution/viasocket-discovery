@@ -25,7 +25,7 @@ const Header = () => {
 
   
   return (
-    <header className={"d-flex justify-content-between align-items-center px-3 px-xl-5 border-bottom " + styles.headerDiv}>
+    <header className={"d-flex justify-content-between align-items-center px-3 px-xl-5 " + styles.headerDiv}>
       <a
         href="https://viasocket.com"
         target="_blank"
