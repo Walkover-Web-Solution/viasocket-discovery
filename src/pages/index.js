@@ -361,7 +361,7 @@ export default function Home({ popularUsers = [] , categories = []}) {
                 {popularTags.map((tag, index) => (
                 <Link
                   key={index}
-                  href={`/?search=${tag}`}
+                  href={`/?search=${tag.replaceAll(" ","+")}`}
                   className={`${blogstyle.tag} ${blogstyle[tag.toLowerCase()]}`}
                   onClick={()=>{
                     setIsCategoryClicked(true);
