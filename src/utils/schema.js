@@ -44,11 +44,11 @@ export const createdBlogSchema = Joi.object({
     })
   ).required()
   .custom((blogs, helpers) => {
-    let hasDetailedReview = false;
+    let detailedReviewCount = 0;
 
     for (let blog of blogs) {
       if (blog.section === 'detailed_reviews') {
-        hasDetailedReview = true;
+        detailedReviewCount++;
         
         const isArrayOfObjects = Array.isArray(blog.content) &&
           blog.content.every(item => typeof item === 'object' && item.appName && item.content);
@@ -67,8 +67,10 @@ export const createdBlogSchema = Joi.object({
         if(typeof blog.content !== 'string') return helpers.message('content in sections other than "detailed_reviews" and "FAQ" must be a string.');
       }
     }
-    if (!hasDetailedReview) {
+    if (detailedReviewCount === 0) {
       return helpers.message('The blog array must contain an element where the key "section" is "detailed_reviews", the key "heading" is a string (e.g., "some heading"), and the key "content" is an array of objects. Each object in the "content" array must contain the key "appName" (a string representing the app name) and the key "content" (a string describing the app).');
+    }else if(detailedReviewCount > 1){
+      return helpers.message('The blog array must contain only one element where the key "section" is "detailed_reviews", the key "heading" is a string (e.g., "some heading"), and the key "content" is an array of objects. Each object in the "content" array must contain the key "appName" (a string representing the app name) and the key "content" (a string describing the app).');
     }
 
     return blogs;
