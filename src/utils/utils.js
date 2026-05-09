@@ -1,6 +1,6 @@
 import { customAlphabet } from 'nanoid';
 import { getCurrentEnvironment, setPathInLocalStorage } from './storageHelper';
-import { createBlogSchema, searchResultsSchema, updateBlogSchema } from './schema';
+import { createdBlogSchema, searchResultsSchema, updateBlogSchema } from './schema';
 import { getUserById } from '@/services/proxyServices';
 const axios = require('axios');
 export const dummyMarkdown = `# Welcome to App Discovery: Unleash the Power of AI-Driven Software Discovery!
@@ -140,7 +140,7 @@ export function safeParse(json,bridgeId,threadId){
       }
     }else if(bridgeId == process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE){
       if(data.blog) {
-        data = ValidateAiResponse(data , createBlogSchema, bridgeId, threadId,false);
+        data = ValidateAiResponse(data , createdBlogSchema, bridgeId, threadId,false);
         if(data.success === true){
         data= data.value; 
         } else {

@@ -1,0 +1,41 @@
+.iconsStrip { 
+  margin-left: 25.6px; 
+  width: calc(100% - 25.6px); 
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 80%, transparent 100%); 
+  mask-image: linear-gradient(to right, transparent 0%, #000 6%, #000 80%, transparent 100%); 
+} 
+
+.iconsTrack { 
+  width: max-content; 
+} 
+
+@keyframes iconsFwd { 
+  from { transform: translateX(0); } 
+  to   { transform: translateX(-25%); } 
+} 
+
+@keyframes iconsRev { 
+  from { transform: translateX(-25%); } 
+  to   { transform: translateX(0); } 
+} 
+
+.iconsTrackFwd { 
+  animation: iconsFwd 40s linear infinite; 
+} 
+
+.iconsTrackRev { 
+  animation: iconsRev 34s linear infinite; 
+} 
+
+@media (prefers-reduced-motion: reduce) { 
+  .iconsTrackFwd, .iconsTrackRev { 
+    animation-play-state: paused; 
+  } 
+} 
+
+.iconPill { 
+  width: 40px; 
+  height: 40px; 
+  flex: 0 0 40px; 
+  object-fit: contain; 
+} 
