@@ -181,7 +181,7 @@ const Components = {
   ),
   additionalSection: ({ content, heading }) => (
     <section
-      className={`blog-page__section ragini-mahobiya mb-4 p-2 w-75`}
+      className={`blog-page__section mb-4 p-2 w-75`}
     >
       {heading && <h3>{heading}</h3>}
       <div className="bp-table-wrap">

@@ -1,10 +1,11 @@
 import React from 'react';
+import styles from './TopContributors.module.scss';
 
 const TopContributors = ({ popularUsers }) => {
   if (!popularUsers || popularUsers.length === 0) return null;
 
   return (
-    <section className="mt-5 px-3">
+    <section className="mt-5 px-3 pt-5 border-top">
       <div className="d-flex flex-wrap align-items-baseline justify-content-between gap-2 mb-3">
         <h2 className="m-0 fw-semibold" style={{ fontFamily: "var(--title-font)", fontSize: 36, lineHeight: 1.15 }}>
           Top <em className="fst-italic fw-medium" style={{ color: "#a8200d" }}>Contributors</em>
@@ -34,7 +35,7 @@ const TopContributors = ({ popularUsers }) => {
             <div key={index} className="col-12 col-md-6">
               <a
                 href={`/discovery/user/${user.id}`}
-                className="d-flex flex-column justify-content-between position-relative border p-3 text-decoration-none text-dark bg-white h-100"
+                className={`${styles.contribCard} d-flex flex-column justify-content-between position-relative border p-3 text-decoration-none text-dark bg-white h-100`}
               >
                 <div className="flex-grow-1">
                   <div className="d-flex align-items-center gap-3 mb-2">
@@ -48,7 +49,17 @@ const TopContributors = ({ popularUsers }) => {
                       {displayName}
                     </h3>
                   </div>
-                  <p className="text-muted mb-2 fs-6 ps-3 pb-2">{bio}</p>
+                  <p
+                    className="text-muted mb-4 fs-6 ps-3 pb-2"
+                    style={{
+                      display: "-webkit-box",
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {bio}
+                  </p>
                 </div>
                 <div className="fs-6 ps-3 border-top pt-3 mt-auto">
                   {user.createdBlogs > 0 && (

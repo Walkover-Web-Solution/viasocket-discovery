@@ -10,8 +10,8 @@ const UserProfileHeader = ({ user, currentUser, count }) => {
     <div className="py-4 border-bottom mb-5">
       <div className="d-flex align-items-center gap-3 mb-3">
         <span
-          className="d-flex align-items-center justify-content-center bg-light border"
-          style={{ width: 44, height: 44, color: "#a8200d" }}
+          className="d-flex align-items-center justify-content-center bg-light border border-dark"
+          style={{ width: 44, height: 44 }}
         >
           <svg viewBox="0 0 24 24" aria-hidden="true" width="24" height="24">
             <path

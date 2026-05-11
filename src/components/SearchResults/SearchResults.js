@@ -1,5 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import styles from "@/pages/home.module.scss";
+import NoResultsSuggestions from "@/components/NoResultsSuggestions/NoResultsSuggestions";
 
 const SearchResults = ({
   blogs,
@@ -18,15 +19,20 @@ const SearchResults = ({
       <section>
         {tagsContainer()}
         {isLoading && (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", placeItems: "center", gap: "16px" }} className="raginii">
-            {[...Array(9)].map((_, index) => (
-              <div key={index} className="border-bottom p-3 w-100 text-center">
+          <div className="d-flex flex-column gap-3 px-5 w-100">
+            {[...Array(4)].map((_, index) => (
+              <div key={index} className="bg-white border rounded p-3 w-100">
                 <Skeleton
-                  height={24}
-                  width="80%"
-                  count={1}
-                  baseColor="#e0e0e0"
-                  highlightColor="#f5f5f5"
+                  height={14}
+                  width={`${60 + ((index * 13) % 30)}%`}
+                  baseColor="#ece4dc"
+                  highlightColor="#f7f1ea"
+                />
+                <Skeleton
+                  height={10}
+                  width={`${20 + ((index * 7) % 15)}%`}
+                  baseColor="#ece4dc"
+                  highlightColor="#f7f1ea"
                 />
               </div>
             ))}
@@ -59,9 +65,7 @@ const SearchResults = ({
               ))
             : !isLoading &&
               fallback && (
-                <h6 className={`${styles.titleSuggestion}`}>
-                  No results here, hit enter or Ask AI !!!
-                </h6>
+                <NoResultsSuggestions />
               )}
         </div>
       </section>
@@ -71,7 +75,7 @@ const SearchResults = ({
   const renderCategoriesSection = () => {
     return (
       <section>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", placeItems: "center" }} className="mt-5">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", placeItems: "center" }} className="my-5 pb-5">
           {categories.length > 0 &&
             categories.map((category) => (
               <a

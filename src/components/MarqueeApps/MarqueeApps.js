@@ -62,7 +62,7 @@ const MarqueeApps = () => {
     );
 
     return (
-        <div className={`${styles.iconsStrip} my-5 py-5 overflow-hidden border-bottom`}>
+        <div className={`${styles.iconsStrip} my-5 py-5 overflow-hidden`}>
             <div className={`${styles.iconsTrack} ${styles.iconsTrackFwd} d-flex gap-0 mb-2`}>
                 <div className="d-flex gap-2 pe-2">
                     {renderIcons(appsRow1)}

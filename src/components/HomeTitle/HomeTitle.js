@@ -1,15 +1,14 @@
 import React from "react";
+import AccentBar from "../AccentBar/AccentBar";
 
 const HomeTitle = () => {
   return (
-    <div className="px-3 py-5 home-page-header-title w-75">
+    <div className="px-3 pt-5 home-page-header-title w-75">
       <p
         className="text-uppercase fw-semibold mb-0 d-inline-flex align-items-center gap-2"
         style={{ color: "#a8200d" }}
       >
-        <span
-          style={{ width: "20px", height: "2px", backgroundColor: "#A8200D" }}
-        ></span>{" "}
+        <AccentBar />
         Discovery
       </p>
       <h1 className="display-1 fw-bold mt-2 mb-0">

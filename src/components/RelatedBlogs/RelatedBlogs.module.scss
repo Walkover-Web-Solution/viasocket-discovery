@@ -1,0 +1,12 @@
+.relatedCard {
+  background: linear-gradient(135deg, #dce8ff 0%, #e8d8ff 52%, #ffd8e8 100%);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease,
+    color 0.2s ease;
+
+  &:hover {
+    background: linear-gradient(135deg, #b8ccff 0%, #ccb4ff 52%, #ffb8d4 100%);
+    color: var(--color-fg);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(80, 50, 140, 0.14);
+  }
+}

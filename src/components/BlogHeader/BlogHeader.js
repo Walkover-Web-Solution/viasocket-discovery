@@ -5,7 +5,7 @@ import TimelapseIcon from "@mui/icons-material/Timelapse";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import XIcon from "@mui/icons-material/X";
-import BackToDashboardButton from "../BackToDashboardButton/BackToDashboardButton";
+import AccentBar from "../AccentBar/AccentBar";
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -44,9 +44,7 @@ const BlogHeader = ({
         }}
       >
         <div className="d-flex align-items-center gap-2 mb-2">
-          <span
-            style={{ width: "20px", height: "2px", backgroundColor: "#A8200D" }}
-          ></span>
+          <AccentBar />
           <span
             className="text-uppercase fw-bold small tracking-wider"
             style={{ letterSpacing: "1.5px", color: "#A8200D" }}
@@ -57,14 +55,14 @@ const BlogHeader = ({
 
         <h1
           className="display-4 fw-medium my-3"
-          style={{ fontFamily: "var(--title-font)", lineHeight: "1.1" }}
+          style={{ fontFamily: "var(--font-display)", lineHeight: "1.1" }}
         >
           {content}
         </h1>
 
         <p
           className="fs-5 text-secondary mb-4"
-          style={{ fontFamily: "var(--para-font)" }}
+          style={{ fontFamily: "var(--font-body)" }}
         >
           {subHeading}
         </p>

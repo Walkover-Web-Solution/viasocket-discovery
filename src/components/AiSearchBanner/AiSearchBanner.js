@@ -27,7 +27,14 @@ const AiSearchBanner = ({
   return (
     <section
       className="position-relative d-flex align-items-center justify-content-center text-white overflow-hidden my-5 px-4 py-5 px-md-5"
-      style={{ backgroundColor: ACCENT }}
+      style={{
+        backgroundColor: ACCENT,
+        // Full-bleed: break out of the parent container and span 100vw
+        width: "100vw",
+        marginLeft: "calc(50% - 50vw)",
+        marginRight: "calc(50% - 50vw)",
+        maxWidth: "100vw",
+      }}
     >
       <div
         className="position-absolute top-50 start-0 translate-middle-y ms-4 d-none d-md-block"

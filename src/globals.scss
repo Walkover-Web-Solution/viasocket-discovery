@@ -81,6 +81,8 @@ table {
   width: 100%;
 
   thead {
+    border-top: 2px solid black !important;
+    border-bottom: 2px solid black !important;
     tr {
       th {
         padding: 16px;
@@ -92,7 +94,11 @@ table {
   }
 
   tbody {
+    border-bottom: 2px solid black !important;
     tr {
+      > td:first-child {
+        color: #a8200d !important;
+      }
       td {
         padding: 14px;
         border: var(--bs-border-width) var(--bs-border-style)

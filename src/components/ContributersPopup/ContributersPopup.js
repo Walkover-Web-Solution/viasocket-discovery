@@ -67,7 +67,7 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
       </div>
    
       <div className="d-flex flex-column gap-2">
-        raginii
+      
         <div
           className={styles.contributorsContainer}
           onClick={handleMouseEnter}

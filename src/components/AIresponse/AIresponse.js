@@ -104,7 +104,7 @@ const AIresponse = ({
                     onClick={() => setCommentPopup(true)}
                     className={styles.contribute}
                   >
-                    <ChatBubbleIcon /> Contribute raginiii
+                    <ChatBubbleIcon /> Contribute
                   </button>
                   {/* <button onClick={openChatBot} className={styles.askMore}><AutoAwesomeOutlinedIcon/> Ask More</button> */}
                 </div>
