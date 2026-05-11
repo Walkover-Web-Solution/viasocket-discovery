@@ -3,8 +3,8 @@ import Search from "@/components/Search/Search";
 import Chatbot from "@/components/ChatBot/ChatBot";
 import SearchResults from "@/components/SearchResults/SearchResults";
 import styles from "@/pages/home.module.scss";
-import { useRouter } from "next/router";
 import PopularContent from "@/components/PopularContent/PopularContent";
+import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
 
 const HomePageContent = ({
   blogCreating,
@@ -29,18 +29,20 @@ const HomePageContent = ({
   tagsContainer,
   highlightText,
 }) => {
-  const router = useRouter();
   return (
     <>
       {!blogCreating && (
         <>
           {(isOpen || searchQuery || typingStart) && (
-            <button
-              onClick={() => router.push("/")}
-              className="border-0 bg-transparent my-4 d-flex align-items-center gap-2"
-            >
-              ← Dashboard
-            </button>
+            <BackToDashboardButton
+              className="btn"
+              style={{
+                position: "absolute",
+                top: "16px",
+                left: "16px",
+                zIndex: 10,
+              }}
+            />
           )}
           <div className={`p-4 search-click-result mb-5`}>
             {!isOpen && !searchQuery && !typingStart && <HomeTitle />}

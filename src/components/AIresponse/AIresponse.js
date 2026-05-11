@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./AIresponse.module.scss";
 import Head from "next/head";
 import Components from "../BlogComponents/BlogComponents";
-import Link from "next/link";
 import { Box } from "@mui/material";
-import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
-import AddIcon from "@mui/icons-material/Add";
 import { dispatchAskAppAiWithAuth, restoreDotsInKeys } from "@/utils/utils";
 import AddCommentPopup from "../AddCommentPopup/AddCommentPopup";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
@@ -107,7 +104,7 @@ const AIresponse = ({
                     onClick={() => setCommentPopup(true)}
                     className={styles.contribute}
                   >
-                    <ChatBubbleIcon /> Contribute
+                    <ChatBubbleIcon /> Contribute raginiii
                   </button>
                   {/* <button onClick={openChatBot} className={styles.askMore}><AutoAwesomeOutlinedIcon/> Ask More</button> */}
                 </div>

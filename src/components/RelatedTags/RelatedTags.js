@@ -4,7 +4,7 @@ const RelatedTags = ({ tags }) => {
   if (!tags || tags.length === 0) return null;
 
   return (
-    <div className="d-flex gap-2 flex-column">
+    <div className="d-flex gap-2 flex-column my-5">
       <h3>Related Tags</h3>
       <div className="d-flex align-items-center gap-2 flex-wrap">
         {tags?.map((tag, index) => (

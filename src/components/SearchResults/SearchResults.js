@@ -71,7 +71,7 @@ const SearchResults = ({
   const renderCategoriesSection = () => {
     return (
       <section>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", placeItems: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", placeItems: "center" }} className="mt-5">
           {categories.length > 0 &&
             categories.map((category) => (
               <a

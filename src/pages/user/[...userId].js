@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { nameToSlugName } from "@/utils/utils";
 import UserProfileHeader from "@/components/UserProfileHeader/UserProfileHeader";
 import UserBlogList from "@/components/UserBlogList/UserBlogList";
+import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
 import  {useUser}  from "@/context/UserContext";
 
 export async function getServerSideProps(context) {
@@ -63,6 +64,7 @@ export default function UserPage({ user }) {
 
   return (
     <div className="container-lg py-3 px-4" style={{ maxWidth: "60rem", margin: "auto" }}>
+      <BackToDashboardButton />
       <UserProfileHeader user={user} currentUser={currentUser} count={count} />
       <div className="mt-4">
         <UserBlogList 

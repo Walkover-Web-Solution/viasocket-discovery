@@ -9,7 +9,7 @@ const UserBlogList = ({ blogs, title, isLoading, userName }) => {
         <h2 className="h4 fw-bold ps-3 mb-4" style={{ fontFamily: "var(--title-font)" }}>
           {title}
         </h2>
-        <div className="row row-cols-1 row-cols-md-2 g-4 px-3">
+        <div className="row row-cols-1 g-4 px-3">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="col">
               <div className="border p-4 h-100 bg-white shadow-sm">

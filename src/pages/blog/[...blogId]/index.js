@@ -4,7 +4,6 @@ import { fetchIntegrations } from "@/utils/apiHelper";
 import styles from "./blogPage.module.scss";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Search from "@/components/Search/Search";
 import Chatbot from "@/components/ChatBot/ChatBot";
 import { getAllPreviousMessages } from "@/utils/apis/chatbotapis";
 import { useUser } from "@/context/UserContext";
@@ -21,13 +20,12 @@ import {
   getFromLocalStorage,
 } from "@/utils/storageHelper";
 import Head from "next/head";
-import { Box } from "@mui/system";
-import Image from "next/image";
-import diamondImage from "../../../static/images/diamond.svg";
 import Link from "next/link";
 import { deleteComment } from "@/utils/apis/commentApis";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FAQ from "@/components/FAQ/FAQ";
+import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
+import AiSearchBanner from "@/components/AiSearchBanner/AiSearchBanner";
 import RelatedTags from "@/components/RelatedTags/RelatedTags";
 import RelatedBlogs from "@/components/RelatedBlogs/RelatedBlogs";
 
@@ -255,6 +253,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs, faq }) {
         <div
           className={`${styles.container} ${isOpen ? styles.containerOpen : ""}`}
         >
+          <BackToDashboardButton className="btn mt-4 mb-3 d-block me-auto ms-3" />
           <AIresponse
             blogData={blogData}
             users={createdBy}
@@ -266,32 +265,12 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs, faq }) {
           />
           <RelatedTags tags={blogData?.tags} />
 
-          <Box className={styles.searchDiv}>
-            <h2>Dive Deeper with AI</h2>
-            <p>
-              Want to explore more? Follow up with AI for personalized insights
-              and automated recommendations based on this blog
-            </p>
-            <Image
-              src={diamondImage}
-              alt="diamond"
-              className={styles.diamondImageSmall}
-            />
-            <Image
-              src={diamondImage}
-              alt="diamond"
-              className={styles.diamondImageLarge}
-            />
-            {!isOpen && (
-              <Search
-                className={styles.searchBox}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-                handleAskAi={handleAskAi}
-                placeholder="Follow up if any query with AI..."
-              />
-            )}
-          </Box>
+          <AiSearchBanner
+            isOpen={isOpen}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            handleAskAi={handleAskAi}
+          />
 
           {comments && Object.keys(comments).length > 0 && (
             <div className={styles.commentContainer}>

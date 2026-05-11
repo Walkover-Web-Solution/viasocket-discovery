@@ -44,11 +44,10 @@
   div {
     border: 1px solid black;
     display: flex;
-    position: sticky;
-    top: 90vh;
-    margin-top: 90vh;
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
     width: fit-content;
-    transform: translateX(-100%);
   }
   button {
     padding: 10px 20px;
@@ -60,7 +59,6 @@
     align-items: center;
     gap: 10px;
     text-wrap: nowrap;
-    top: 80vh;
   }
   .contribute {
     background-color: black;
