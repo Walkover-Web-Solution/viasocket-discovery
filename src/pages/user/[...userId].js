@@ -1,18 +1,12 @@
-import { getUserById } from "@/services/proxyServices"; 
-import Avatar from '@mui/material/Avatar';
-import styles from '@/pages/user/UserPage.module.scss'; 
-import BlogCard from "@/components/Blog/Blog";
+import { getUserById } from "@/services/proxyServices";
 import { useEffect, useState } from "react";
 import { fetchBlogs } from "@/utils/apis/blogApis";
 import { useRouter } from "next/router";
 import { nameToSlugName } from "@/utils/utils";
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import UserBioPopup from "@/components/UserBioPopup/UserBioPoup";
+import UserProfileHeader from "@/components/UserProfileHeader/UserProfileHeader";
+import UserBlogList from "@/components/UserBlogList/UserBlogList";
+import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
 import  {useUser}  from "@/context/UserContext";
-import EditIcon from '@mui/icons-material/Edit';
-import Tooltip from '@mui/material/Tooltip';
-
-
 
 export async function getServerSideProps(context) {
   const { userId } = context.params;
@@ -68,85 +62,17 @@ export default function UserPage({ user }) {
   }, [user.id]); 
 
 
-  const renderBlogsSection = (blogs, title, fallback) => {
-    if (isLoading) {
-      return (
-        <section className={styles.Homesection}>
-          <h2 className={styles.homeh2}>
-            <b>{title}</b>
-            </h2>
-          <div className={styles.cardsGrid}>
-            <BlogCard isLoading={isLoading} />
-            <BlogCard isLoading={isLoading} />
-            <BlogCard isLoading={isLoading} />
-            <BlogCard isLoading={isLoading} />
-          </div>
-        </section>
-      )
-    }
-
-    return (
-      blogs?.length > 0 ? (
-        <section className={styles.Homesection}>
-           <div>
-            <h2 className={styles.homeh2}>{title}</h2>
-          </div> 
-
-          <div className={styles.cardsGrid}>
-            {blogs.map((blog) => (
-              <BlogCard key={blog._id} blog={blog} />
-            ))}
-          </div>
-        </section>
-      ):(
-        <section className={styles.Homesection}>
-        <h2 className={styles.homeh2}>{title}</h2>
-        <p className={styles.noData}>It seems there are no Apps from {user.name} yet! Check back soon for more insights and stories.</p>
-      </section>
-      )
-    )
-  }
   return (
-    <div className={styles.container}>
-      <div className={styles.userContainer}>
-        <div className={styles.author}>
-          <div className={styles.authorInfo}>
-            <PersonOutlineOutlinedIcon  className={styles.iconStyle}/>
-            <h3 className={styles.name}>{user.name}</h3>
-            {user?.id === currentUser?.id && (
-              <Tooltip title="Update Bio" arrow>
-                <EditIcon
-                  className={styles.editIcon}
-                  onClick={() => setUserBioPopup(true)}
-                  style={{ cursor: 'pointer', marginLeft: '8px', alignSelf: 'center' }}
-                />
-              </Tooltip>
-            )}
-          </div>
-          <UserBioPopup 
-            isOpen={userBioPopup}
-            onClose={() => setUserBioPopup(false)}
-            firstMessage={`Would you like to update your bio? Let us know what details you'd like to change or add, and we'll update it accordingly while keeping your existing information intact`}  
-          />
-        </div>
-        <p className={styles.contribution}>{user.id == currentUser?.id ? (currentUser?.meta?.bio || '') : (user?.meta?.bio || '')}</p>
-        <b>
-        <p className={styles.contribution}>
-          {count.createdCount > 0 ?
-             `${count.createdCount} blog${blogs.length > 1 ? 's' : ''} `
-             : ''
-          } 
-          {(count.createdCount > 0 && (blogs.length-count.createdCount)>0) 
-            ? `and `: ``
-          } 
-          {count.contributed > 0 ?
-            `${count.contributed} contributed ` : ''
-          }
-          </p>
-        </b>
-      </div>
-      <div className={styles.postHeaderDiv}>
-          {renderBlogsSection(blogs, `Explore Blogs by ${user.name.trim().split(" ")[0]}`)}
+    <div className="container-lg py-3 px-4" style={{ maxWidth: "60rem", margin: "auto" }}>
+      <BackToDashboardButton />
+      <UserProfileHeader user={user} currentUser={currentUser} count={count} />
+      <div className="mt-4">
+        <UserBlogList 
+          blogs={blogs} 
+          title={`Explore Blogs by ${user.name.trim().split(" ")[0]}`} 
+          isLoading={isLoading} 
+          userName={user.name} 
+        />
       </div>
     </div>
   );

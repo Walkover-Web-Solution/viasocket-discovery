@@ -1,7 +1,6 @@
 .container{
   display: flex;
   flex-direction: column;
-  gap: 2rem;
   padding-bottom: 4rem;
   
   // background-color: white;
@@ -79,94 +78,14 @@
   }
 }
 
-.searchDiv{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 40rem;
-  color: white;
-  z-index: 2;
-  position: relative;
-  &::after{
-    content:"";
-    position: absolute;
-    top: 0;
-    width: 400%;
-    height: 100%;
-    background-color: #a81f0d;
-    z-index: -1 !important;
-    left: -50vw;
-  }
-  h2{
-    font-family: var(--title-font);
-    font-size: 4rem;
-    z-index: 1;
-  }
-  p{
-    font-size: 1.2rem;
-    max-width: 40rem;
-    font-weight: 100;
-    text-align: center;
-    margin-bottom: 1rem;
-    z-index: 1;
-  }
-  .searchBox{
-    position: static;
-    transform: none;
-    &>*{
-      box-shadow: none;
-    }
-    max-width: 55rem;
-  }
-  .diamondImageSmall{
-    position: absolute;
-    bottom: 0rem;
-    left: -10rem;
-    width: 18rem;
-    height: 18rem;
-  }
-  .diamondImageLarge{
-    position: absolute;
-    right: -10rem;
-    top: 0rem;
-    z-index: 0;
-  }
-}
-
-.tagsContainer {
-  margin: 20px 1rem;
-  h3{
-    font-weight: 100;
-    font-family: var(--title-font);
-    font-size: 3rem;
-  }
-  .tagsDiv{
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .tag {
-    display: inline-block;
-    border: 1px solid black;
-    padding: 15px 20px;
-    // margin: 10px 5px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    &:hover {
-      // background-color: #f9c6c6;
-      background-color: black;
-      color: white;
-    }
-  }
-}
 
 .FAQContainer{
   margin-top: -2rem;
   &::before{
     background: none;
     background-color: white !important;
-  } 
-  
+  }
+
   & > h2{
       padding-bottom: 1rem;
       font-family: var(--title-font);
@@ -183,7 +102,7 @@
     padding-bottom : 1rem;
     border-radius: 0px;
     color : rgb(112, 107, 107);
-    
+
   }
   .FAQaccordian:hover{
     color : rgb(0, 0, 0);
@@ -195,7 +114,7 @@
 .commentContainer{
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  // padding: 1rem;
   .responses{
     font-weight: 600;
     font-family: var(--title-font);

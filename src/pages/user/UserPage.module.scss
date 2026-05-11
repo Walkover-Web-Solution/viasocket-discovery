@@ -1,99 +1,16 @@
-.container {
-    padding: 16px;
-    font-family: var(--sans-serif-font);
-    max-width: 60rem;
-    margin: auto;
+.editIcon {
+  color: #6c757d;
+  transition: color 0.2s;
+  &:hover {
+    color: #a8200d;
   }
-
-  
-  .authorInfo {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 7px;
-  }
-  .author{
-    display: flex;
-    justify-content: space-between;
-    button{
-      padding :10px;
-      background-color: rgba(255, 255, 255, 0.35);
-    }
-  }
-  
-  .avatar {
-    width: 60px;
-    height: 60px;
-    background-color:#d0000e;
-    color: #fff; 
-    font-size: 35px;
-  }
-  
-  .name {
-    font-size: 32px;
-    font-weight: 600;
-    font-family: var(--title-font);
-    margin-bottom: 0;
-  }
-  .name::first-letter {
-    text-transform: uppercase; 
-  }
-  
-  .details {
-    margin-top: 20px;
-    text-align: left; 
-  }
-  
-  
-.Homesection {
-  margin-bottom: 32px;
-  display: flex;
-  flex-direction: column;
 }
 
-.homeh2 {
-  margin-top: .7rem;
-  font-family: var(--title-font);
-  font-size: 24px;
-  font-weight: 700;
-  padding-left: 18px;
-  margin-bottom:0;
+.transition-all {
+  transition: all 0.2s ease-in-out;
 }
 
-.cardsGrid {
-  display: flex;
-  flex-direction: column;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  padding: 16px;
-  width: 100%;
-}
-
-
-.userContainer{
- margin:20px;
- font-size: 16px;
-
-}
-.userContainer p{
-    max-width: 700px;
-}
-.iconStyle {
-  color: rgb(0, 0, 0); 
-  border: 1px solid black;
-  background-color: white;
-  width: 40px !important;
-  height: 40px !important;
-  gap:10px;
-}
-
-@media (max-width: 768px) {
-  .container{
-    padding:0;
-  }
-  .name {
-    font-size: 20px;
-    align-self: center;
-  }
-  .cardsGrid{
-    gap:10px;
-  }
+.hover-shadow-md:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-2px);
 }

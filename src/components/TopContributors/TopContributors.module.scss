@@ -1,0 +1,10 @@
+.contribCard {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    /* hard offset shadow on the bottom-right */
+    box-shadow: 4px 4px 0 0 #000;
+    border-color: #000 !important;
+  }
+}

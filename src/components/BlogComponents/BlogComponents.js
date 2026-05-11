@@ -1,118 +1,37 @@
 import { appNameToId, dummyMarkdown, nameToSlugName } from "@/utils/utils";
-import { Avatar, List, ListItem, styled } from "@mui/material";
+import { Avatar, List, ListItem } from "@mui/material";
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import styles from "./BlogComponents.module.scss";
 import Integrations from "../Integrations/Integrations";
-import ContributorsPopup from "../ContributersPopup/ContributersPopup";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import ExtensionIcon from "@mui/icons-material/Extension";
 import InfoIcon from "@mui/icons-material/Info";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import TimelapseIcon from "@mui/icons-material/Timelapse";
+import BlogHeader from "../BlogHeader/BlogHeader";
+import BlogSummary from "../BlogSummary/BlogSummary";
 import Link from "next/link";
-
-const HtmlTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: "#fff",
-    color: "rgba(0, 0, 0)",
-    fontSize: theme.typography.pxToRem(14),
-    border: "1px solid #dadde9",
-    padding: "20px",
-  },
-}));
+import HtmlTooltip from "@mui/material/Tooltip";
 
 const Components = {
-  title: ({ content, users, createdAt, subHeading, updatedAt, isUndereview }) => {
-    const isWithinLast7Days =
-      new Date(
-        Math.max(new Date(createdAt), updatedAt ? new Date(updatedAt) : 0)
-      ) >= new Date(Date.now() - 7 * 864e5);
-    return (
-      <div className={styles.titleContainer}>
-        <div className={styles.titleDiv + " glass-effect"}>
-          <div>
-            <h1 className={`${styles.title} heading`}>{content}</h1>
-            <h3 className='heading_h2'>{subHeading}</h3>
-          </div>
-          <ContributorsPopup
-            users={users}
-            createdAt={createdAt}
-            title={content}
-          />
-          {isUndereview != false && (
-            <div className={styles.underReview}>
-              <HtmlTooltip title='This article is currently under review by our expert team.'>
-                <h4>
-                  <TimelapseIcon /> Under Review
-                </h4>
-              </HtmlTooltip>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  },
+  title: (props) => <BlogHeader {...props} />,
 
   sub_title: ({ content }) => (
     <div className={styles.subTitleContainer}>
       <h2 className={styles.subTitle}>{content}</h2>
     </div>
   ),
-  summaryList: ({ appNames, integrations, meta }) => {
+  summaryList: (props) => {
     return (
       <div className={styles.summaryList}>
-        <List className={styles.list}>
-          {appNames?.map((app, idx) => {
-            const appName = app.toLowerCase();
-            const appSlugName = appNameToId(app);
-            const appData = integrations?.[appName]?.plugins[appSlugName];
-            return (
-              <a className={styles.appLink} key={idx} href={`#${appSlugName}`}>
-                <ListItem className={styles.listItem}>
-                  <Avatar
-                    className={styles.appIcon}
-                    alt={app}
-                    src={
-                      appData?.iconurl ||
-                      "https://thingsofbrand.com/api/viasocket.com/logos/viasocket_logo"
-                    }
-                    variant='square'
-                  />
-                  <div className={styles.content}>
-                    <h5>{app}</h5>
-                    <ReactMarkdown
-                      className={styles.description}
-                      remarkPlugins={[remarkGfm]}
-                    >
-                      {appData?.description || ""}
-                    </ReactMarkdown>
-                  </div>
-                  {/* <ArrowOutwardIcon
-                    className={styles.arrowIcon}
-                    fontSize='small'
-                  /> */}
-                </ListItem>
-              </a>
-            );
-          })}
-          <a className = {`${styles.appLink} ${styles.viewAllLink}`} href={`https://viasocket.com/integrations/category/${meta.categorySlug || 'all'}`} target="_blank">
-            <ListItem className={styles.listItem}>
-              <h5>View All from {meta.category}</h5>
-              <ArrowOutwardIcon className={styles.arrowIcon} fontSize='small' />
-            </ListItem>
-          </a>
-        </List>
+        <BlogSummary {...props} />
       </div>
     );
   },
   detailedReviews: ({ content, integrations, appBlogs, apps }) => {
     return (
-      <div className={styles.detailedReviews} id='detailed-reviews'>
-        <h4 className='heading_h2'>📖 In Depth Reviews</h4>
+      <div className={styles.detailedReviews} id="detailed-reviews">
+        <h4 className="heading_h2">📖 In Depth Reviews</h4>
         <div className={styles.howWeAssess}>
           <p>
             We independently review every app we recommend We independently
@@ -121,7 +40,7 @@ const Components = {
               className={styles.tooltip}
               title={
                 <React.Fragment>
-                  <p className={styles.tooltipText}>
+                  <p className="fs-6">
                     At AppDiscovery, our best apps roundups are written by
                     humans who thoroughly review, test, and write about SaaS
                     services and apps. Human insight is involved at every step,
@@ -130,11 +49,11 @@ const Components = {
                     accuracy. We never accept payment for app placements or
                     links—we value the trust our readers place in us for honest,
                     unbiased evaluations. For more details on how we select apps
-                    to feature, read the full process – 
+                    to feature, read the full process –
                     <a
                       style={{ color: "blue", textDecoration: "underline" }}
-                      href='https://viasocket.com/blog/how-we-choose-apps-to-feature-on-app-discovery'
-                      target='_blank'
+                      href="https://viasocket.com/blog/how-we-choose-apps-to-feature-on-app-discovery"
+                      target="_blank"
                     >
                       How We Choose Apps to Feature on App Discovery
                     </a>
@@ -149,11 +68,11 @@ const Components = {
         <List>
           {content.map(({ appName, content }, idx) => (
             <ListItem
-              className={styles.listItem}
+              className={`${styles.listItem} fs-6`}
               key={idx}
               id={appNameToId(appName)}
             >
-              <div className={styles.appTitleDiv}>
+              <div className={`my-3 ${styles.appTitleDiv}`}>
                 <a
                   className={styles.appDomain}
                   href={
@@ -161,7 +80,7 @@ const Components = {
                       ? `https://${apps[appName].domain}`
                       : `https://www.google.com/search?q=${appName}`
                   }
-                  target='_blank'
+                  target="_blank"
                 >
                   <div className={styles.appHeadingDiv}>
                     <Avatar
@@ -172,7 +91,7 @@ const Components = {
                           nameToSlugName(appName)
                         ]?.iconurl
                       }
-                      variant='square'
+                      variant="square"
                     >
                       <ExtensionIcon />
                     </Avatar>
@@ -182,22 +101,30 @@ const Components = {
                 <div className={styles.buttons}>
                   {apps[appName]?.domain && (
                     <Link
-                      className={styles.visitWebsite}
+                      className="btn btn-outline-dark"
                       href={`https://${apps[appName].domain}`}
-                      target='_blank'
+                      target="_blank"
                     >
-                      Visit Website <ArrowOutwardIcon fontSize='small' className={styles.arrowIcon} />
+                      Visit Website{" "}
+                      <ArrowOutwardIcon
+                        fontSize="small"
+                        className={styles.arrowIcon}
+                      />
                     </Link>
                   )}
                   {integrations?.[appName.toLowerCase()] && (
                     <Link
-                      className={styles.visitIntegrations}
+                      className="btn btn-dark"
                       href={`https://viasocket.com/integrations/${nameToSlugName(
-                        appName
+                        appName,
                       )}`}
-                      target='_blank'
+                      target="_blank"
                     >
-                      View Integrations <ArrowOutwardIcon fontSize='small' className={styles.arrowIcon} />
+                      View Integrations{" "}
+                      <ArrowOutwardIcon
+                        fontSize="small"
+                        className={styles.arrowIcon}
+                      />
                     </Link>
                   )}
                 </div>
@@ -231,7 +158,7 @@ const Components = {
                                 ? `${blog.meta.category}/`
                                 : ""
                             }${nameToSlugName(blog.slugName)}`}
-                            target='_blank'
+                            target="_blank"
                           >
                             {blog.title}
                           </a>
@@ -253,12 +180,16 @@ const Components = {
     </ReactMarkdown>
   ),
   additionalSection: ({ content, heading }) => (
-    <div className={styles.additionalSection}>
-      <h4 className='heading_h2'>{heading}</h4>
-      <ReactMarkdown className={styles.content} remarkPlugins={[remarkGfm]}>
-        {content}
-      </ReactMarkdown>
-    </div>
+    <section
+      className={`blog-page__section mb-4 p-2 w-75`}
+    >
+      {heading && <h3>{heading}</h3>}
+      <div className="bp-table-wrap">
+        <ReactMarkdown className={styles.content} remarkPlugins={[remarkGfm]}>
+          {content}
+        </ReactMarkdown>
+      </div>
+    </section>
   ),
 };
 
