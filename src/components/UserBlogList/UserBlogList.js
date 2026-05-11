@@ -2,6 +2,7 @@ import React from "react";
 import Skeleton from "react-loading-skeleton";
 import { nameToSlugName } from "@/utils/utils";
 import AccentBar from "../AccentBar/AccentBar";
+import styles from "./UserBlogList.module.scss";
 
 const UserBlogList = ({ blogs, title, isLoading, userName }) => {
   if (isLoading) {
@@ -50,7 +51,7 @@ const UserBlogList = ({ blogs, title, isLoading, userName }) => {
           <div key={blog.id} className="col my-2">
             <a
               href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${nameToSlugName(blog.meta.category)}/` : ""}${blog?.slugName ? nameToSlugName(blog.slugName) : ""}`}
-              className="d-block border p-4 h-100 bg-white text-decoration-none text-dark shadow-sm"
+              className={`${styles.blogCard} d-block border p-4 h-100 bg-white text-decoration-none text-dark shadow-sm`}
               style={{ borderLeft: "4px solid #a8200d" }}
             >
               <h3

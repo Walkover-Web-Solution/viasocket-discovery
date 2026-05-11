@@ -38,11 +38,11 @@ const SearchResults = ({
             ))}
           </div>
         )}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", placeItems: "center", gap: "16px" }}>
+        <div className="mb-5 pb-5 d-flex flex-column ">
           {blogs.length > 0
             ? blogs.map((blog) => (
                 <a
-                className="border-bottom p-3 w-100 text-center text-truncate"
+                  className="ps-5 py-3 pe-3 text-truncate"
                   rel="noopener noreferrer"
                   href={blog.dummy ? null : `/discovery/blog/${blog.id}`}
                   key={blog.id}
@@ -53,20 +53,17 @@ const SearchResults = ({
                   }}
                 >
                   <h6
-                    className={
+                    className={`fs-4 ${blog.dummy ? "text-secondary" : "text-dark"} ${
                       styles.titleSuggestion +
                       " " +
                       (blog.dummy ? styles.dummy : "")
-                    }
+                    }`}
                   >
                     {highlightText(blog.title, searchQuery)}
                   </h6>
                 </a>
               ))
-            : !isLoading &&
-              fallback && (
-                <NoResultsSuggestions />
-              )}
+            : !isLoading && fallback && <NoResultsSuggestions />}
         </div>
       </section>
     );
@@ -75,7 +72,14 @@ const SearchResults = ({
   const renderCategoriesSection = () => {
     return (
       <section>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", placeItems: "center" }} className="my-5 pb-5">
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            placeItems: "center",
+          }}
+          className="mb-5 pb-5"
+        >
           {categories.length > 0 &&
             categories.map((category) => (
               <a
@@ -88,7 +92,9 @@ const SearchResults = ({
                   onCategoryClick(category.name);
                 }}
               >
-                <h6 className={styles.titleSuggestion}>{category.name}</h6>
+                <h6 className={`fs-4 category-result ${styles.titleSuggestion}`}>
+                  {category.name}
+                </h6>
               </a>
             ))}
         </div>

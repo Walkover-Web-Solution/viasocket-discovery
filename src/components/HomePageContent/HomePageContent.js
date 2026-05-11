@@ -5,6 +5,8 @@ import SearchResults from "@/components/SearchResults/SearchResults";
 import styles from "@/pages/home.module.scss";
 import PopularContent from "@/components/PopularContent/PopularContent";
 import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
+import MarqueeApps from "@/components/MarqueeApps/MarqueeApps";
+import TopContributors from "@/components/TopContributors/TopContributors";
 
 const HomePageContent = ({
   blogCreating,
@@ -35,12 +37,11 @@ const HomePageContent = ({
         <>
           {(isOpen || searchQuery || typingStart) && (
             <BackToDashboardButton
-              className="btn"
-              style={{
-                position: "absolute",
-                top: "16px",
-                left: "16px",
-                zIndex: 10,
+              onClick={() => {
+                setSearchQuery("");
+                setTypingStart(false);
+                setIsOpen(false);
+                setIsCategoryClicked(false);
               }}
             />
           )}
@@ -87,6 +88,13 @@ const HomePageContent = ({
                   popularUsers={popularUsers}
                   setIsCategoryClicked={setIsCategoryClicked}
                 />
+              )}
+
+              {!typingStart && (
+                <>
+                  <MarqueeApps />
+                  <TopContributors popularUsers={popularUsers} />
+                </>
               )}
             </div>
             <Chatbot

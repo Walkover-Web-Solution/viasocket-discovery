@@ -1,9 +1,7 @@
-import MarqueeApps from "@/components/MarqueeApps/MarqueeApps";
-import TopContributors from "@/components/TopContributors/TopContributors";
 import Link from "next/link";
 import blogstyle from "@/components/Blog/Blog.module.scss";
 
-const PopularContent = ({ popularTags, popularUsers, setIsCategoryClicked }) => {
+const PopularContent = ({ popularTags, setIsCategoryClicked }) => {
   return (
     <>
       <div className="d-flex flex-wrap gap-2 w-75 px-3 mt-3">
@@ -30,8 +28,6 @@ const PopularContent = ({ popularTags, popularUsers, setIsCategoryClicked }) => 
           </Link>
         ))}
       </div>
-      <MarqueeApps />
-      <TopContributors popularUsers={popularUsers} />
     </>
   );
 };

@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import blogstyle from "@/components/Blog/Blog.module.scss";
 import { titleSuggestions } from "@/utils/apiHelper";
+import { createBlog, fetchBlogs } from "@/utils/apis/blogApis";
 import blogServices from "@/services/blogServices";
 import { toast } from "react-toastify";
 import UnauthorizedPopup from "@/components/UnauthorisedPopup/UnauthorisedPopup";
@@ -233,7 +234,7 @@ export default function Home({ popularUsers = [], categories = [] }) {
   const tagsContainer = () => {
     if (!tags?.length || !searchQuery || isLoading) return null;
     return (
-      <div className={styles.searchTags}>
+      <div className={`${styles.searchTags} mb-3`}>
         {tags.map((tag, index) => (
           <Link
             key={index}

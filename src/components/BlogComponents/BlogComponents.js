@@ -185,7 +185,7 @@ const Components = {
     >
       {heading && <h3>{heading}</h3>}
       <div className="bp-table-wrap">
-        <ReactMarkdown className={styles.content} remarkPlugins={[remarkGfm]}>
+        <ReactMarkdown className={`d-flex flex-column gap-4 ${styles.content}`} remarkPlugins={[remarkGfm]}>
           {content}
         </ReactMarkdown>
       </div>
