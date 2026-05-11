@@ -1,0 +1,12 @@
+.blogCard {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+
+  &:hover {
+    border: 1px solid #000 !important;
+    transform: translate(-2px, -2px);
+    /* hard offset shadow on the bottom-right */
+    box-shadow: 4px 4px 0 0 #000 !important;
+  }
+}

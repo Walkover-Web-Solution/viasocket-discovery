@@ -37,7 +37,7 @@ const BlogHeader = ({
   return (
     <section className="position-relative">
       <div
-        className="container-fluid py-5 px-4 px-md-5 mx-auto my-3"
+        className="container-fluid py-5 px-4 px-md-5 mx-auto mb-3"
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.35)",
           boxShadow: "0 4px 32px rgba(0, 0, 0, 0.06)",

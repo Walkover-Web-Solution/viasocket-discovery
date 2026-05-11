@@ -28,7 +28,6 @@ export default function UserPage({ user }) {
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [count, setCount] = useState({});
-  const [userBioPopup, setUserBioPopup] = useState(false);
   const currentUser = useUser().user;
 
   useEffect(() => {
@@ -63,7 +62,7 @@ export default function UserPage({ user }) {
 
 
   return (
-    <div className="container-lg py-3 px-4" style={{ maxWidth: "60rem", margin: "auto" }}>
+    <div className="container-lg px-4" style={{ maxWidth: "60rem", margin: "auto" }}>
       <BackToDashboardButton />
       <UserProfileHeader user={user} currentUser={currentUser} count={count} />
       <div className="mt-4">

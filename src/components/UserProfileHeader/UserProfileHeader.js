@@ -7,7 +7,7 @@ const UserProfileHeader = ({ user, currentUser, count }) => {
   const [userBioPopup, setUserBioPopup] = useState(false);
 
   return (
-    <div className="py-4 border-bottom mb-5">
+    <div className="pb-4 border-bottom mb-5">
       <div className="d-flex align-items-center gap-3 mb-3">
         <span
           className="d-flex align-items-center justify-content-center bg-light border border-dark"

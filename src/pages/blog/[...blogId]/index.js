@@ -253,7 +253,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs, faq }) {
         <div
           className={`${styles.container} ${isOpen ? styles.containerOpen : ""}`}
         >
-          <BackToDashboardButton className="btn mt-4 mb-3 d-block me-auto ms-3" />
+          <BackToDashboardButton />
           <AIresponse
             blogData={blogData}
             users={createdBy}
