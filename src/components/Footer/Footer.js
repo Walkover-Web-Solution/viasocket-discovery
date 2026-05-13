@@ -9,7 +9,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 export default function Footer() {
   return (
     <footer
-      class="row row-cols-1 row-cols-md-2 row-cols-xl-4 viasocket-faq-footer px-3 px-xl-5"
+      className="row row-cols-1 row-cols-md-2 row-cols-xl-4 viasocket-faq-footer px-3 px-xl-5"
       style={{ borderTop: "1px solid #ccc" }}
     >
       <div
@@ -18,13 +18,13 @@ export default function Footer() {
           borderLeft: "1px solid #ccc",
           borderBottom: "1px solid #ccc",
         }}
-        class="d-flex col gap-1 flex-column p-5"
+        className="d-flex col gap-1 flex-column p-5"
       >
         <a
           href="https://viasocket.com"
           target="_blank"
           aria-label="logo"
-          class="via-logo"
+          className="via-logo"
         >
           <img
             src="https://viasocket.com/assets/brand/logo.svg"
@@ -40,7 +40,7 @@ export default function Footer() {
         <a
           href="https://walkover.in/"
           target="_blank"
-          class="small mt-auto text-decoration-none text-black d-flex align-items-center"
+          className="small mt-auto text-decoration-none text-black d-flex align-items-center"
         >
           <span style={{ fontSize: "14px" }}>A product of</span>
           <img
@@ -56,15 +56,15 @@ export default function Footer() {
           borderRight: "1px solid #ccc",
           borderBottom: "1px solid #ccc",
         }}
-        class="d-flex col flex-column gap-5 p-5"
+        className="d-flex col flex-column gap-5 p-5"
       >
-        <ul class="list-unstyled d-flex flex-column gap-1">
-          <h5 class="mb-0">Solutions</h5>
+        <ul className="list-unstyled d-flex flex-column gap-1">
+          <h5 className="mb-0">Solutions</h5>
           <li>
             <a
               href="https://viasocket.com/integrations"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               Integrations
@@ -74,7 +74,7 @@ export default function Footer() {
             <a
               href="https://cal.id/team/bring-your-app-on-viasocket-marketplace"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               List your app on our marketplace
@@ -84,7 +84,7 @@ export default function Footer() {
             <a
               href="https://viasocket.com/faq/developer-hub"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               Build Your Own Plug
@@ -94,7 +94,7 @@ export default function Footer() {
             <a
               href="https://viasocket.com/templates"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               Templates
@@ -107,15 +107,15 @@ export default function Footer() {
           borderRight: "1px solid #ccc",
           borderBottom: "1px solid #ccc",
         }}
-        class="d-flex col flex-column gap-5 p-5"
+        className="d-flex col flex-column gap-5 p-5"
       >
-        <ul class="list-unstyled d-flex flex-column gap-1">
-          <h5 class="mb-0">Company</h5>
+        <ul className="list-unstyled d-flex flex-column gap-1">
+          <h5 className="mb-0">Company</h5>
           <li>
             <a
               href="https://walkover.in/"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               About
@@ -125,7 +125,7 @@ export default function Footer() {
             <a
               href="https://walkover.in/careers"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               We Are Hiring
@@ -135,7 +135,7 @@ export default function Footer() {
             <a
               href="https://viasocket.com/terms"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               Terms of Policy
@@ -145,21 +145,21 @@ export default function Footer() {
             <a
               href="https://viasocket.com/privacy"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               Privacy policy
             </a>
           </li>
         </ul>
-        <div class="d-flex gap-4 mt-auto social-links">
+        <div className="d-flex gap-4 mt-auto social-links">
           <a
             href="https://www.instagram.com/walkover.inc/?igsh=MWEyZnptZmw3Z3phOQ%3D%3D"
             aria-label="instagram"
             target="_blank"
             rel="noopener noreferrer"
             style={{ width: "24px", height: "24px" }}
-            class="text-black"
+            className="text-black"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -183,7 +183,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             style={{ width: "24px", height: "24px" }}
-            class="text-black"
+            className="text-black"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -207,7 +207,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             style={{ width: "24px", height: "24px" }}
-            class="text-black"
+            className="text-black"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -229,7 +229,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
             style={{ width: "24px", height: "24px" }}
-            class="text-black"
+            className="text-black"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -252,15 +252,15 @@ export default function Footer() {
           borderRight: "1px solid #ccc",
           borderBottom: "1px solid #ccc",
         }}
-        class="d-flex col flex-column gap-5 p-5"
+        className="d-flex col flex-column gap-5 p-5"
       >
-        <ul class="list-unstyled d-flex flex-column gap-1">
-          <h5 class="mb-0">Support</h5>
+        <ul className="list-unstyled d-flex flex-column gap-1">
+          <h5 className="mb-0">Support</h5>
           <li>
             <a
               href="https://viasocket.com/blog"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               Blog
@@ -270,7 +270,7 @@ export default function Footer() {
             <a
               href="https://viasocket.com/blog/tag/client-story/"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               Client Stories
@@ -280,7 +280,7 @@ export default function Footer() {
             <a
               href="https://viasocket.com/community/"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               Community
@@ -290,7 +290,7 @@ export default function Footer() {
             <a
               href="https://roadmap.viasocket.com/b/n0elp3vg/feature-ideas"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               Request a feature
@@ -300,7 +300,7 @@ export default function Footer() {
             <a
               href="https://calendly.com/rpaliwal71/15-mins"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               Talk to Sales
@@ -310,7 +310,7 @@ export default function Footer() {
             <a
               href="https://viasocket.com/experts"
               target="_blank"
-              class="text-decoration-none text-black"
+              className="text-decoration-none text-black"
               style={{ fontSize: "14px" }}
             >
               Hire an Expert

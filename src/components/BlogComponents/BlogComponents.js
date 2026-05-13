@@ -31,7 +31,7 @@ const Components = {
   detailedReviews: ({ content, integrations, appBlogs, apps }) => {
     return (
       <div className={styles.detailedReviews} id="detailed-reviews">
-        <h4 className="heading_h2">📖 In Depth Reviews</h4>
+        <h2>📖 In Depth Reviews</h2>
         <div className={styles.howWeAssess}>
           <p>
             We independently review every app we recommend We independently
@@ -101,9 +101,10 @@ const Components = {
                 <div className={styles.buttons}>
                   {apps[appName]?.domain && (
                     <Link
-                      className="btn btn-outline-dark"
+                      className="btn btn-outline-dark fs-6"
                       href={`https://${apps[appName].domain}`}
                       target="_blank"
+                      style={{ minWidth: "fit-content" }}
                     >
                       Visit Website{" "}
                       <ArrowOutwardIcon
@@ -114,11 +115,12 @@ const Components = {
                   )}
                   {integrations?.[appName.toLowerCase()] && (
                     <Link
-                      className="btn btn-dark"
+                      className="btn btn-dark fs-6"
                       href={`https://viasocket.com/integrations/${nameToSlugName(
                         appName,
                       )}`}
                       target="_blank"
+                      style={{ minWidth: "fit-content" }}
                     >
                       View Integrations{" "}
                       <ArrowOutwardIcon
@@ -180,12 +182,13 @@ const Components = {
     </ReactMarkdown>
   ),
   additionalSection: ({ content, heading }) => (
-    <section
-      className={`blog-page__section mb-4 p-2 w-75`}
-    >
-      {heading && <h3>{heading}</h3>}
+    <section className={`blog-page__section mb-5 p-2 w-75`}>
+      {heading && <h3 className="m-0">{heading}</h3>}
       <div className="bp-table-wrap">
-        <ReactMarkdown className={`d-flex flex-column gap-4 ${styles.content}`} remarkPlugins={[remarkGfm]}>
+        <ReactMarkdown
+          className={`d-flex flex-column gap-3 ${styles.content}`}
+          remarkPlugins={[remarkGfm]}
+        >
           {content}
         </ReactMarkdown>
       </div>

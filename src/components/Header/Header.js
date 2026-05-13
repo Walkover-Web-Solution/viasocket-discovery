@@ -44,7 +44,7 @@ const Header = () => {
         href="https://viasocket.com"
         target="_blank"
         aria-label="logo"
-        class="via-logo d-none d-md-flex justify-content-center align-items-center"
+        className="via-logo d-none d-md-flex justify-content-center align-items-center"
       >
         <img
           src="https://viasocket.com/assets/brand/logo.svg"
@@ -55,10 +55,10 @@ const Header = () => {
         />
       </a>
 
-      <nav class="d-flex align-items-center via-menu-lg">
+      <nav className="d-flex align-items-center via-menu-lg">
         <a
           href="https://viasocket.com/discovery"
-          class="px-4 text-decoration-none d-none d-lg-flex text-black justify-content-center"
+          className="px-4 text-decoration-none d-none d-lg-flex text-black justify-content-center"
           style={{
             borderLeft: "1px solid #ccc",
             minWidth: "120px",

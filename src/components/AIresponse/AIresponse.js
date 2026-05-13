@@ -53,9 +53,7 @@ const AIresponse = ({
             " | Viasocket"}
         </title>
       </Head>
-      <div
-        className={`${styles.blogPage} ${isOpen ? styles.addLeftMargin : ""}`}
-      >
+      <div className={`w-100 ${isOpen ? styles.addLeftMargin : ""}`}>
         {Components["title"]({
           users,
           createdAt: blogData?.createdAt,
@@ -65,9 +63,9 @@ const AIresponse = ({
           isUndereview: blogData?.toImprove,
           meta: blogData?.meta,
         })}
-        <div className={styles.containerDiv}>
+        <div className="w-100 d-flex justify-content-between">
           <div
-            className={`${styles.markdownContainer} ${isOpen ? styles.makeFullWidth : ""}`}
+            className={`${styles.markdownContainer} position-relative ${isOpen ? "w-100" : "px-4"}`}
           >
             {!hasMarkdown && Components["dummy"]()}
             {hasMarkdown && (
@@ -86,7 +84,9 @@ const AIresponse = ({
             )}
           </div>
           {!isOpen && (
-            <div className={styles.floaterDiv}>
+            <div
+              className={`d-flex flex-column align-self-start position-sticky ${styles.floaterDiv}`}
+            >
               <Box
                 className={styles.summaryContainer}
                 id="summary-container"
@@ -99,15 +99,14 @@ const AIresponse = ({
                 })}
               </Box>
               <Box className={styles.aiButtonDiv}>
-                <div>
+       
                   <button
                     onClick={() => setCommentPopup(true)}
-                    className={styles.contribute}
+                    className="btn btn-dark rounded-0 px-3 py-2"
                   >
                     <ChatBubbleIcon /> Contribute
                   </button>
-                  {/* <button onClick={openChatBot} className={styles.askMore}><AutoAwesomeOutlinedIcon/> Ask More</button> */}
-                </div>
+        
               </Box>
             </div>
           )}

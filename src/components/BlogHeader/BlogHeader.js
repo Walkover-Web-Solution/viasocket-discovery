@@ -37,7 +37,7 @@ const BlogHeader = ({
   return (
     <section className="position-relative">
       <div
-        className="container-fluid py-5 px-4 px-md-5 mx-auto mb-3"
+        className="container-fluid py-5 px-4 px-md-5 mx-auto mb-5"
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.35)",
           boxShadow: "0 4px 32px rgba(0, 0, 0, 0.06)",
@@ -55,7 +55,7 @@ const BlogHeader = ({
 
         <h1
           className="display-4 fw-medium my-3"
-          style={{ fontFamily: "var(--font-display)", lineHeight: "1.1" }}
+          style={{ lineHeight: "1.1" }}
         >
           {content}
         </h1>

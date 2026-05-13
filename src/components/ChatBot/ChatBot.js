@@ -147,7 +147,7 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
         {isLoading && (
           <div className={styles.thinkingMessage}>
             Asking AI
-            <span class={styles.loader}></span>
+            <span className={styles.loader}></span>
           </div>
         )}
       </div>

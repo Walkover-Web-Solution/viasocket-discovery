@@ -9,13 +9,12 @@ const OBSERVER_OPTS = {
 
 const ACCENT_BG = "#a8200d";
 
-// One shared error handler — reads the domain off the element
+const FALLBACK_ICON = "https://viasocket.com/assets/brand/favicon-96x96.png";
+
+// One shared error handler — falls back to viasocket favicon
 const handleImgError = (e) => {
   e.target.onerror = null;
-  const domain = e.target.dataset.domain;
-  if (domain) {
-    e.target.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
-  }
+  e.target.src = FALLBACK_ICON;
 };
 
 // Hoisted once — never re-created
@@ -91,7 +90,7 @@ const BlogSummary = ({ appNames, integrations, meta }) => {
               className={`${styles.summaryItem}${isActive ? " " + styles.active : ""} blog-page__summary-item d-flex align-items-center text-decoration-none p-3 text-dark border-bottom`}
             >
               <img
-                src={iconUrl}
+                src={iconUrl || FALLBACK_ICON}
                 width="32"
                 height="32"
                 alt={app}

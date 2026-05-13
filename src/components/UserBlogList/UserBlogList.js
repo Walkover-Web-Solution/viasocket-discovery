@@ -63,21 +63,26 @@ const UserBlogList = ({ blogs, title, isLoading, userName }) => {
               <div className="d-flex flex-wrap gap-2 mb-3">
                 {Object.entries(blog?.apps || {})
                   .slice(0, 10)
-                  .map(([appName, { iconUrl }], index) => (
-                    <img
-                      key={index}
-                      src={iconUrl}
-                      alt={appName}
-                      width="26"
-                      height="26"
-                      className="object-fit-contain bg-light p-1 border"
-                      loading="lazy"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = `https://www.google.com/s2/favicons?domain=${appName.toLowerCase().replace(/\s+/g, "")}.com&sz=32`;
-                      }}
-                    />
-                  ))}
+                  .map(([appName, { iconUrl } = {}], index) => {
+                    const fallbackSrc =
+                      "https://viasocket.com/assets/brand/favicon-96x96.png";
+                    return (
+                      <img
+                        key={index}
+                        src={iconUrl || fallbackSrc}
+                        alt={appName}
+                        width="26"
+                        height="26"
+                        style={{ objectFit: "contain" }}
+                        className="bg-light p-1 border"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = fallbackSrc;
+                        }}
+                      />
+                    );
+                  })}
               </div>
               <div className="d-flex flex-wrap gap-2 align-items-center">
                 {blog.tags?.slice(0, 4).map((tag, index) => (
