@@ -192,14 +192,15 @@ const AddCommentPopup = ({ open, onClose, blogId, setComments }) => {
                         <div className="d-flex justify-content-end gap-2">
                             <button
                                 type="button"
-                                className="btn btn-outline-dark d-flex align-items-center gap-2 rounded-0"
+                                className="btn btn-outline-dark fs-6 d-flex align-items-center gap-2 rounded-0"
                                 onClick={onClose}
+                                style={{ minWidth: "fit-content" }}
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
-                                className="btn d-flex align-items-center gap-2 text-white rounded-0"
+                                className="btn fs-6 d-flex align-items-center gap-2 text-white rounded-0"
                                 disabled={!text.trim()}
                                 style={{ backgroundColor: ACCENT }}
                             >
