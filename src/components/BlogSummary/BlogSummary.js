@@ -11,11 +11,53 @@ const ACCENT_BG = "#a8200d";
 
 const FALLBACK_ICON = "https://viasocket.com/assets/brand/favicon-96x96.png";
 
-// One shared error handler — falls back to viasocket favicon
-const handleImgError = (e) => {
-  e.target.onerror = null;
-  e.target.src = FALLBACK_ICON;
-};
+// Module-level cache so we never re-probe a URL we've already resolved
+// (survives component unmount / list re-render). Values: "ok" | "fail".
+const iconStatusCache = new Map();
+
+// Same approach as MUI <Avatar>: pre-load the image in JS and only
+// render the real src AFTER it successfully loads. If it errors, we
+// keep the fallback. No broken/glitched image ever flashes on screen.
+const SummaryIcon = React.memo(({ src, alt, domain }) => {
+  const cached = src ? iconStatusCache.get(src) : "fail";
+  const [resolvedSrc, setResolvedSrc] = useState(
+    cached === "ok" ? src : FALLBACK_ICON
+  );
+
+  useEffect(() => {
+    if (!src || src === FALLBACK_ICON) return;
+    const status = iconStatusCache.get(src);
+    if (status === "ok") return setResolvedSrc(src);
+    if (status === "fail") return;
+
+    const probe = new Image();
+    const finish = (ok) => {
+      iconStatusCache.set(src, ok ? "ok" : "fail");
+      if (ok) setResolvedSrc(src);
+      probe.onload = probe.onerror = null;
+    };
+    probe.onload = () => finish(probe.naturalWidth > 0);
+    probe.onerror = () => finish(false);
+    probe.src = src;
+
+    return () => {
+      probe.onload = probe.onerror = null;
+    };
+  }, [src]);
+
+  return (
+    <img
+      src={resolvedSrc}
+      width="32"
+      height="32"
+      alt={alt}
+      data-domain={domain}
+      className="blog-page__summary-icon me-2 rounded"
+      loading="lazy"
+    />
+  );
+});
+SummaryIcon.displayName = "SummaryIcon";
 
 // Hoisted once — never re-created
 const ArrowIcon = (
@@ -89,16 +131,7 @@ const BlogSummary = ({ appNames, integrations, meta }) => {
               href={`#${id}`}
               className={`${styles.summaryItem}${isActive ? " " + styles.active : ""} blog-page__summary-item d-flex align-items-center text-decoration-none p-3 text-dark border-bottom`}
             >
-              <img
-                src={iconUrl || FALLBACK_ICON}
-                width="32"
-                height="32"
-                alt={app}
-                data-domain={domain}
-                className="blog-page__summary-icon me-2 rounded"
-                loading="lazy"
-                onError={handleImgError}
-              />
+              <SummaryIcon src={iconUrl} alt={app} domain={domain} />
               <span className={`${styles.summaryLabel} fw-medium`}>{app}</span>
             </a>
           </li>
