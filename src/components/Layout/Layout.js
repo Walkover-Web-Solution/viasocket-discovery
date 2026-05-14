@@ -37,7 +37,7 @@ export default function Layout({ children }) {
 
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <Header />
       <main className = {styles.main}>{children}</main>
       <UnauthorizedPopup isOpen={unAuthPopup} onClose={()=>setUnAuthPopup(false)} />
@@ -45,6 +45,6 @@ export default function Layout({ children }) {
       {!isHomePage &&  
         <Footer />
       }
-    </>
+    </div>
   );
 }

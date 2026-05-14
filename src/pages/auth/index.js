@@ -76,7 +76,7 @@ export default function AuthPage() {
 
     return (
         <WithAuth >
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div className="auth-container d-flex justify-content-center align-items-center flex-grow-1">
                 <div id={process.env.NEXT_PUBLIC_NEXT_APP_REFERENCE_ID} />
             </div>
         </WithAuth>
