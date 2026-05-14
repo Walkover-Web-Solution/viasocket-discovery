@@ -1,23 +1,22 @@
-.homePageContainer{
+.homePageContainer {
   position: relative;
   // display: flex;
   flex-direction: column;
   justify-content: center;
   min-height: calc(100vh - var(--header-height));
   // width: 100%;
-  &.contentToBottom{
+  &.contentToBottom {
     justify-content: flex-end;
   }
-  &.addMargin{
+  &.addMargin {
     margin-left: -22px;
     margin-right: 58px;
   }
-  margin-left:-14px;
+  margin-left: -14px;
 }
 
-
-.createBlogLoaderContainer{
-  &::before{
+.createBlogLoaderContainer {
+  &::before {
     content: "";
     background-color: var(--background-color);
     position: fixed;
@@ -28,44 +27,70 @@
   }
 }
 
-@keyframes slide{
-  from{
+@keyframes slide {
+  from {
     left: -3.5rem;
     opacity: 0;
   }
-  to{
+  to {
     left: -2rem;
     opacity: 1;
   }
 }
 
-
-
 //////////////Create Blog Loader CSS/////////////////////
 .createBlogLoader {
   --s: 25px;
-  --g :5px;  
-  
-  width: calc(3*(1.353*var(--s) + var(--g)));
+  --g: 5px;
+
+  width: calc(3 * (1.353 * var(--s) + var(--g)));
   aspect-ratio: 3;
   background:
     linear-gradient(#ff1818 0 0) left/33% 100% no-repeat,
-    conic-gradient(from -90deg at var(--s) calc(0.353*var(--s)),
-      #fff 135deg,#666 0 270deg,#aaa 0); 
+    conic-gradient(
+      from -90deg at var(--s) calc(0.353 * var(--s)),
+      #fff 135deg,
+      #666 0 270deg,
+      #aaa 0
+    );
   background-blend-mode: multiply;
   --_m:
-    linear-gradient(to bottom right,
-       #0000 calc(0.25*var(--s)),#000 0 calc(100% - calc(0.25*var(--s)) - 1.414*var(--g)),#0000 0),
-    conic-gradient(from -90deg at right var(--g) bottom var(--g),#000 90deg,#0000 0);
+    linear-gradient(
+      to bottom right,
+      #0000 calc(0.25 * var(--s)),
+      #000 0 calc(100% - calc(0.25 * var(--s)) - 1.414 * var(--g)),
+      #0000 0
+    ),
+    conic-gradient(
+      from -90deg at right var(--g) bottom var(--g),
+      #000 90deg,
+      #0000 0
+    );
   -webkit-mask: var(--_m);
-          mask: var(--_m);
-  background-size:   calc(100%/3) 100%;
-  -webkit-mask-size: calc(100%/3) 100%;
-          mask-size: calc(100%/3) 100%;
+  mask: var(--_m);
+  background-size: calc(100% / 3) 100%;
+  -webkit-mask-size: calc(100% / 3) 100%;
+  mask-size: calc(100% / 3) 100%;
   -webkit-mask-composite: source-in;
-          mask-composite: intersect;
+  mask-composite: intersect;
   animation: l7 steps(3) 1.5s infinite;
 }
 @keyframes l7 {
-  to {background-position: 150% 0%}
+  to {
+    background-position: 150% 0%;
+  }
+}
+
+// ** Search Results & Categories Title Suggestions */
+.titleSuggestion {
+  cursor: pointer;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: #a8200d !important;
+  }
+
+  &.dummy:hover {
+    color: #000 !important;
+  }
 }

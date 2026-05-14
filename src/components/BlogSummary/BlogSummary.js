@@ -48,8 +48,8 @@ const SummaryIcon = React.memo(({ src, alt, domain }) => {
   return (
     <img
       src={resolvedSrc}
-      width="32"
-      height="32"
+      width="24"
+      height="24"
       alt={alt}
       data-domain={domain}
       className="blog-page__summary-icon me-2 rounded"
@@ -129,7 +129,7 @@ const BlogSummary = ({ appNames, integrations, meta }) => {
           <li key={id} className="list-unstyled">
             <a
               href={`#${id}`}
-              className={`${styles.summaryItem}${isActive ? " " + styles.active : ""} blog-page__summary-item d-flex align-items-center text-decoration-none p-3 text-dark border-bottom`}
+              className={`${styles.summaryItem}${isActive ? " " + styles.active : ""} blog-page__summary-item d-flex align-items-center text-decoration-none p-2 text-dark border-bottom`}
             >
               <SummaryIcon src={iconUrl} alt={app} domain={domain} />
               <span className={`${styles.summaryLabel} fw-medium`}>{app}</span>

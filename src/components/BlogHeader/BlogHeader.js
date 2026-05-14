@@ -1,23 +1,10 @@
 import React from "react";
-import { styled } from "@mui/material";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import TimelapseIcon from "@mui/icons-material/Timelapse";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import XIcon from "@mui/icons-material/X";
 import AccentBar from "../AccentBar/AccentBar";
-
-const HtmlTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: "#fff",
-    color: "rgba(0, 0, 0)",
-    fontSize: theme.typography.pxToRem(14),
-    border: "1px solid #dadde9",
-    padding: "20px",
-  },
-}));
+import HtmlTooltip from "../HtmlTooltip/HtmlTooltip";
 
 const BlogHeader = ({
   content,
@@ -53,10 +40,7 @@ const BlogHeader = ({
           </span>
         </div>
 
-        <h1
-          className="display-4 fw-medium my-3"
-          style={{ lineHeight: "1.1" }}
-        >
+        <h1 className="display-4 fw-medium my-3" style={{ lineHeight: "1.1" }}>
           {content}
         </h1>
 
@@ -113,12 +97,33 @@ const BlogHeader = ({
           </div>
           {isUndereview != false && (
             <div className="ms-auto">
-              <HtmlTooltip title="This article is currently under review by our expert team.">
+              <HtmlTooltip
+                placement="left"
+                title={
+                  <>
+                    <div
+                      className="d-flex align-items-center gap-2 mb-1 text-uppercase fw-bold"
+                      style={{
+                        // color: ACCENT,
+                        letterSpacing: "1px",
+                        fontSize: "10px",
+                      }}
+                    >
+                      <TimelapseIcon style={{ fontSize: 14 }} />
+                      Under Review
+                    </div>
+                    <span style={{ fontSize: "10px" }}>
+                      This article is currently being reviewed by our expert
+                      team to ensure accuracy and quality before publication.
+                    </span>
+                  </>
+                }
+              >
                 <h4
-                  className="d-flex align-items-center gap-1 text-danger small fw-bold mb-0"
-                  style={{ cursor: "pointer" }}
+                  className="d-flex align-items-center gap-1 small fw-bold mb-0"
+                  style={{ cursor: "pointer", color: "#A8200D" }}
                 >
-                  <TimelapseIcon fontSize="small" /> Under Review
+                  <TimelapseIcon /> Under Review
                 </h4>
               </HtmlTooltip>
             </div>

@@ -11,7 +11,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import BlogHeader from "../BlogHeader/BlogHeader";
 import BlogSummary from "../BlogSummary/BlogSummary";
 import Link from "next/link";
-import HtmlTooltip from "@mui/material/Tooltip";
+import HtmlTooltip from "../HtmlTooltip/HtmlTooltip";
 
 const Components = {
   title: (props) => <BlogHeader {...props} />,
