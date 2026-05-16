@@ -44,12 +44,7 @@ const BlogHeader = ({
           {content}
         </h1>
 
-        <p
-          className="fs-5 text-secondary mb-4"
-          style={{ fontFamily: "var(--font-body)" }}
-        >
-          {subHeading}
-        </p>
+        <p className="fs-5 text-secondary mb-4">{subHeading}</p>
 
         <div className="d-flex gap-3 mb-4">
           <a
