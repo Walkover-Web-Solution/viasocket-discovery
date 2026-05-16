@@ -1,0 +1,27 @@
+$accent: #A8200D;
+
+.shareBtn {
+  width: 36px;
+  height: 36px;
+  color: #1f1f1f;
+  background-color: rgba(0, 0, 0, 0.05);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover,
+  &:focus-visible {
+    background-color: $accent;
+    color: #fff;
+    outline: none;
+  }
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+  background: $accent;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}

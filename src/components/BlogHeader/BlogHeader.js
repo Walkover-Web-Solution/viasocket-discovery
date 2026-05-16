@@ -1,10 +1,19 @@
 import React from "react";
+import Link from "next/link";
 import TimelapseIcon from "@mui/icons-material/Timelapse";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import XIcon from "@mui/icons-material/X";
 import AccentBar from "../AccentBar/AccentBar";
 import HtmlTooltip from "../HtmlTooltip/HtmlTooltip";
+import { nameToSlugName } from "@/utils/utils";
+import styles from "./BlogHeader.module.scss";
+
+const SHARE_TARGETS = [
+  { key: "linkedin", label: "Share on LinkedIn", Icon: LinkedInIcon },
+  { key: "facebook", label: "Share on Facebook", Icon: FacebookIcon },
+  { key: "twitter", label: "Share on X", Icon: XIcon },
+];
 
 const BlogHeader = ({
   content,
@@ -17,9 +26,14 @@ const BlogHeader = ({
   const routerPath =
     typeof window !== "undefined" ? window.location.pathname : "";
   const currentUrl = "https://viasocket.com/discovery" + routerPath;
-  const twitterShare = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(content)}`;
-  const facebookShare = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
-  const linkedInShare = `https://www.linkedin.com/feed/?shareActive=true&text=${content}! ${encodeURIComponent(currentUrl)} %23viasocket`;
+  const shareLinks = {
+    twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(content)}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`,
+    linkedin: `https://www.linkedin.com/feed/?shareActive=true&text=${content}! ${encodeURIComponent(currentUrl)} %23viasocket`,
+  };
+
+  const authorName = users?.[0]?.name || "";
+  const authorInitial = authorName.charAt(0).toUpperCase();
 
   return (
     <section className="position-relative">
@@ -46,42 +60,40 @@ const BlogHeader = ({
 
         <p className="fs-5 text-secondary mb-4">{subHeading}</p>
 
-        <div className="d-flex gap-3 mb-4">
-          <a
-            href={linkedInShare}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-dark opacity-75 text-decoration-none"
-          >
-            <LinkedInIcon fontSize="small" />
-          </a>
-          <a
-            href={facebookShare}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-dark opacity-75 text-decoration-none"
-          >
-            <FacebookIcon fontSize="small" />
-          </a>
-          <a
-            href={twitterShare}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-dark opacity-75 text-decoration-none"
-          >
-            <XIcon fontSize="small" />
-          </a>
+        <div className="d-flex align-items-center gap-2 mb-4">
+          {SHARE_TARGETS.map(({ key, label, Icon }) => (
+            <a
+              key={key}
+              href={shareLinks[key]}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              title={label}
+              className={`${styles.shareBtn} d-inline-flex align-items-center justify-content-center text-decoration-none`}
+            >
+              <Icon fontSize="small" />
+            </a>
+          ))}
         </div>
 
         <div className="d-flex align-items-center gap-3 mt-4">
           <div
-            className="border border-dark d-flex align-items-center justify-content-center fw-bold"
-            style={{ width: "40px", height: "40px", fontSize: "0.9rem" }}
+            className={`${styles.avatar} d-flex align-items-center justify-content-center fw-bold text-white`}
+            aria-label={authorName}
           >
-            {users?.[0]?.name?.charAt(0).toUpperCase()}
+            {authorInitial}
           </div>
           <div className="d-flex align-items-center gap-4">
-            <span className="fw-bold small">{users?.[0]?.name}</span>
+            {users?.[0]?.id ? (
+              <Link
+                href={`/user/${users[0].id}/${nameToSlugName(users[0].name || "")}`}
+                className="fw-bold small text-dark text-decoration-none"
+              >
+                {users[0].name}
+              </Link>
+            ) : (
+              <span className="fw-bold small">{users?.[0]?.name}</span>
+            )}
             <span className="text-muted small">
               {new Date(createdAt).toLocaleDateString("en-US", {
                 month: "short",
