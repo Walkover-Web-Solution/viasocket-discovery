@@ -102,7 +102,7 @@ const AIresponse = ({
        
                   <button
                     onClick={() => setCommentPopup(true)}
-                    className="btn btn-dark rounded-0 px-3 py-2"
+                    className="btn btn-dark rounded-0 px-3 py-2 position-fixed"
                   >
                     <ChatBubbleIcon /> Contribute
                   </button>
