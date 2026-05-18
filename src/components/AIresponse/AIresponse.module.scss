@@ -12,12 +12,14 @@
     position: fixed;
     bottom: 2rem;
     right: 2rem;
+    z-index: 1050;
   }
 }
 .floaterDiv {
   top: 2rem;
   width: 18rem;
   max-height: calc(100vh - 4rem);
+  z-index: 1050;
 }
 
 @media (max-width: 700px) {

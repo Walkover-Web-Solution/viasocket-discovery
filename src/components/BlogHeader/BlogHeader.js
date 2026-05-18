@@ -35,6 +35,13 @@ const BlogHeader = ({
   const authorName = users?.[0]?.name || "";
   const authorInitial = authorName.charAt(0).toUpperCase();
 
+  const UNDER_REVIEW_WINDOW_MS = 48 * 60 * 60 * 1000; // 48 hours
+  const createdAtMs = createdAt ? new Date(createdAt).getTime() : NaN;
+  const isWithinReviewWindow =
+    Number.isFinite(createdAtMs) &&
+    Date.now() - createdAtMs <= UNDER_REVIEW_WINDOW_MS;
+  const showUnderReview = isUndereview != false && isWithinReviewWindow;
+
   return (
     <section className="position-relative">
       <div
@@ -77,32 +84,38 @@ const BlogHeader = ({
         </div>
 
         <div className="d-flex align-items-center gap-3 mt-4">
-          <div
-            className={`${styles.avatar} d-flex align-items-center justify-content-center fw-bold text-white`}
-            aria-label={authorName}
-          >
-            {authorInitial}
-          </div>
-          <div className="d-flex align-items-center gap-4">
-            {users?.[0]?.id ? (
+          {(() => {
+            const author = users?.[0];
+            const inner = (
+              <>
+                <div
+                  className={`${styles.avatar} d-flex align-items-center justify-content-center fw-bold text-white`}
+                  aria-label={authorName}
+                >
+                  {authorInitial}
+                </div>
+                <span className="fw-bold small">{author?.name}</span>
+              </>
+            );
+            return author?.id ? (
               <Link
-                href={`/user/${users[0].id}/${nameToSlugName(users[0].name || "")}`}
-                className="fw-bold small text-dark text-decoration-none"
+                href={`/user/${author.id}/${nameToSlugName(author.name || "")}`}
+                className="d-flex align-items-center gap-3 text-dark text-decoration-none"
               >
-                {users[0].name}
+                {inner}
               </Link>
             ) : (
-              <span className="fw-bold small">{users?.[0]?.name}</span>
-            )}
-            <span className="text-muted small">
-              {new Date(createdAt).toLocaleDateString("en-US", {
-                month: "short",
-                day: "2-digit",
-                year: "numeric",
-              })}
-            </span>
-          </div>
-          {isUndereview != false && (
+              <div className="d-flex align-items-center gap-3">{inner}</div>
+            );
+          })()}
+          <span className="text-muted small">
+            {new Date(createdAt).toLocaleDateString("en-US", {
+              month: "short",
+              day: "2-digit",
+              year: "numeric",
+            })}
+          </span>
+          {showUnderReview && (
             <div className="ms-auto">
               <HtmlTooltip
                 placement="left"
