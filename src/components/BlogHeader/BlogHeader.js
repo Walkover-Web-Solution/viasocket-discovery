@@ -132,7 +132,7 @@ const BlogHeader = ({
                       <TimelapseIcon style={{ fontSize: 14 }} />
                       Under Review
                     </div>
-                    <span style={{ fontSize: "10px" }}>
+                    <span>
                       This article is currently being reviewed by our expert
                       team to ensure accuracy and quality before publication.
                     </span>
