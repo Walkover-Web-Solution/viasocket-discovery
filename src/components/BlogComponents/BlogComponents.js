@@ -101,8 +101,8 @@ const Components = {
                 <div className={styles.buttons}>
                   {apps[appName]?.domain && (
                     <Link
-                      className="btn btn-outline-dark fs-6"
-                      href={`https://${apps[appName].domain}`}
+                      className="btn btn-outline-dark fs-6 ragini"
+                      href={`https://${apps[appName].domain}?utm_source=viasocket`}
                       target="_blank"
                       style={{ minWidth: "fit-content" }}
                     >

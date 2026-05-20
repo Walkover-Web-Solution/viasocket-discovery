@@ -57,7 +57,7 @@ const Header = () => {
 
       <nav className="d-flex align-items-center via-menu-lg">
         <a
-          href="https://viasocket.com/discovery"
+          href="/discovery"
           className="px-4 text-decoration-none d-none d-lg-flex text-black justify-content-center"
           style={{
             borderLeft: "1px solid #ccc",
