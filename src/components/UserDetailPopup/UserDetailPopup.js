@@ -1,44 +1,50 @@
-import styles from "@/components/UserDetailPopup/UserDetailPopup.module.css";
 import { clearUserData } from '@/utils/storageHelper';
 import { useUser } from '@/context/UserContext';
-import { useRouter } from 'next/router';
 import { ClickAwayListener } from '@mui/material';
 import Link from "next/link";
 
 const UserDetail = ({ isOpen, onClose }) => {
-    const {user , setUser}=useUser();
-    const router= useRouter();
+    const { user, setUser } = useUser();
 
-
-    const handleMouseLeave = () => {
-        onClose();
-    };
-    const handleLogout = async () => {
+    const handleLogout = () => {
         clearUserData();
         setUser(null);
         onClose();
-        // router.reload();
     };
 
-    if (!isOpen) return null;
+    if (!isOpen || !user) return null;
 
     return (
-        <>
-            <ClickAwayListener onClickAway={handleMouseLeave}>
-                <div  className={styles.popupContainer}>
-                    <div className={styles.userDetails}>
-                            <>
-                                <p><b>{user?.name || ""}</b></p>
-                                <p><b>{user?.email || ""}</b></p>
-                                {/* <div className={styles.buttonContainer}> */}
-                                    <Link className={styles.blogsLink} href={`/user/${user.id}`}><b>My Discoveries</b></Link>
-                                    <button className={styles.logoutButton} onClick={handleLogout}>Logout</button>
-                                {/* </div> */}
-                            </>
-                    </div>
-                </div>
-            </ClickAwayListener>
-        </>
+        <ClickAwayListener onClickAway={onClose}>
+            <ul
+                className="dropdown-menu show shadow position-absolute end-0 mt-4 me-2"
+                style={{ zIndex: 20, minWidth: 180 }}
+                role="menu"
+                aria-label="User menu"
+            >
+                <li className="px-3 py-2">
+                    {user.name && <div className="fw-semibold text-dark">{user.name}</div>}
+                    {user.email && <div className="small text-muted text-break">{user.email}</div>}
+                </li>
+                <li><hr className="dropdown-divider" /></li>
+                {user.id && (
+                    <li>
+                        <Link href={`/user/${user.id}`} className="dropdown-item" onClick={onClose}>
+                            My Discoveries
+                        </Link>
+                    </li>
+                )}
+                <li>
+                    <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="dropdown-item text-danger"
+                    >
+                        Logout
+                    </button>
+                </li>
+            </ul>
+        </ClickAwayListener>
     );
 };
 
