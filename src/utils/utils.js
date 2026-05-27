@@ -53,10 +53,15 @@ export function dispatchAskAppAiWithAuth(userMessage, callbackFunc){
 
 export async function askAi(bridgeId, userMessage, variables, chatId) {
   const PAUTH_KEY = process.env.PAUTH_KEY;
-
+  console.log("Payload getting called", JSON.stringify({
+    bridgeId,
+    userMessage,
+    variables,
+    chatId
+  }))
   try {
       const response = await axios.post(
-          'https://routes.msg91.com/api/proxy/1258584/29gjrmh24/api/v2/model/chat/completion',
+          'https://api.gtwy.ai/api/v2/model/chat/completion',
           {
               user: userMessage,
               bridge_id: bridgeId,
