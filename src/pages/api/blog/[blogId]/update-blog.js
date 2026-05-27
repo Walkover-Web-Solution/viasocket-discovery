@@ -44,7 +44,7 @@ export const updateBlogUsingComments = async (blogId, environment) => {
   //make updateOperations using crux of comments
   const updatedOperations = await askAi(
     process.env.UPDATE_OPERATION_GENERATOR,
-    crux.action || "No changes",
+    JSON.stringify(crux.action) || "No changes",
     {
       blog: usefulBlog,
     }
