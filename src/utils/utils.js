@@ -79,7 +79,7 @@ export async function askAi(bridgeId, userMessage, variables, chatId) {
 
       return await response.data;
   } catch (error) {
-      console.error('Error in askAi:', error);
+      console.error('Error in askAi:', error.response?.data || error.message, userMessage);
       throw error;
   }
 }
