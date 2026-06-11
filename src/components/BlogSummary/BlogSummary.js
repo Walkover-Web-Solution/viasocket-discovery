@@ -68,7 +68,10 @@ const ArrowIcon = (
 
 const buildItem = (app, integrations) => {
   const id = appNameToId(app);
-  const appData = integrations?.[app.toLowerCase()]?.plugins?.[id];
+  let appData = integrations?.[app.toLowerCase()]?.plugins?.[id];
+  if(!appData){
+    appData = Object.values(integrations?.[app.toLowerCase()]?.plugins || {}).find((plugin) => plugin?.name?.toLowerCase() === app?.toLowerCase());
+  }
   const domain = appData?.domain || `${id}.com`;
   return {
     app,
