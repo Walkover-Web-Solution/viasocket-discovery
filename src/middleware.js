@@ -17,7 +17,8 @@ const verifyToken = async (token) => {
 const protectedRoutes = {
   '/api/blog': ['POST', 'PUT', 'DELETE'],
   '/api/ask-ai': ['POST'], 
-  '/api/gethistory': ['GET']
+  '/api/gethistory': ['GET'],
+  '/api/usecases': ['POST', 'PATCH']
 };
 
 export async function middleware(req) {

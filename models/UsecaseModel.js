@@ -16,13 +16,26 @@ const createUsecaseModel = (connection) => {
       ],
       required: true,
     },
-    data: {
-      type: Object,
-      required: true,
+    app: {
+      type: String,
+    },
+    app_slug: {
+      type: String,
+    },
+    audience: {
+      type: String,
+    },
+    phases: {
+      type: Array,
+      default: [],
     },
     createdBy: {
       type: Number,
       default: null,
+    },
+    contributors: {
+      type: [Number],
+      default: [],
     },
     createdAt: {
       type: Date,
