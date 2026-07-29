@@ -1,12 +1,13 @@
+import { useState } from "react";
 import HomeTitle from "@/components/HomeTitle/HomeTitle";
 import Search from "@/components/Search/Search";
 import Chatbot from "@/components/ChatBot/ChatBot";
 import SearchResults from "@/components/SearchResults/SearchResults";
 import styles from "@/pages/home.module.scss";
-import PopularContent from "@/components/PopularContent/PopularContent";
 import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
-import MarqueeApps from "@/components/MarqueeApps/MarqueeApps";
-import TopContributors from "@/components/TopContributors/TopContributors";
+import AppsAndCategories from "./AppsAndCategories";
+import RecentlyPublished from "./RecentlyPublished";
+import TopContributors from "../TopContributors/TopContributors";
 
 const HomePageContent = ({
   blogCreating,
@@ -26,11 +27,11 @@ const HomePageContent = ({
   chatId,
   setTypingStart,
   setIsOpen,
-  popularTags,
-  popularUsers,
   tagsContainer,
   highlightText,
+  popularUsers,
 }) => {
+  const [selectedApps, setSelectedApps] = useState([]);
   return (
     <>
       {!blogCreating && (
@@ -68,35 +69,35 @@ const HomePageContent = ({
             )}
             <div className={typingStart ? "" : styles.centerWrapper}>
               <Search
-                className={`w-75 px-3 ${typingStart ? "ps-5" : "centeredSearch"}`}
+                className={`w-75 ragini ${typingStart ? "ps-5" : "centeredSearch"}`}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
                 handleAskAi={handleAskAi}
                 placeholder={
                   isCategoryClicked || !typingStart
-                    ? "Search"
+                    ? "Search the apps you use daily"
                     : "Search or pick a category"
                 }
                 messages={messages}
                 disableEnter
                 setTypingStart={setTypingStart}
                 setIsCategoryClicked={setIsCategoryClicked}
+                selectedApps={selectedApps}
               />
-              {!typingStart && (
-                <PopularContent
-                  popularTags={popularTags}
-                  popularUsers={popularUsers}
-                  setIsCategoryClicked={setIsCategoryClicked}
+              {!typingStart && !searchQuery && !isOpen && (
+                <AppsAndCategories
+                  categories={searchCategories}
+                  onSelectedAppsChange={setSelectedApps}
                 />
               )}
-
-              {!typingStart && (
-                <>
-                  <MarqueeApps />
-                  <TopContributors popularUsers={popularUsers} />
-                </>
-              )}
             </div>
+
+            {!typingStart && (
+              <>
+                <RecentlyPublished />
+                <TopContributors popularUsers={popularUsers} />
+              </>
+            )}
             <Chatbot
               bridgeId={process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE}
               messages={messages}

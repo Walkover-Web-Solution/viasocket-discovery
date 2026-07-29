@@ -1,0 +1,63 @@
+/* Mirrors .aip-item so the loading state previews the list it resolves into,
+   not a card grid the real page no longer uses. */
+
+.aig-skel {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.aig-skel:last-child { border-bottom: 0; }
+
+.aig-skel__line {
+  height: 12px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #EFE4DA 25%, #F8F0E9 50%, #EFE4DA 75%);
+  background-size: 200% 100%;
+  animation: aig-shimmer 1.4s ease-in-out infinite;
+}
+
+.aig-skel__line + .aig-skel__line { margin-top: 10px; }
+
+/* Title: a short numbered line, same measure as .aip-item__title */
+.aig-skel__line--title { height: 21px; width: 46%; margin-bottom: 12px; }
+
+/* Description: two lines, second one shorter, like .aip-item__desc */
+.aig-skel__line--desc { width: 92%; }
+.aig-skel__line--desc-short { width: 58%; margin-bottom: 14px; }
+
+/* Chain: a row of pill chips, like .aip-chain */
+.aig-skel__chain {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.aig-skel__pill {
+  height: 26px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #EFE4DA 25%, #F8F0E9 50%, #EFE4DA 75%);
+  background-size: 200% 100%;
+  animation: aig-shimmer 1.4s ease-in-out infinite;
+}
+
+.aig-skel__pill--1 { width: 132px; }
+.aig-skel__pill--2 { width: 108px; }
+.aig-skel__pill--3 { width: 96px; }
+
+.aig-skel__arrow {
+  color: var(--color-border);
+  font-size: 13px;
+}
+
+/* CTA: same measure as .aip-item__cta */
+.aig-skel__line--cta { height: 34px; width: 118px; border-radius: 6px; margin-top: 2px; }
+
+@keyframes aig-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aig-skel__line, .aig-skel__pill { animation: none; }
+}

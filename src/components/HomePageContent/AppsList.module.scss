@@ -1,0 +1,39 @@
+.appCard {
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 0 #000;
+    border-color: #000 !important;
+    background-color: #fff0f0 !important;
+  }
+}
+
+.selected {
+  border-color: #a8200d !important;
+  background-color: #fff5f5 !important;
+
+  &:hover {
+    border-color: #a8200d !important;
+    box-shadow: 4px 4px 0 0 #a8200d;
+    background-color: #ffe6e6 !important;
+  }
+}
+
+.tick {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #a8200d;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 1;
+}

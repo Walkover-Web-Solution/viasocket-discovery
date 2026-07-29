@@ -1,0 +1,41 @@
+.sidebar {
+  top: 100px;
+  // width: 280px;
+  align-self: flex-start;
+}
+
+.ideaItem {
+  padding-left: 1rem;
+  border-left: 2px solid transparent;
+}
+
+.ideaItem a {
+  font-family: "Serif", serif;
+  line-height: 1.4;
+  color: #6c757d;
+  transition: color 0.2s ease-in-out;
+}
+
+.ideaItem a:hover {
+  color: var(--brand-color) !important;
+}
+
+.ideaNumber {
+  min-width: 25px;
+}
+
+.ideaText {
+  white-space: normal;
+}
+
+.sectionTitle {
+  color: var(--brand-color);
+}
+
+.active {
+  border-left: 2px solid var(--brand-color) !important;
+}
+
+.active a {
+  color: var(--brand-color) !important;
+}

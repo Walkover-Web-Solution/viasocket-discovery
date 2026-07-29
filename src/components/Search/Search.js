@@ -17,6 +17,7 @@ export default function Search({
   disableEnter,
   setTypingStart,
   setIsCategoryClicked,
+  selectedApps = [],
 }) {
   const { user } = useUser();
   const [unAuthPopup, setUnAuthPopup] = useState(false);
@@ -56,26 +57,35 @@ export default function Search({
 
   return (
     <>
-      <div
-        className={`${styles.postHeader} ${className}`}
-        onClick={() => {
-          if (setTypingStart) setTypingStart(true);
-        }}
-      >
-        <input
-          type="text"
-          className={`fs-6 ${styles.search}`}
-          placeholder={placeholder || "Ask AI..."}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              setIsCategoryClicked(true);
-              handleClick();
-            }
-          }}
-          ref={inputRef}
-        />
+      <div className={`${styles.postHeader} ${className}`}>
+        <div className={styles.searchBox}>
+          {selectedApps.length > 0 && (
+            <div className="d-flex flex-wrap gap-2 me-2">
+              {selectedApps.map((appName) => (
+                <span
+                  key={appName}
+                  className="badge rounded d-flex align-items-center gap-1 border border-brand bg-brand-subtle text-brand fs-12"
+                >
+                  {appName}
+                </span>
+              ))}
+            </div>
+          )}
+          <input
+            type="text"
+            className={`fs-6 ${styles.searchInput}`}
+            placeholder={placeholder || "Ask AI..."}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setIsCategoryClicked(true);
+                handleClick();
+              }
+            }}
+            ref={inputRef}
+          />
+        </div>
         <IconButton
           onClick={handleClick}
           edge="end"

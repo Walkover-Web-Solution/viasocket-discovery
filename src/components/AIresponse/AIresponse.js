@@ -53,7 +53,7 @@ const AIresponse = ({
             " | Viasocket"}
         </title>
       </Head>
-      <div className={`w-100 ${isOpen ? styles.addLeftMargin : ""}`}>
+      <div className={`w-100 raginii ${isOpen ? styles.addLeftMargin : ""}`}>
         {Components["title"]({
           users,
           createdAt: blogData?.createdAt,

@@ -1,0 +1,20 @@
+.requestAppButton {
+  min-height: 58px;
+  border: 1px dashed #a8200d;
+  background-color: white;
+  color: #a8200d;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 0 #a8200d;
+    background-color: #fff0f0;
+  }
+}
+
+.plusIcon {
+  width: 40px;
+  height: 40px;
+  border: 1px dashed #a8200d;
+  background-color: rgba(168, 32, 13, 0.05);
+}
