@@ -46,7 +46,7 @@ const Loader = () => {
   }, [currentStep, charIndex]);
 
   return (
-    <div className={styles.loaderWrapper}>
+    <div className={`${styles.loaderWrapper}`}>
       <h3 className={`${styles.loaderMessage} ${showSpinner ? styles.removeBorderRight : ' '}`}>
         {displayedText || (showSpinner ? 'Finalizing blog structure...' : '|')}
         {showSpinner && <span className={styles.spinner}></span>}

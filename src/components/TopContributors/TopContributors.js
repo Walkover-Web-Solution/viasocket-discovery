@@ -34,7 +34,7 @@ const TopContributors = ({ popularUsers }) => {
           return (
             <div key={index} className="col-12 col-md-6">
               <a
-                href={`/discovery/user/${user.id}`}
+                href={`/automation-ideas/user/${user.id}`}
                 className={`${styles.contribCard} d-flex flex-column justify-content-between position-relative border p-3 text-decoration-none text-dark bg-white h-100`}
               >
                 <div className="flex-grow-1">
@@ -62,21 +62,38 @@ const TopContributors = ({ popularUsers }) => {
                   </p>
                 </div>
                 <div className="fs-6 ps-3 border-top pt-3 mt-auto">
-                  {user.createdBlogs > 0 && (
-                    <>
-                      <strong>{user.createdBlogs}</strong>{" "}
-                      blog{user.createdBlogs > 1 ? "s" : ""}
-                    </>
-                  )}
-                  {user.contributedBlogs > 0 && user.createdBlogs > 0 && (
-                    <span className="mx-2 opacity-50">·</span>
-                  )}
-                  {user.contributedBlogs > 0 && (
-                    <>
-                      <strong>{user.contributedBlogs}</strong>{" "}
-                      contribution{user.contributedBlogs > 1 ? "s" : ""}
-                    </>
-                  )}
+                  {[
+                    user.createdBlogs > 0 && (
+                      <span key="createdBlogs">
+                        <strong>{user.createdBlogs}</strong> blog
+                        {user.createdBlogs > 1 ? "s" : ""}
+                      </span>
+                    ),
+                    user.contributedBlogs > 0 && (
+                      <span key="contributedBlogs">
+                        <strong>{user.contributedBlogs}</strong> blog contribution
+                        {user.contributedBlogs > 1 ? "s" : ""}
+                      </span>
+                    ),
+                    user.createdUsecases > 0 && (
+                      <span key="createdUsecases">
+                        <strong>{user.createdUsecases}</strong> usecase
+                        {user.createdUsecases > 1 ? "s" : ""}
+                      </span>
+                    ),
+                    user.contributedUsecases > 0 && (
+                      <span key="contributedUsecases">
+                        <strong>{user.contributedUsecases}</strong> usecase contribution
+                        {user.contributedUsecases > 1 ? "s" : ""}
+                      </span>
+                    ),
+                  ]
+                    .filter(Boolean)
+                    .reduce((acc, el, i) => {
+                      if (i > 0) acc.push(<span key={`sep-${i}`} className="mx-2 opacity-50">·</span>);
+                      acc.push(el);
+                      return acc;
+                    }, [])}
                 </div>
                 <span
                   className="position-absolute text-muted"

@@ -8,6 +8,7 @@
   --foreground-color: black;
   --intermediate-color: #452f2d37;
   --search-box-color: #a8200d;
+  --brand-color: #a8200d;
   --grey: #dee2e6;
   --blue: #007bff;
   --light-grey: #e9ecef;
@@ -68,6 +69,33 @@ button {
   background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(8.8px);
+}
+
+// Brand color utilities (Bootstrap-style)
+.text-brand {
+  color: var(--search-box-color) !important;
+}
+
+.bg-brand-subtle {
+  background-color: #fff5f5 !important;
+}
+
+.border-brand {
+  border-color: var(--search-box-color) !important;
+  color: var(--search-box-color) !important;
+}
+
+.border-brand:hover {
+  background-color: var(--search-box-color) !important;
+  color: white !important;
+}
+
+.fs-12 {
+  font-size: 12px !important;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
 }
 
 /* ============================================

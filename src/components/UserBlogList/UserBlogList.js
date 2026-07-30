@@ -4,7 +4,10 @@ import { nameToSlugName } from "@/utils/utils";
 import AccentBar from "../AccentBar/AccentBar";
 import styles from "./UserBlogList.module.scss";
 
-const UserBlogList = ({ blogs, title, isLoading, userName }) => {
+const defaultLinkBuilder = (blog) =>
+  `/automation-ideas/blog/${blog.id}/${blog?.meta?.category ? `${nameToSlugName(blog.meta.category)}/` : ""}${blog?.slugName ? nameToSlugName(blog.slugName) : ""}`;
+
+const UserBlogList = ({ blogs, title, isLoading, userName, linkBuilder = defaultLinkBuilder }) => {
   if (isLoading) {
     return (
       <section className="mb-5">
@@ -50,7 +53,7 @@ const UserBlogList = ({ blogs, title, isLoading, userName }) => {
         {blogs.map((blog) => (
           <div key={blog.id} className="col my-2">
             <a
-              href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${nameToSlugName(blog.meta.category)}/` : ""}${blog?.slugName ? nameToSlugName(blog.slugName) : ""}`}
+              href={linkBuilder(blog)}
               className={`${styles.blogCard} d-block border p-4 h-100 bg-white text-decoration-none text-dark shadow-sm`}
               style={{ borderLeft: "4px solid #a8200d" }}
             >

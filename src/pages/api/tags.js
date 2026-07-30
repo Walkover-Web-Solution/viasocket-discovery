@@ -21,6 +21,14 @@ export default async function handler(req, res) {
   const MERGE_PARAMETERS_BRIDGE_ID = "671a3327c3ecf2f46f924ca8"
   const MERGE_CATGORIES_BRIDGE_ID = "671b3104c3ecf2f46f924caa"
   switch (method) {
+    case 'GET':
+      try {
+        const categories = await getCategoriesFromDbDash();
+        return res.status(200).json(categories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        return res.status(500).json({ success: false, error: error.message });
+      }
     case 'POST':
       try {
         const allBLogTags = await blogServices.getAllBlogTags(environment) // all blog that are created or update today
@@ -55,16 +63,13 @@ export default async function handler(req, res) {
           notAvailableTags.push(...missingTags);
           notAvailableParameters.push(...missingParameters);
   
-          // if (category && !allPreviousCategoriesSet.has(category)) {
-            notAvailableCategories.add(
-              JSON.stringify(
-                { category : category,
-                  title : item.title,
-                  id : item._id
-                }));
-            categoryToBridgeArrMap[category] = [...(categoryToBridgeArrMap[category] || []), item._id];
-          // }
-          // return  res.status(201).json({ success: true, data: [] });
+          notAvailableCategories.add(
+            JSON.stringify(
+              { category : category,
+                title : item.title,
+                id : item._id
+              }));
+          categoryToBridgeArrMap[category] = [...(categoryToBridgeArrMap[category] || []), item._id];
   
           // Map tags, parameters, and categories to blog entries
           missingTags.forEach(tag => {
@@ -96,9 +101,6 @@ export default async function handler(req, res) {
           brigeToAllTagsAndParametersMap[id].tags.add(originalTag);
         });
 
-        // applyReplacements(aiResponseCategories, categoryToBridgeArrMap, (id, originalCategory) => {
-        //   brigeToAllTagsAndParametersMap[id].meta.category = originalCategory;
-        // });
         const transformedCategories = aiResponseCategories?.categories?.reduce((acc, { id, name }) => {
           acc[id] = name;
           return acc;
@@ -123,11 +125,8 @@ export default async function handler(req, res) {
           blogServices.updateBlogsTags(brigeToAllTagsAndParametersMap, environment),
           addNewTags(aiResponseTags.newTags, environment),
           addNewParmeters(aiResponseParameters.newParameters, environment),
-          // addNewCategories(aiResponseCategories.newCategories, environment)
-          // addCategoriesToDbDash(newCategories) // add to db dash()
       ]);
         res.status(201).json({ success: true, data: [] });
-        // res.status(201).json({ success: true, data: allTags });
       } catch (error) {
         console.error("error in merging tags and categories", error)
         res.status(400).json({ success: false, error: error.message });
@@ -152,19 +151,3 @@ export async function getCategoriesFromDbDash() {
   const categories = data.data.rows.map((row) => {return {name:row.name,slug:row.slug}}).filter(row => row.name !== 'All');
   return categories;
 }
-
-// async function addCategoriesToDbDash(categories) {
-//   await fetch('https://table-api.viasocket.com/65d2ed33fa9d1a94a5224235/tblh9c91k', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       'auth-key': process.env.DBDASH_VIASOCKET_WEBSITE_KEY
-//     },
-//     body: JSON.stringify({
-//       records: categories.map(category => ({
-//         name: category,
-//         hidden: true
-//       }))
-//     })
-//   });
-// }

@@ -49,7 +49,7 @@ export const getCurrentUser = async () => {
 };
 
 
-const getHeaders = () => {
+export const getHeaders = () => {
   const env = getCurrentEnvironment();
   const token = getFromCookies(env);
   const headers = {

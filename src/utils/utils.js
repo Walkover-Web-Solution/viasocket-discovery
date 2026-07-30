@@ -99,7 +99,7 @@ export const sendMessageTochannel = async (message) => {
 
 export const handleSignIn = async () => {
     setPathInLocalStorage()
-    window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
+    window.location.href = getCurrentEnvironment()==='local'?'/automation-ideas/auth' : "https://viasocket.com/login?redirect_to=/automation-ideas/auth";
 };
 
 export const  ValidateAiResponse = (response ,schema) => {
@@ -212,12 +212,8 @@ export  function extractJsonFromMarkdown(markdown) {
   try {
     const jsonRegex = /```json([^```]+)```/g;
     const match = jsonRegex.exec(markdown);
-    // if (match && match[1]) {
-        const jsonData = JSON.parse(match[1].trim());
-        return jsonData;
-    // } else {
-    //   throw new Error("No JSON found in Markdown");
-    // }
+    const jsonData = JSON.parse(match[1].trim());
+    return jsonData;
   } catch (error) {
     throw new Error("Not able to extract JSON from Markdown !");
     

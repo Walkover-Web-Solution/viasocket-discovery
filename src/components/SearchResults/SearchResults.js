@@ -44,7 +44,7 @@ const SearchResults = ({
                 <a
                   className="ps-5 py-3 pe-3 text-truncate"
                   rel="noopener noreferrer"
-                  href={blog.dummy ? null : `/discovery/blog/${blog.id}`}
+                  href={blog.dummy ? null : `/automation-ideas/blog/${blog.id}`}
                   key={blog.id}
                   onClick={async () => {
                     if (blog.dummy) {

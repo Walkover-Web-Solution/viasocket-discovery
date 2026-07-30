@@ -115,10 +115,6 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs, faq }) {
     setFAQs(blogData?.blog?.find((blog) => blog?.section === "FAQ")?.content);
   }, [blogData]);
 
-  //  useEffect(() => {
-  //   if(blogData?.imageUrl) document.documentElement.style.setProperty("--blogTitleBackground", `url(${blogData.imageUrl})`);
-  // }, [blogData?.imageUrl]);
-
   useEffect(() => {
     if (blog) {
       router.replace(
@@ -201,11 +197,11 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs, faq }) {
     author: Object.values(users).map((user) => ({
       "@type": "Person",
       name: user?.name,
-      url: `https://viasocket.com/discovery/user/${user?.id}`,
+      url: `https://viasocket.com/automation-ideas/user/${user?.id}`,
     })),
     datePublished: blogData.createdAt,
     dateModified: blogData.updatedAt,
-    mainEntityOfPage: `https://viasocket.com/discovery/blog/${blogData?.id}`,
+    mainEntityOfPage: `https://viasocket.com/automation-ideas/blog/${blogData?.id}`,
     publisher: {
       "@type": "Organization",
       name: "Viasocket",
@@ -221,7 +217,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs, faq }) {
     ]
       .join(", ")
       .slice(0, -2),
-    url: `https://viasocket.com/discovery/blog/${blogData?.id}`,
+    url: `https://viasocket.com/automation-ideas/blog/${blogData?.id}`,
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer support",

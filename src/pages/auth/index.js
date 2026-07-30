@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router';
 import WithAuth from '@/components/auth/WithAuth';
-// import { useUser } from '@/context/UserContext';
 
 import { getFromCookies, getCurrentEnvironment, removeCookie, setInCookies, getRedirectPath, clearPath } from '@/utils/storageHelper'
 import { getCurrentUser, signUpOnBE } from '@/utils/apiHelper'
@@ -21,16 +20,12 @@ export default function AuthPage() {
                 localStorage.clear()
                 sessionStorage.clear()
             }
-            // localStorage.setItem("userid", userData.id);
-            // localStorage.setItem("userDetail", JSON.stringify({ name: userData.name, email: userData.email, id: userData.id }));
-            // setUser({ name: userData.name, email: userData.email, id: userData.id })
             if (process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT === 'local') {
                 const response = await signUpOnBE({ ...userData, org_id: parseInt(queryParams['company_ref_id'], 10) })
-                // localStorage.setItem('accessToken', response?.data?.data?.token)
                 setInCookies(getCurrentEnvironment(), response?.data)
             }
             clearPath();
-            window.location.href= redirectPath ? redirectPath : '/discovery'
+            window.location.href= redirectPath ? redirectPath : '/automation-ideas'
         }
     }
 
@@ -42,7 +37,7 @@ export default function AuthPage() {
                 const configuration = {
                     referenceId: process.env.NEXT_PUBLIC_NEXT_APP_REFERENCE_ID,
                     addInfo: {
-                        redirect_path: `/discovery/auth`
+                        redirect_path: `/automation-ideas/auth`
                     },
                     success: (data) => {
                         console.log('success response', data)

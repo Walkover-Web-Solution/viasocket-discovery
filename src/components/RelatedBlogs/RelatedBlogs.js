@@ -11,7 +11,7 @@ const RelatedBlogs = ({ relatedBlogs }) => {
           <div className="col-4 p-0" key={blog.id}>
             <a
               target="_blank"
-              href={`/discovery/blog/${blog.id}/${blog.slugName}`}
+              href={`/automation-ideas/blog/${blog.id}/${blog.slugName}`}
               className={`${styles.relatedCard} d-block p-4 border h-100 text-decoration-none text-dark`}
             >
               <span
