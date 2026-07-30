@@ -105,7 +105,7 @@ export default function UserPage({ user }) {
           title={`Automation ideas by ${user.name.trim().split(" ")[0]}`}
           isLoading={usecasesLoading}
           userName={user.name}
-          linkBuilder={(item) => `/discovery/usecase/${item.id}`}
+          linkBuilder={(item) => `/automation-ideas/usecase/${item.id}`}
         />
       </div>
     </div>

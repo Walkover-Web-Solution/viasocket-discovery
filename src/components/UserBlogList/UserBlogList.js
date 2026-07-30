@@ -5,7 +5,7 @@ import AccentBar from "../AccentBar/AccentBar";
 import styles from "./UserBlogList.module.scss";
 
 const defaultLinkBuilder = (blog) =>
-  `/discovery/blog/${blog.id}/${blog?.meta?.category ? `${nameToSlugName(blog.meta.category)}/` : ""}${blog?.slugName ? nameToSlugName(blog.slugName) : ""}`;
+  `/automation-ideas/blog/${blog.id}/${blog?.meta?.category ? `${nameToSlugName(blog.meta.category)}/` : ""}${blog?.slugName ? nameToSlugName(blog.slugName) : ""}`;
 
 const UserBlogList = ({ blogs, title, isLoading, userName, linkBuilder = defaultLinkBuilder }) => {
   if (isLoading) {

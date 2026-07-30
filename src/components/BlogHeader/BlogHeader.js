@@ -25,7 +25,7 @@ const BlogHeader = ({
 }) => {
   const routerPath =
     typeof window !== "undefined" ? window.location.pathname : "";
-  const currentUrl = "https://viasocket.com/discovery" + routerPath;
+  const currentUrl = "https://viasocket.com/automation-ideas" + routerPath;
   const shareLinks = {
     twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(content)}`,
     facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`,
@@ -124,7 +124,6 @@ const BlogHeader = ({
                     <div
                       className="d-flex align-items-center gap-2 mb-1 text-uppercase fw-bold"
                       style={{
-                        // color: ACCENT,
                         letterSpacing: "1px",
                         fontSize: "10px",
                       }}

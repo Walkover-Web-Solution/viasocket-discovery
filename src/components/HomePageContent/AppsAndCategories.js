@@ -1,45 +1,62 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AppsList from "./AppsList";
+import { fetchCategories } from "@/utils/apis/appsApis";
 
-const AppsAndCategories = ({ categories = [], onSelectedAppsChange }) => {
+const AppsAndCategories = ({
+  onSelectedAppsChange,
+  selectedApps,
+  searchQuery,
+}) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [categories, setCategories] = useState([]);
   const [showAllCategories, setShowAllCategories] = useState(false);
-  const INITIAL_CATEGORY_COUNT = 15;
+  const INITIAL_CATEGORY_COUNT = 6;
 
-  const visibleCategories = showAllCategories
-    ? categories
-    : categories.slice(0, INITIAL_CATEGORY_COUNT);
+  useEffect(() => {
+    const loadCategories = async () => {
+      const data = await fetchCategories();
+      setCategories(data);
+    };
+    loadCategories();
+  }, []);
 
   return (
     <>
-      <div className="d-flex flex-wrap gap-2 my-4 w-75">
+      <div className="d-flex flex-wrap align-items-center gap-2 my-4 w-75">
         <button
           className={`btn btn-sm ${selectedCategory === "All" ? "btn-dark" : "btn-outline-secondary"}`}
           onClick={() => setSelectedCategory("All")}
         >
           All
         </button>
-        {visibleCategories.map((category) => (
-          <button
-            key={category.slug || category.name}
-            className={`btn btn-sm ${selectedCategory === category.name ? "btn-dark" : "btn-outline-secondary"}`}
-            onClick={() => setSelectedCategory(category.name)}
-          >
-            {category.name}
-          </button>
-        ))}
+        {categories
+          .slice(
+            0,
+            showAllCategories ? categories.length : INITIAL_CATEGORY_COUNT,
+          )
+          .map((category) => (
+            <button
+              key={category.name}
+              className={`btn btn-sm ${selectedCategory === category.name ? "btn-dark" : "btn-outline-secondary"}`}
+              onClick={() => setSelectedCategory(category.name)}
+            >
+              {category.name}
+            </button>
+          ))}
         {categories.length > INITIAL_CATEGORY_COUNT && (
-          <button
-            className="btn btn-sm btn-link text-decoration-none"
+          <a
+            className="text-primary ms-2 text-decoration-underline cursor-pointer"
             onClick={() => setShowAllCategories((prev) => !prev)}
           >
             {showAllCategories ? "Less" : "More"}
-          </button>
+          </a>
         )}
       </div>
       <AppsList
         selectedCategory={selectedCategory}
         onSelectedAppsChange={onSelectedAppsChange}
+        selectedApps={selectedApps}
+        searchQuery={searchQuery}
       />
     </>
   );

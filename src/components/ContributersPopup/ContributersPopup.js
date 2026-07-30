@@ -11,14 +11,14 @@ import { nameToSlugName } from "@/utils/utils";
 const ContributorsPopup = ({ users, createdAt, title }) => {
   const [showPopup, setShowPopup] = useState(false);
   const router = useRouter();
-  const currentUrl = "http://viasocket.com/discovery" + router.asPath;
+  const currentUrl = "http://viasocket.com/automation-ideas" + router.asPath;
 
   const handleMouseEnter = (e) => {
     if (users.length > 1) {
       setShowPopup(true);
     } else {
       window.open(
-        "/discovery/user/" + users[0].id + "/" + nameToSlugName(users[0].name),
+        "/automation-ideas/user/" + users[0].id + "/" + nameToSlugName(users[0].name),
         "_blank"
       );
     }
@@ -92,7 +92,7 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
               ) : (
                 users?.length === 1 && (
                   <a
-                    href={`/discovery/user/${users[0].id}/${nameToSlugName(
+                    href={`/automation-ideas/user/${users[0].id}/${nameToSlugName(
                       users[0].name
                     )}`}
                     target='_blank'
@@ -113,7 +113,7 @@ const ContributorsPopup = ({ users, createdAt, title }) => {
                     target='_blank'
                     key={user.id}
                     className={styles.popupItem}
-                    href={`/discovery/user/${user.id}/${nameToSlugName(
+                    href={`/automation-ideas/user/${user.id}/${nameToSlugName(
                       user.name
                     )}`}
                     style={{ cursor: "pointer" }}

@@ -1,5 +1,3 @@
-// depreciated 
-
 import { useEffect, useState } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 
@@ -25,7 +23,7 @@ export default function Navbar() {
     return (
         <nav className={styles.navbar}>
             <div className={styles.appName}>
-                <a className={styles.AppName} href="/discovery/">App Discovery</a>
+                <a className={styles.AppName} href="/automation-ideas/">Automation Ideas</a>
             </div>
              <div className={styles.userIconContainer}>
                 {isLoggedIn ? (

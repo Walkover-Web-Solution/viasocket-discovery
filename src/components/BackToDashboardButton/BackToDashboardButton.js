@@ -1,6 +1,10 @@
 import React from "react";
 
-const BackToDashboardButton = ({ className = "btn px-xl-5", label = "← Discovery", style, onClick }) => {
+const BackToDashboardButton = ({
+  className = "btn px-xl-5",
+  label = "← Automation Ideas",
+  onClick,
+}) => {
   const defaultStyle = {
     display: "block",
     width: "100vw",
@@ -21,7 +25,7 @@ const BackToDashboardButton = ({ className = "btn px-xl-5", label = "← Discove
     if (onClick) onClick();
     // Hard navigation so home page (re)hydrates with fresh SSR props (popularUsers, categories, etc.)
     if (typeof window !== "undefined") {
-      window.location.href = "/discovery/";
+      window.location.href = "/automation-ideas/";
     }
   };
 
@@ -29,7 +33,7 @@ const BackToDashboardButton = ({ className = "btn px-xl-5", label = "← Discove
     <button
       className={className}
       onClick={handleClick}
-      style={{ ...defaultStyle, ...(style || {}) }}
+      style={defaultStyle}
     >
       {label}
     </button>

@@ -143,19 +143,17 @@ const Components = {
               />
               {appBlogs[appName]?.length > 0 && (
                 <div className={styles.relatedBlogsDiv}>
-                  {appBlogs[appName]?.length > 0 && (
-                    <h6>
-                      {" "}
-                      Explore More on <strong>{appName}</strong>
-                    </h6>
-                  )}
+                  <h6>
+                    {" "}
+                    Explore More on <strong>{appName}</strong>
+                  </h6>
                   <ul>
                     {appBlogs[appName]?.map((blog) => {
                       return (
                         <li key={blog.id}>
                           <a
                             className={styles.relatedBlogsLink}
-                            href={`/discovery/blog/${blog.id}/${
+                            href={`/automation-ideas/blog/${blog.id}/${
                               blog?.meta?.category
                                 ? `${blog.meta.category}/`
                                 : ""

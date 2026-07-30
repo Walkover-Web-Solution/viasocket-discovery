@@ -1,106 +1,97 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HomeTitle from "@/components/HomeTitle/HomeTitle";
 import Search from "@/components/Search/Search";
 import Chatbot from "@/components/ChatBot/ChatBot";
-import SearchResults from "@/components/SearchResults/SearchResults";
 import styles from "@/pages/home.module.scss";
 import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
 import AppsAndCategories from "./AppsAndCategories";
 import RecentlyPublished from "./RecentlyPublished";
 import TopContributors from "../TopContributors/TopContributors";
+import { fetchApps } from "@/utils/apis/appsApis";
 
 const HomePageContent = ({
   blogCreating,
   usecaseCreating,
   isOpen,
   searchQuery,
-  typingStart,
-  blogs,
-  searchCategories,
-  isLoading,
-  isCategoryClicked,
   setSearchQuery,
-  setIsCategoryClicked,
-  handleCreateBlog,
   handleCreateUsecase,
-  handleAskAi,
   messages,
   setMessages,
   chatId,
-  setTypingStart,
   setIsOpen,
-  tagsContainer,
-  highlightText,
   popularUsers,
 }) => {
   const [selectedApps, setSelectedApps] = useState([]);
+  const [allApps, setAllApps] = useState([]);
+
+  useEffect(() => {
+    const loadApps = async () => {
+      const apps = await fetchApps();
+      setAllApps(apps);
+    };
+    loadApps();
+  }, []);
+
+  const addAppByName = (appName) => {
+    const app = allApps.find(app => app.name.toLowerCase() === appName.toLowerCase());
+    if (app) {
+      const isSelected = selectedApps.some(selectedApp => selectedApp.name === app.name);
+      if (!isSelected && selectedApps.length < 4) {
+        setSelectedApps(prev => [...prev, app]);
+        return true;
+      }
+    }
+    return false;
+  };
+
   return (
     <>
       {!blogCreating && !usecaseCreating && (
         <>
-          {(isOpen || searchQuery || typingStart) && (
+          {isOpen && (
             <BackToDashboardButton
               onClick={() => {
                 setSearchQuery("");
-                setTypingStart(false);
                 setIsOpen(false);
-                setIsCategoryClicked(false);
               }}
             />
           )}
           <div className={`p-4 search-click-result mb-5`}>
-            {!isOpen && !searchQuery && !typingStart && <HomeTitle />}
-            {typingStart && (
-              <div className={styles.postHeaderDiv}>
-                <SearchResults
-                  blogs={blogs}
-                  categories={searchCategories}
-                  searchQuery={searchQuery}
-                  isLoading={isLoading}
-                  isCategoryClicked={isCategoryClicked}
-                  onCategoryClick={(categoryName) => {
-                    setSearchQuery(categoryName);
-                    setIsCategoryClicked(true);
-                  }}
-                  onCreateBlog={handleCreateBlog}
-                  tagsContainer={tagsContainer}
-                  highlightText={highlightText}
-                  fallback={searchQuery && !isOpen}
-                />
-              </div>
-            )}
-            <div className={typingStart ? "" : styles.centerWrapper}>
+            {!isOpen && <HomeTitle />}
+            <div className={styles.centerWrapper}>
               <Search
-                className={`w-75 ragini ${typingStart ? "ps-5" : "centeredSearch"}`}
+                className={`w-75 ragini centeredSearch`}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                handleAskAi={handleAskAi}
-                placeholder={
-                  isCategoryClicked || !typingStart
-                    ? "Search the apps you use daily"
-                    : "Search or pick a category"
-                }
-                messages={messages}
-                disableEnter
-                setTypingStart={setTypingStart}
-                setIsCategoryClicked={setIsCategoryClicked}
+                placeholder="Search apps or type app name and press Enter to add"
                 selectedApps={selectedApps}
                 onBuildUsecase={handleCreateUsecase}
+                onClearApp={(app) => {
+                  setSelectedApps((prev) => prev.filter((a) => a.name !== app.name));
+                }}
+                onClearAllApps={() => {
+                  setSelectedApps([]);
+                }}
+                allApps={allApps}
+                onAddApp={(app) => {
+                  const isSelected = selectedApps.some(selectedApp => selectedApp.name === app.name);
+                  if (!isSelected && selectedApps.length < 4) {
+                    setSelectedApps(prev => [...prev, app]);
+                  }
+                }}
               />
-              {!typingStart && !searchQuery && !isOpen && (
+              {!isOpen && (
                 <AppsAndCategories
-                  categories={searchCategories}
                   onSelectedAppsChange={setSelectedApps}
+                  selectedApps={selectedApps}
+                  searchQuery={searchQuery}
                 />
               )}
             </div>
 
-            {!typingStart && (
-              <>
-                <RecentlyPublished />
-                <TopContributors popularUsers={popularUsers} />
-              </>
-            )}
+            <RecentlyPublished />
+            <TopContributors popularUsers={popularUsers} />
             <Chatbot
               bridgeId={process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE}
               messages={messages}
@@ -109,9 +100,6 @@ const HomePageContent = ({
               homePage
               setIsOpen={setIsOpen}
               isOpen={isOpen}
-              searchResults={
-                searchQuery ? blogs.filter((blog) => !blog.dummy) : null
-              }
             />
           </div>
         </>

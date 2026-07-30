@@ -3,7 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { Avatar } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { FaLinkedinIn, FaFacebookF, FaTwitter } from "react-icons/fa";
 import { getUsecaseById } from "@/services/usecaseServices";
 import { getUpdatedApps } from "@/services/integrationServices";
 import { getCurrentEnvironment } from "@/utils/storageHelper";
@@ -14,9 +13,11 @@ import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDash
 import AddUsecaseCommentPopup from "@/components/AddCommentPopup/AddUsecaseCommentPopup";
 import StickySidebar from "@/components/StickySidebar/StickySidebar";
 import BuildFlowButton from "@/components/BuildFlowButton/BuildFlowButton";
+import AuthorRow from "@/components/AuthorSection/AuthorRow";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 // reuse the exact same comment styling as the blog detail page
 import styles from "@/pages/blog/[...blogId]/blogPage.module.scss";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 // TODO: point this at the real English flow builder entry point once it exists
 const FLOW_BUILDER_URL = "https://viasocket.com/flows/new";
@@ -52,7 +53,10 @@ export async function getServerSideProps(context) {
       return { notFound: true };
     }
 
-    const flowAppNames = collectUsecaseAppNames(usecase.phases, usecase.related_apps);
+    const flowAppNames = collectUsecaseAppNames(
+      usecase.phases,
+      usecase.related_apps,
+    );
     const usersSet = new Set();
     if (usecase.createdBy != null) usersSet.add(usecase.createdBy);
     (usecase.contributors || []).forEach((id) => usersSet.add(id));
@@ -89,7 +93,13 @@ function AppIcon({ name, apps }) {
   if (!name) return null;
   const iconUrl = apps?.[name]?.iconUrl;
   return (
-    <Avatar className="border" alt={name} src={iconUrl} variant="square">
+    <Avatar
+      className="border"
+      alt={name}
+      src={iconUrl}
+      variant="square"
+      sx={{ width: 24, height: 24, fontSize: 12 }}
+    >
       {name.charAt(0).toUpperCase()}
     </Avatar>
   );
@@ -97,8 +107,8 @@ function AppIcon({ name, apps }) {
 
 function FlowChip({ node, apps, prefix }) {
   return (
-    <div className="d-flex align-items-center gap-2 border rounded py-1 px-2">
-      {prefix && <span className="text-brand fw-bold small">{prefix}</span>}
+    <div className="d-flex align-items-center gap-2 border rounded py-2 px-3 bg-white">
+      {/* {prefix && <span className="text-brand fw-bold small">{prefix}</span>} */}
       <AppIcon name={node.app} apps={apps} />
       <span className="small">{node.label}</span>
     </div>
@@ -137,7 +147,7 @@ function FlowBranch({ node, apps }) {
 function FlowNode({ node, apps, prefix, showArrow }) {
   return (
     <>
-      {showArrow && <span className="text-secondary">&rarr;</span>}
+      {showArrow && <FaArrowRightLong className="text-brand" />}
       {node.type === "branch" ? (
         <FlowBranch node={node} apps={apps} />
       ) : (
@@ -150,7 +160,7 @@ function FlowNode({ node, apps, prefix, showArrow }) {
 function FlowSteps({ flow, apps }) {
   if (!flow?.length) return null;
   return (
-    <div className="d-flex align-items-center flex-wrap gap-2 my-3">
+    <div className="d-flex align-items-center flex-wrap gap-4 my-3">
       {flow.map((node, index) => (
         <FlowNode
           key={index}
@@ -160,44 +170,6 @@ function FlowSteps({ flow, apps }) {
           showArrow={index > 0}
         />
       ))}
-    </div>
-  );
-}
-
-function AuthorRow({ user, date }) {
-  const initials = user?.name ? user.name.charAt(0).toUpperCase() : "?";
-  return (
-    <div className="d-flex align-items-center pb-5">
-      <div className="d-flex align-items-center">
-        <div className="d-flex gap-3 text-secondary me-3">
-          <div
-            className="border p-1 d-flex align-items-center justify-content-center"
-            style={{ width: "26px", height: "26px" }}
-          >
-            <FaLinkedinIn />
-          </div>
-          <div
-            className="border p-1 d-flex align-items-center justify-content-center"
-            style={{ width: "26px", height: "26px" }}
-          >
-            <FaFacebookF />
-          </div>
-          <div
-            className="border p-1 d-flex align-items-center justify-content-center"
-            style={{ width: "26px", height: "26px" }}
-          >
-            <FaTwitter />
-          </div>
-        </div>
-        <div
-          className="border p-1 d-flex align-items-center justify-content-center me-2"
-          style={{ width: "26px", height: "26px", fontSize: "12px" }}
-        >
-          {initials}
-        </div>
-        {user?.name && <span className="fw-semibold me-2">{user.name}</span>}
-        {date && <span className="text-secondary">{formatDate(new Date(date))}</span>}
-      </div>
     </div>
   );
 }
@@ -216,7 +188,11 @@ export default function UsecasePage({ usecase, apps, users }) {
     ...phase,
     usecases: (phase.usecases || []).map((item) => {
       counter += 1;
-      return { ...item, number: counter, ideaId: item.slug || `idea-${counter}` };
+      return {
+        ...item,
+        number: counter,
+        ideaId: item.slug || `idea-${counter}`,
+      };
     }),
   }));
 
@@ -270,22 +246,17 @@ export default function UsecasePage({ usecase, apps, users }) {
           content={`Ready-to-build ${usecase.app} automations${usecase.audience ? ` for ${usecase.audience}` : ""}.`}
         />
       </Head>
-      <div className="container d-flex gap-5 my-5">
+      <BackToDashboardButton />
+      <div className="container d-flex gap-5 my-4">
         <div className="flex-grow-1 pe-5 me-5">
-          <BackToDashboardButton />
           <div className="d-flex justify-content-between align-items-start">
             <div>
               <p className="text-brand fw-semibold pb-2">AUTOMATION IDEAS</p>
               <h1 className="pb-3">{usecase.app} automation ideas</h1>
-              {usecase.audience && <p className="fs-5 pb-4">{usecase.audience}</p>}
+              {usecase.audience && (
+                <p className="fs-5 pb-4">{usecase.audience}</p>
+              )}
             </div>
-            <button
-              onClick={() => setCommentPopup(true)}
-              className="btn btn-dark rounded-0 px-3 py-2 d-flex align-items-center gap-2"
-              style={{ minWidth: "fit-content" }}
-            >
-              <ChatBubbleIcon /> Contribute
-            </button>
           </div>
 
           <AuthorRow user={author} date={usecase.createdAt} />
@@ -301,12 +272,12 @@ export default function UsecasePage({ usecase, apps, users }) {
                     <h3>{phase.name}</h3>
                   </div>
                 )}
-                <div className="d-flex flex-column gap-4">
+                <div className="d-flex flex-column gap-5">
                   {phase.usecases.map((item) => (
                     <div
                       id={item.ideaId}
                       key={item.ideaId}
-                      className="pb-4 border-bottom"
+                      className="pb-5 border-bottom"
                     >
                       <h3 className="fs-4">
                         {item.number}. {item.title}
@@ -356,7 +327,8 @@ export default function UsecasePage({ usecase, apps, users }) {
                       <Link href={`/user/${comment.createdBy}`} target="_blank">
                         {users[comment.createdBy]?.name
                           ?.charAt(0)
-                          .toUpperCase() + users[comment.createdBy]?.name?.slice(1)}
+                          .toUpperCase() +
+                          users[comment.createdBy]?.name?.slice(1)}
                         ,
                       </Link>
                       <span className={styles.commentDate}>
@@ -390,6 +362,20 @@ export default function UsecasePage({ usecase, apps, users }) {
         setComments={setComments}
         usecaseId={usecase?._id}
       />
+
+      <button
+        onClick={() => setCommentPopup(true)}
+        className="btn btn-dark rounded-0 px-3 py-2 d-flex align-items-center gap-2"
+        style={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
+          zIndex: 1000,
+          minWidth: "fit-content",
+        }}
+      >
+        <ChatBubbleIcon /> Contribute
+      </button>
     </>
   );
 }

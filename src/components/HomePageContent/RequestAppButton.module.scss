@@ -3,12 +3,12 @@
   border: 1px dashed #a8200d;
   background-color: white;
   color: #a8200d;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
 
   &:hover {
-    transform: translate(-2px, -2px);
+    border-color: #a8200d !important;
     box-shadow: 4px 4px 0 0 #a8200d;
-    background-color: #fff0f0;
+    background-color: #ffe6e6 !important;
   }
 }
 

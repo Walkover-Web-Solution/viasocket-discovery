@@ -12,7 +12,6 @@ export default function BlogCard({ blog, isLoading, className }) {
       <div className={styles.card}>
         <Skeleton baseColor='transparent' height={0} style={{ "maxWidth":"10.5in" ,"margin":"0px"}} width={`100vw`} />
         <Skeleton height={30} style={{"marginBottom":"15px"}}  />
-        {/* <Skeleton height={30} style={{"margin":"6px 0"}} count={3} /> */}
         <div className={styles.appIconsDiv}>
             <Skeleton height={50} width={50}style={{"marginBottom":"6px"} }   />
             <Skeleton height={50} width={50}style={{"marginBottom":"6px"} }   />
@@ -27,7 +26,7 @@ export default function BlogCard({ blog, isLoading, className }) {
     );
   }
   return (
-    <a href={`/discovery/blog/${blog.id}/${blog?.meta?.category ? `${nameToSlugName(blog.meta.category)}/` : ''}${blog?.slugName ? nameToSlugName(blog.slugName) : ''}`} rel="noopener noreferrer">
+    <a href={`/automation-ideas/blog/${blog.id}/${blog?.meta?.category ? `${nameToSlugName(blog.meta.category)}/` : ''}${blog?.slugName ? nameToSlugName(blog.slugName) : ''}`} rel="noopener noreferrer">
       <div key={blog.id} className={`${styles.card} ${className || ''}`}>
         <h3>{blog.title}</h3>
         <div className={styles.appIconsDiv}>

@@ -2,12 +2,17 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { fetchApps } from "@/utils/apis/appsApis";
 import styles from "./AppsList.module.scss";
+import RequestAppButton from "./RequestAppButton";
 
-const AppsList = ({ selectedCategory = "All", onSelectedAppsChange }) => {
+const AppsList = ({
+  selectedCategory = "All",
+  onSelectedAppsChange,
+  selectedApps: parentSelectedApps = [],
+  searchQuery = "",
+}) => {
   const [apps, setApps] = useState([]);
   const [appsLoading, setAppsLoading] = useState(false);
   const [showAllApps, setShowAllApps] = useState(false);
-  const [selectedApps, setSelectedApps] = useState([]);
   const INITIAL_APP_COUNT = 40;
 
   useEffect(() => {
@@ -15,7 +20,6 @@ const AppsList = ({ selectedCategory = "All", onSelectedAppsChange }) => {
     const loadApps = async () => {
       setAppsLoading(true);
       setShowAllApps(false);
-      setSelectedApps([]);
       onSelectedAppsChange?.([]);
       const data = await fetchApps(selectedCategory, 1000, 0);
       if (!cancelled) {
@@ -27,29 +31,36 @@ const AppsList = ({ selectedCategory = "All", onSelectedAppsChange }) => {
     return () => {
       cancelled = true;
     };
-  }, [selectedCategory, onSelectedAppsChange]);
+  }, [onSelectedAppsChange, selectedCategory]);
 
   if (appsLoading) {
     return <div className="text-center my-4">Loading apps...</div>;
   }
 
   const toggleApp = (appName) => {
-    const isSelected = selectedApps.includes(appName);
-    if (!isSelected && selectedApps.length >= 10) return;
+    const isSelected = parentSelectedApps.some((app) => app.name === appName);
+    if (!isSelected && parentSelectedApps.length >= 4) return;
     const next = isSelected
-      ? selectedApps.filter((name) => name !== appName)
-      : [...selectedApps, appName];
-    setSelectedApps(next);
-    onSelectedAppsChange?.(apps.filter((app) => next.includes(app.name)));
+      ? parentSelectedApps.filter((app) => app.name !== appName)
+      : [...parentSelectedApps, apps.find((app) => app.name === appName)];
+    onSelectedAppsChange?.(next);
   };
+
+  const filteredApps = searchQuery
+    ? apps.filter((app) =>
+        app.name.toLowerCase().includes(searchQuery.toLowerCase()),
+      )
+    : apps;
 
   return (
     <>
-      <div className="row g-3 my-5 gap-1">
-        {apps
-          .slice(0, showAllApps ? apps.length : INITIAL_APP_COUNT)
+      <div className="row g-2 my-5 gap-1">
+        {filteredApps
+          .slice(0, showAllApps ? filteredApps.length : INITIAL_APP_COUNT)
           .map((app) => {
-            const isSelected = selectedApps.includes(app.name);
+            const isSelected = parentSelectedApps.some(
+              (selectedApp) => selectedApp.name === app.name,
+            );
             return (
               <div
                 key={app.name}
@@ -77,9 +88,7 @@ const AppsList = ({ selectedCategory = "All", onSelectedAppsChange }) => {
                     height={40}
                     loading="lazy"
                     unoptimized
-                    onError={() => {
-                      // Next/Image unoptimized fallback handled by parent render if needed
-                    }}
+
                   />
                   <div className="small fw-semibold text-truncate">
                     {app.name}
@@ -88,46 +97,22 @@ const AppsList = ({ selectedCategory = "All", onSelectedAppsChange }) => {
               </div>
             );
           })}
-        <div className="col-6 col-md-3 col-lg-2 text-center">
-          <button
-            type="button"
-            className={`${styles.appCard} text-dark d-flex align-items-center gap-2 border-brand bg-white p-2 w-100`}
-            style={{
-              minHeight: "58px",
-              border: "1px dashed",
-            }}
-          >
-            <span
-              className="fs-4 p-2 d-flex align-items-center justify-content-center border-brand"
-              style={{
-                width: "40px",
-                height: "40px",
-                border: "1px dashed",
-                backgroundColor: "rgba(168, 32, 13, 0.05)",
-              }}
+        <RequestAppButton />
+        {filteredApps.length > INITIAL_APP_COUNT && (
+          <div className="text-center d-flex gap-2 align-items-center w-75">
+            <p className="text-muted">
+              Showing {showAllApps ? filteredApps.length : INITIAL_APP_COUNT} of{" "}
+              {filteredApps.length} apps
+            </p>
+            <a
+              className="text-primary text-decoration-underline cursor-pointer"
+              onClick={() => setShowAllApps((prev) => !prev)}
             >
-              +
-            </span>
-            <div className="small fw-semibold text-truncate">
-              Request an app
-            </div>
-          </button>
-        </div>
+              {showAllApps ? "Less" : "More"}
+            </a>
+          </div>
+        )}
       </div>
-      {apps.length > INITIAL_APP_COUNT && (
-        <div className="text-center d-flex gap-4 align-items-center justify-content-center">
-          <p className="text-muted">
-            Showing {showAllApps ? apps.length : INITIAL_APP_COUNT} of{" "}
-            {apps.length} apps
-          </p>
-          <button
-            className="btn btn-sm btn-outline-dark"
-            onClick={() => setShowAllApps((prev) => !prev)}
-          >
-            {showAllApps ? "Less" : "More"}
-          </button>
-        </div>
-      )}
     </>
   );
 };

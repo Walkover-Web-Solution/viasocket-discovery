@@ -20,8 +20,8 @@ const Header = () => {
   const toggleUserInfo = () => {
     setShowUserInfo(!showUserInfo);
   };
-  const loginUrl = (getCurrentEnvironment() !== 'prod')  ? 'http://localhost:3000/discovery/auth': 'https://viasocket.com/login?redirect_to=/discovery/auth&utm_source=/discovery';
-  const signupUrl = (getCurrentEnvironment() !== 'prod') ? 'http://localhost:3000/discovery/auth': 'https://viasocket.com/signup?redirect_to=/discovery/auth&utm_source=/discovery';
+  const loginUrl = (getCurrentEnvironment() !== 'prod')  ? 'http://localhost:3000/automation-ideas/auth': 'https://viasocket.com/login?redirect_to=/automation-ideas/auth&utm_source=/automation-ideas';
+  const signupUrl = (getCurrentEnvironment() !== 'prod') ? 'http://localhost:3000/automation-ideas/auth': 'https://viasocket.com/signup?redirect_to=/automation-ideas/auth&utm_source=/automation-ideas';
 
   
   return (
@@ -57,7 +57,7 @@ const Header = () => {
 
       <nav className="d-flex align-items-center via-menu-lg">
         <a
-          href="/discovery"
+          href="/automation-ideas"
           className="px-4 text-decoration-none d-none d-lg-flex text-black justify-content-center"
           style={{
             borderLeft: "1px solid #ccc",
@@ -67,7 +67,7 @@ const Header = () => {
             paddingBottom: "10px",
           }}
         >
-          Discovery
+          Automation Ideas
         </a>
         <a
           href="https://viasocket.com/support"

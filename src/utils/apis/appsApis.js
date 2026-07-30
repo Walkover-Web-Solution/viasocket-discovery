@@ -13,3 +13,15 @@ export const fetchApps = async (category = "All", limit = 20, offset = 0) => {
     return [];
   }
 };
+
+export const fetchCategories = async () => {
+  try {
+    const response = await axios.get(`${baseUrl}/api/tags`, {
+      params: { method: 'GET' },
+    });
+    return response?.data || [];
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
+};

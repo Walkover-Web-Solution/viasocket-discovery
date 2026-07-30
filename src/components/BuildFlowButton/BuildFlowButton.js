@@ -1,12 +1,13 @@
-import React from 'react';
-import Link from 'next/link';
-import { FaArrowRight } from 'react-icons/fa';
+import React from "react";
+import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa";
 
 const BuildFlowButton = ({ href, onClick }) => {
-  const className = "btn p-2 border border-brand d-flex align-items-center gap-2";
+  const className =
+    "btn p-2 border border-brand d-flex align-items-center gap-2";
   const content = (
     <>
-      Build this flow <FaArrowRight />
+      Create Flow <FaArrowRight />
     </>
   );
 

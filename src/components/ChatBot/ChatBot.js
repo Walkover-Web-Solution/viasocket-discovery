@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import styles from './Chatbot.module.css';
 import { sendMessageApi } from '@/utils/apis/chatbotapis';
 import Components from '@/components/ChatBotComponents/ChatBotComponents';
-import BlogCard from '../Blog/Blog';
 import { useRouter } from 'next/router';
 import { useUser } from '@/context/UserContext';
+import BlogCard from '@/components/Blog/Blog';
 
 const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage, setIsOpen, isOpen, searchResults, blogId, inPopup, msgCallback, setBlogData, users,setComments }) => {
   const [inputMessage, setInputMessage] = useState("");
@@ -69,7 +69,7 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
   
   useEffect(() => {
     handleScroll();
-  }, [messages, searchResults]);
+  }, [messages]);
   
   const handleSendMessage = async () => {
     if(isLoading) return;
@@ -119,15 +119,6 @@ const Chatbot = ({ messages, setMessages, chatId, bridgeId, variables, homePage,
               cursor={clickable ? 'pointer' : 'default'}
             >
               {isBot ? Components.botMessage(message.content.message) : message.content}
-              {/* {clickable &&
-                <Tooltip title="revert to this version">
-                  <button
-                    onClick={() => setBlogData(message.content.blog)}
-                    className={styles.revertButton}
-                  >
-                    &#x21BA;
-                  </button>
-                </Tooltip>} */}
             </div>
           )
         })}

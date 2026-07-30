@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import styles from "./RecentlyPublished.module.scss";
 
 const cards = [
   {
@@ -26,7 +27,7 @@ const RecentlyPublished = () => {
               href={card.link}
               className="text-decoration-none text-dark d-block"
             >
-              <div className="card h-100" style={{ cursor: "pointer" }}>
+              <div className={`card h-100 ${styles.card}`} style={{ cursor: "pointer" }}>
                 <div className="card-body d-flex align-items-start gap-3">
                   <div className="d-flex gap-2">
                     {card.image ? (

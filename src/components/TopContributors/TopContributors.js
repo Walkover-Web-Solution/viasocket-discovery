@@ -34,7 +34,7 @@ const TopContributors = ({ popularUsers }) => {
           return (
             <div key={index} className="col-12 col-md-6">
               <a
-                href={`/discovery/user/${user.id}`}
+                href={`/automation-ideas/user/${user.id}`}
                 className={`${styles.contribCard} d-flex flex-column justify-content-between position-relative border p-3 text-decoration-none text-dark bg-white h-100`}
               >
                 <div className="flex-grow-1">

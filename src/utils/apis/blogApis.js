@@ -5,7 +5,7 @@ const proxyUrl = process.env.NEXT_PUBLIC_PROXY_URL;
 
 export const SearchBlogs = async (searchQuery) => {
   try {
-    const response = await axios.get(`http://localhost:3000/discovery/api/blog?search=${searchQuery}`);
+    const response = await axios.get(`http://localhost:3000/automation-ideas/api/blog?search=${searchQuery}`);
     return response.data.data;
   }catch (err) {
     console.log("error getting search results ", err);
