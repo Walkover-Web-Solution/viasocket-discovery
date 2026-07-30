@@ -1,4 +1,4 @@
-import { suggestAppUsecases, getUsecases } from '@/services/usecaseServices';
+import { suggestAppUsecases, getUsecases, searchUsecasesByUserId } from '@/services/usecaseServices';
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -9,9 +9,14 @@ export default async function handler(req, res) {
   switch (method) {
     case 'GET':
       try {
-        // three combinable filters: ?userId=, ?app=, ?recent=true (default sort/limit)
         const { userId, app, page, limit } = req.query;
-        const { usecases, pagination } = await getUsecases({ userId, app, page, limit, environment });
+        let usecases;
+        let pagination;
+        if (userId) {
+          usecases = await searchUsecasesByUserId(userId, environment);
+        } else {
+          ({ usecases, pagination } = await getUsecases({ app, page, limit, environment }));
+        }
         res.status(200).json({ success: true, data: usecases, pagination });
       } catch (error) {
         console.error('Error in GET /api/usecases:', error);

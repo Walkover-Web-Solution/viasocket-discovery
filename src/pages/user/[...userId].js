@@ -1,6 +1,7 @@
 import { getUserById } from "@/services/proxyServices";
 import { useEffect, useState } from "react";
 import { fetchBlogs } from "@/utils/apis/blogApis";
+import { fetchUsecasesByUser } from "@/utils/apis/usecaseApis";
 import { useRouter } from "next/router";
 import { nameToSlugName } from "@/utils/utils";
 import UserProfileHeader from "@/components/UserProfileHeader/UserProfileHeader";
@@ -27,6 +28,8 @@ export default function UserPage({ user }) {
   const router = useRouter();
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [usecases, setUsecases] = useState([]);
+  const [usecasesLoading, setUsecasesLoading] = useState(true);
   const [count, setCount] = useState({});
   const currentUser = useUser().user;
 
@@ -58,19 +61,51 @@ export default function UserPage({ user }) {
       setIsLoading(false);
     }
     fetchData();
-  }, [user.id]); 
+  }, [user.id]);
 
+  useEffect(() => {
+    const fetchUsecaseData = async () => {
+      const data = await fetchUsecasesByUser(user.id);
+      setUsecases(data);
+      const createdUsecases = data.filter((u) => u.createdBy === parseInt(user.id)).length;
+      setCount((prev) => ({
+        ...prev,
+        createdUsecases,
+        contributedUsecases: data.length - createdUsecases,
+      }));
+      setUsecasesLoading(false);
+    };
+    fetchUsecaseData();
+  }, [user.id]);
+
+  const usecaseCards = usecases.map((usecase) => ({
+    id: usecase._id,
+    title: `${usecase.app} automation ideas`,
+    apps: Object.fromEntries(
+      (usecase.apps || []).map((entry) => [entry.app, { iconUrl: entry.iconUrl }]),
+    ),
+    tags: [],
+  }));
 
   return (
     <div className="container-lg px-4" style={{ maxWidth: "60rem", margin: "auto" }}>
       <BackToDashboardButton />
       <UserProfileHeader user={user} currentUser={currentUser} count={count} />
       <div className="mt-4">
-        <UserBlogList 
-          blogs={blogs} 
-          title={`Explore Blogs by ${user.name.trim().split(" ")[0]}`} 
-          isLoading={isLoading} 
-          userName={user.name} 
+        <UserBlogList
+          blogs={blogs}
+          title={`Explore Blogs by ${user.name.trim().split(" ")[0]}`}
+          isLoading={isLoading}
+          userName={user.name}
+        />
+      </div>
+      <div className="mt-4">
+        <UserBlogList
+          blogs={usecaseCards}
+          title={`Automation ideas by ${user.name.trim().split(" ")[0]}`}
+          isLoading={usecasesLoading}
+          userName={user.name}
+          linkBuilder={(item) => `/discovery/usecase/${item.id}`}
         />
       </div>
     </div>

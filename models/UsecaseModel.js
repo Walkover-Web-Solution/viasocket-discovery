@@ -11,6 +11,8 @@ const createUsecaseModel = (connection) => {
         {
           app: { type: String, required: true },
           app_slug: { type: String, required: true },
+          iconUrl: String,
+          domain: String,
           _id: false,
         },
       ],

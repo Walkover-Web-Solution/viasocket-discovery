@@ -13,12 +13,13 @@ export const createUsecase = async (apps, message) => {
   }
 };
 
-export const getUsecaseById = async (usecaseId) => {
+export const fetchUsecasesByUser = async (userId) => {
   try {
-    const response = await axios.get(proxyUrl + `/api/usecases/${usecaseId}`);
-    return response?.data?.data;
+    const response = await axios.get(proxyUrl + `/api/usecases?userId=${userId}`);
+    return response?.data?.data || [];
   } catch (error) {
-    console.error('Failed to get usecase:', error);
+    console.error('Failed to fetch usecases:', error);
+    return [];
   }
 };
 

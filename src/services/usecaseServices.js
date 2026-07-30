@@ -1,6 +1,7 @@
 import { askAi, generateNanoid } from '@/utils/utils';
 import dbConnect from '../../lib/mongoDb';
 import createUsecaseModel from '../../models/UsecaseModel';
+import { getUpdatedApps } from './integrationServices';
 
 const USECASE_AGENT_ID = '6a67605a4264663da02f62cf';
 const CHECK_AND_UPDATE_AGENT_ID = '6a6882884264663da031e9c1';
@@ -71,9 +72,18 @@ async function findExistingUsecase(appList, environment) {
 async function saveUsecaseRecord(appList, data, userId, environment) {
     try {
         tagUsecasesWithContributor(data, userId);
+
+        const appNames = appList.map((entry) => entry.app);
+        const iconMap = await getUpdatedApps(appNames, environment);
+        const enrichedApps = appList.map((entry) => ({
+            ...entry,
+            iconUrl: iconMap?.[entry.app]?.iconUrl,
+            domain: iconMap?.[entry.app]?.domain,
+        }));
+
         const created = await withUsecaseModel(environment, (Usecase) =>
             Usecase.create({
-                apps: appList,
+                apps: enrichedApps,
                 app: data.app,
                 app_slug: data.app_slug,
                 audience: data.audience,
@@ -87,55 +97,6 @@ async function saveUsecaseRecord(appList, data, userId, environment) {
         console.error('error saving generated usecase ', err);
         return null;
     }
-}
-
-export async function updateUsecaseWithRequest(usecaseId, message, { userId, environment } = {}) {
-    return withUsecaseModel(environment, async (Usecase) => {
-        const usecaseDoc = await Usecase.findById(usecaseId);
-        if (!usecaseDoc) throw new Error('Usecase not found');
-
-        const agentResponse = await askAi(CHECK_AND_UPDATE_AGENT_ID, message, {
-            id: usecaseId,
-            message,
-            usecase: {
-                app: usecaseDoc.app,
-                app_slug: usecaseDoc.app_slug,
-                audience: usecaseDoc.audience,
-                phases: usecaseDoc.phases,
-            },
-        });
-        const result = parseAgentResponse(agentResponse);
-
-        if (!result?.approved) {
-            return { approved: false, reason: result?.reason || 'Request was not approved', usecases: [] };
-        }
-
-        const newUsecases = result.usecases || [];
-        if (newUsecases.length) {
-            newUsecases.forEach((usecase) => {
-                usecase.addedBy = userId ?? null;
-                usecase.addedAt = new Date().toISOString();
-            });
-
-            const phases = usecaseDoc.phases || [];
-            const targetPhase =
-                phases.find((phase) => phase.phase === result.phase) || phases[phases.length - 1];
-
-            if (targetPhase) {
-                targetPhase.usecases = [...(targetPhase.usecases || []), ...newUsecases];
-            }
-
-            usecaseDoc.markModified('phases');
-
-            if (userId != null && !usecaseDoc.contributors.includes(userId)) {
-                usecaseDoc.contributors.push(userId);
-            }
-
-            await usecaseDoc.save();
-        }
-
-        return { approved: true, reason: result.reason, usecases: newUsecases };
-    });
 }
 
 export async function getUsecaseById(usecaseId, environment) {
@@ -234,6 +195,38 @@ export async function deleteComment(usecaseId, commentId, userId, environment) {
     });
 }
 
+export function getPopularUsecaseContributors(environment) {
+    return withUsecaseModel(environment, async (Usecase) => {
+        return Usecase.aggregate([
+            {
+                $facet: {
+                    createdCounts: [
+                        { $match: { createdBy: { $ne: null } } },
+                        { $group: { _id: '$createdBy', createdUsecases: { $sum: 1 } } },
+                    ],
+                    contributedCounts: [
+                        { $unwind: '$contributors' },
+                        { $group: { _id: '$contributors', contributedUsecases: { $sum: 1 } } },
+                    ],
+                },
+            },
+            {
+                $project: {
+                    users: { $concatArrays: ['$createdCounts', '$contributedCounts'] },
+                },
+            },
+            { $unwind: '$users' },
+            {
+                $group: {
+                    _id: '$users._id',
+                    createdUsecases: { $sum: { $ifNull: ['$users.createdUsecases', 0] } },
+                    contributedUsecases: { $sum: { $ifNull: ['$users.contributedUsecases', 0] } },
+                },
+            },
+        ]);
+    });
+}
+
 export function getUsecasesToMergeComments(environment) {
     return withUsecaseModel(environment, async (Usecase) => {
         return Usecase.find({ toUpdate: true }, { _id: 1 });
@@ -310,15 +303,21 @@ export async function updateUsecaseUsingComments(usecaseId, environment) {
     });
 }
 
+export async function searchUsecasesByUserId(userId, environment) {
+    const uid = parseInt(userId);
+    return withUsecaseModel(environment, (Usecase) => {
+        return Usecase.find(
+            { $or: [{ createdBy: uid }, { contributors: uid }] },
+            { apps: 1, app: 1, app_slug: 1, audience: 1, createdBy: 1, contributors: 1 },
+        ).sort({ createdAt: -1 });
+    });
+}
+
 const MAX_PAGE_SIZE = 10;
 
-export async function getUsecases({ userId, app, page, limit, environment } = {}) {
+export async function getUsecases({ app, page, limit, environment } = {}) {
     return withUsecaseModel(environment, async (Usecase) => {
         const query = {};
-
-        if (userId) {
-            query.createdBy = parseInt(userId);
-        }
 
         if (app) {
             const pattern = new RegExp(`^${escapeRegExp(app)}$`, 'i');
@@ -362,6 +361,12 @@ export async function suggestAppUsecases(apps, message, { userId, environment, o
     if (!override) {
         const existing = await findExistingUsecase(appList, environment);
         if (existing) {
+            if (userId != null && existing.createdBy !== userId) {
+                await withUsecaseModel(environment, (Usecase) =>
+                    Usecase.updateOne({ _id: existing._id }, { $addToSet: { contributors: userId } }),
+                );
+            }
+
             return {
                 app: existing.app,
                 app_slug: existing.app_slug,

@@ -46,15 +46,32 @@ const UserProfileHeader = ({ user, currentUser, count }) => {
           : user?.meta?.bio || ""}
       </p>
       <p className="small text-muted fst-italic m-0">
-        {count.createdCount > 0 && (
-          <>
-            {count.createdCount} blog{count.createdCount > 1 ? "s" : ""}
-          </>
-        )}
-        {count.createdCount > 0 && count.contributed > 0 && (
-          <span className="mx-1 opacity-50">·</span>
-        )}
-        {count.contributed > 0 && <>{count.contributed} contributed</>}
+        {[
+          count.createdCount > 0 && (
+            <span key="createdCount">
+              {count.createdCount} blog{count.createdCount > 1 ? "s" : ""}
+            </span>
+          ),
+          count.contributed > 0 && (
+            <span key="contributed">{count.contributed} blog contributed</span>
+          ),
+          count.createdUsecases > 0 && (
+            <span key="createdUsecases">
+              {count.createdUsecases} usecase{count.createdUsecases > 1 ? "s" : ""}
+            </span>
+          ),
+          count.contributedUsecases > 0 && (
+            <span key="contributedUsecases">
+              {count.contributedUsecases} usecase contributed
+            </span>
+          ),
+        ]
+          .filter(Boolean)
+          .reduce((acc, el, i) => {
+            if (i > 0) acc.push(<span key={`sep-${i}`} className="mx-1 opacity-50">·</span>);
+            acc.push(el);
+            return acc;
+          }, [])}
       </p>
       <UserBioPopup
         isOpen={userBioPopup}

@@ -15,6 +15,7 @@ import blogstyle from "@/components/Blog/Blog.module.scss";
 import { titleSuggestions } from "@/utils/apiHelper";
 import { createBlog, fetchBlogs } from "@/utils/apis/blogApis";
 import { createUsecase } from "@/utils/apis/usecaseApis";
+import { getPopularUsecaseContributors } from "@/services/usecaseServices";
 import blogServices from "@/services/blogServices";
 import { toast } from "react-toastify";
 import UnauthorizedPopup from "@/components/UnauthorisedPopup/UnauthorisedPopup";
@@ -28,9 +29,43 @@ export async function getServerSideProps() {
   try {
     const env = process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT;
 
-    const popularUsers = (await blogServices.getPopularUsers(env)) || [];
+    const [popularBlogUsers, popularUsecaseUsers] = await Promise.all([
+      blogServices.getPopularUsers(env),
+      getPopularUsecaseContributors(env),
+    ]);
 
-    const userIds = popularUsers.map((user) => user._id);
+    const countsByUser = {};
+    (popularBlogUsers || []).forEach((u) => {
+      countsByUser[u._id] = {
+        ...(countsByUser[u._id] || {}),
+        createdBlogs: u.createdBlogs || 0,
+        contributedBlogs: u.contributedBlogs || 0,
+      };
+    });
+    (popularUsecaseUsers || []).forEach((u) => {
+      countsByUser[u._id] = {
+        ...(countsByUser[u._id] || {}),
+        createdUsecases: u.createdUsecases || 0,
+        contributedUsecases: u.contributedUsecases || 0,
+      };
+    });
+
+    const rankedUsers = Object.entries(countsByUser)
+      .map(([id, counts]) => ({
+        _id: parseInt(id),
+        createdBlogs: counts.createdBlogs || 0,
+        contributedBlogs: counts.contributedBlogs || 0,
+        createdUsecases: counts.createdUsecases || 0,
+        contributedUsecases: counts.contributedUsecases || 0,
+      }))
+      .sort(
+        (a, b) =>
+          b.createdBlogs + b.contributedBlogs + b.createdUsecases + b.contributedUsecases -
+          (a.createdBlogs + a.contributedBlogs + a.createdUsecases + a.contributedUsecases),
+      )
+      .slice(0, 6);
+
+    const userIds = rankedUsers.map((user) => user._id);
 
     const [usersResult, categoriesResult] = await Promise.allSettled([
       getAllUsers(userIds),
@@ -48,8 +83,10 @@ export async function getServerSideProps() {
         (user, index) =>
           user && {
             ...user,
-            createdBlogs: popularUsers[index]?.createdBlogs || 0,
-            contributedBlogs: popularUsers[index]?.contributedBlogs || 0,
+            createdBlogs: rankedUsers[index]?.createdBlogs || 0,
+            contributedBlogs: rankedUsers[index]?.contributedBlogs || 0,
+            createdUsecases: rankedUsers[index]?.createdUsecases || 0,
+            contributedUsecases: rankedUsers[index]?.contributedUsecases || 0,
           },
       )
       .filter(Boolean);
