@@ -3,8 +3,8 @@ import dbConnect from '../../lib/mongoDb';
 import createUsecaseModel from '../../models/UsecaseModel';
 import { getUpdatedApps } from './integrationServices';
 
-const USECASE_AGENT_ID = '6a67605a4264663da02f62cf';
-const CHECK_AND_UPDATE_AGENT_ID = '6a6882884264663da031e9c1';
+const USECASE_AGENT_ID = process.env.USECASE_CREATE;
+const CHECK_AND_UPDATE_AGENT_ID = process.env.USECASE_UPDATE;
 
 function parseAgentResponse(data) {
     const content = data?.response?.data?.content;
