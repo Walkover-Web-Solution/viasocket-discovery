@@ -14,6 +14,7 @@ import Link from "next/link";
 import blogstyle from "@/components/Blog/Blog.module.scss";
 import { titleSuggestions } from "@/utils/apiHelper";
 import { createBlog, fetchBlogs } from "@/utils/apis/blogApis";
+import { createUsecase } from "@/utils/apis/usecaseApis";
 import blogServices from "@/services/blogServices";
 import { toast } from "react-toastify";
 import UnauthorizedPopup from "@/components/UnauthorisedPopup/UnauthorisedPopup";
@@ -68,6 +69,7 @@ export default function Home({ popularUsers = [], categories = [] }) {
   const [isCategoryClicked, setIsCategoryClicked] = useState("not known");
   const [isLoading, setIsLoading] = useState(true);
   const [blogCreating, setBlogCreating] = useState(false);
+  const [usecaseCreating, setUsecaseCreating] = useState(false);
   const [tags, setTags] = useState([]);
   const user = useUser().user;
   const chatId = user?.id || Math.random();
@@ -290,6 +292,22 @@ export default function Home({ popularUsers = [], categories = [] }) {
     }
   }
 
+  async function handleCreateUsecase(apps, message) {
+    if (!user) {
+      setUnAuthPopup(true);
+      return;
+    }
+    setUsecaseCreating(true);
+    const appsPayload = apps.map((app) => ({ app: app.name, app_slug: app.appslugname }));
+    const result = await createUsecase(appsPayload, message);
+    if (!result?.usecaseId) {
+      toast.error("We got some Error creating the usecase, Please try again");
+      setUsecaseCreating(false);
+    } else {
+      router.push(`/usecase/${result.usecaseId}`);
+    }
+  }
+
   useEffect(() => {
     if (!user) setIsOpen(false);
   }, [user]);
@@ -301,7 +319,7 @@ export default function Home({ popularUsers = [], categories = [] }) {
         " " +
         (searchQuery ? styles.contentToBottom : "") +
         " " +
-        (blogCreating ? styles.addMargin : "")
+        (blogCreating || usecaseCreating ? styles.addMargin : "")
       }
     >
       <Head>
@@ -327,6 +345,7 @@ export default function Home({ popularUsers = [], categories = [] }) {
       </Head>
       <HomePageContent
         blogCreating={blogCreating}
+        usecaseCreating={usecaseCreating}
         isOpen={isOpen}
         searchQuery={searchQuery}
         typingStart={typingStart}
@@ -337,6 +356,7 @@ export default function Home({ popularUsers = [], categories = [] }) {
         setSearchQuery={handleSetSearchQuery}
         setIsCategoryClicked={setIsCategoryClicked}
         handleCreateBlog={handleCreateBlog}
+        handleCreateUsecase={handleCreateUsecase}
         handleAskAi={handleAskAi}
         messages={messages}
         setMessages={setMessages}
@@ -348,7 +368,7 @@ export default function Home({ popularUsers = [], categories = [] }) {
         tagsContainer={tagsContainer}
         highlightText={highlightText}
       />
-      {blogCreating && (
+      {(blogCreating || usecaseCreating) && (
         <div className={styles.createBlogLoaderContainer}>
           <Loader />
         </div>

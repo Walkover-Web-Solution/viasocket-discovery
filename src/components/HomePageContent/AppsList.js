@@ -40,7 +40,7 @@ const AppsList = ({ selectedCategory = "All", onSelectedAppsChange }) => {
       ? selectedApps.filter((name) => name !== appName)
       : [...selectedApps, appName];
     setSelectedApps(next);
-    onSelectedAppsChange?.(next);
+    onSelectedAppsChange?.(apps.filter((app) => next.includes(app.name)));
   };
 
   return (

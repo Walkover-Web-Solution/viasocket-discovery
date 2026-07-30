@@ -1,26 +1,19 @@
-import { updateUsecaseWithRequest } from '@/services/usecaseServices';
+import { getUsecaseById } from '@/services/usecaseServices';
 
 export default async function handler(req, res) {
   const { method } = req;
   const { usecaseId } = req.query;
-  const profileHeader = req.headers['x-profile'];
   const environment = req.headers['env'];
-  const user = profileHeader ? JSON.parse(profileHeader) : null;
 
   switch (method) {
-    case 'PATCH':
+    case 'GET':
       try {
-        const { message } = req.body || {};
-        if (!message?.trim()) {
-          return res.status(400).json({ success: false, error: 'message is required' });
+        const usecase = await getUsecaseById(usecaseId, environment);
+        if (!usecase) {
+          return res.status(404).json({ success: false, error: 'Usecase not found' });
         }
-        const data = await updateUsecaseWithRequest(usecaseId, message, {
-          userId: user?.id ? parseInt(user.id) : null,
-          environment,
-        });
-        res.status(200).json({ success: true, data });
+        res.status(200).json({ success: true, data: usecase });
       } catch (error) {
-        console.error('Error in PATCH /api/usecases/[usecaseId]:', error);
         res.status(400).json({ success: false, error: error.message });
       }
       break;

@@ -18,6 +18,7 @@ export default function Search({
   setTypingStart,
   setIsCategoryClicked,
   selectedApps = [],
+  onBuildUsecase,
 }) {
   const { user } = useUser();
   const [unAuthPopup, setUnAuthPopup] = useState(false);
@@ -38,7 +39,12 @@ export default function Search({
     }
   }, [messages]);
   const handleClick = () => {
-    if (isLoading || disableEnter) return;
+    if (isLoading) return;
+    if (selectedApps.length > 0) {
+      onBuildUsecase?.(selectedApps, searchQuery);
+      return;
+    }
+    if (disableEnter) return;
     dispatchAskAppAiWithAuth(searchQuery, () => {
       setSearchQuery("");
       handleAskAi();
@@ -61,12 +67,12 @@ export default function Search({
         <div className={styles.searchBox}>
           {selectedApps.length > 0 && (
             <div className="d-flex flex-wrap gap-2 me-2">
-              {selectedApps.map((appName) => (
+              {selectedApps.map((app) => (
                 <span
-                  key={appName}
+                  key={app.name}
                   className="badge rounded d-flex align-items-center gap-1 border border-brand bg-brand-subtle text-brand fs-12"
                 >
-                  {appName}
+                  {app.name}
                 </span>
               ))}
             </div>

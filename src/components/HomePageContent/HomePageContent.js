@@ -11,6 +11,7 @@ import TopContributors from "../TopContributors/TopContributors";
 
 const HomePageContent = ({
   blogCreating,
+  usecaseCreating,
   isOpen,
   searchQuery,
   typingStart,
@@ -21,6 +22,7 @@ const HomePageContent = ({
   setSearchQuery,
   setIsCategoryClicked,
   handleCreateBlog,
+  handleCreateUsecase,
   handleAskAi,
   messages,
   setMessages,
@@ -34,7 +36,7 @@ const HomePageContent = ({
   const [selectedApps, setSelectedApps] = useState([]);
   return (
     <>
-      {!blogCreating && (
+      {!blogCreating && !usecaseCreating && (
         <>
           {(isOpen || searchQuery || typingStart) && (
             <BackToDashboardButton
@@ -83,6 +85,7 @@ const HomePageContent = ({
                 setTypingStart={setTypingStart}
                 setIsCategoryClicked={setIsCategoryClicked}
                 selectedApps={selectedApps}
+                onBuildUsecase={handleCreateUsecase}
               />
               {!typingStart && !searchQuery && !isOpen && (
                 <AppsAndCategories
