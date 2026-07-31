@@ -1,6 +1,7 @@
 import axios from '@/utils/interceptor';
 import { toast } from 'react-toastify';
 
+const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 const proxyUrl = process.env.NEXT_PUBLIC_PROXY_URL;
 
 export const createUsecase = async (apps, message) => {
