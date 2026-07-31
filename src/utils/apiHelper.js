@@ -1,5 +1,5 @@
 // /utils/apiHelper.js
-import { getCurrentEnvironment, getFromCookies, removeCookie, clearUserData } from "@/utils/storageHelper";
+import { getCurrentEnvironment, getFromCookies, removeCookie } from "@/utils/storageHelper";
 import { toast } from "react-toastify";
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -57,30 +57,10 @@ export const getHeaders = () => {
   };
 
   if (token) {
-    const headerKey = env === 'local' ? 'Authorization' : 'proxy_auth_token';
-    headers[headerKey] = token;
-    headers['token'] = localStorage.getItem('proxy_auth_token');
+    headers['proxy_auth_token'] = token;
   }
-  
+
   return headers;
-};
-
-
-export const signUpOnBE = async (data) => {
-  const response = await fetch(baseUrl+`/api/users`, {
-    method: 'POST',
-    headers: getHeaders(),
-    body: JSON.stringify(data),
-  });
-
-  const res = await response.json();
-  if (res.success) return res;
-  if (res.status === 401) {
-    toast.error('Session Expired');
-    clearUserData();
-  } else{
-    toast.error(res?.message || 'An error occurred');
-  }
 };
 
 

@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { useRouter } from 'next/router';
 import WithAuth from '@/components/auth/WithAuth';
 
-import { getFromCookies, getCurrentEnvironment, removeCookie, setInCookies, getRedirectPath, clearPath } from '@/utils/storageHelper'
-import { getCurrentUser, signUpOnBE } from '@/utils/apiHelper'
+import { getFromCookies, getCurrentEnvironment, removeCookie, getRedirectPath, clearPath } from '@/utils/storageHelper'
+import { getCurrentUser } from '@/utils/apiHelper'
 
 export default function AuthPage() {
     const router = useRouter();
@@ -19,10 +19,6 @@ export default function AuthPage() {
                 removeCookie(getCurrentEnvironment())
                 localStorage.clear()
                 sessionStorage.clear()
-            }
-            if (process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT === 'local') {
-                const response = await signUpOnBE({ ...userData, org_id: parseInt(queryParams['company_ref_id'], 10) })
-                setInCookies(getCurrentEnvironment(), response?.data)
             }
             clearPath();
             window.location.href= redirectPath ? redirectPath : '/automation-ideas'
