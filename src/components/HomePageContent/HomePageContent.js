@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import HomeTitle from "@/components/HomeTitle/HomeTitle";
 import Search from "@/components/Search/Search";
 import Chatbot from "@/components/ChatBot/ChatBot";
@@ -7,7 +7,6 @@ import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDash
 import AppsAndCategories from "./AppsAndCategories";
 import RecentlyPublished from "./RecentlyPublished";
 import TopContributors from "../TopContributors/TopContributors";
-import { fetchApps } from "@/utils/apis/appsApis";
 
 const HomePageContent = ({
   blogCreating,
@@ -25,13 +24,9 @@ const HomePageContent = ({
   const [selectedApps, setSelectedApps] = useState([]);
   const [allApps, setAllApps] = useState([]);
 
-  useEffect(() => {
-    const loadApps = async () => {
-      const apps = await fetchApps();
-      setAllApps(apps);
-    };
-    loadApps();
-  }, []);
+  const handleAppsLoaded = (apps) => {
+    setAllApps(apps);
+  };
 
   const addAppByName = (appName) => {
     const app = allApps.find(app => app.name.toLowerCase() === appName.toLowerCase());
@@ -64,7 +59,7 @@ const HomePageContent = ({
                 className={`w-75 ragini centeredSearch`}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                placeholder="Search apps or type app name and press Enter to add"
+                placeholder="Search apps or type app name and press Enter to add (only 4 app selected)"
                 selectedApps={selectedApps}
                 onBuildUsecase={handleCreateUsecase}
                 onClearApp={(app) => {
@@ -86,6 +81,7 @@ const HomePageContent = ({
                   onSelectedAppsChange={setSelectedApps}
                   selectedApps={selectedApps}
                   searchQuery={searchQuery}
+                  onAppsLoaded={handleAppsLoaded}
                 />
               )}
             </div>

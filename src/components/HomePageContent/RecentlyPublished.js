@@ -5,12 +5,12 @@ import styles from "./RecentlyPublished.module.scss";
 const cards = [
   {
     id: 3,
-    title: "Razorpay automation ideas",
-    author: "Vaishali Raghuvanshi",
+    title: "Razorpay",
+    author: "Ragini Mahobiya",
     date: "July 19, 2026",
     image:
       "https://stuff.thingsofbrand.com/razorpay.com/images/img678aa307e6_razorpay.jpg",
-    link: "/razorpay-automation-ideas",
+    link: "/razorpay",
     icons: ["bi-send"],
   },
 ];
@@ -27,7 +27,7 @@ const RecentlyPublished = () => {
               href={card.link}
               className="text-decoration-none text-dark d-block"
             >
-              <div className={`card h-100 ${styles.card}`} style={{ cursor: "pointer" }}>
+              <div className={`card h-100 curston-pointer rounded-0 ${styles.card}`}>
                 <div className="card-body d-flex align-items-start gap-3">
                   <div className="d-flex gap-2">
                     {card.image ? (
@@ -47,7 +47,7 @@ const RecentlyPublished = () => {
                   </div>
 
                   <div>
-                    <h5 className="fw-bold mb-2">{card.title}</h5>
+                    <h5 className="fw-semibold mb-1">{card.title}</h5>
 
                     <small className="text-secondary">
                       {card.author} · {card.date}
