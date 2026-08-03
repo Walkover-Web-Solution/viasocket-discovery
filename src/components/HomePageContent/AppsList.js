@@ -9,29 +9,51 @@ const AppsList = ({
   onSelectedAppsChange,
   selectedApps: parentSelectedApps = [],
   searchQuery = "",
+  onAppsLoaded,
 }) => {
-  const [apps, setApps] = useState([]);
+  const [allApps, setAllApps] = useState([]);
   const [appsLoading, setAppsLoading] = useState(false);
-  const [showAllApps, setShowAllApps] = useState(false);
-  const INITIAL_APP_COUNT = 40;
+  const [displayCount, setDisplayCount] = useState(40);
+  const MAX_APPS = 2200;
 
   useEffect(() => {
     let cancelled = false;
-    const loadApps = async () => {
+    const loadAllApps = async () => {
       setAppsLoading(true);
-      setShowAllApps(false);
+      setDisplayCount(40);
       onSelectedAppsChange?.([]);
-      const data = await fetchApps(selectedCategory, 1000, 0);
+      
+      const category = selectedCategory === "All" ? "" : selectedCategory;
+      let allData = [];
+      let offset = 0;
+      let hasMore = true;
+      
+      while (hasMore && !cancelled && allData.length < MAX_APPS) {
+        const data = await fetchApps(category, 200, offset);
+        if (data.length > 0) {
+          allData = [...allData, ...data];
+          offset += 200;
+          hasMore = data.length === 200;
+        } else {
+          hasMore = false;
+        }
+      }
+      
       if (!cancelled) {
-        setApps(data);
+        setAllApps(allData);
         setAppsLoading(false);
+        onAppsLoaded?.(allData);
       }
     };
-    loadApps();
+    loadAllApps();
     return () => {
       cancelled = true;
     };
-  }, [onSelectedAppsChange, selectedCategory]);
+  }, [selectedCategory]);
+
+  const loadMoreApps = () => {
+    setDisplayCount((prev) => prev + 40);
+  };
 
   if (appsLoading) {
     return <div className="text-center my-4">Loading apps...</div>;
@@ -42,74 +64,81 @@ const AppsList = ({
     if (!isSelected && parentSelectedApps.length >= 4) return;
     const next = isSelected
       ? parentSelectedApps.filter((app) => app.name !== appName)
-      : [...parentSelectedApps, apps.find((app) => app.name === appName)];
+      : [...parentSelectedApps, allApps.find((app) => app.name === appName)];
     onSelectedAppsChange?.(next);
   };
 
   const filteredApps = searchQuery
-    ? apps.filter((app) =>
+    ? allApps.filter((app) =>
         app.name.toLowerCase().includes(searchQuery.toLowerCase()),
       )
-    : apps;
+    : allApps;
+
+  const displayedApps = searchQuery ? filteredApps : filteredApps.slice(0, displayCount);
+  const showMoreButton = !searchQuery && displayCount < filteredApps.length;
 
   return (
     <>
       <div className="row g-2 my-5 gap-1">
-        {filteredApps
-          .slice(0, showAllApps ? filteredApps.length : INITIAL_APP_COUNT)
-          .map((app) => {
-            const isSelected = parentSelectedApps.some(
-              (selectedApp) => selectedApp.name === app.name,
-            );
-            return (
+        {displayedApps.map((app) => {
+          const isSelected = parentSelectedApps.some(
+            (selectedApp) => selectedApp.name === app.name,
+          );
+          return (
+            <div
+              key={app.name}
+              className="col-6 col-md-3 col-lg-2 text-center"
+            >
               <div
-                key={app.name}
-                className="col-6 col-md-3 col-lg-2 text-center"
+                role="button"
+                tabIndex={0}
+                onClick={() => toggleApp(app.name)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    toggleApp(app.name);
+                  }
+                }}
+                className={`${styles.appCard} ${isSelected ? styles.selected : ""} text-dark d-flex align-items-center gap-2 border bg-white p-2`}
               >
-                <div
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => toggleApp(app.name)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      toggleApp(app.name);
-                    }
-                  }}
-                  className={`${styles.appCard} ${isSelected ? styles.selected : ""} text-dark d-flex align-items-center gap-2 border bg-white p-2`}
-                >
-                  {isSelected && <span className={styles.tick}>✓</span>}
-                  <Image
-                    src={
-                      app.iconurl || `https://logo.clearbit.com/${app.domain}`
-                    }
-                    alt={app.name}
-                    width={40}
-                    height={40}
-                    loading="lazy"
-                    unoptimized
+                {isSelected && <span className={styles.tick}>✓</span>}
+                <Image
+                  src={
+                    app.iconurl || `https://logo.clearbit.com/${app.domain}`
+                  }
+                  alt={app.name}
+                  width={40}
+                  height={40}
+                  loading="lazy"
+                  unoptimized
 
-                  />
-                  <div className="small fw-semibold text-truncate">
-                    {app.name}
-                  </div>
+                />
+                <div className="small fw-semibold text-truncate">
+                  {app.name}
                 </div>
               </div>
-            );
-          })}
+            </div>
+          );
+        })}
         <RequestAppButton />
-        {filteredApps.length > INITIAL_APP_COUNT && (
+        {showMoreButton && (
           <div className="text-center d-flex gap-2 align-items-center w-75">
             <p className="text-muted">
-              Showing {showAllApps ? filteredApps.length : INITIAL_APP_COUNT} of{" "}
-              {filteredApps.length} apps
+              Showing {displayedApps.length} of {filteredApps.length} apps
             </p>
             <a
               className="text-primary text-decoration-underline cursor-pointer"
-              onClick={() => setShowAllApps((prev) => !prev)}
+              onClick={loadMoreApps}
             >
-              {showAllApps ? "Less" : "More"}
+              More
             </a>
+          </div>
+        )}
+        {!showMoreButton && !searchQuery && filteredApps.length > 0 && (
+          <div className="text-center d-flex gap-2 align-items-center w-75">
+            <p className="text-muted">
+              Showing all {filteredApps.length} apps
+            </p>
           </div>
         )}
       </div>

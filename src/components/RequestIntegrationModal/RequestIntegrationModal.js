@@ -116,6 +116,9 @@ const RequestIntegrationModal = ({ onClose, type, appInfo }) => {
       return;
     }
 
+    // Check if production environment
+    const isProduction = process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT === 'prod';
+
     setIsLoading(true);
     try {
       const payload = {
@@ -123,23 +126,28 @@ const RequestIntegrationModal = ({ onClose, type, appInfo }) => {
         userName: formData.name,
         useCase: formData.useCase,
         plugName: type ? formData.selectedApp : formData.pluginName,
-        source: 'website',
-        environment: process.env.NEXT_PUBLIC_ENVIRONMENT || 'production',
-        userNeed: type ? `New ${type}` : 'New App',
-        category: appInfo?.category || '',
+        source: 'Automation Ideas ',
+        environment: 'prod',
+        userNeed: 'New App',
       };
-      
-      const response = await axios.post(
-        "https://flow.sokt.io/func/scriPIvL7pBP",
-        payload,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+
+      if (isProduction) {
+        const response = await axios.post(
+          "https://flow.sokt.io/func/scriPIvL7pBP",
+          payload,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setShowSuccessPopup(true);
         }
-      );
-      
-      if (response.status === 200) {
+      } else {
+        // In non-production, just show success without API call
         setShowSuccessPopup(true);
       }
     } catch (error) {
@@ -192,14 +200,6 @@ const RequestIntegrationModal = ({ onClose, type, appInfo }) => {
                 </div>
                 <h4 className="mt-3 mb-2">Got your request!</h4>
                 <p className="text-muted mb-4">We&apos;ll get back to you within 48 hours! 🚀</p>
-                <a 
-                  href="https://calendly.com/" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="btn btn-outline-primary mb-3"
-                >
-                  Schedule a Meeting
-                </a>
                 <div>
                   <button 
                     type="button" 

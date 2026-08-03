@@ -1,25 +1,20 @@
-import React from "react";
-import Link from "next/link";
+import React, { useState } from "react";
 import { FaLinkedinIn, FaFacebookF, FaTwitter } from "react-icons/fa";
-import styles from "./razorpay-automation-ideas.module.scss";
-import {
-  SiStripe,
-  SiShopify,
-  SiZoho,
-  SiHubspot,
-  SiSlack,
-  SiGooglesheets,
-} from "react-icons/si";
+import styles from "./razorpay.module.scss";
 import StickySidebar from "@/components/StickySidebar/StickySidebar";
 import BuildFlowButton from "@/components/BuildFlowButton/BuildFlowButton";
 import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
 import WorkflowStep from "@/components/WorkflowStep/WorkflowStep";
 import razorpayAutomationData from "@/data/razorpayAutomationData";
+import ContributeButton from "@/components/ContributeButton/ContributeButton";
+import AddUsecaseCommentPopup from "@/components/AddCommentPopup/AddUsecaseCommentPopup";
 
 const sections = razorpayAutomationData;
 
-const RazorpayAutomationIdeasPage = () => {
+const RazorpayAutomationIdeasPage = ({ usecase }) => {
   const [activeIdea, setActiveIdea] = React.useState("");
+  const [comments, setComments] = useState(usecase?.comments || {});
+  const [commentPopup, setCommentPopup] = useState(false);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -52,7 +47,7 @@ const RazorpayAutomationIdeasPage = () => {
           style={{ backgorundColor: "red" }}
         >
           <p className="text-brand fw-semibold mb-3">AUTOMATION IDEAS</p>
-          <h1 className={`${styles.title} pb-3`}>Razorpay automation ideas</h1>
+          <h1 className={`${styles.title} pb-3`}>Razorpay</h1>
           <p className="fs-5 pb-4">
             Turn Razorpay payments into booked sessions, timely follow ups,
             better customer experiences, and smarter payment recovery.
@@ -83,9 +78,9 @@ const RazorpayAutomationIdeasPage = () => {
                 className="border p-1 d-flex align-items-center justify-content-center me-2"
                 style={{ width: "26px", height: "26px", fontSize: "12px" }}
               >
-                VR
+                RM
               </div>
-              <span className="fw-semibold me-2">Vaishali Raghuvanshi</span>
+              <span className="fw-semibold me-2">Ragini Mahobiya</span>
               <span className="text-secondary">July 29, 2026</span>
             </div>
           </div>
@@ -129,6 +124,15 @@ const RazorpayAutomationIdeasPage = () => {
           </div>
         </div>
         <StickySidebar sections={sections} activeIdea={activeIdea} />
+
+        <AddUsecaseCommentPopup
+          open={commentPopup}
+          onClose={() => setCommentPopup(false)}
+          setComments={setComments}
+          usecaseId={usecase?._id}
+        />
+
+        <ContributeButton onClick={() => setCommentPopup(true)} />
       </div>
     </>
   );

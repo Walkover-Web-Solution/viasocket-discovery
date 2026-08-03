@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 
-const BuildFlowButton = ({ href, onClick }) => {
+const BuildFlowButton = ({ onClick }) => {
   const className =
     "btn p-2 border border-brand d-flex align-items-center gap-2";
   const content = (
@@ -11,19 +11,17 @@ const BuildFlowButton = ({ href, onClick }) => {
     </>
   );
 
-  if (href) {
-    return (
-      <Link
-        className={className}
-        style={{ width: "fit-content" }}
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {content}
-      </Link>
-    );
-  }
+  return (
+    <Link
+      className={className}
+      style={{ width: "fit-content" }}
+      href="https://viasocket.com/signup"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {content}
+    </Link>
+  );
 
   return (
     <button className={className} onClick={onClick}>
