@@ -14,7 +14,7 @@ import AddUsecaseCommentPopup from "@/components/AddCommentPopup/AddUsecaseComme
 import StickySidebar from "@/components/StickySidebar/StickySidebar";
 import BuildFlowButton from "@/components/BuildFlowButton/BuildFlowButton";
 import AuthorRow from "@/components/AuthorSection/AuthorRow";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import ContributeButton from "@/components/ContributeButton/ContributeButton";
 // reuse the exact same comment styling as the blog detail page
 import styles from "@/pages/blog/[...blogId]/blogPage.module.scss";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -107,7 +107,7 @@ function AppIcon({ name, apps }) {
 
 function FlowChip({ node, apps, prefix }) {
   return (
-    <div className="d-flex align-items-center gap-2 border rounded py-2 px-3 bg-white">
+    <div className="d-flex align-items-center gap-2 border rounded py-2 px-3 bg-white rounded-pill">
       {/* {prefix && <span className="text-brand fw-bold small">{prefix}</span>} */}
       <AppIcon name={node.app} apps={apps} />
       <span className="small">{node.label}</span>
@@ -363,19 +363,7 @@ export default function UsecasePage({ usecase, apps, users }) {
         usecaseId={usecase?._id}
       />
 
-      <button
-        onClick={() => setCommentPopup(true)}
-        className="btn btn-dark rounded-0 px-3 py-2 d-flex align-items-center gap-2"
-        style={{
-          position: "fixed",
-          bottom: "20px",
-          right: "20px",
-          zIndex: 1000,
-          minWidth: "fit-content",
-        }}
-      >
-        <ChatBubbleIcon /> Contribute
-      </button>
+      <ContributeButton onClick={() => setCommentPopup(true)} />
     </>
   );
 }

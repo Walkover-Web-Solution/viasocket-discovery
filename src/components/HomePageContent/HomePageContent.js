@@ -33,17 +33,6 @@ const HomePageContent = ({
     loadApps();
   }, []);
 
-  const addAppByName = (appName) => {
-    const app = allApps.find(app => app.name.toLowerCase() === appName.toLowerCase());
-    if (app) {
-      const isSelected = selectedApps.some(selectedApp => selectedApp.name === app.name);
-      if (!isSelected && selectedApps.length < 4) {
-        setSelectedApps(prev => [...prev, app]);
-        return true;
-      }
-    }
-    return false;
-  };
 
   return (
     <>
@@ -64,7 +53,7 @@ const HomePageContent = ({
                 className={`w-75 ragini centeredSearch`}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                placeholder="Search apps or type app name and press Enter to add"
+                placeholder="Search apps or type app name and press Enter to add - You can select up to 4 apps"
                 selectedApps={selectedApps}
                 onBuildUsecase={handleCreateUsecase}
                 onClearApp={(app) => {

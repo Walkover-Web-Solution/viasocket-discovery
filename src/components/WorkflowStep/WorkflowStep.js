@@ -7,7 +7,7 @@ const WorkflowStep = ({ steps }) => {
       {steps.map((step, index) => (
         <React.Fragment key={index}>
           <div
-            className="border py-2 px-3 bg-white d-flex align-items-center gap-2 rounded small"
+            className="border py-2 px-3 bg-white d-flex align-items-center gap-2 rounded-pill small"
             style={{ minWidth: "fit-content" }}
           >
             {step.icon && (

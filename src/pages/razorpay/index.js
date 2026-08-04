@@ -1,15 +1,6 @@
 import React from "react";
-import Link from "next/link";
 import { FaLinkedinIn, FaFacebookF, FaTwitter } from "react-icons/fa";
-import styles from "./razorpay-automation-ideas.module.scss";
-import {
-  SiStripe,
-  SiShopify,
-  SiZoho,
-  SiHubspot,
-  SiSlack,
-  SiGooglesheets,
-} from "react-icons/si";
+import styles from "./razorpay.module.scss";
 import StickySidebar from "@/components/StickySidebar/StickySidebar";
 import BuildFlowButton from "@/components/BuildFlowButton/BuildFlowButton";
 import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
@@ -83,9 +74,9 @@ const RazorpayAutomationIdeasPage = () => {
                 className="border p-1 d-flex align-items-center justify-content-center me-2"
                 style={{ width: "26px", height: "26px", fontSize: "12px" }}
               >
-                VR
+                RM{" "}
               </div>
-              <span className="fw-semibold me-2">Vaishali Raghuvanshi</span>
+              <span className="fw-semibold me-2">Ragini Mahobiya</span>
               <span className="text-secondary">July 29, 2026</span>
             </div>
           </div>
