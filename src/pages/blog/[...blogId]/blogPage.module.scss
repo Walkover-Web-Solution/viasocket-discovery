@@ -38,7 +38,6 @@
 }
 .relatedBlogsDiv , .FAQContainer {
   padding: 4rem 0;
-  font-family: var(--sans-serif-font);
   width: 100%;
   margin-left: 1rem;
   max-width: var(--outer-blog-width);
@@ -59,13 +58,11 @@
 .relatedBlogsDiv{
   & > h3{
       padding-bottom: 1rem;
-      font-family: var(--title-font);
       font-weight: 100;
       font-size: 3rem;
   }
   .blogOnSearch{
     margin-top: 1rem;
-    font-family: var(--title-font);
     color: var(--dark-grey);
     display: flex;
     align-items: center;
@@ -88,7 +85,6 @@
 
   & > h2{
       padding-bottom: 1rem;
-      font-family: var(--title-font);
       font-weight: 100;
       font-size: 3rem;
       line-height: 69px;
@@ -117,7 +113,6 @@
   // padding: 1rem;
   .responses{
     font-weight: 600;
-    font-family: var(--title-font);
     font-size: 3rem;
   }
   .comment{
@@ -136,7 +131,6 @@
       justify-content: space-between;
       align-items: flex-start;
       .userDetails{
-        font-family: "Times Now" !important;
         display: flex;
         // flex-direction: column;
         align-items: center;
@@ -151,7 +145,6 @@
         .commentDate{
           color: var(--dark-grey);
           font-size: 16px;
-          font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
       }
       .deleteButton{

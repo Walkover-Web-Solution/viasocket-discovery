@@ -31,7 +31,7 @@ const Components = {
   detailedReviews: ({ content, integrations, appBlogs, apps }) => {
     return (
       <div className={styles.detailedReviews} id="detailed-reviews">
-        <h2 style={{ fontFamily: "var(--para-font)" }}>📖 In Depth Reviews</h2>
+        <h2>📖 In Depth Reviews</h2>
         <div className={styles.howWeAssess}>
           <p>
             We independently review every app we recommend We independently
@@ -180,9 +180,9 @@ const Components = {
     </ReactMarkdown>
   ),
   additionalSection: ({ content, heading }) => (
-    <section className={`blog-page__section mb-5 p-2 w-75`}>
+    <section className={`blog-page__section mb-5 p-2`}>
       {heading && (
-        <h3 className="m-0" style={{ fontFamily: "var(--para-font)" }}>
+        <h3 className="m-0">
           {heading}
         </h3>
       )}

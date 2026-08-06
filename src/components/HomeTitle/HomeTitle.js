@@ -3,25 +3,22 @@ import AccentBar from "../AccentBar/AccentBar";
 
 const HomeTitle = () => {
   return (
-    <div className="pt-4 home-page-header-title w-75">
-      <p className="text-uppercase fw-semibold mb-0 d-inline-flex align-items-center gap-2 text-brand">
+    <div className="pt-4 home-page-header-title">
+      {/* <p className="text-uppercase fw-semibold mb-0 d-inline-flex align-items-center gap-2 text-brand">
         <AccentBar />
         Automation Ideas
-      </p>
-      <h1 className="display-2 fw-bolder mt-2 mb-0">
-        The automation <em className="fst-italic text-brand">playbook</em> for
+      </p> */}
+      <h1 className="display-2 fw-normal mt-2 mb-0">
+        The automation <em className="fst-italic text-brand">playbook</em> for{" "}
+        <br />
         your company
       </h1>
-      <p className="lead mb-0">
-        {
-          "Pick up to three apps you use every day. Get a ready set of automations for them, each one launching in a single click."
-        }
+      <p className="lead my-2">
+        Pick up to three apps you use every day. Get a ready set of automations
+        for <br /> them, each one launching in a single click.
       </p>
-      <p className="fst-italic text-muted my-4">
-        Ideas for{" "}
-        <strong className="fst-normal fw-bold text-dark">2,200+</strong> apps
-        <span className="mx-2 opacity-50">·</span>
-        built in one click
+      <p className="fw-bold mt-5 d-flex align-items-center gap-2">
+        Add up to 3 apps <span className="text-brand">0 of 3 added</span>
       </p>
     </div>
   );

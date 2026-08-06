@@ -33,7 +33,6 @@ const HomePageContent = ({
     loadApps();
   }, []);
 
-
   return (
     <>
       {!blogCreating && !usecaseCreating && (
@@ -46,27 +45,31 @@ const HomePageContent = ({
               }}
             />
           )}
-          <div className={`p-4 search-click-result mb-5`}>
+          <div className={`p-4 search-click-result mb-5 w-100 w-md-75 mx-auto`}>
             {!isOpen && <HomeTitle />}
             <div className={styles.centerWrapper}>
               <Search
-                className={`w-75 ragini centeredSearch`}
+                className={`ragini centeredSearch`}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
-                placeholder="Search apps or type app name and press Enter to add - You can select up to 4 apps"
+                placeholder="Search 2,200+ apps…"
                 selectedApps={selectedApps}
                 onBuildUsecase={handleCreateUsecase}
                 onClearApp={(app) => {
-                  setSelectedApps((prev) => prev.filter((a) => a.name !== app.name));
+                  setSelectedApps((prev) =>
+                    prev.filter((a) => a.name !== app.name),
+                  );
                 }}
                 onClearAllApps={() => {
                   setSelectedApps([]);
                 }}
                 allApps={allApps}
                 onAddApp={(app) => {
-                  const isSelected = selectedApps.some(selectedApp => selectedApp.name === app.name);
+                  const isSelected = selectedApps.some(
+                    (selectedApp) => selectedApp.name === app.name,
+                  );
                   if (!isSelected && selectedApps.length < 4) {
-                    setSelectedApps(prev => [...prev, app]);
+                    setSelectedApps((prev) => [...prev, app]);
                   }
                 }}
               />
@@ -78,8 +81,10 @@ const HomePageContent = ({
                 />
               )}
             </div>
+            <div className="">
+              <RecentlyPublished />
+            </div>
 
-            <RecentlyPublished />
             <TopContributors popularUsers={popularUsers} />
             <Chatbot
               bridgeId={process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE}

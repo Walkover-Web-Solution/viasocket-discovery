@@ -4,7 +4,7 @@ import blogstyle from "@/components/Blog/Blog.module.scss";
 const PopularContent = ({ popularTags, setIsCategoryClicked }) => {
   return (
     <>
-      <div className="d-flex flex-wrap gap-2 w-75 px-3 mt-3">
+      <div className="d-flex flex-wrap gap-2 px-3 mt-3">
         {popularTags.map((tag, index) => (
           <Link
             key={index}

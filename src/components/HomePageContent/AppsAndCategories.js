@@ -22,9 +22,9 @@ const AppsAndCategories = ({
 
   return (
     <>
-      <div className="d-flex flex-wrap align-items-center gap-2 my-4 w-75">
+      <div className="d-flex flex-wrap align-items-center gap-2 my-4">
         <button
-          className={`btn btn-sm ${selectedCategory === "All" ? "btn-dark" : "btn-outline-secondary"}`}
+          className={`btn btn-sm rounded-pill ${selectedCategory === "All" ? "btn-dark" : "btn-outline-secondary"}`}
           onClick={() => setSelectedCategory("All")}
         >
           All
@@ -37,7 +37,7 @@ const AppsAndCategories = ({
           .map((category) => (
             <button
               key={category.name}
-              className={`btn btn-sm ${selectedCategory === category.name ? "btn-dark" : "btn-outline-secondary"}`}
+              className={`btn btn-sm rounded-pill ${selectedCategory === category.name ? "btn-dark" : "btn-outline-secondary"}`}
               onClick={() => setSelectedCategory(category.name)}
             >
               {category.name}

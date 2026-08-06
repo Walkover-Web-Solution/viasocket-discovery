@@ -1,75 +1,90 @@
-.postHeader{
-    // padding: 0 3.4rem;
-    // padding-left: 60px;
+.postHeader {
+  // padding: 0 3.4rem;
+  // padding-left: 60px;
 
-    z-index:20;
-    position: fixed;
-    bottom: 1rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display:flex;
-    width: 100%;
-    justify-content: center;
+  z-index: 20;
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  & > * {
+    height: 3rem;
+    font-size: 1.2rem;
+  }
+
+  &:global(.centeredSearch) {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+  }
+
+  .searchBox {
+    display: flex;
     align-items: center;
-    &>*{
-      height: 3rem;
-      font-size: 1.2rem;
-    }
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-height: 4rem;
+    height: auto;
+    padding: 0.75rem 1.5rem;
+    margin: 16px 0;
+    background-color: var(--background-color);
+    box-sizing: border-box;
+    width: calc(var(--home-page-width) - 3.5rem);
+    max-width: 100%;
+  }
 
-    &:global(.centeredSearch) {
-      position: relative !important;
-      bottom: auto !important;
-      left: auto !important;
-      transform: none !important;
-    }
+  .searchInput {
+    flex: 1;
+    min-width: 120px;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 1.6rem;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+  }
 
-    .searchBox {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      min-height: 4rem;
-      height: auto;
-      padding: 0.75rem 1.5rem;
-      margin: 16px 0;
-      border: 2px solid var(--search-box-color);
-      background-color: var(--background-color);
-      box-sizing: border-box;
-      width: calc(var(--home-page-width) - 3.5rem);
-      max-width: 100%;
+  .askAi {
+    transform: translateX(-4rem);
+    height: 2rem;
+    width: 2rem;
+    flex: 0;
+    padding: 10px;
+    border-radius: 50%;
+    svg {
+      color: var(--search-box-color);
     }
+  }
 
-    .searchInput {
-      flex: 1;
-      min-width: 120px;
-      border: none;
-      background: transparent;
-      outline: none;
-      font-size: 1.6rem;
-      height: 100%;
-      padding: 0;
-      margin: 0;
+  .askAiActive {
+    background-color: black !important;
+    svg {
+      color: white !important;
     }
+  }
 
-    .askAi{
-      transform: translateX(-4rem);
-      height: 4rem;
-      width: 4rem;
-      flex: 0;
-      svg{
-        color: var(--search-box-color);
+  .appBadge {
+    &:hover {
+      svg {
+        color: white !important;
       }
     }
+  }
 }
 
 @media (max-width: 700px) {
-  .postHeader{
-    padding:0 2.45rem 0 2.45rem;
-    .searchBox{
+  .postHeader {
+    .searchBox {
       transform: none;
       padding-left: 1rem;
     }
-    .askAi{
+    .askAi {
       display: none;
     }
   }

@@ -1,7 +1,7 @@
 import React from "react";
 
 const BackToDashboardButton = ({
-  className = "btn px-xl-5",
+  className = "btn",
   label = "← Automation Ideas",
   onClick,
 }) => {
@@ -9,13 +9,13 @@ const BackToDashboardButton = ({
     display: "block",
     width: "100vw",
     position: "relative",
-    left: "50%",
-    right: "50%",
+    // left: "50%",
+    // right: "50%",
     marginLeft: "-50vw",
     marginRight: "-50vw",
     background: "transparent",
     fontWeight: 500,
-    padding: "20px",
+    padding: "20px 10px",
     textAlign: "left",
     outline: "none",
     border: "none",
@@ -31,7 +31,7 @@ const BackToDashboardButton = ({
 
   return (
     <button
-      className={className}
+      className={`${className} container mx-auto w-100 w-md-75 mt-2`}
       onClick={handleClick}
       style={defaultStyle}
     >

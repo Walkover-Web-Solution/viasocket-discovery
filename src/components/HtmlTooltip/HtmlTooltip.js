@@ -14,7 +14,6 @@ const HtmlTooltip = styled(({ className, ...props }) => (
     padding: "14px 16px",
     borderRadius: 0,
     boxShadow: "0 12px 32px rgba(0, 0, 0, 0.12)",
-    fontFamily: "var(--font-body)",
   },
   [`& .${tooltipClasses.arrow}`]: {
     color: "#ffffff",

@@ -18,17 +18,17 @@ const cards = [
 const RecentlyPublished = () => {
   return (
     <div className="py-5">
-      <h2 className="fst-italic mb-4">Recently published</h2>
+      <h2 className="mb-4">Recently published</h2>
 
       <div className="row g-4">
         {cards.map((card) => (
-          <div key={card.id} className="col-lg-4 col-md-6">
+          <div key={card.id} className="col-12 col-sm-6 col-md-6 col-lg-4">
             <Link
               href={card.link}
               className="text-decoration-none text-dark d-block"
             >
               <div className={`card h-100 rounded-0 ${styles.card}`} style={{ cursor: "pointer" }}>
-                <div className="card-body d-flex align-items-start gap-3">
+                <div className="card-body d-flex align-items-center gap-3">
                   <div className="d-flex gap-2">
                     {card.image ? (
                       <img
@@ -46,8 +46,8 @@ const RecentlyPublished = () => {
                     )}
                   </div>
 
-                  <div>
-                    <h5 className="fw-bold mb-2">{card.title}</h5>
+                  <div className="d-flex flex-column">
+                    <h6 className="mb-1">{card.title}</h6>
 
                     <small className="text-secondary">
                       {card.author} · {card.date}

@@ -254,7 +254,7 @@ export default function UsecasePage({ usecase, apps, users }) {
               <p className="text-brand fw-semibold pb-2">AUTOMATION IDEAS</p>
               <h1 className="pb-3">{usecase.app} automation ideas</h1>
               {usecase.audience && (
-                <p className="fs-5 pb-4">{usecase.audience}</p>
+                <p className="fs-5 pb-5">{usecase.audience}</p>
               )}
             </div>
           </div>
