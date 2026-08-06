@@ -296,7 +296,9 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs, faq }) {
                     )}
                   </div>
                   <div>
-                    <p className={styles.commentText}>{comment.text}</p>
+                    <p className={styles.commentText}>
+                      {typeof comment.text === "object" ? comment.text?.text : comment.text}
+                    </p>
                   </div>
                 </div>
               ))}

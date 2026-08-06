@@ -345,7 +345,9 @@ export default function UsecasePage({ usecase, apps, users }) {
                     )}
                   </div>
                   <div>
-                    <p className={styles.commentText}>{comment.text}</p>
+                    <p className={styles.commentText}>
+                      {typeof comment.text === "object" ? comment.text?.text : comment.text}
+                    </p>
                   </div>
                 </div>
               ))}
