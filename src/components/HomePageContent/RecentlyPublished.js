@@ -6,11 +6,11 @@ const cards = [
   {
     id: 3,
     title: "Razorpay automation ideas",
-    author: "Vaishali Raghuvanshi",
+    author: "Ragini Mahobiya",
     date: "July 19, 2026",
     image:
       "https://stuff.thingsofbrand.com/razorpay.com/images/img678aa307e6_razorpay.jpg",
-    link: "/razorpay-automation-ideas",
+    link: "/razorpay",
     icons: ["bi-send"],
   },
 ];
@@ -27,7 +27,7 @@ const RecentlyPublished = () => {
               href={card.link}
               className="text-decoration-none text-dark d-block"
             >
-              <div className={`card h-100 ${styles.card}`} style={{ cursor: "pointer" }}>
+              <div className={`card h-100 rounded-0 ${styles.card}`} style={{ cursor: "pointer" }}>
                 <div className="card-body d-flex align-items-start gap-3">
                   <div className="d-flex gap-2">
                     {card.image ? (

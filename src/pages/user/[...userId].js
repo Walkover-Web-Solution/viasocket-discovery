@@ -88,17 +88,12 @@ export default function UserPage({ user }) {
   }));
 
   return (
-    <div className="container-lg px-4" style={{ maxWidth: "60rem", margin: "auto" }}>
+    <div
+      className="container-lg px-4"
+      style={{ maxWidth: "60rem", margin: "auto" }}
+    >
       <BackToDashboardButton />
       <UserProfileHeader user={user} currentUser={currentUser} count={count} />
-      <div className="mt-4">
-        <UserBlogList
-          blogs={blogs}
-          title={`Explore Blogs by ${user.name.trim().split(" ")[0]}`}
-          isLoading={isLoading}
-          userName={user.name}
-        />
-      </div>
       <div className="mt-4">
         <UserBlogList
           blogs={usecaseCards}

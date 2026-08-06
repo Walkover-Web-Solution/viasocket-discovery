@@ -68,26 +68,20 @@ async function alertMissingPlugins(plugins) {
     .catch((err) => console.error("Error in alerting", err));
 }
 
-async function getAppsByCategory(category, limit = 20, offset = 0, environment = "prod") {
-  const url = `${process.env.DBDASH_URL}/${process.env.PLUGINS_DBID}/${process.env.PLUGINS_TABLEID}`;
-  const filterParts = ["audience = 'Public'"];
-  if (category && category !== "All") {
-    filterParts.push(`category ILIKE '${category.replace(/'/g, "''")}'`);
-  }
-
+async function getAppsByCategory(category) {
   try {
-    const response = await axios.get(url, {
-      params: {
-        filter: filterParts.join(" AND "),
-        fields: ["name", "iconurl", "domain", "appslugname", "category"],
-        limit,
-        offset,
+    const NEXT_PUBLIC_PLUG_SERVICE_URL = process.env.NEXT_PUBLIC_PLUG_SERVICE_URL;
+    const response = await axios.get(
+      `${NEXT_PUBLIC_PLUG_SERVICE_URL}/api/v1/plugins/all`,
+      {
+        params: {
+          category: category && category !== "All" ? category : "",
+          limit: 2200,
+          offset: 0,
+        },
       },
-      headers: {
-        "auth-key": process.env.PLUGINS_AUTHKEY,
-      },
-    });
-    return response?.data?.data?.rows || [];
+    );
+    return response?.data?.data || [];
   } catch (error) {
     console.error("Error fetching apps by category:", error?.response?.data || error.message);
     return [];
