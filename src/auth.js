@@ -44,7 +44,7 @@ export const decodeToken = async (proxyAuthToken) => {
   return {
     user: {
       fullName: userFromDb.name,
-      userId: JSON.stringify(userFromDb.id),
+      id: userFromDb.id?.toString(),
       email: userFromDb.email,
       status: userFromDb.meta?.status,
       orgId: decoded.org?.id,
