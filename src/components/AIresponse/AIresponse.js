@@ -63,9 +63,9 @@ const AIresponse = ({
           isUndereview: blogData?.toImprove,
           meta: blogData?.meta,
         })}
-        <div className="w-100 d-flex justify-content-between">
+        <div className="w-100 d-flex flex-column flex-md-row justify-content-between gap-4 gap-lg-0">
           <div
-            className={`${styles.markdownContainer} position-relative ${isOpen ? "w-100" : "px-4"}`}
+            className={`${styles.markdownContainer} position-relative ${isOpen ? "w-100" : "p-0 md:p-4"}`}
           >
             {!hasMarkdown && Components["dummy"]()}
             {hasMarkdown && (
@@ -99,14 +99,12 @@ const AIresponse = ({
                 })}
               </Box>
               <Box className={styles.aiButtonDiv}>
-       
-                  <button
-                    onClick={() => setCommentPopup(true)}
-                    className="btn btn-dark rounded-0 px-3 py-2 position-fixed"
-                  >
-                    <ChatBubbleIcon /> Contribute
-                  </button>
-        
+                <button
+                  onClick={() => setCommentPopup(true)}
+                  className="btn btn-dark rounded-0 px-3 py-2 position-fixed"
+                >
+                  <ChatBubbleIcon /> Contribute
+                </button>
               </Box>
             </div>
           )}

@@ -68,7 +68,7 @@ const HomePageContent = ({
             )}
             <div className={typingStart ? "" : styles.centerWrapper}>
               <Search
-                className={`w-75 px-3 ${typingStart ? "ps-5" : "centeredSearch"}`}
+                className={`w-100 w-md-75 px-3 ${typingStart ? "ps-5" : "centeredSearch"}`}
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
                 handleAskAi={handleAskAi}

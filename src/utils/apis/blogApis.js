@@ -16,11 +16,13 @@ export const fetchBlogs = async (query='') => {
   if(query[8]==='#') { query = query.replace('#', '%23'); }
 
   try {
-    const res = await axios.get(`${baseUrl}/api/blog${query}`);
+    const url = `${baseUrl}/api/blog${query}`;
+    const res = await axios.get(url);
 
-    return await res?.data?.data;
+    return res.data.data;
   } catch (error) {
     console.error("Error fetching blogs:", error);
+    throw error;
   }
 };
 
