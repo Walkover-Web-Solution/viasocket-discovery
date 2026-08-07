@@ -13,7 +13,7 @@ const UserBlogList = ({ blogs, title, isLoading, userName, linkBuilder = default
       <section className="mb-5">
         <h2
           className="h4 fw-bold ps-3 mb-4"
-          style={{ fontFamily: "var(--title-font)" }}
+
         >
           {title}
         </h2>
@@ -44,7 +44,7 @@ const UserBlogList = ({ blogs, title, isLoading, userName, linkBuilder = default
     <section className="mb-5">
       <h2
         className="h4 fw-bold d-flex align-items-center gap-2 mb-4"
-        style={{ fontFamily: "var(--title-font)" }}
+
       >
         <AccentBar />
         {title}
@@ -59,7 +59,7 @@ const UserBlogList = ({ blogs, title, isLoading, userName, linkBuilder = default
             >
               <h3
                 className="h5 fw-bold mb-3"
-                style={{ fontFamily: "var(--title-font)", lineHeight: "1.4" }}
+                style={{ lineHeight: "1.4" }}
               >
                 {blog.title}
               </h3>
@@ -116,7 +116,7 @@ const UserBlogList = ({ blogs, title, isLoading, userName, linkBuilder = default
     <section className="mb-5">
       <h2
         className="h4 fw-bold ps-3 mb-4"
-        style={{ fontFamily: "var(--title-font)" }}
+
       >
         {title}
       </h2>

@@ -15,8 +15,10 @@ import StickySidebar from "@/components/StickySidebar/StickySidebar";
 import BuildFlowButton from "@/components/BuildFlowButton/BuildFlowButton";
 import AuthorRow from "@/components/AuthorSection/AuthorRow";
 import ContributeButton from "@/components/ContributeButton/ContributeButton";
+import AccentBar from "@/components/AccentBar/AccentBar";
 // reuse the exact same comment styling as the blog detail page
-import styles from "@/pages/blog/[...blogId]/blogPage.module.scss";
+import blogStyles from "@/pages/blog/[...blogId]/blogPage.module.scss";
+import styles from "./usecasePage.module.scss";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 // TODO: point this at the real English flow builder entry point once it exists
@@ -147,7 +149,7 @@ function FlowBranch({ node, apps }) {
 function FlowNode({ node, apps, prefix, showArrow }) {
   return (
     <>
-      {showArrow && <FaArrowRightLong className="text-brand" />}
+      {showArrow && <FaArrowRightLong className="text-secondary" />}
       {node.type === "branch" ? (
         <FlowBranch node={node} apps={apps} />
       ) : (
@@ -160,7 +162,7 @@ function FlowNode({ node, apps, prefix, showArrow }) {
 function FlowSteps({ flow, apps }) {
   if (!flow?.length) return null;
   return (
-    <div className="d-flex align-items-center flex-wrap gap-4 my-3">
+    <div className="d-flex align-items-center flex-wrap gap-2 my-3">
       {flow.map((node, index) => (
         <FlowNode
           key={index}
@@ -237,6 +239,14 @@ export default function UsecasePage({ usecase, apps, users }) {
 
   const author = usecase.createdBy != null ? users[usecase.createdBy] : null;
 
+  let activePhaseIndex = -1;
+  for (let i = 0; i < numbered.length; i++) {
+    if (numbered[i].usecases.some((item) => item.ideaId === activeIdea)) {
+      activePhaseIndex = i;
+      break;
+    }
+  }
+
   return (
     <>
       <Head>
@@ -247,83 +257,128 @@ export default function UsecasePage({ usecase, apps, users }) {
         />
       </Head>
       <BackToDashboardButton />
-      <div className="container d-flex gap-5 my-4">
-        <div className="flex-grow-1 pe-5 me-5">
-          <div className="d-flex justify-content-between align-items-start">
-            <div>
-              <p className="text-brand fw-semibold pb-2">AUTOMATION IDEAS</p>
-              <h1 className="pb-3">{usecase.app} automation ideas</h1>
-              {usecase.audience && (
-                <p className="fs-5 pb-4">{usecase.audience}</p>
-              )}
+      <div className="d-flex flex-column gap-5 mb-4">
+        <div className="flex-grow-1">
+          <div className="container mb-4">
+            <h1 className="display-3 fw-normal mb-2">
+              {usecase.app} automation ideas
+            </h1>
+            {usecase.audience && (
+              <p className="fs-5 pb-4">{usecase.audience}</p>
+            )}
+
+            <div className="d-flex align-items-center gap-3">
+              {numbered.map((phase, phaseIndex) => (
+                <p
+                  key={phase.phase}
+                  className={`border py-2 px-3 small rounded-pill cursor-pointer ${styles.pill}`}
+                  style={
+                    activePhaseIndex === phaseIndex
+                      ? { backgroundColor: "black", color: "white" }
+                      : {}
+                  }
+                  onClick={() =>
+                    document
+                      .getElementById(phase.usecases[0]?.ideaId)
+                      ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                  }
+                >
+                  {phase.name} {phase.usecases.length}
+                </p>
+              ))}
             </div>
           </div>
 
-          <AuthorRow user={author} date={usecase.createdAt} />
-
-          <div className="d-flex flex-column gap-5">
-            {numbered.map((phase) => (
-              <section key={phase.phase}>
-                {phase.name && (
-                  <div className="pb-4">
-                    <p className="text-brand fw-semibold pb-1">
-                      PHASE {phase.phase}
-                    </p>
-                    <h3>{phase.name}</h3>
-                  </div>
-                )}
-                <div className="d-flex flex-column gap-5">
-                  {phase.usecases.map((item) => (
+          {numbered.map((phase, phaseIndex) => {
+            const bgColors = [
+              "rgb(242, 236, 226)",
+              "rgb(234, 239, 232)",
+              "rgb(247, 234, 231)",
+            ];
+            return (
+              <div
+                key={phase.phase}
+                style={{ backgroundColor: bgColors[phaseIndex % bgColors.length] }}
+              >
+                <div className={`container d-flex flex-column gap-5 py-5 ${phaseIndex === 0 ? "border-top" : ""}`}>
+                  {phase.usecases.map((item, itemIndex) => (
                     <div
-                      id={item.ideaId}
                       key={item.ideaId}
-                      className="pb-5 border-bottom"
+                      id={item.ideaId}
+                      className="pb-4 border-bottom"
                     >
-                      <h3 className="fs-4">
-                        {item.number}. {item.title}
-                      </h3>
-                      <p className="pb-4">{item.description}</p>
-                      <FlowSteps flow={item.flow} apps={apps} />
-                      <BuildFlowButton href={buildFlowLink(item)} />
-                    </div>
-                  ))}
-                </div>
-              </section>
-            ))}
+                      {itemIndex === 0 && (
+                        <div className="d-flex align-items-center gap-3 mb-4">
+                          <AccentBar />
+                          <h6 className="mustHave mb-0">{phase.name}</h6>
+                          <span
+                            className="rounded-pill bg-secondary"
+                            style={{ padding: "2px 2px" }}
+                          ></span>
+                          <p className="text-secondary mb-0">
+                            {phase.usecases.length} Ideas
+                          </p>
+                        </div>
+                      )}
 
-            {usecase.related_apps?.length > 0 && (
-              <div className="mt-5">
-                <h2 className="pb-2">Ideas for related apps</h2>
-                <div className="d-flex flex-wrap gap-3 pb-4">
-                  {usecase.related_apps.map((entry) => (
-                    <div
-                      key={entry.app_slug}
-                      className="border rounded py-2 px-3 bg-white d-flex align-items-center gap-2"
-                    >
-                      <AppIcon name={entry.app} apps={apps} />
-                      {entry.app}
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1fr",
+                          gap: "6rem",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <div>
+                          <h4 className="fw-bold">
+                            {item.number}. {item.title}
+                          </h4>
+                          <p className="pb-4">{item.description}</p>
+                        </div>
+                        <div>
+                          <FlowSteps flow={item.flow} apps={apps} />
+                          <BuildFlowButton href={buildFlowLink(item)} />
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
-                <Link
-                  href={`https://viasocket.com/integrations/${usecase.app_slug}`}
-                  className="text-brand text-decoration-underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  See everything {usecase.app} connects to
-                </Link>
               </div>
-            )}
-          </div>
+            );
+          })}
+
+          {usecase.related_apps?.length > 0 && (
+            <div className="container mt-5">
+              <h2 className="pb-2">Ideas for related apps</h2>
+              <div className="d-flex flex-wrap gap-3 pb-4">
+                {usecase.related_apps.map((entry) => (
+                  <div
+                    key={entry.app_slug}
+                    className="border rounded py-2 px-3 bg-white d-flex align-items-center gap-2"
+                  >
+                    <AppIcon name={entry.app} apps={apps} />
+                    {entry.app}
+                  </div>
+                ))}
+              </div>
+              <Link
+                href={`https://viasocket.com/integrations/${usecase.app_slug}`}
+                className="text-brand text-decoration-underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                See everything {usecase.app} connects to
+              </Link>
+            </div>
+          )}
 
           {comments && Object.keys(comments).length > 0 && (
-            <div className={styles.commentContainer}>
-              <h2 className={styles.responses}>Contributors</h2>
+            <div className={`container ${blogStyles.commentContainer}`}>
+              <h2 className={blogStyles.responses}>Contributors</h2>
               {Object.entries(comments).map(([commentId, comment]) => (
-                <div key={commentId} className={styles.comment}>
-                  <div className={styles.commentHeader}>
-                    <div className={styles.userDetails}>
+                <div key={commentId} className={blogStyles.comment}>
+                  <div className={blogStyles.commentHeader}>
+                    <div className={blogStyles.userDetails}>
                       <Link href={`/user/${comment.createdBy}`} target="_blank">
                         {users[comment.createdBy]?.name
                           ?.charAt(0)
@@ -331,21 +386,21 @@ export default function UsecasePage({ usecase, apps, users }) {
                           users[comment.createdBy]?.name?.slice(1)}
                         ,
                       </Link>
-                      <span className={styles.commentDate}>
+                      <span className={blogStyles.commentDate}>
                         {formatDate(new Date(comment.createdAt))}
                       </span>
                     </div>
                     {comment.createdBy == currentUser?.id && (
                       <button
                         onClick={() => handleDeleteComment(commentId)}
-                        className={styles.deleteButton}
+                        className={blogStyles.deleteButton}
                       >
                         <DeleteIcon />
                       </button>
                     )}
                   </div>
                   <div>
-                    <p className={styles.commentText}>
+                    <p className={blogStyles.commentText}>
                       {typeof comment.text === "object" ? comment.text?.text : comment.text}
                     </p>
                   </div>
@@ -355,7 +410,24 @@ export default function UsecasePage({ usecase, apps, users }) {
           )}
         </div>
 
-        <StickySidebar sections={sidebarSections} activeIdea={activeIdea} />
+        <div className="container d-flex align-items-center gap-3 justify-content-between py-4 border-top">
+          <div className="d-flex align-items-center gap-2">
+            <div
+              className="border rounded-pill p-1 d-flex align-items-center justify-content-center small"
+              style={{ width: "28px", height: "28px", fontSize: "12px" }}
+            >
+              {author?.name
+                ?.split(" ")
+                .map((n) => n.charAt(0).toUpperCase())
+                .join("") || "?"}
+            </div>
+            <span className="text-secondary small">Written by</span>
+            <span className="fw-normal">{author?.name || "Unknown"}</span>
+          </div>
+          <span className="text-secondary small">
+            {usecase.createdAt ? formatDate(new Date(usecase.createdAt)) : ""}
+          </span>
+        </div>
       </div>
 
       <AddUsecaseCommentPopup

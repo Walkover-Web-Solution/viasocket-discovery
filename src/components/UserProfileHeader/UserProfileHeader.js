@@ -22,7 +22,7 @@ const UserProfileHeader = ({ user, currentUser, count }) => {
         </span>
         <h1
           className="h1 fw-bold m-0"
-          style={{ fontFamily: "var(--title-font)" }}
+
         >
           {user.name}
         </h1>

@@ -26,7 +26,6 @@
       align-items: center;
       .visitIntegrations {
         font-size: 1rem;
-        font-family: Courier Prime;
         border: 1px solid black;
         display: flex;
         justify-content: center;
@@ -66,7 +65,6 @@
   }
   h5 {
     font-size: 2rem !important;
-    font-family: var(--title-font);
     font-weight: 600 !important;
     margin-bottom: 0;
   }
@@ -88,7 +86,6 @@
     h5,
     h6,
     strong {
-      font-family: var(--para-font);
       font-weight: bolder;
       font-size: 1.2rem;
     }

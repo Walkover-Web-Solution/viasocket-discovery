@@ -1,16 +1,24 @@
 import React from "react";
-import { FaLinkedinIn, FaFacebookF, FaTwitter } from "react-icons/fa";
 import styles from "./razorpay.module.scss";
-import StickySidebar from "@/components/StickySidebar/StickySidebar";
 import BuildFlowButton from "@/components/BuildFlowButton/BuildFlowButton";
 import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
 import WorkflowStep from "@/components/WorkflowStep/WorkflowStep";
 import razorpayAutomationData from "@/data/razorpayAutomationData";
+import AccentBar from "@/components/AccentBar/AccentBar";
 
 const sections = razorpayAutomationData;
 
 const RazorpayAutomationIdeasPage = () => {
   const [activeIdea, setActiveIdea] = React.useState("");
+
+  const activeSectionIndex = React.useMemo(() => {
+    for (let i = 0; i < sections.length; i++) {
+      if (sections[i].ideas.some((idea) => idea.id === activeIdea)) {
+        return i;
+      }
+    }
+    return -1;
+  }, [activeIdea]);
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -37,89 +45,166 @@ const RazorpayAutomationIdeasPage = () => {
   return (
     <>
       <BackToDashboardButton />
-      <div className="container d-flex gap-5 my-4">
-        <div
-          className="flex-grow-1 pe-5 me-5"
-          style={{ backgorundColor: "red" }}
-        >
-          <p className="text-brand fw-semibold mb-3">AUTOMATION IDEAS</p>
-          <h1 className={`${styles.title} pb-3`}>Razorpay automation ideas</h1>
-          <p className="fs-5 pb-4">
-            Turn Razorpay payments into booked sessions, timely follow ups,
-            better customer experiences, and smarter payment recovery.
-          </p>
-          <div className="d-flex align-items-center pb-5">
-            <div className="d-flex align-items-center">
-              <div className="d-flex gap-3 text-secondary me-3">
-                <div
-                  className="border p-1 d-flex align-items-center justify-content-center"
-                  style={{ width: "26px", height: "26px" }}
-                >
-                  <FaLinkedinIn />
-                </div>
-                <div
-                  className="border p-1 d-flex align-items-center justify-content-center"
-                  style={{ width: "26px", height: "26px" }}
-                >
-                  <FaFacebookF />
-                </div>
-                <div
-                  className="border p-1 d-flex align-items-center justify-content-center"
-                  style={{ width: "26px", height: "26px" }}
-                >
-                  <FaTwitter />
-                </div>
-              </div>
-              <div
-                className="border p-1 d-flex align-items-center justify-content-center me-2"
-                style={{ width: "26px", height: "26px", fontSize: "12px" }}
+      <div className="d-flex flex-column gap-5 mb-4">
+        <div className="flex-grow-1">
+          <div className="container mb-4">
+            <h1 className="display-3 fw-normal mb-3">
+              Razorpay automation ideas
+            </h1>
+            <p className="fs-5 pb-4">
+              Turn Razorpay payments into booked sessions, timely follow ups,{" "}
+              <br />
+              better customer experiences, and smarter payment recovery.
+            </p>
+
+            <div className="d-flex align-items-center gap-3">
+              <p
+                className={`border py-2 px-3 small rounded-pill cursor-pointer ${styles.pill}`}
+                style={
+                  activeSectionIndex === 0
+                    ? { backgroundColor: "black", color: "white" }
+                    : {}
+                }
+                onClick={() =>
+                  document
+                    .getElementById(sections[0].ideas[0].id)
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                }
               >
-                RM{" "}
-              </div>
-              <span className="fw-semibold me-2">Ragini Mahobiya</span>
-              <span className="text-secondary">July 29, 2026</span>
+                Must to have 2
+              </p>
+              <p
+                className={`border py-2 px-3 small rounded-pill cursor-pointer ${styles.pill}`}
+                style={
+                  activeSectionIndex === 1
+                    ? { backgroundColor: "black", color: "white" }
+                    : {}
+                }
+                onClick={() =>
+                  document
+                    .getElementById(sections[1].ideas[0].id)
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                }
+              >
+                High value 6
+              </p>
+              <p
+                className={`border py-2 px-3 small rounded-pill cursor-pointer ${styles.pill}`}
+                style={
+                  activeSectionIndex === 2
+                    ? { backgroundColor: "black", color: "white" }
+                    : {}
+                }
+                onClick={() =>
+                  document
+                    .getElementById(sections[2].ideas[0].id)
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                }
+              >
+                AI workflows 4
+              </p>
             </div>
           </div>
 
-          <div className="d-flex flex-column gap-5">
-            {sections.map((section, sectionIndex) => (
-              <React.Fragment key={section.title}>
-                {section.ideas.map((idea, ideaIndex) => (
-                  <div
-                    key={idea.id}
-                    id={idea.id}
-                    className="pb-4 border-bottom"
-                  >
-                    {ideaIndex === 0 && sectionIndex === 0 && (
-                      <div className="pb-4">
-                        <p className="text-brand fw-semibold pb-1">PHASE 1</p>
-                        <h3 className="mustHave">{section.title}</h3>
-                      </div>
-                    )}
-                    {ideaIndex === 0 && sectionIndex === 1 && (
-                      <div className="pb-4">
-                        <p className="text-brand fw-semibold pb-1">PHASE 2</p>
-                        <h5 className="mustHave">{section.title}</h5>
-                      </div>
-                    )}
-                    {ideaIndex === 0 && sectionIndex === 2 && (
-                      <div className="pb-4">
-                        <p className="text-brand fw-semibold pb-1">PHASE 3</p>
-                        <h5 className="mustHave">{section.title}</h5>
-                      </div>
-                    )}
+          {sections.map((section, sectionIndex) => {
+            const bgColors = [
+              "rgb(242, 236, 226)",
+              "rgb(234, 239, 232)",
+              "rgb(247, 234, 231)",
+            ];
+            return (
+              <div
+                key={section.title}
+                style={{ backgroundColor: bgColors[sectionIndex] }}
+              >
+                <div className={`container d-flex flex-column gap-5 py-5 ${sectionIndex === 0 ? "border-top" : ""}`}>
+                  {section.ideas.map((idea, ideaIndex) => (
+                    <div
+                      key={idea.id}
+                      id={idea.id}
+                      className="pb-4 border-bottom"
+                    >
+                      {ideaIndex === 0 && sectionIndex === 0 && (
+                        <div className="d-flex align-items-center gap-3 mb-4">
+                          {/* <p className="text-brand fw-semibold pb-1">PHASE 1</p> */}
+                          <AccentBar />
+                          <h6 className="mustHave mb-0">{section.title}</h6>
+                          <span
+                            className="rounded-pill bg-secondary"
+                            style={{ padding: "2px 2px" }}
+                          ></span>
+                          <p className="text-secondary mb-0">
+                            {section.ideaCount}2 Ideas
+                          </p>
+                        </div>
+                      )}
+                      {ideaIndex === 0 && sectionIndex === 1 && (
+                        <div className="d-flex align-items-center gap-3 mb-4">
+                          <AccentBar />
+                          <h6 className="mustHave mb-0">{section.title}</h6>
+                          <span
+                            className="rounded-pill bg-secondary"
+                            style={{ padding: "2px 2px" }}
+                          ></span>
+                          <p className="text-secondary mb-0">
+                            {section.ideaCount}6 Ideas
+                          </p>
+                        </div>
+                      )}
+                      {ideaIndex === 0 && sectionIndex === 2 && (
+                        <div className="d-flex align-items-center gap-3 mb-4">
+                          <AccentBar />
+                          <h6 className="mustHave mb-0">{section.title}</h6>
+                          <span
+                            className="rounded-pill bg-secondary"
+                            style={{ padding: "2px 2px" }}
+                          ></span>
+                          <p className="text-secondary mb-0">
+                            {section.ideaCount}4 Ideas
+                          </p>
+                        </div>
+                      )}
 
-                    <h3 className="fs-4">{idea.text}</h3>
-                    <p className="pb-4">{idea.description}</p>
-                    {idea.workflow && <WorkflowStep steps={idea.workflow} />}
-                    <BuildFlowButton />
-                  </div>
-                ))}
-              </React.Fragment>
-            ))}
-          </div>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr 1fr",
+                          gap: "6rem",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <div>
+                          <h4 className="fw-bold">{idea.text}</h4>
+                          <p className="pb-4">{idea.description}</p>
+                        </div>
+                        <div>
+                          {idea.workflow && (
+                            <WorkflowStep steps={idea.workflow} />
+                          )}
+                          <BuildFlowButton />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
-        <StickySidebar sections={sections} activeIdea={activeIdea} />
+
+        <div className="container d-flex align-items-center gap-3 justify-content-between py-4 border-top">
+          <div className="d-flex align-items-center gap-2">
+            <div
+              className="border rounded-pill p-1 d-flex align-items-center justify-content-center small"
+              style={{ width: "28px", height: "28px", fontSize: "12px" }}
+            >
+              RM{" "}
+            </div>
+            <span className="text-secondary small">Written by</span>
+            <span className="fw-normal">Ragini Mahobiya</span>
+          </div>
+          <span className="text-secondary small">July 29, 2026</span>
+        </div>
       </div>
     </>
   );

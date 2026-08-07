@@ -65,7 +65,7 @@ const AddCommentPopup = ({ open, onClose, blogId, setComments }) => {
                             >
                                 Discovery editorial desk
                             </p>
-                            <h2 className="m-0 fw-bold" id="contribute-dialog-title" style={{ fontFamily: 'var(--title-font)', lineHeight: 1.05 }}>
+                            <h2 className="m-0 fw-bold" id="contribute-dialog-title" style={{ lineHeight: 1.05 }}>
                                 Contribute to Discovery
                             </h2>
                         </div>
@@ -73,7 +73,7 @@ const AddCommentPopup = ({ open, onClose, blogId, setComments }) => {
 
                     <form onSubmit={onSubmit}>
                         <fieldset className="border-0 p-0 m-0 mb-4">
-                            <legend className="fw-bold mb-3 fs-5" style={{ fontFamily: 'var(--title-font)' }}>
+                            <legend className="fw-bold mb-3 fs-5" style={{}}>
                                 What would you like to do?
                             </legend>
                             <div className="row g-3" role="radiogroup" aria-label="Contribution type">
@@ -95,7 +95,7 @@ const AddCommentPopup = ({ open, onClose, blogId, setComments }) => {
                                             <FiPenTool size={22} />
                                         </span>
                                         <span className="flex-grow-1">
-                                            <strong className="d-block mb-1" style={{ fontFamily: 'var(--title-font)' }}>List your app</strong>
+                                            <strong className="d-block mb-1" style={{}}>List your app</strong>
                                             <span className="text-secondary small">
                                                 Submit a product for editorial review and potential inclusion in future Discovery coverage.
                                             </span>
@@ -131,7 +131,7 @@ const AddCommentPopup = ({ open, onClose, blogId, setComments }) => {
                                             <FiMessageSquare size={22} />
                                         </span>
                                         <span className="flex-grow-1">
-                                            <strong className="d-block mb-1" style={{ fontFamily: 'var(--title-font)' }}>Give feedback</strong>
+                                            <strong className="d-block mb-1" style={{}}>Give feedback</strong>
                                             <span className="text-secondary small">
                                                 Share a correction, editorial suggestion, issue, or request for additional product coverage.
                                             </span>
@@ -156,7 +156,6 @@ const AddCommentPopup = ({ open, onClose, blogId, setComments }) => {
                             <label
                                 className="d-inline-flex align-items-center gap-2 fw-bold mb-3 fs-5"
                                 htmlFor="contribute-message"
-                                style={{ fontFamily: 'var(--title-font)' }}
                             >
                                 <FiEdit3 size={22} style={{ color: ACCENT }} />
                                 <span>{isAppOption ? 'App details' : 'Your feedback'}</span>

@@ -1,10 +1,10 @@
 import React from "react";
 
 const AccentBar = ({
-  width = "20px",
-  height = "2px",
+  width = "8px",
+  height = "8px",
   color = "#A8200D",
-  className = "",
+  className = "rounded-pill",
   style = {},
 }) => {
   return (

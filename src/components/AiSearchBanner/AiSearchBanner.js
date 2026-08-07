@@ -58,7 +58,6 @@ const AiSearchBanner = ({
         <h2
           className="text-white fw-bold mb-3"
           style={{
-            fontFamily: "var(--title-font)",
             fontSize: 36,
             lineHeight: 1.2,
           }}
@@ -68,7 +67,6 @@ const AiSearchBanner = ({
         <p
           className="text-white mb-4"
           style={{
-            fontFamily: "var(--para-font)",
             fontSize: 15,
             lineHeight: 1.65,
           }}

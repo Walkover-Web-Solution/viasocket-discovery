@@ -66,7 +66,7 @@ const AddUsecaseCommentPopup = ({ open, onClose, usecaseId, setComments }) => {
               <h2
                 className="m-0 fw-bold"
                 id="contribute-usecase-dialog-title"
-                style={{ fontFamily: "var(--title-font)", lineHeight: 1.05 }}
+                style={{ lineHeight: 1.05 }}
               >
                 Contribute to Automation Ideas
               </h2>
@@ -79,7 +79,6 @@ const AddUsecaseCommentPopup = ({ open, onClose, usecaseId, setComments }) => {
                 <label
                   className="d-inline-flex align-items-center gap-2 fw-bold fs-5"
                   htmlFor="contribute-usecase-message"
-                  style={{ fontFamily: "var(--title-font)" }}
                 >
                   <span>How would you like to contribute?</span>
                 </label>
@@ -141,7 +140,7 @@ const AddUsecaseCommentPopup = ({ open, onClose, usecaseId, setComments }) => {
                 {mode === "request" && (
                   <div
                     className="fw-bold fs-5"
-                    style={{ fontFamily: "var(--title-font)" }}
+                    style={{}}
                   >
                     <FiEdit3 size={22} style={{ color: ACCENT }} /> Request
                     details
@@ -150,7 +149,7 @@ const AddUsecaseCommentPopup = ({ open, onClose, usecaseId, setComments }) => {
                 {mode === "contribute" && (
                   <div
                     className="fw-bold fs-5"
-                    style={{ fontFamily: "var(--title-font)" }}
+                    style={{}}
                   >
                     <FiEdit3 size={22} style={{ color: ACCENT }} /> Contribution
                     details

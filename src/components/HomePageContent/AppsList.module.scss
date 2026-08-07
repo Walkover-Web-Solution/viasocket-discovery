@@ -1,13 +1,22 @@
 .appCard {
   position: relative;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    border-color 0.15s ease,
+    background-color 0.15s ease;
   cursor: pointer;
 
   &:hover {
     transform: translate(-2px, -2px);
     box-shadow: 4px 4px 0 0 #000;
     border-color: #000 !important;
-    background-color: #fff0f0 !important;
+
+    .plusIcon:not(.selectedIcon) {
+      background-color: #000;
+      color: #fff;
+      border-color: #000;
+    }
   }
 }
 
@@ -22,18 +31,17 @@
   }
 }
 
-.tick {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.plusIcon {
+  width: 24px;
+  height: 24px;
+  border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color) !important;
+  font-size: 16px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.selectedIcon {
   background-color: #a8200d;
   color: #fff;
-  border-radius: 50%;
-  font-size: 12px;
-  line-height: 1;
+  border-style: solid;
 }

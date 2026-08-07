@@ -18,7 +18,6 @@ const RelatedBlogs = ({ relatedBlogs }) => {
                 className="d-block fw-bold text-uppercase mb-3 border bg-light p-2"
                 style={{
                   width: "fit-content",
-                  fontFamily: "var(--font-display)",
                   fontSize: "12px",
                 }}
               >
