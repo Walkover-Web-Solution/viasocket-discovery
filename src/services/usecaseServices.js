@@ -87,6 +87,11 @@ async function saveUsecaseRecord(appList, data, userId, environment) {
                 app: data.app,
                 app_slug: data.app_slug,
                 audience: data.audience,
+                h1: data.h1,
+                subheader: data.subheader,
+                meta_title: data.meta_title,
+                meta_description: data.meta_description,
+                related_apps: data.related_apps || [],
                 phases: data.phases || [],
                 createdBy: userId ?? null,
                 contributors: userId != null ? [userId] : [],
@@ -371,6 +376,11 @@ export async function suggestAppUsecases(apps, message, { userId, environment, o
                 app: existing.app,
                 app_slug: existing.app_slug,
                 audience: existing.audience,
+                h1: existing.h1,
+                subheader: existing.subheader,
+                meta_title: existing.meta_title,
+                meta_description: existing.meta_description,
+                related_apps: existing.related_apps,
                 phases: existing.phases,
                 alreadyExists: true,
                 usecaseId: existing._id,
@@ -383,7 +393,7 @@ export async function suggestAppUsecases(apps, message, { userId, environment, o
         ? `Apps: ${appNames.join(', ')} \n Requirement: ${message.trim()}`
         : `Apps: ${appNames.join(', ')}`;
 
-    const data = await askAi(USECASE_AGENT_ID, userMessage, { apps: appList, message: message || '' });
+    const data = await askAi(USECASE_AGENT_ID, userMessage, { apps: appList, message: message || '' }, null, "6a756c18e1bbbc024cb627e7");
     const parsed = parseAgentResponse(data);
 
     const usecaseId = await saveUsecaseRecord(appList, parsed, userId, environment);

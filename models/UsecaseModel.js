@@ -27,6 +27,22 @@ const createUsecaseModel = (connection) => {
     audience: {
       type: String,
     },
+    h1: {
+      type: String,
+    },
+    subheader: {
+      type: String,
+    },
+    meta_title: {
+      type: String,
+    },
+    meta_description: {
+      type: String,
+    },
+    related_apps: {
+      type: Array,
+      default: [],
+    },
     phases: {
       type: Array,
       default: [],
