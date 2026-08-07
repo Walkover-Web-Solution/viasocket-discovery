@@ -6,6 +6,7 @@ const AppsAndCategories = ({
   onSelectedAppsChange,
   selectedApps,
   searchQuery,
+  onBuildUsecase,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categories, setCategories] = useState([]);
@@ -57,6 +58,7 @@ const AppsAndCategories = ({
         onSelectedAppsChange={onSelectedAppsChange}
         selectedApps={selectedApps}
         searchQuery={searchQuery}
+        onBuildUsecase={onBuildUsecase}
       />
     </>
   );

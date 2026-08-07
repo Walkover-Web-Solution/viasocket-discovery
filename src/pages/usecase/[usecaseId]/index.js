@@ -22,7 +22,7 @@ import styles from "./usecasePage.module.scss";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 // TODO: point this at the real English flow builder entry point once it exists
-const FLOW_BUILDER_URL = "https://viasocket.com/flows/new";
+const FLOW_BUILDER_URL = "https://viasocket.com/signup";
 
 function buildFlowLink(usecase) {
   const params = new URLSearchParams({ prompt: usecase.prompt || "" });
@@ -298,9 +298,13 @@ export default function UsecasePage({ usecase, apps, users }) {
             return (
               <div
                 key={phase.phase}
-                style={{ backgroundColor: bgColors[phaseIndex % bgColors.length] }}
+                style={{
+                  backgroundColor: bgColors[phaseIndex % bgColors.length],
+                }}
               >
-                <div className={`container d-flex flex-column gap-5 py-5 ${phaseIndex === 0 ? "border-top" : ""}`}>
+                <div
+                  className={`container d-flex flex-column gap-5 py-5 ${phaseIndex === 0 ? "border-top" : ""}`}
+                >
                   {phase.usecases.map((item, itemIndex) => (
                     <div
                       key={item.ideaId}
@@ -401,7 +405,9 @@ export default function UsecasePage({ usecase, apps, users }) {
                   </div>
                   <div>
                     <p className={blogStyles.commentText}>
-                      {typeof comment.text === "object" ? comment.text?.text : comment.text}
+                      {typeof comment.text === "object"
+                        ? comment.text?.text
+                        : comment.text}
                     </p>
                   </div>
                 </div>
