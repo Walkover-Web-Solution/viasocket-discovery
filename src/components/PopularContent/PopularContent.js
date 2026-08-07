@@ -4,12 +4,12 @@ import blogstyle from "@/components/Blog/Blog.module.scss";
 const PopularContent = ({ popularTags, setIsCategoryClicked }) => {
   return (
     <>
-      <div className="d-flex flex-wrap gap-2 w-75 px-3 mt-3">
+      <div className="d-flex flex-wrap gap-2 w-100 w-md-75 px-3 mt-3">
         {popularTags.map((tag, index) => (
           <Link
             key={index}
             href={`/?search=${tag.label.replaceAll(" ", "+")}`}
-            className={`${blogstyle.tag} ${blogstyle[tag.label.toLowerCase()]} d-inline-flex align-items-center gap-2 border px-3 py-2 text-decoration-none text-dark bg-white`}
+            className={`${blogstyle.tag} ${blogstyle.tagResponsive} ${blogstyle[tag.label.toLowerCase()]} d-inline-flex align-items-center gap-2 border px-3 py-2 text-decoration-none text-dark bg-white`}
             onClick={() => {
               setIsCategoryClicked(true);
             }}

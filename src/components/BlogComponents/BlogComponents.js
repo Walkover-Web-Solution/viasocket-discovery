@@ -182,13 +182,13 @@ const Components = {
     </ReactMarkdown>
   ),
   additionalSection: ({ content, heading }) => (
-    <section className={`blog-page__section mb-5 p-2 w-75`}>
+    <section className={`blog-page__section mb-5 p-2 w-100 w-md-75`}>
       {heading && (
         <h3 className="m-0" style={{ fontFamily: "var(--para-font)" }}>
           {heading}
         </h3>
       )}
-      <div className="bp-table-wrap">
+      <div className={styles.tableWrap}>
         <ReactMarkdown
           className={`d-flex flex-column gap-3 ${styles.content}`}
           remarkPlugins={[remarkGfm]}

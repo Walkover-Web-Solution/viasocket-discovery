@@ -67,6 +67,16 @@
 
 }
 
+.tagResponsive {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .tagResponsive {
+    width: fit-content;
+  }
+}
+
 .containerOpen{
   width: 70%;
 }

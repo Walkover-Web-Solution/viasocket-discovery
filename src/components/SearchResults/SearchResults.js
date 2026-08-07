@@ -72,14 +72,7 @@ const SearchResults = ({
   const renderCategoriesSection = () => {
     return (
       <section>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
-            placeItems: "center",
-          }}
-          className="mb-5 pb-5"
-        >
+        <div className={`mb-5 pb-5 ${styles.categoriesGrid}`}>
           {categories.length > 0 &&
             categories.map((category) => (
               <a
