@@ -48,7 +48,7 @@ const TopContributors = ({ popularUsers }) => {
               (user.meta.bio.split(" ").length > 50 ? "..." : "")
             : "Viasocket User";
           return (
-            <div key={index} className="col-12 col-md-6">
+            <div key={index} className="col-12 col-sm-6 col-md-4 col-lg-4">
               <a
                 href={`/automation-ideas/user/${user.id}`}
                 className={`${styles.contribCard} d-flex flex-column justify-content-between position-relative border p-3 text-decoration-none text-dark bg-white h-100`}

@@ -22,7 +22,7 @@ const WorkflowStep = ({ steps }) => {
             {step.label}
           </div>
           {index < steps.length - 1 && (
-            <FaArrowRightLong className="text-brand" />
+            <FaArrowRightLong className="text-secondary" />
           )}
         </React.Fragment>
       ))}

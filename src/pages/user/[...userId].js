@@ -90,7 +90,7 @@ export default function UserPage({ user }) {
   return (
     <div
       className="container-lg px-4"
-      style={{ maxWidth: "60rem", margin: "auto" }}
+      style={{ maxWidth: "60rem"}}
     >
       <BackToDashboardButton />
       <UserProfileHeader user={user} currentUser={currentUser} count={count} />

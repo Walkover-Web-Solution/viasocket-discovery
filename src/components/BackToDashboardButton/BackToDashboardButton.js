@@ -15,7 +15,7 @@ const BackToDashboardButton = ({
     marginRight: "-50vw",
     background: "transparent",
     fontWeight: 500,
-    padding: "20px 10px",
+    padding: "20px 0",
     textAlign: "left",
     outline: "none",
     border: "none",
@@ -31,7 +31,7 @@ const BackToDashboardButton = ({
 
   return (
     <button
-      className={`${className} container mx-auto w-100 w-md-75 mt-2`}
+      className={`${className} container mx-auto w-100 my-2`}
       onClick={handleClick}
       style={defaultStyle}
     >
