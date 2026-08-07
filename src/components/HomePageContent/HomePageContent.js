@@ -78,6 +78,7 @@ const HomePageContent = ({
                   onSelectedAppsChange={setSelectedApps}
                   selectedApps={selectedApps}
                   searchQuery={searchQuery}
+                  onBuildUsecase={handleCreateUsecase}
                 />
               )}
             </div>

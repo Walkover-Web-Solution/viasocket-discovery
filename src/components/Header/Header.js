@@ -144,7 +144,6 @@ const Header = () => {
                 className={` ${styles.viaIconBlack} ${styles.viaDropdown} d-flex justify-content-center align-items-center text-sm font-semibold px-4 text-decoration-none glass-effect`}
                 onClick={toggleUserInfo}
                 style={{
-                  borderRight: "1px solid #ccc",
                   minWidth: "120px",
                   fontSize: "14px",
                   paddingTop: "10px",

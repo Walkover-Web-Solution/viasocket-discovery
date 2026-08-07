@@ -8,6 +8,7 @@ const AppsList = ({
   onSelectedAppsChange,
   selectedApps: parentSelectedApps = [],
   searchQuery = "",
+  onBuildUsecase,
 }) => {
   const [apps, setApps] = useState([]);
   const [appsLoading, setAppsLoading] = useState(false);
@@ -38,6 +39,17 @@ const AppsList = ({
       cancelled = true;
     };
   }, [onSelectedAppsChange, selectedCategory]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key !== "Enter" || parentSelectedApps.length === 0 || !onBuildUsecase) return;
+      if (e.target.closest('[role="button"]')) return;
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+      onBuildUsecase(parentSelectedApps, searchQuery);
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [parentSelectedApps, searchQuery, onBuildUsecase]);
 
   if (appsLoading) {
     return <div className="text-center my-4">Loading apps...</div>;
@@ -100,9 +112,18 @@ const AppsList = ({
                 tabIndex={0}
                 onClick={() => toggleApp(app.name)}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
+                  if (e.key === " ") {
                     e.preventDefault();
                     toggleApp(app.name);
+                  }
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    if (isSelected && onBuildUsecase) {
+                      e.stopPropagation();
+                      onBuildUsecase(parentSelectedApps, searchQuery);
+                    } else {
+                      toggleApp(app.name);
+                    }
                   }
                 }}
                 className={`${styles.appCard} ${isSelected ? styles.selected : ""} text-dark d-flex align-items-center gap-1 gap-sm-2 border bg-white p-2 w-100 h-100`}

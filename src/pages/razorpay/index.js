@@ -181,7 +181,7 @@ const RazorpayAutomationIdeasPage = () => {
                           {idea.workflow && (
                             <WorkflowStep steps={idea.workflow} />
                           )}
-                          <BuildFlowButton />
+                          <BuildFlowButton href="https://viasocket.com/signup" />
                         </div>
                       </div>
                     </div>
