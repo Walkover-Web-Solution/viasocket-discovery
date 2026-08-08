@@ -1,4 +1,4 @@
-function getDomain() {
+export function getDomain() {
     const hostname = window.location.hostname;
     const parts = hostname?.split('.');
     
