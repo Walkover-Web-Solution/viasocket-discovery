@@ -151,7 +151,7 @@ export default function BlogPage({ blog, users, relatedBlogs, appBlogs, faq }) {
         `${blog?.id}${currentUser?.id}`,
         process.env.NEXT_PUBLIC_COMMENT_BRIDGE,
       );
-      let prevMessages = chatHistoryData.data
+      let prevMessages = chatHistoryData?.data
         .filter((chat) => chat.role === "user" || chat.role === "assistant")
         .map((chat, index) => {
           if (chat["raw_data.variables"]?.retry) indexes.push(index);
