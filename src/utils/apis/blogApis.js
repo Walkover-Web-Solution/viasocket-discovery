@@ -62,7 +62,7 @@ export const getReletedblogs = async (id) => {
 
 export const createBlog = async(blogTitle) => {
   try{
-    const response = await axios.post(proxyUrl + '/api/blog', {userMessage: blogTitle});
+    const response = await axios.post(baseUrl + '/api/blog', {userMessage: blogTitle});
     return response?.data?.data.id;
   }catch(error){
     return null;

@@ -5,7 +5,7 @@ const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 const proxyUrl = process.env.NEXT_PUBLIC_PROXY_URL;
 
 export const sendMessageApi = async (content, chatId, bridgeId, variables, blogId) => {
-    const response = await axios.post(proxyUrl+'/api/ask-ai', {
+    const response = await axios.post(baseUrl+'/api/ask-ai', {
         userMessage: content,
         chatId: chatId,
         bridgeId : bridgeId, 
@@ -20,7 +20,7 @@ export const sendMessageApi = async (content, chatId, bridgeId, variables, blogI
 
 export const getAllPreviousMessages = async (chatId, bridgeId) => {
     try{
-    const response = await axios.get(proxyUrl+`/api/gethistory?chatId=${chatId}&bridgeId=${bridgeId}`);
+    const response = await axios.get(baseUrl+`/api/gethistory?chatId=${chatId}&bridgeId=${bridgeId}`);
     return response?.data?.data;
     }catch(error){
         console.error(error);
