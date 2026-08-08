@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import WithAuth from '@/components/auth/WithAuth';
 // import { useUser } from '@/context/UserContext';
 
-import { getFromCookies, getCurrentEnvironment, removeCookie, setInCookies, getRedirectPath, clearPath } from '@/utils/storageHelper'
-import { getCurrentUser, signUpOnBE } from '@/utils/apiHelper'
+import { getFromCookies, getCurrentEnvironment, removeCookie, getRedirectPath, clearPath } from '@/utils/storageHelper'
+import { getCurrentUser } from '@/utils/apiHelper'
 
 export default function AuthPage() {
     const router = useRouter();
@@ -20,14 +20,6 @@ export default function AuthPage() {
                 removeCookie(getCurrentEnvironment())
                 localStorage.clear()
                 sessionStorage.clear()
-            }
-            // localStorage.setItem("userid", userData.id);
-            // localStorage.setItem("userDetail", JSON.stringify({ name: userData.name, email: userData.email, id: userData.id }));
-            // setUser({ name: userData.name, email: userData.email, id: userData.id })
-            if (process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT === 'local') {
-                const response = await signUpOnBE({ ...userData, org_id: parseInt(queryParams['company_ref_id'], 10) })
-                // localStorage.setItem('accessToken', response?.data?.data?.token)
-                setInCookies(getCurrentEnvironment(), response?.data)
             }
             clearPath();
             window.location.href= redirectPath ? redirectPath : '/discovery'
