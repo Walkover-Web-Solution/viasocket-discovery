@@ -341,7 +341,7 @@ export default function UsecasePage({ usecase, apps, users }) {
                         </div>
                         <div>
                           <FlowSteps flow={item.flow} apps={apps} />
-                          <BuildFlowButton href={buildFlowLink(item)} />
+                          <BuildFlowButton href={buildFlowLink(item)} prompt={item.prompt || item.description} />
                         </div>
                       </div>
                     </div>
