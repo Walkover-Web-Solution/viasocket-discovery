@@ -105,6 +105,20 @@ export async function getUsecaseById(usecaseId, environment) {
     });
 }
 
+export async function getUsecaseByAppSlug(appSlug, environment) {
+    return withUsecaseModel(environment, async (Usecase) => {
+        const pattern = new RegExp(`^${escapeRegExp(appSlug)}$`, 'i');
+        return Usecase.findOne({
+            $or: [
+                { app_slug: pattern },
+                { 'apps.app_slug': pattern }
+            ]
+        })
+            .sort({ createdAt: -1 })
+            .lean();
+    });
+}
+
 export async function createComment(usecaseId, commentData, environment) {
     try {
         return withUsecaseModel(environment, async (Usecase) => {

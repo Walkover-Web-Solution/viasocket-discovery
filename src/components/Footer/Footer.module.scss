@@ -1,114 +1,41 @@
-.footer {
-    padding-top: 40px ;
-    // border-top: 1px solid #e7e7e7;
-    a{
-      padding: 5px 0;
-    }
+.footerLink {
+  transition:
+    color 0.2s ease,
+    padding-left 0.2s ease;
+
+  &:hover {
+    color: var(--brand-color) !important;
+    padding-left: 4px;
   }
-  .footerContainer{
-    width: 100%;
-    margin: auto;
-  }
-  .footerLeft{
-    border: 1px solid black;
-    border-right: none;
-    border-left: none;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .footerLogo {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 32px;
-    padding: 16px 0;
-  }
-  
-  .footerProduct {
-    display: flex;
-    align-items: flex-end;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  
-  .footerRight {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    border:1px solid black;
-    border-right: none;
-  }
-  
-  .footerColumn {
-    display: flex;
-    flex-direction: column;
-    gap: 42px;
-    padding: 40px 32px;
-    flex: 1;
-  }
-  
-  .columnBorder {
-    border-right: 1px solid black;
-    border-bottom: 0px;
-  }
-  
-  .group {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-  
-  .groupTitle {
-    font-weight: bold;
-    font-size: 16px;
-  }
-  
-  .groupItems a {
-    text-decoration: none;
-    color: black;
-    transition: color 0.3s;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
   }
 
-  .groupItems{
-    display: flex;
-    flex-direction: column;
+  &:hover {
+    color: #fff !important;
+    background-color: var(--brand-color);
+    border-color: var(--brand-color) !important;
   }
-  
-  .groupItems a:hover {
-    color: blue;
-  }
-  
-  .footerSocial {
-    display: flex;
-    gap: 16px;
-    margin-top: auto;
-  }
-  
-  .footerSocial a {
-    text-decoration: none;
-    color: black;
-    font-size: 24px;
-    transition: color 0.3s;
-  }
-  
-  .footerSocial a:hover {
-    color: #007bff;
-  }
-  
-  @media (max-width: 767px) {
-    .columnBorder {
-      border-right: 0px;
-      border-bottom: 1px solid black;
-    }
-  }
-  
+}
 
-  @media (max-width: 990px) {
-    .footerLeft{
-      border-right: 1px solid black;
-      border-top: none;
-    }
+.walkoverLink {
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.75;
   }
-  
+}

@@ -7,7 +7,7 @@ import { nameToSlugName } from "@/utils/utils";
 import UserProfileHeader from "@/components/UserProfileHeader/UserProfileHeader";
 import UserBlogList from "@/components/UserBlogList/UserBlogList";
 import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
-import  {useUser}  from "@/context/UserContext";
+import { useUser } from "@/context/UserContext";
 
 export async function getServerSideProps(context) {
   const { userId } = context.params;
@@ -26,8 +26,6 @@ export async function getServerSideProps(context) {
 
 export default function UserPage({ user }) {
   const router = useRouter();
-  const [blogs, setBlogs] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [usecases, setUsecases] = useState([]);
   const [usecasesLoading, setUsecasesLoading] = useState(true);
   const [count, setCount] = useState({});
@@ -44,21 +42,19 @@ export default function UserPage({ user }) {
       );
     }
   }, [user?.id]);
-  useEffect(()=>{
-    const fetchData = async ()=>{
+  useEffect(() => {
+    const fetchData = async () => {
       const data = await fetchBlogs(`?userId=${user.id}`);
-      setBlogs(data.blogs);
-      setCount(()=>{
+      setCount(() => {
         let c = 0;
-        data.blogs.forEach((blog)=>{
-          if(blog?.createdBy[0] === user.id) c++;
+        data.blogs.forEach((blog) => {
+          if (blog?.createdBy[0] === user.id) c++;
         });
         return {
-          createdCount : c ,
-          contributed : data.blogs.length - c
+          createdCount: c,
+          contributed: data.blogs.length - c
         }
       });
-      setIsLoading(false);
     }
     fetchData();
   }, [user.id]);
@@ -80,6 +76,7 @@ export default function UserPage({ user }) {
 
   const usecaseCards = usecases.map((usecase) => ({
     id: usecase._id,
+    app_slug: usecase.app_slug,
     title: `${usecase.app} automation ideas`,
     apps: Object.fromEntries(
       (usecase.apps || []).map((entry) => [entry.app, { iconUrl: entry.iconUrl }]),
@@ -90,7 +87,7 @@ export default function UserPage({ user }) {
   return (
     <div
       className="container-lg px-4"
-      style={{ maxWidth: "60rem"}}
+      style={{ maxWidth: "60rem" }}
     >
       <BackToDashboardButton />
       <UserProfileHeader user={user} currentUser={currentUser} count={count} />
@@ -100,7 +97,7 @@ export default function UserPage({ user }) {
           title={`Automation ideas by ${user.name.trim().split(" ")[0]}`}
           isLoading={usecasesLoading}
           userName={user.name}
-          linkBuilder={(item) => `/automation-ideas/usecase/${item.id}`}
+         linkBuilder={(item) => `/automation-ideas/usecase/${item.app_slug ? `${item.app_slug}-automation-ideas` : nameToSlugName(item.title)}`}
         />
       </div>
     </div>
