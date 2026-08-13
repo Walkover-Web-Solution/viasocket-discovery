@@ -1,0 +1,15 @@
+.pill:hover {
+  border-color: black !important;
+}
+
+.ideaLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  justify-content: space-between;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+  }
+}

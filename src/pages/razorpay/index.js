@@ -128,7 +128,7 @@ const RazorpayAutomationIdeasPage = () => {
                         <div className="d-flex align-items-center gap-3 mb-4">
                           {/* <p className="text-brand fw-semibold pb-1">PHASE 1</p> */}
                           <AccentBar />
-                          <h6 className="mustHave mb-0">{section.title}</h6>
+                          <span className="mustHave mb-0">{section.title}</span>
                           <span
                             className="rounded-pill bg-secondary"
                             style={{ padding: "2px 2px" }}
@@ -141,7 +141,7 @@ const RazorpayAutomationIdeasPage = () => {
                       {ideaIndex === 0 && sectionIndex === 1 && (
                         <div className="d-flex align-items-center gap-3 mb-4">
                           <AccentBar />
-                          <h6 className="mustHave mb-0">{section.title}</h6>
+                          <span className="mustHave mb-0">{section.title}</span>
                           <span
                             className="rounded-pill bg-secondary"
                             style={{ padding: "2px 2px" }}
@@ -154,7 +154,7 @@ const RazorpayAutomationIdeasPage = () => {
                       {ideaIndex === 0 && sectionIndex === 2 && (
                         <div className="d-flex align-items-center gap-3 mb-4">
                           <AccentBar />
-                          <h6 className="mustHave mb-0">{section.title}</h6>
+                          <span className="mustHave mb-0">{section.title}</span>
                           <span
                             className="rounded-pill bg-secondary"
                             style={{ padding: "2px 2px" }}
@@ -192,7 +192,7 @@ const RazorpayAutomationIdeasPage = () => {
           })}
         </div>
 
-        <div className="container d-flex align-items-center gap-3 justify-content-between py-4 border-top">
+        <div className="container d-flex align-items-center gap-3 justify-content-between py-4">
           <div className="d-flex align-items-center gap-2">
             <div
               className="border rounded-pill p-1 d-flex align-items-center justify-content-center small"

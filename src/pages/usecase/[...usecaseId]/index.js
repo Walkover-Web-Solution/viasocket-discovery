@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Avatar } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getUsecaseById } from "@/services/usecaseServices";
+import { getUsecaseById, getUsecaseByAppSlug } from "@/services/usecaseServices";
 import { getUpdatedApps } from "@/services/integrationServices";
 import { getCurrentEnvironment } from "@/utils/storageHelper";
-import { getAllUsers, formatDate } from "@/utils/utils";
+import { getAllUsers, formatDate, nameToSlugName } from "@/utils/utils";
 import { deleteUsecaseComment } from "@/utils/apis/usecaseApis";
 import { useUser } from "@/context/UserContext";
 import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
 import AddUsecaseCommentPopup from "@/components/AddCommentPopup/AddUsecaseCommentPopup";
-import StickySidebar from "@/components/StickySidebar/StickySidebar";
 import BuildFlowButton from "@/components/BuildFlowButton/BuildFlowButton";
-import AuthorRow from "@/components/AuthorSection/AuthorRow";
 import ContributeButton from "@/components/ContributeButton/ContributeButton";
 import AccentBar from "@/components/AccentBar/AccentBar";
 // reuse the exact same comment styling as the blog detail page
@@ -46,11 +45,42 @@ function collectUsecaseAppNames(phases, relatedApps) {
   return [...names];
 }
 
+function isValidMongoId(str) {
+  return /^[0-9a-fA-F]{24}$/.test(str);
+}
+
+// the canonical URL slug is the full heading — "<app> automation ideas" — with
+// the app's own slug used verbatim so it keeps matching the stored app_slug
+function buildUsecaseSlug(usecase) {
+  const appSlug = usecase?.app_slug || (usecase?.app ? nameToSlugName(usecase.app) : "");
+  if (!appSlug) return "";
+  return appSlug.endsWith("-automation-ideas")
+    ? appSlug
+    : `${appSlug}-automation-ideas`;
+}
+
+async function findUsecaseBySlug(slug, environment) {
+  let usecase = await getUsecaseByAppSlug(slug, environment);
+  if (!usecase) {
+    const strippedSlug = slug.replace(/-automation-ideas$/, '');
+    usecase = await getUsecaseByAppSlug(strippedSlug, environment);
+  }
+  return usecase;
+}
+
 export async function getServerSideProps(context) {
   const { usecaseId } = context.params;
+  const firstSegment = Array.isArray(usecaseId) ? usecaseId[0] : usecaseId;
   try {
     const environment = getCurrentEnvironment();
-    const usecase = await getUsecaseById(usecaseId, environment);
+    let usecase = null;
+
+    usecase = await findUsecaseBySlug(firstSegment, environment);
+
+    if (!usecase && isValidMongoId(firstSegment)) {
+      usecase = await getUsecaseById(firstSegment, environment);
+    }
+
     if (!usecase) {
       return { notFound: true };
     }
@@ -181,10 +211,24 @@ export default function UsecasePage({ usecase, apps, users }) {
   const [commentPopup, setCommentPopup] = useState(false);
   const [activeIdea, setActiveIdea] = useState("");
   const { user: currentUser } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    const slug = buildUsecaseSlug(usecase);
+    if (slug) {
+      const targetUrl = `/usecase/${slug}`;
+      if (
+        router.asPath !== targetUrl &&
+        router.asPath !== `/automation-ideas${targetUrl}`
+      ) {
+        router.replace(targetUrl, undefined, { shallow: true });
+      }
+    }
+  }, [usecase?._id, usecase?.app, usecase?.app_slug, router.asPath]);
 
   const phases = usecase?.phases || [];
 
-  // continuous numbering across phases, and ids for the sticky sidebar / scroll-spy
+  // continuous numbering across phases, and ids for the scroll-spy
   let counter = 0;
   const numbered = phases.map((phase) => ({
     ...phase,
@@ -196,14 +240,6 @@ export default function UsecasePage({ usecase, apps, users }) {
         ideaId: item.slug || `idea-${counter}`,
       };
     }),
-  }));
-
-  const sidebarSections = numbered.map((phase) => ({
-    title: phase.name,
-    ideas: phase.usecases.map((item) => ({
-      id: item.ideaId,
-      text: `${item.number}. ${item.title}`,
-    })),
   }));
 
   useEffect(() => {
@@ -314,7 +350,7 @@ export default function UsecasePage({ usecase, apps, users }) {
                       {itemIndex === 0 && (
                         <div className="d-flex align-items-center gap-3 mb-4">
                           <AccentBar />
-                          <h6 className="mustHave mb-0">{phase.name}</h6>
+                          <span className="mustHave mb-0">{phase.name}</span>
                           <span
                             className="rounded-pill bg-secondary"
                             style={{ padding: "2px 2px" }}
@@ -325,14 +361,7 @@ export default function UsecasePage({ usecase, apps, users }) {
                         </div>
                       )}
 
-                      <div
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "1fr 1fr",
-                          gap: "6rem",
-                          justifyContent: "space-between",
-                        }}
-                      >
+                      <div className={styles.ideaLayout}>
                         <div>
                           <h4 className="fw-bold">
                             {item.number}. {item.title}
@@ -416,7 +445,7 @@ export default function UsecasePage({ usecase, apps, users }) {
           )}
         </div>
 
-        <div className="container d-flex align-items-center gap-3 justify-content-between py-4 border-top">
+        <div className="container d-flex align-items-center gap-3 justify-content-between py-4">
           <div className="d-flex align-items-center gap-2">
             <div
               className="border rounded-pill p-1 d-flex align-items-center justify-content-center small"

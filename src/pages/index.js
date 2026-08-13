@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "@/pages/home.module.scss";
 import { useUser } from "@/context/UserContext";
 import { getAllPreviousMessages } from "@/utils/apis/chatbotapis";
-import { getAllUsers, safeParse } from "@/utils/utils";
+import { getAllUsers, safeParse, nameToSlugName } from "@/utils/utils";
 import { getPopularUsecaseContributors } from "@/services/usecaseServices";
 import blogServices from "@/services/blogServices";
 import { createUsecase } from "@/utils/apis/usecaseApis";
@@ -145,7 +145,15 @@ export default function Home({ popularUsers = [] }) {
       toast.error("We got some Error creating the usecase, Please try again");
       setUsecaseCreating(false);
     } else {
-      router.push(`/usecase/${result.usecaseId}`);
+      // land on the canonical URL — the full "<app>-automation-ideas" heading slug —
+      // falling back to the id only when the usecase has no app slug at all
+      const appSlug = result.app_slug || (result.app ? nameToSlugName(result.app) : "");
+      const slug = appSlug
+        ? appSlug.endsWith("-automation-ideas")
+          ? appSlug
+          : `${appSlug}-automation-ideas`
+        : result.usecaseId;
+      router.push(`/usecase/${slug}`);
     }
   }
 
