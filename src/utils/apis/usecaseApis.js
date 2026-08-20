@@ -24,6 +24,20 @@ export const fetchUsecasesByUser = async (userId) => {
   }
 };
 
+export const fetchRecentUsecases = async (page, limit) => {
+  try {
+    const params = new URLSearchParams();
+    if (page) params.set('page', page);
+    if (limit) params.set('limit', limit);
+
+    const response = await axios.get(proxyUrl + `/api/usecases/recent?${params.toString()}`);
+    return response?.data?.data || { usecases: [], pagination: null };
+  } catch (error) {
+    console.error('Failed to fetch recent usecases:', error);
+    return { usecases: [], pagination: null };
+  }
+};
+
 export const postUsecaseComment = async (usecaseId, comment) => {
   try {
     const response = await axios.post(proxyUrl + `/api/usecases/${usecaseId}/comments`, {

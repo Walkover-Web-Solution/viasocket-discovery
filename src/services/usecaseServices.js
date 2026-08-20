@@ -373,6 +373,36 @@ export async function getUsecases({ app, page, limit, environment } = {}) {
     });
 }
 
+const RECENT_USECASES_MAX_LIMIT = 20;
+
+export async function getRecentUsecases({ page, limit, environment } = {}) {
+    return withUsecaseModel(environment, async (Usecase) => {
+        const cappedLimit = Math.min(parseInt(limit) || RECENT_USECASES_MAX_LIMIT, RECENT_USECASES_MAX_LIMIT);
+        const currentPage = Math.max(parseInt(page) || 1, 1);
+        const skip = (currentPage - 1) * cappedLimit;
+
+        const [usecases, total] = await Promise.all([
+            Usecase.find({})
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(cappedLimit)
+                .lean(),
+            Usecase.countDocuments({}),
+        ]);
+
+        return {
+            usecases,
+            pagination: {
+                page: currentPage,
+                limit: cappedLimit,
+                total,
+                totalPages: Math.ceil(total / cappedLimit) || 1,
+                hasMore: skip + usecases.length < total,
+            },
+        };
+    });
+}
+
 export async function suggestAppUsecases(apps, message, { userId, environment, override } = {}) {
     const appList = normalizeApps(apps);
     if (!appList.length) throw new Error('apps is required');
