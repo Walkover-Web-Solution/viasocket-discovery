@@ -7,3 +7,24 @@
     border-color: #000 !important;
   }
 }
+
+.heading {
+  font-size: clamp(1.375rem, 4vw, 2rem);
+}
+
+// the title sits in its own flex row, so it needs min-width: 0 — otherwise a
+// long app name stretches the card instead of wrapping inside it
+.cardText {
+  min-width: 0;
+}
+
+.cardTitle {
+  overflow-wrap: anywhere;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  flex-shrink: 0;
+}

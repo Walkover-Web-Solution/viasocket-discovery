@@ -8,3 +8,25 @@
     border-color: #000 !important;
   }
 }
+
+.heading {
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  line-height: 1.15;
+}
+
+// the card's open-in-new-tab arrow is absolutely positioned in the top-right
+// corner, so the header row has to keep clear of it
+.cardHeader {
+  padding-right: 1.5rem;
+}
+
+// without min-width: 0 a long name pushes the stats past the card border
+// instead of wrapping inside it
+.cardText {
+  min-width: 0;
+}
+
+.name {
+  font-size: clamp(1.0625rem, 2.2vw, 1.25rem);
+  overflow-wrap: anywhere;
+}

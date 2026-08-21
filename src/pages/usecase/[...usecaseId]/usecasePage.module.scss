@@ -13,3 +13,25 @@
     gap: 6rem;
   }
 }
+
+/* FAQ list built on <details>, so the answers are in the served HTML and open
+   without JavaScript. Hides the native marker and rotates our own chevron. */
+.faq {
+  &[open] .faqChevron {
+    transform: rotate(180deg);
+  }
+}
+
+.faqSummary {
+  cursor: pointer;
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.faqChevron {
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}

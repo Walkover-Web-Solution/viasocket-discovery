@@ -1,5 +1,4 @@
 import React from "react";
-import AccentBar from "../AccentBar/AccentBar";
 
 const HomeTitle = () => {
   return (
@@ -9,13 +8,11 @@ const HomeTitle = () => {
         Automation Ideas
       </p> */}
       <h1 className="display-2 fw-normal mt-2 mb-0">
-        The automation <em className="fst-italic text-brand">playbook</em> for{" "}
-        <br />
-        your company
+        Generate Automation <em className="fst-italic text-brand">Ideas</em>
       </h1>
       <p className="lead my-2">
-        Pick up to three apps you use every day. Get a ready set of automations
-        for <br /> them, each one launching in a single click.
+        Pick your favorite apps to discover pre-built automation ideas, connect
+        your tech stack, and streamline daily workflows with 1-click execution.
       </p>
       <p className="fw-bold mt-5 d-flex align-items-center gap-2">
         Add up to 3 apps <span className="text-brand">0 of 3 added</span>
