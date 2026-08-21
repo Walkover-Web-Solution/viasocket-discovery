@@ -92,6 +92,7 @@ async function saveUsecaseRecord(appList, data, userId, environment) {
                 meta_title: data.meta_title,
                 meta_description: data.meta_description,
                 related_apps: data.related_apps || [],
+                faqs: data.faqs || [],
                 phases: data.phases || [],
                 createdBy: userId ?? null,
                 contributors: userId != null ? [userId] : [],
@@ -121,6 +122,18 @@ export async function getUsecaseByAppSlug(appSlug, environment) {
         })
             .sort({ createdAt: -1 })
             .lean();
+    });
+}
+
+// the URL slug is the slugified h1, so map it back by treating every hyphen as
+// the run of separators it replaced ("slack-automation-ideas" -> "Slack automation ideas")
+export async function getUsecaseByHeadingSlug(headingSlug, environment) {
+    if (!headingSlug) return null;
+    const words = headingSlug.split('-').filter(Boolean).map(escapeRegExp);
+    if (!words.length) return null;
+    return withUsecaseModel(environment, async (Usecase) => {
+        const pattern = new RegExp(`^${words.join('[^a-z0-9]+')}$`, 'i');
+        return Usecase.findOne({ h1: pattern }).sort({ createdAt: -1 }).lean();
     });
 }
 
@@ -382,7 +395,8 @@ export async function getRecentUsecases({ page, limit, environment } = {}) {
         const skip = (currentPage - 1) * cappedLimit;
 
         const [usecases, total] = await Promise.all([
-            Usecase.find({})
+            // the home page cards only need the app, its icon and the byline
+            Usecase.find({}, { apps: 1, app: 1, app_slug: 1, h1: 1, createdBy: 1, createdAt: 1 })
                 .sort({ createdAt: -1 })
                 .skip(skip)
                 .limit(cappedLimit)
@@ -424,7 +438,8 @@ export async function suggestAppUsecases(apps, message, { userId, environment, o
                 subheader: existing.subheader,
                 meta_title: existing.meta_title,
                 meta_description: existing.meta_description,
-                related_apps: existing.related_apps,
+                related_apps: existing.related_apps || [],
+                faqs: existing.faqs || [],
                 phases: existing.phases,
                 alreadyExists: true,
                 usecaseId: existing._id,

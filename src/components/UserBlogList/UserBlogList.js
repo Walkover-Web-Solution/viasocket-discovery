@@ -70,20 +70,24 @@ const UserBlogList = ({ blogs, title, isLoading, userName, linkBuilder = default
                     const fallbackSrc =
                       "https://viasocket.com/assets/brand/favicon-96x96.png";
                     return (
-                      <img
+                      <span
                         key={index}
-                        src={iconUrl || fallbackSrc}
-                        alt={appName}
-                        width="26"
-                        height="26"
-                        style={{ objectFit: "contain" }}
-                        className="bg-light p-1 border"
-                        loading="lazy"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = fallbackSrc;
-                        }}
-                      />
+                        className="d-flex align-items-center gap-1 border bg-light px-2 py-1"
+                      >
+                        <img
+                          src={iconUrl || fallbackSrc}
+                          alt={appName}
+                          width="20"
+                          height="20"
+                          style={{ objectFit: "contain" }}
+                          loading="lazy"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = fallbackSrc;
+                          }}
+                        />
+                        <span style={{ fontSize: "12px" }}>{appName}</span>
+                      </span>
                     );
                   })}
               </div>

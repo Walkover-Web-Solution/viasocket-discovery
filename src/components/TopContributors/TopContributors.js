@@ -5,15 +5,9 @@ const TopContributors = ({ popularUsers }) => {
   if (!popularUsers || popularUsers.length === 0) return null;
 
   return (
-    <section className="mt-5 px-3 pt-5 border-top">
+    <section className="px-3 pt-5 border-top">
       <div className="d-flex flex-wrap align-items-baseline justify-content-between gap-2 mb-3">
-        <h2
-          className="m-0 fw-semibold"
-          style={{
-            fontSize: 36,
-            lineHeight: 1.15,
-          }}
-        >
+        <h2 className={`m-0 fw-semibold ${styles.heading}`}>
           Top{" "}
           <em className="fst-italic fw-medium" style={{ color: "#a8200d" }}>
             Contributors
@@ -48,13 +42,15 @@ const TopContributors = ({ popularUsers }) => {
               (user.meta.bio.split(" ").length > 50 ? "..." : "")
             : "Viasocket User";
           return (
-            <div key={index} className="col-12 col-sm-6 col-md-4 col-lg-4">
+            <div key={index} className="col-12 col-sm-6 col-lg-4">
               <a
                 href={`/automation-ideas/user/${user.id}`}
                 className={`${styles.contribCard} d-flex flex-column justify-content-between position-relative border p-3 text-decoration-none text-dark bg-white h-100`}
               >
                 <div className="flex-grow-1">
-                  <div className="d-flex align-items-center gap-3">
+                  <div
+                    className={`d-flex align-items-center gap-3 ${styles.cardHeader}`}
+                  >
                     <span
                       className="d-inline-flex align-items-center justify-content-center text-white fw-semibold p-2 flex-shrink-0"
                       style={{
@@ -66,13 +62,8 @@ const TopContributors = ({ popularUsers }) => {
                     >
                       {initials}
                     </span>
-                    <div className="d-flex flex-column gap-1">
-                      <h3
-                        className="m-0 fw-semibold"
-                        style={{
-                          fontSize: 20,
-                        }}
-                      >
+                    <div className={`d-flex flex-column gap-1 ${styles.cardText}`}>
+                      <h3 className={`m-0 fw-semibold ${styles.name}`}>
                         {displayName}
                       </h3>
                       <div className="fs-6">
@@ -121,53 +112,7 @@ const TopContributors = ({ popularUsers }) => {
                       </div>
                     </div>
                   </div>
-
-                  {/* <p
-                    className="text-muted mb-4 fs-6 ps-3 pb-2"
-                    style={{
-                      display: "-webkit-box",
-                      WebkitLineClamp: 3,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                    }}
-                  >
-                    {bio}
-                  </p> */}
                 </div>
-                {/* <div className="fs-6 ps-3 pt-3 mt-auto">
-                  {[
-                    user.createdBlogs > 0 && (
-                      <span key="createdBlogs">
-                        <strong>{user.createdBlogs}</strong> blog
-                        {user.createdBlogs > 1 ? "s" : ""}
-                      </span>
-                    ),
-                    user.contributedBlogs > 0 && (
-                      <span key="contributedBlogs">
-                        <strong>{user.contributedBlogs}</strong> blog contribution
-                        {user.contributedBlogs > 1 ? "s" : ""}
-                      </span>
-                    ),
-                    user.createdUsecases > 0 && (
-                      <span key="createdUsecases">
-                        <strong>{user.createdUsecases}</strong> usecase
-                        {user.createdUsecases > 1 ? "s" : ""}
-                      </span>
-                    ),
-                    user.contributedUsecases > 0 && (
-                      <span key="contributedUsecases">
-                        <strong>{user.contributedUsecases}</strong> usecase contribution
-                        {user.contributedUsecases > 1 ? "s" : ""}
-                      </span>
-                    ),
-                  ]
-                    .filter(Boolean)
-                    .reduce((acc, el, i) => {
-                      if (i > 0) acc.push(<span key={`sep-${i}`} className="mx-2 opacity-50">·</span>);
-                      acc.push(el);
-                      return acc;
-                    }, [])}
-                </div> */}
                 <span
                   className="position-absolute text-muted"
                   style={{ top: 12, right: 12 }}

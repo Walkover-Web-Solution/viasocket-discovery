@@ -3,6 +3,8 @@ import Image from "next/image";
 import { fetchApps } from "@/utils/apis/appsApis";
 import styles from "./AppsList.module.scss";
 
+const INITIAL_DISPLAY = 20;
+
 const AppsList = ({
   selectedCategory = "All",
   onSelectedAppsChange,
@@ -13,7 +15,7 @@ const AppsList = ({
   const [apps, setApps] = useState([]);
   const [appsLoading, setAppsLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [displayCount, setDisplayCount] = useState(20);
+  const [displayCount, setDisplayCount] = useState(INITIAL_DISPLAY);
   const [hasMoreApi, setHasMoreApi] = useState(true);
   const API_BATCH = 200;
   const MAX_APPS = 2200;
@@ -23,7 +25,7 @@ const AppsList = ({
     const loadApps = async () => {
       setAppsLoading(true);
       setHasMoreApi(true);
-      setDisplayCount(20);
+      setDisplayCount(INITIAL_DISPLAY);
       onSelectedAppsChange?.([]);
       const data = await fetchApps(selectedCategory, API_BATCH, 0);
       if (!cancelled) {
@@ -89,6 +91,8 @@ const AppsList = ({
     }
   };
 
+  const showLess = () => setDisplayCount(INITIAL_DISPLAY);
+
   const filteredApps = searchQuery
     ? apps.filter((app) =>
         app.name.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -97,6 +101,7 @@ const AppsList = ({
 
   const visibleApps = filteredApps.slice(0, displayCount);
   const canShowMore = displayCount < filteredApps.length || hasMoreApi;
+  const canShowLess = displayCount > INITIAL_DISPLAY;
 
   return (
     <>
@@ -151,18 +156,28 @@ const AppsList = ({
           );
         })}
         {/* <RequestAppButton /> */}
-        {canShowMore && (
+        {(canShowMore || canShowLess) && (
           <div className="col-12 col-sm-6 col-md-4 col-lg-3">
             <div className="d-flex flex-wrap align-items-center gap-2 my-2">
               <p className="text-muted mb-0">
                 Showing {visibleApps.length} of {MAX_APPS} apps
               </p>
-              <a
-                className="text-primary text-decoration-underline cursor-pointer"
-                onClick={loadMore}
-              >
-                {loadingMore ? "Loading..." : "More"}
-              </a>
+              {canShowMore && (
+                <a
+                  className="text-primary text-decoration-underline cursor-pointer"
+                  onClick={loadMore}
+                >
+                  {loadingMore ? "Loading..." : "More"}
+                </a>
+              )}
+              {canShowLess && (
+                <a
+                  className="text-primary text-decoration-underline cursor-pointer"
+                  onClick={showLess}
+                >
+                  Less
+                </a>
+              )}
             </div>
           </div>
         )}

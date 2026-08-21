@@ -17,7 +17,7 @@ const UserDetail = ({ isOpen, onClose }) => {
     return (
         <ClickAwayListener onClickAway={onClose}>
             <ul
-                className="dropdown-menu show shadow position-absolute end-0 mt-4 me-2"
+                className="dropdown-menu show shadow position-absolute mt-4 me-2"
                 style={{ zIndex: 20, minWidth: 180 }}
                 role="menu"
                 aria-label="User menu"
@@ -30,7 +30,7 @@ const UserDetail = ({ isOpen, onClose }) => {
                 {user.id && (
                     <li>
                         <Link href={`/user/${user.id}`} className="dropdown-item" onClick={onClose}>
-                            My Discoveries
+                            My Automation Ideas
                         </Link>
                     </li>
                 )}

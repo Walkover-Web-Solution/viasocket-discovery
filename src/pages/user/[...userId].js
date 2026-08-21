@@ -9,6 +9,15 @@ import UserBlogList from "@/components/UserBlogList/UserBlogList";
 import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
 import { useUser } from "@/context/UserContext";
 
+// a usecase can be built from more than one app, so the card heading names all
+// of them: "Slack", "Slack and Notion", "Slack, Notion and Trello"
+function formatAppNames(apps) {
+  const names = (apps || []).map((entry) => entry?.app).filter(Boolean);
+  if (!names.length) return "";
+  if (names.length === 1) return names[0];
+  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+}
+
 export async function getServerSideProps(context) {
   const { userId } = context.params;
   const user = await getUserById(userId);
@@ -77,7 +86,11 @@ export default function UserPage({ user }) {
   const usecaseCards = usecases.map((usecase) => ({
     id: usecase._id,
     app_slug: usecase.app_slug,
-    title: `${usecase.app} automation ideas`,
+    app: usecase.app,
+    title: (() => {
+      const appNames = formatAppNames(usecase.apps) || usecase.app;
+      return appNames ? `${appNames} automation ideas` : "Automation ideas";
+    })(),
     apps: Object.fromEntries(
       (usecase.apps || []).map((entry) => [entry.app, { iconUrl: entry.iconUrl }]),
     ),
@@ -97,7 +110,7 @@ export default function UserPage({ user }) {
           title={`Automation ideas by ${user.name.trim().split(" ")[0]}`}
           isLoading={usecasesLoading}
           userName={user.name}
-         linkBuilder={(item) => `/automation-ideas/usecase/${item.app_slug ? `${item.app_slug}-automation-ideas` : nameToSlugName(item.title)}`}
+         linkBuilder={(item) => `/automation-ideas/usecase/${item.app_slug ? `${item.app_slug}-automation-ideas` : nameToSlugName(item.app ? `${item.app} automation ideas` : item.title)}`}
         />
       </div>
     </div>

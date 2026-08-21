@@ -2,6 +2,19 @@ import { useState, useEffect } from "react";
 import AppsList from "./AppsList";
 import { fetchCategories } from "@/utils/apis/appsApis";
 
+// the tags API returns its own order — lead with this category wherever it lands
+const PINNED_CATEGORY = "Top Free Apps";
+
+function pinCategoryFirst(categories) {
+  const list = Array.isArray(categories) ? categories : [];
+  const index = list.findIndex(
+    (category) =>
+      category?.name?.toLowerCase() === PINNED_CATEGORY.toLowerCase(),
+  );
+  if (index <= 0) return list;
+  return [list[index], ...list.slice(0, index), ...list.slice(index + 1)];
+}
+
 const AppsAndCategories = ({
   onSelectedAppsChange,
   selectedApps,
@@ -16,7 +29,7 @@ const AppsAndCategories = ({
   useEffect(() => {
     const loadCategories = async () => {
       const data = await fetchCategories();
-      setCategories(data);
+      setCategories(pinCategoryFirst(data));
     };
     loadCategories();
   }, []);

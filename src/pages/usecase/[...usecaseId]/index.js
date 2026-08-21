@@ -4,7 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Avatar } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { getUsecaseById, getUsecaseByAppSlug } from "@/services/usecaseServices";
+import {
+  getUsecaseById,
+  getUsecaseByAppSlug,
+  getUsecaseByHeadingSlug,
+} from "@/services/usecaseServices";
 import { getUpdatedApps } from "@/services/integrationServices";
 import { getCurrentEnvironment } from "@/utils/storageHelper";
 import { getAllUsers, formatDate, nameToSlugName } from "@/utils/utils";
@@ -18,7 +22,7 @@ import AccentBar from "@/components/AccentBar/AccentBar";
 // reuse the exact same comment styling as the blog detail page
 import blogStyles from "@/pages/blog/[...blogId]/blogPage.module.scss";
 import styles from "./usecasePage.module.scss";
-import { FaArrowRightLong } from "react-icons/fa6";
+import { FaArrowRightLong, FaChevronDown } from "react-icons/fa6";
 
 // TODO: point this at the real English flow builder entry point once it exists
 const FLOW_BUILDER_URL = "https://viasocket.com/signup";
@@ -49,10 +53,13 @@ function isValidMongoId(str) {
   return /^[0-9a-fA-F]{24}$/.test(str);
 }
 
-// the canonical URL slug is the full heading — "<app> automation ideas" — with
-// the app's own slug used verbatim so it keeps matching the stored app_slug
+// the canonical URL slug is the page heading itself, so the address bar reads
+// the same as the <h1> a visitor sees; related-app cards carry no heading of
+// their own, so those fall back to "<app slug>-automation-ideas"
 function buildUsecaseSlug(usecase) {
-  const appSlug = usecase?.app_slug || (usecase?.app ? nameToSlugName(usecase.app) : "");
+  if (usecase?.h1) return nameToSlugName(usecase.h1);
+  const appSlug =
+    usecase?.app_slug || (usecase?.app ? nameToSlugName(usecase.app) : "");
   if (!appSlug) return "";
   return appSlug.endsWith("-automation-ideas")
     ? appSlug
@@ -60,10 +67,17 @@ function buildUsecaseSlug(usecase) {
 }
 
 async function findUsecaseBySlug(slug, environment) {
-  let usecase = await getUsecaseByAppSlug(slug, environment);
+  // a heading slug resolves against the stored h1 first
+  let usecase = await getUsecaseByHeadingSlug(slug, environment);
+  if (!usecase) usecase = await getUsecaseByAppSlug(slug, environment);
   if (!usecase) {
-    const strippedSlug = slug.replace(/-automation-ideas$/, '');
-    usecase = await getUsecaseByAppSlug(strippedSlug, environment);
+    // headings can carry words after "automation ideas"
+    // ("slack-automation-ideas-for-support-teams") — the app slug is the part
+    // in front of it
+    const strippedSlug = slug.replace(/-automation-ideas.*$/, "");
+    if (strippedSlug && strippedSlug !== slug) {
+      usecase = await getUsecaseByAppSlug(strippedSlug, environment);
+    }
   }
   return usecase;
 }
@@ -224,7 +238,7 @@ export default function UsecasePage({ usecase, apps, users }) {
         router.replace(targetUrl, undefined, { shallow: true });
       }
     }
-  }, [usecase?._id, usecase?.app, usecase?.app_slug, router.asPath]);
+  }, [usecase?._id, usecase?.h1, usecase?.app, usecase?.app_slug, router.asPath]);
 
   const phases = usecase?.phases || [];
 
@@ -286,10 +300,15 @@ export default function UsecasePage({ usecase, apps, users }) {
   return (
     <>
       <Head>
-        <title>{`${usecase.app} automation ideas | viaSocket`}</title>
+        <title>
+          {usecase.meta_title || `${usecase.app} automation ideas | viaSocket`}
+        </title>
         <meta
           name="description"
-          content={`Ready-to-build ${usecase.app} automations${usecase.audience ? ` for ${usecase.audience}` : ""}.`}
+          content={
+            usecase.meta_description ||
+            `Ready-to-build ${usecase.app} automations${usecase.audience ? ` for ${usecase.audience}` : ""}.`
+          }
         />
       </Head>
       <BackToDashboardButton />
@@ -297,31 +316,44 @@ export default function UsecasePage({ usecase, apps, users }) {
         <div className="flex-grow-1">
           <div className="container mb-4">
             <h1 className="display-3 fw-normal mb-2">
-              {usecase.app} automation ideas
+              {usecase.h1 || `${usecase.app} automation ideas`}
             </h1>
+            {usecase.subheader && <p className="fs-5">{usecase.subheader}</p>}
             {usecase.audience && (
               <p className="fs-5 pb-4">{usecase.audience}</p>
             )}
 
-            <div className="d-flex align-items-center gap-3">
-              {numbered.map((phase, phaseIndex) => (
-                <p
-                  key={phase.phase}
-                  className={`border py-2 px-3 small rounded-pill cursor-pointer ${styles.pill}`}
-                  style={
-                    activePhaseIndex === phaseIndex
-                      ? { backgroundColor: "black", color: "white" }
-                      : {}
-                  }
-                  onClick={() =>
-                    document
-                      .getElementById(phase.usecases[0]?.ideaId)
-                      ?.scrollIntoView({ behavior: "smooth", block: "start" })
-                  }
-                >
-                  {phase.name} {phase.usecases.length}
-                </p>
-              ))}
+            <div className="d-flex align-items-center gap-3 flex-wrap">
+              {numbered.map((phase, phaseIndex) => {
+                const firstIdeaId = phase.usecases[0]?.ideaId;
+                return (
+                  <a
+                    key={phase.phase}
+                    href={firstIdeaId ? `#${firstIdeaId}` : undefined}
+                    className={`border py-2 px-3 small rounded-pill text-decoration-none ${styles.pill}`}
+                    style={
+                      activePhaseIndex === phaseIndex
+                        ? { backgroundColor: "black", color: "white" }
+                        : {}
+                    }
+                    onClick={(event) => {
+                      // smooth scrolling is the enhancement; the href alone
+                      // already jumps to the phase without any JavaScript
+                      const target = firstIdeaId
+                        ? document.getElementById(firstIdeaId)
+                        : null;
+                      if (!target) return;
+                      event.preventDefault();
+                      target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                      });
+                    }}
+                  >
+                    {phase.name} {phase.usecases.length}
+                  </a>
+                );
+              })}
             </div>
           </div>
 
@@ -370,7 +402,10 @@ export default function UsecasePage({ usecase, apps, users }) {
                         </div>
                         <div>
                           <FlowSteps flow={item.flow} apps={apps} />
-                          <BuildFlowButton href={buildFlowLink(item)} prompt={item.prompt || item.description} />
+                          <BuildFlowButton
+                            href={buildFlowLink(item)}
+                            prompt={item.prompt || item.description}
+                          />
                         </div>
                       </div>
                     </div>
@@ -380,19 +415,37 @@ export default function UsecasePage({ usecase, apps, users }) {
             );
           })}
 
-          {usecase.related_apps?.length > 0 && (
+          {usecase.related_apps?.length > 0 ? (
             <div className="container mt-5">
               <h2 className="pb-2">Ideas for related apps</h2>
               <div className="d-flex flex-wrap gap-3 pb-4">
-                {usecase.related_apps.map((entry) => (
-                  <div
-                    key={entry.app_slug}
-                    className="border rounded py-2 px-3 bg-white d-flex align-items-center gap-2"
-                  >
-                    <AppIcon name={entry.app} apps={apps} />
-                    {entry.app}
-                  </div>
-                ))}
+                {usecase.related_apps.map((entry) => {
+                  const relatedSlug = buildUsecaseSlug(entry);
+                  const card = (
+                    <>
+                      <AppIcon name={entry.app} apps={apps} />
+                      {entry.app}
+                    </>
+                  );
+                  const cardClass =
+                    "border rounded py-2 px-3 bg-white d-flex align-items-center gap-2";
+                  return relatedSlug ? (
+                    <Link
+                      key={entry.app_slug || entry.app}
+                      href={`/usecase/${relatedSlug}`}
+                      className={`${cardClass} text-reset text-decoration-none`}
+                    >
+                      {card}
+                    </Link>
+                  ) : (
+                    <div
+                      key={entry.app_slug || entry.app}
+                      className={cardClass}
+                    >
+                      {card}
+                    </div>
+                  );
+                })}
               </div>
               <Link
                 href={`https://viasocket.com/integrations/${usecase.app_slug}`}
@@ -401,6 +454,19 @@ export default function UsecasePage({ usecase, apps, users }) {
                 rel="noopener noreferrer"
               >
                 See everything {usecase.app} connects to
+              </Link>
+            </div>
+          ) : (
+            <div className="container mt-5 d-flex align-items-center gap-3 flex-wrap">
+              <p className="mb-2 fs-4">
+                Browse every app we have automation ideas for.
+              </p>
+              <Link
+                href="/"
+                className="text-decoration-underline text-brand d-flex gap-2 align-items-center"
+              >
+                Check Other Apps
+                <FaArrowRightLong />
               </Link>
             </div>
           )}
@@ -444,6 +510,32 @@ export default function UsecasePage({ usecase, apps, users }) {
             </div>
           )}
         </div>
+
+        {usecase.faqs?.length > 0 && (
+          <div className="container mt-5">
+            <h2 className="pb-2">Frequently asked questions</h2>
+            {/* native <details>, not the Bootstrap accordion: bootstrap.js is
+                imported in an effect, so a collapsed panel would be stuck shut
+                for a crawler or a visitor without JavaScript */}
+            <div className="border-top pb-4">
+              {usecase.faqs.map((faq, faqIndex) => (
+                <details
+                  key={faq.question || faqIndex}
+                  className={`border-bottom ${styles.faq}`}
+                  open={faqIndex === 0}
+                >
+                  <summary
+                    className={`d-flex align-items-center justify-content-between gap-3 py-3 ${styles.faqSummary}`}
+                  >
+                    <h3 className="h6 fw-bold mb-0">{faq.question}</h3>
+                    <FaChevronDown className={styles.faqChevron} />
+                  </summary>
+                  <div className="pb-3">{faq.answer}</div>
+                </details>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="container d-flex align-items-center gap-3 justify-content-between py-4">
           <div className="d-flex align-items-center gap-2">

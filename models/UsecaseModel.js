@@ -40,7 +40,23 @@ const createUsecaseModel = (connection) => {
       type: String,
     },
     related_apps: {
-      type: Array,
+      type: [
+        {
+          app: { type: String },
+          app_slug: { type: String },
+          _id: false,
+        },
+      ],
+      default: [],
+    },
+    faqs: {
+      type: [
+        {
+          question: { type: String },
+          answer: { type: String },
+          _id: false,
+        },
+      ],
       default: [],
     },
     phases: {

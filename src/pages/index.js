@@ -85,6 +85,8 @@ export default function Home({ popularUsers = [] }) {
   const [isOpen, setIsOpen] = useState(false);
   const [blogCreating, setBlogCreating] = useState(false);
   const [usecaseCreating, setUsecaseCreating] = useState(false);
+  // the apps the build was started with, so the loader can name them
+  const [creatingApps, setCreatingApps] = useState([]);
   const user = useUser().user;
   const chatId = user?.id || Math.random();
   const router = useRouter();
@@ -110,10 +112,10 @@ export default function Home({ popularUsers = [] }) {
               chat.role === "user"
                 ? chat.content
                 : safeParse(
-                    chat.content,
-                    process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE,
-                    chatId,
-                  ),
+                  chat.content,
+                  process.env.NEXT_PUBLIC_HOME_PAGE_BRIDGE,
+                  chatId,
+                ),
           };
         });
       for (let i = indexes.length - 1; i >= 0; i--) {
@@ -138,6 +140,7 @@ export default function Home({ popularUsers = [] }) {
       setUnAuthPopup(true);
       return;
     }
+    setCreatingApps(apps || []);
     setUsecaseCreating(true);
     const appsPayload = apps.map((app) => ({ app: app.name, app_slug: app.appslugname }));
     const result = await createUsecase(appsPayload, message);
@@ -166,10 +169,10 @@ export default function Home({ popularUsers = [] }) {
       }
     >
       <Head>
-        <title>Discover Top Software | Viasocket Discovery</title>
+        <title>Generate Automation Ideas Apps You Use | Viasocket</title>
         <meta
           name="description"
-          content="Viasocket Discovery offers a platform to explore and discover top software in various categories. Curated by experts and users, it's your go-to place to find the best software solutions."
+          content="Discover the best automation ideas, tools, and workflows to streamline your work. Curated by experts and the community, it’s your go-to place for finding practical automation solutions that save time, reduce manual effort, and boost productivity."
         />
       </Head>
       <HomePageContent
@@ -188,7 +191,7 @@ export default function Home({ popularUsers = [] }) {
       />
       {(blogCreating || usecaseCreating) && (
         <div className={styles.createBlogLoaderContainer}>
-          <Loader />
+          <Loader apps={creatingApps} />
         </div>
       )}
       <UnauthorizedPopup
