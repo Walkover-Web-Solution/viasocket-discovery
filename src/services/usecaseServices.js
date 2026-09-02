@@ -394,14 +394,18 @@ export async function getRecentUsecases({ page, limit, environment } = {}) {
         const currentPage = Math.max(parseInt(page) || 1, 1);
         const skip = (currentPage - 1) * cappedLimit;
 
+        // the cards are titled with the stored heading, so a usecase without an
+        // h1 has nothing to show — keep it out of the list and out of the count
+        const query = { h1: { $nin: [null, ''] } };
+
         const [usecases, total] = await Promise.all([
             // the home page cards only need the app, its icon and the byline
-            Usecase.find({}, { apps: 1, app: 1, app_slug: 1, h1: 1, createdBy: 1, createdAt: 1 })
+            Usecase.find(query, { apps: 1, app: 1, app_slug: 1, h1: 1, createdBy: 1, createdAt: 1 })
                 .sort({ createdAt: -1 })
                 .skip(skip)
                 .limit(cappedLimit)
                 .lean(),
-            Usecase.countDocuments({}),
+            Usecase.countDocuments(query),
         ]);
 
         return {

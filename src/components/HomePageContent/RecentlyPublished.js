@@ -17,10 +17,9 @@ function buildUsecaseLink(usecase) {
 }
 
 function buildTitle(usecase) {
+  if (usecase.h1) return usecase.h1;
   const appName = usecase.app || usecase.apps?.[0]?.app;
-  return appName
-    ? `${appName} automation ideas`
-    : usecase.h1 || "Automation ideas";
+  return appName ? `${appName} automation ideas` : "Automation ideas";
 }
 
 function formatPublishedDate(value) {
