@@ -139,7 +139,7 @@ const AppsList = ({
                     app.iconurl || `https://logo.clearbit.com/${app.domain}`
                   }
                   alt={app.name}
-                  className="p-2"
+                  className="p-2 object-fit-cover"
                   width={40}
                   height={40}
                   loading="lazy"

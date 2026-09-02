@@ -66,6 +66,40 @@ function buildUsecaseSlug(usecase) {
     : `${appSlug}-automation-ideas`;
 }
 
+// related_apps only stores { app, app_slug }, and the agent lists apps we may
+// never have published a page for — linking those lands the visitor on a 404,
+// so an entry that does not resolve to a stored usecase is dropped. The ones
+// that survive carry that page's own heading and app slug, so the label is the
+// real h1 ("Top 10 ... automation ideas") and the link resolves.
+async function resolveRelatedApps(relatedApps, environment) {
+  if (!relatedApps?.length) return [];
+  const resolved = await Promise.all(
+    relatedApps.map(async (entry) => {
+      const entrySlug =
+        entry.app_slug || (entry.app ? nameToSlugName(entry.app) : "");
+      if (!entrySlug) return null;
+
+      let related = await getUsecaseByAppSlug(entrySlug, environment);
+      // the stored app_slug can be a generated id rather than the app name, so
+      // retry on the name before giving up on the entry
+      if (!related && entry.app) {
+        const nameSlug = nameToSlugName(entry.app);
+        if (nameSlug && nameSlug !== entrySlug) {
+          related = await getUsecaseByAppSlug(nameSlug, environment);
+        }
+      }
+      if (!related) return null;
+
+      return {
+        ...entry,
+        h1: related.h1 || "",
+        app_slug: related.app_slug || entry.app_slug,
+      };
+    }),
+  );
+  return resolved.filter(Boolean);
+}
+
 async function findUsecaseBySlug(slug, environment) {
   // a heading slug resolves against the stored h1 first
   let usecase = await getUsecaseByHeadingSlug(slug, environment);
@@ -110,10 +144,13 @@ export async function getServerSideProps(context) {
       usersSet.add(comment.createdBy),
     );
 
-    const [apps, users] = await Promise.all([
+    const [apps, users, relatedApps] = await Promise.all([
       flowAppNames.length ? getUpdatedApps(flowAppNames, environment) : {},
       getAllUsers(Array.from(usersSet)),
+      resolveRelatedApps(usecase.related_apps, environment),
     ]);
+
+    usecase.related_apps = relatedApps;
 
     const usersMap = users
       .filter((user) => user !== null)
@@ -418,35 +455,44 @@ export default function UsecasePage({ usecase, apps, users }) {
           {usecase.related_apps?.length > 0 ? (
             <div className="container mt-5">
               <h2 className="pb-2">Ideas for related apps</h2>
-              <div className="d-flex flex-wrap gap-3 pb-4">
+              {/* markers inside the content box, so the list lines up with
+                  the heading instead of sitting in the default ul indent */}
+              <ul
+                className="d-flex flex-column gap-2 pb-4 mb-0 ps-0"
+                style={{ listStylePosition: "inside" }}
+              >
                 {usecase.related_apps.map((entry) => {
                   const relatedSlug = buildUsecaseSlug(entry);
+                  const label = entry.h1 || `${entry.app} automation ideas`;
+                  // the icon stays plain; only the heading carries the
+                  // underline, so the row reads as a link
                   const card = (
                     <>
                       <AppIcon name={entry.app} apps={apps} />
-                      {entry.app}
+                      <span className="text-decoration-underline">{label}</span>
                     </>
                   );
                   const cardClass =
-                    "border rounded py-2 px-3 bg-white d-flex align-items-center gap-2";
-                  return relatedSlug ? (
-                    <Link
-                      key={entry.app_slug || entry.app}
-                      href={`/usecase/${relatedSlug}`}
-                      className={`${cardClass} text-reset text-decoration-none`}
-                    >
-                      {card}
-                    </Link>
-                  ) : (
-                    <div
-                      key={entry.app_slug || entry.app}
-                      className={cardClass}
-                    >
-                      {card}
-                    </div>
+                    "py-1 bg-white d-inline-flex align-items-center gap-2";
+                  return (
+                    <li key={entry.app_slug || entry.app}>
+                      {relatedSlug ? (
+                        <Link
+                          href={`/usecase/${relatedSlug}`}
+                          className={`${cardClass} text-reset`}
+                        >
+                          {card}
+                        </Link>
+                      ) : (
+                        <div className={cardClass}>
+                          <AppIcon name={entry.app} apps={apps} />
+                          <span>{label}</span>
+                        </div>
+                      )}
+                    </li>
                   );
                 })}
-              </div>
+              </ul>
               <Link
                 href={`https://viasocket.com/integrations/${usecase.app_slug}`}
                 className="text-brand text-decoration-underline"
