@@ -2,10 +2,17 @@ import axios from "@/utils/interceptor";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
-export const fetchApps = async (category = "All", limit = 20, offset = 0) => {
+// limit defaults to a full page because callers that want the catalogue for
+// name lookups rather than for the grid rely on getting more than a handful
+export const fetchApps = async (
+  category = "All",
+  limit = 200,
+  offset = 0,
+  search = "",
+) => {
   try {
     const response = await axios.get(`${baseUrl}/api/plugins`, {
-      params: { category, limit, offset },
+      params: { category, limit, offset, search },
     });
     return response?.data?.data || [];
   } catch (error) {
