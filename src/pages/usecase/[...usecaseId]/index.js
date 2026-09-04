@@ -8,6 +8,7 @@ import {
   getUsecaseById,
   getUsecaseByAppSlug,
   getUsecaseByHeadingSlug,
+  getRecentUsecases,
 } from "@/services/usecaseServices";
 import { getUpdatedApps } from "@/services/integrationServices";
 import { getCurrentEnvironment } from "@/utils/storageHelper";
@@ -100,6 +101,67 @@ async function resolveRelatedApps(relatedApps, environment) {
   return resolved.filter(Boolean);
 }
 
+const RELATED_IDEAS_COUNT = 10;
+
+// the agent lists only a handful of related apps, and the ones we never
+// published a page for are dropped above, so the section usually has room to
+// spare — fill it out with the most recently published headings until it
+// lists RELATED_IDEAS_COUNT ideas. A page with no related apps at all keeps
+// the "Check Other Apps" line instead, exactly as before.
+async function topUpRelatedApps(relatedApps, usecase, environment) {
+  if (!relatedApps.length) return relatedApps;
+  if (relatedApps.length >= RELATED_IDEAS_COUNT) {
+    return relatedApps.slice(0, RELATED_IDEAS_COUNT);
+  }
+
+  // ask for a few rows more than the gap: the current page and anything
+  // already listed come back in the recent list too, and get skipped
+  const { usecases } = await getRecentUsecases({
+    limit: RELATED_IDEAS_COUNT + relatedApps.length + 1,
+    environment,
+  });
+
+  // a row links on its built slug, so that is what makes two entries the same
+  // idea; the app slug is tracked as well because it keys the list item
+  const seen = new Set([buildUsecaseSlug(usecase), usecase.app_slug]);
+  relatedApps.forEach((entry) => {
+    seen.add(buildUsecaseSlug(entry));
+    seen.add(entry.app_slug);
+  });
+
+  const filled = [...relatedApps];
+  (usecases || []).forEach((recent) => {
+    if (filled.length >= RELATED_IDEAS_COUNT) return;
+    const entry = {
+      app: recent.app || recent.apps?.[0]?.app || "",
+      app_slug:
+        recent.app_slug || (recent.app ? nameToSlugName(recent.app) : ""),
+      h1: recent.h1 || "",
+    };
+    const entrySlug = buildUsecaseSlug(entry);
+    if (!entrySlug || seen.has(entrySlug) || seen.has(entry.app_slug)) return;
+    seen.add(entrySlug);
+    seen.add(entry.app_slug);
+    filled.push(entry);
+  });
+  return filled;
+}
+
+// the heading can name several apps — a usecase is built from up to three —
+// but usecase.app/app_slug only carry the first, so the integrations links come
+// off the full apps list, deduplicated on the slug they link to
+function integrationApps(usecase) {
+  const entries = usecase?.apps?.length
+    ? usecase.apps
+    : [{ app: usecase?.app, app_slug: usecase?.app_slug }];
+  const seen = new Set();
+  return entries.filter((entry) => {
+    if (!entry?.app || !entry?.app_slug || seen.has(entry.app_slug)) return false;
+    seen.add(entry.app_slug);
+    return true;
+  });
+}
+
 async function findUsecaseBySlug(slug, environment) {
   // a heading slug resolves against the stored h1 first
   let usecase = await getUsecaseByHeadingSlug(slug, environment);
@@ -150,7 +212,11 @@ export async function getServerSideProps(context) {
       resolveRelatedApps(usecase.related_apps, environment),
     ]);
 
-    usecase.related_apps = relatedApps;
+    usecase.related_apps = await topUpRelatedApps(
+      relatedApps,
+      usecase,
+      environment,
+    );
 
     const usersMap = users
       .filter((user) => user !== null)
@@ -464,43 +530,38 @@ export default function UsecasePage({ usecase, apps, users }) {
                 {usecase.related_apps.map((entry) => {
                   const relatedSlug = buildUsecaseSlug(entry);
                   const label = entry.h1 || `${entry.app} automation ideas`;
-                  // the icon stays plain; only the heading carries the
-                  // underline, so the row reads as a link
-                  const card = (
-                    <>
-                      <AppIcon name={entry.app} apps={apps} />
-                      <span className="text-decoration-underline">{label}</span>
-                    </>
-                  );
-                  const cardClass =
-                    "py-1 bg-white d-inline-flex align-items-center gap-2";
                   return (
-                    <li key={entry.app_slug || entry.app}>
+                    <li
+                      key={relatedSlug || entry.app_slug || entry.app}
+                      className="py-1"
+                    >
                       {relatedSlug ? (
                         <Link
                           href={`/usecase/${relatedSlug}`}
-                          className={`${cardClass} text-reset`}
+                          className="text-reset text-decoration-underline"
                         >
-                          {card}
+                          {label}
                         </Link>
                       ) : (
-                        <div className={cardClass}>
-                          <AppIcon name={entry.app} apps={apps} />
-                          <span>{label}</span>
-                        </div>
+                        label
                       )}
                     </li>
                   );
                 })}
               </ul>
-              <Link
-                href={`https://viasocket.com/integrations/${usecase.app_slug}`}
-                className="text-brand text-decoration-underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                See everything {usecase.app} connects to
-              </Link>
+              <div className="d-flex align-items-start gap-4 flex-wrap">
+                {integrationApps(usecase).map((entry) => (
+                  <Link
+                    key={entry.app_slug}
+                    href={`https://viasocket.com/integrations/${entry.app_slug}`}
+                    className="text-brand text-decoration-underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    See {entry.app} integration
+                  </Link>
+                ))}
+              </div>
             </div>
           ) : (
             <div className="container mt-5 d-flex align-items-center gap-3 flex-wrap">

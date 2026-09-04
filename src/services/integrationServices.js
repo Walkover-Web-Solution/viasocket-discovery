@@ -68,24 +68,77 @@ async function alertMissingPlugins(plugins) {
     .catch((err) => console.error("Error in alerting", err));
 }
 
-async function getAppsByCategory(category) {
-  try {
-    const NEXT_PUBLIC_PLUG_SERVICE_URL = process.env.NEXT_PUBLIC_PLUG_SERVICE_URL;
-    const response = await axios.get(
-      `${NEXT_PUBLIC_PLUG_SERVICE_URL}/api/v1/plugins/all`,
-      {
-        params: {
-          category: category && category !== "All" ? category : "",
-          limit: 2200,
-          offset: 0,
+// the plug service caps every response at 200 rows no matter what limit we ask
+// for, so the full catalogue (~7.5k apps) can only be had by walking it page by
+// page. caching the walk per category keeps those requests off the hot path
+// after the first hit, which is what makes searching the whole catalogue
+// affordable instead of a request storm on every keystroke.
+const PLUGINS_PAGE_SIZE = 200;
+const PLUGINS_MAX_PAGES = 100;
+const PLUGINS_CACHE_TTL = 10 * 60 * 1000;
+const appsCache = new Map();
+const appsInFlight = new Map();
+
+async function fetchAllPlugins(category) {
+  const NEXT_PUBLIC_PLUG_SERVICE_URL = process.env.NEXT_PUBLIC_PLUG_SERVICE_URL;
+  const apps = [];
+  let complete = false;
+
+  for (let page = 0; page < PLUGINS_MAX_PAGES; page++) {
+    let rows;
+    try {
+      const response = await axios.get(
+        `${NEXT_PUBLIC_PLUG_SERVICE_URL}/api/v1/plugins/all`,
+        {
+          params: {
+            category,
+            limit: PLUGINS_PAGE_SIZE,
+            offset: page * PLUGINS_PAGE_SIZE,
+          },
         },
-      },
-    );
-    return response?.data?.data || [];
-  } catch (error) {
-    console.error("Error fetching apps by category:", error?.response?.data || error.message);
-    return [];
+      );
+      rows = response?.data?.data || [];
+    } catch (error) {
+      // keep whatever pages did arrive rather than losing the whole catalogue,
+      // but leave it uncached so the next request retries the missing tail
+      console.error(
+        "Error fetching apps by category:",
+        error?.response?.data || error.message,
+      );
+      break;
+    }
+    apps.push(...rows);
+    if (rows.length < PLUGINS_PAGE_SIZE) {
+      complete = true;
+      break;
+    }
   }
+
+  return { apps, complete };
+}
+
+async function getAppsByCategory(category) {
+  const key = category && category !== "All" ? category : "";
+  const cached = appsCache.get(key);
+  if (cached && cached.expiresAt > Date.now()) return cached.apps;
+
+  // parallel requests for the same category share one walk
+  const pending = appsInFlight.get(key);
+  if (pending) return pending;
+
+  const walk = fetchAllPlugins(key)
+    .then(({ apps, complete }) => {
+      if (complete) {
+        appsCache.set(key, { apps, expiresAt: Date.now() + PLUGINS_CACHE_TTL });
+      }
+      return apps.length ? apps : cached?.apps || [];
+    })
+    .finally(() => {
+      appsInFlight.delete(key);
+    });
+
+  appsInFlight.set(key, walk);
+  return walk;
 }
 
 async function getUpdatedApps(pluginNames, environment) {

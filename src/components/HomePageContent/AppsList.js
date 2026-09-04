@@ -4,6 +4,7 @@ import { fetchApps } from "@/utils/apis/appsApis";
 import styles from "./AppsList.module.scss";
 
 const INITIAL_DISPLAY = 20;
+const SEARCH_DEBOUNCE = 300;
 
 const AppsList = ({
   selectedCategory = "All",
@@ -20,14 +21,27 @@ const AppsList = ({
   const API_BATCH = 200;
   const MAX_APPS = 2200;
 
+  // switching category clears the selection as before, but a search keystroke
+  // must not drop apps the visitor has already picked
+  useEffect(() => {
+    onSelectedAppsChange?.([]);
+  }, [onSelectedAppsChange, selectedCategory]);
+
+  // the name match happens on the server across the whole catalogue, so every
+  // query re-fetches instead of filtering the page already in hand — that is
+  // what lets an app beyond the first batch be found at all
   useEffect(() => {
     let cancelled = false;
     const loadApps = async () => {
       setAppsLoading(true);
       setHasMoreApi(true);
       setDisplayCount(INITIAL_DISPLAY);
-      onSelectedAppsChange?.([]);
-      const data = await fetchApps(selectedCategory, API_BATCH, 0);
+      const data = await fetchApps(
+        selectedCategory,
+        API_BATCH,
+        0,
+        searchQuery,
+      );
       if (!cancelled) {
         setApps(data.slice(0, MAX_APPS));
         setAppsLoading(false);
@@ -36,11 +50,12 @@ const AppsList = ({
         }
       }
     };
-    loadApps();
+    const timer = setTimeout(loadApps, searchQuery ? SEARCH_DEBOUNCE : 0);
     return () => {
       cancelled = true;
+      clearTimeout(timer);
     };
-  }, [onSelectedAppsChange, selectedCategory]);
+  }, [selectedCategory, searchQuery]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -53,7 +68,7 @@ const AppsList = ({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [parentSelectedApps, searchQuery, onBuildUsecase]);
 
-  if (appsLoading) {
+  if (appsLoading && apps.length === 0) {
     return <div className="text-center my-4">Loading apps...</div>;
   }
 
@@ -74,7 +89,12 @@ const AppsList = ({
     if (nextDisplay > apps.length && hasMoreApi && apps.length < MAX_APPS) {
       setLoadingMore(true);
       const nextOffset = apps.length;
-      const data = await fetchApps(selectedCategory, API_BATCH, nextOffset);
+      const data = await fetchApps(
+        selectedCategory,
+        API_BATCH,
+        nextOffset,
+        searchQuery,
+      );
       setApps((prev) => {
         const combined = [...prev, ...data].slice(0, MAX_APPS);
         if (data.length < API_BATCH || combined.length >= MAX_APPS) {
@@ -93,14 +113,8 @@ const AppsList = ({
 
   const showLess = () => setDisplayCount(INITIAL_DISPLAY);
 
-  const filteredApps = searchQuery
-    ? apps.filter((app) =>
-        app.name.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
-    : apps;
-
-  const visibleApps = filteredApps.slice(0, displayCount);
-  const canShowMore = displayCount < filteredApps.length || hasMoreApi;
+  const visibleApps = apps.slice(0, displayCount);
+  const canShowMore = displayCount < apps.length || hasMoreApi;
   const canShowLess = displayCount > INITIAL_DISPLAY;
 
   return (
