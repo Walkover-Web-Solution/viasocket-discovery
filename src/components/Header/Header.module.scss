@@ -6,8 +6,12 @@
     // padding-top: 3rem !important;
     // padding-bottom: 5px !important;
     border-bottom: 1px solid rgb(204, 204, 204);
-    z-index: 4;
+    // 21 keeps the sticky header above in-flow page content (search box is 20)
+    // while still sitting under the popups/loader, which paint later or higher.
+    z-index: 21;
     position: sticky;
+    top: 0;
+    background-color: #fef6ef;
     &>*{
       z-index: 4;
     }
