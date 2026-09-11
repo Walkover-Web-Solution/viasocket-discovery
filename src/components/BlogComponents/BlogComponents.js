@@ -76,7 +76,9 @@ const Components = {
                 <a
                   className={styles.appDomain}
                   href={
-                    apps[appName]?.domain
+                    appName === "BookTranslator"
+                      ? "https://www.booktranslator.app/"
+                      : apps[appName]?.domain
                       ? `https://${apps[appName].domain}`
                       : `https://www.google.com/search?q=${appName}`
                   }
