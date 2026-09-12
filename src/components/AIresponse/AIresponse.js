@@ -70,7 +70,7 @@ const AIresponse = ({
             {!hasMarkdown && Components["dummy"]()}
             {hasMarkdown && (
               <>
-                {dynamicSections.map(({ content, heading, section }) =>
+                {dynamicSections.map(({ content, heading, section, styling }) =>
                   section === "detailed_reviews"
                     ? Components["detailedReviews"]({
                         ...detailedReviews,
@@ -78,7 +78,7 @@ const AIresponse = ({
                         appBlogs,
                         apps: restoreDotsInKeys(blogData.apps),
                       })
-                    : Components["additionalSection"]?.({ content, heading }),
+                    : Components["additionalSection"]?.({ content, heading, styling }),
                 )}
               </>
             )}
