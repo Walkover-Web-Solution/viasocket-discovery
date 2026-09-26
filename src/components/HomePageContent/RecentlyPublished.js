@@ -83,7 +83,7 @@ const RecentlyPublished = () => {
     return (
       <div className="py-5">
         <h2 className={`mb-4 fst-italic ${styles.heading}`}>
-          Recently published
+          Automation ideas by apps{" "}
         </h2>
         <div className="row g-4">
           {[...Array(3)].map((_, index) => (
@@ -113,7 +113,7 @@ const RecentlyPublished = () => {
   return (
     <div className="py-5">
       <h2 className={`mb-4 fst-italic ${styles.heading}`}>
-        Recently published
+        Automation ideas by apps{" "}
       </h2>
 
       <div className="row g-4">
