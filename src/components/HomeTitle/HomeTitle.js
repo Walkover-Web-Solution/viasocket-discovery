@@ -3,7 +3,7 @@ import AccentBar from "../AccentBar/AccentBar";
 
 const HomeTitle = () => {
   return (
-    <div className="px-3 pt-5 home-page-header-title w-75">
+    <div className="px-3 pt-5 home-page-header-title w-100 w-md-75">
       <p
         className="text-uppercase fw-semibold mb-0 d-inline-flex align-items-center gap-2"
         style={{ color: "#a8200d" }}

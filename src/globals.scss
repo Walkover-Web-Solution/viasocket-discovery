@@ -54,6 +54,12 @@ button {
   height: 100%;
 }
 
+.w-md-75 {
+  @media (min-width: 768px) {
+    width: 75% !important;
+  }
+}
+
 .heading {
   font-size: 4rem;
   font-weight: 500;

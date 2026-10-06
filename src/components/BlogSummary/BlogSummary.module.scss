@@ -22,3 +22,15 @@
 .summaryLabel {
   transition: color 0.2s ease;
 }
+
+// Sits directly under the red "View All" bar, so it stays white with accent
+// text rather than a second solid-red block.
+.startTrial {
+  color: #a8200d;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #fdf2ef;
+    color: #a8200d;
+  }
+}

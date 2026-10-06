@@ -21,7 +21,7 @@ const iconStatusCache = new Map();
 const SummaryIcon = React.memo(({ src, alt, domain }) => {
   const cached = src ? iconStatusCache.get(src) : "fail";
   const [resolvedSrc, setResolvedSrc] = useState(
-    cached === "ok" ? src : FALLBACK_ICON
+    cached === "ok" ? src : FALLBACK_ICON,
   );
 
   useEffect(() => {
@@ -61,7 +61,14 @@ SummaryIcon.displayName = "SummaryIcon";
 
 // Hoisted once — never re-created
 const ArrowIcon = (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
     <path d="M7 17L17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
@@ -69,8 +76,10 @@ const ArrowIcon = (
 const buildItem = (app, integrations) => {
   const id = appNameToId(app);
   let appData = integrations?.[app.toLowerCase()]?.plugins?.[id];
-  if(!appData){
-    appData = Object.values(integrations?.[app.toLowerCase()]?.plugins || {}).find((plugin) => plugin?.name?.toLowerCase() === app?.toLowerCase());
+  if (!appData) {
+    appData = Object.values(
+      integrations?.[app.toLowerCase()]?.plugins || {},
+    ).find((plugin) => plugin?.name?.toLowerCase() === app?.toLowerCase());
   }
   const domain = appData?.domain || `${id}.com`;
   return {
@@ -141,7 +150,10 @@ const BlogSummary = ({ appNames, integrations, meta }) => {
         );
       })}
 
-      <li className="blog-page__view-all mt-auto" style={{ backgroundColor: ACCENT_BG }}>
+      <li
+        className="blog-page__view-all mt-auto"
+        style={{ backgroundColor: ACCENT_BG }}
+      >
         <a
           href={`https://viasocket.com/integrations/category/${meta?.categorySlug || "all"}`}
           target="_blank"
@@ -149,6 +161,17 @@ const BlogSummary = ({ appNames, integrations, meta }) => {
           className="d-flex align-items-center justify-content-between text-decoration-none text-white fw-bold p-3"
         >
           <span>View All from {meta?.category}</span>
+          {ArrowIcon}
+        </a>
+      </li>
+      <li className="blog-page__start-trial">
+        <a
+          href="https://viasocket.com/signup"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${styles.startTrial} d-flex align-items-center justify-content-between text-decoration-none fw-bold p-3`}
+        >
+          <span>Start free trial</span>
           {ArrowIcon}
         </a>
       </li>

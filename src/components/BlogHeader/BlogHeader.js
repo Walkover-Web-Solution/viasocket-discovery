@@ -45,7 +45,7 @@ const BlogHeader = ({
   return (
     <section className="position-relative">
       <div
-        className="container-fluid py-5 px-4 px-md-5 mx-auto mb-5"
+        className="container-fluid py-4 py-md-5 px-3 px-md-4 px-lg-5 mx-auto mb-4 mb-md-5"
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.35)",
           boxShadow: "0 4px 32px rgba(0, 0, 0, 0.06)",
@@ -61,11 +61,11 @@ const BlogHeader = ({
           </span>
         </div>
 
-        <h1 className="display-4 fw-medium my-3" style={{ lineHeight: "1.1" }}>
+        <h1 className={`${styles.title} fw-medium my-3`} style={{ lineHeight: "1.2" }}>
           {content}
         </h1>
 
-        <p className="fs-5 text-secondary mb-4">{subHeading}</p>
+        <p className={`${styles.subHeading} text-secondary mb-4`}>{subHeading}</p>
 
         <div className="d-flex align-items-center gap-2 mb-4">
           {SHARE_TARGETS.map(({ key, label, Icon }) => (
@@ -83,7 +83,7 @@ const BlogHeader = ({
           ))}
         </div>
 
-        <div className="d-flex align-items-center gap-3 mt-4">
+        <div className="d-flex flex-wrap align-items-center gap-2 gap-md-3 mt-4">
           {(() => {
             const author = users?.[0];
             const inner = (
@@ -100,12 +100,12 @@ const BlogHeader = ({
             return author?.id ? (
               <Link
                 href={`/user/${author.id}/${nameToSlugName(author.name || "")}`}
-                className="d-flex align-items-center gap-3 text-dark text-decoration-none"
+                className="d-flex align-items-center gap-2 gap-md-3 text-dark text-decoration-none"
               >
                 {inner}
               </Link>
             ) : (
-              <div className="d-flex align-items-center gap-3">{inner}</div>
+              <div className="d-flex align-items-center gap-2 gap-md-3">{inner}</div>
             );
           })()}
           <span className="text-muted small">
@@ -116,7 +116,7 @@ const BlogHeader = ({
             })}
           </span>
           {showUnderReview && (
-            <div className="ms-auto">
+            <div className="ms-auto mt-2 mt-md-0">
               <HtmlTooltip
                 placement="left"
                 title={
@@ -124,7 +124,6 @@ const BlogHeader = ({
                     <div
                       className="d-flex align-items-center gap-2 mb-1 text-uppercase fw-bold"
                       style={{
-                        // color: ACCENT,
                         letterSpacing: "1px",
                         fontSize: "10px",
                       }}

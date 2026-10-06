@@ -76,9 +76,11 @@ const Components = {
                 <a
                   className={styles.appDomain}
                   href={
-                    apps[appName]?.domain
-                      ? `https://${apps[appName].domain}`
-                      : `https://www.google.com/search?q=${appName}`
+                    appName === "BookTranslator"
+                      ? "https://www.booktranslator.app/"
+                      : apps[appName]?.domain
+                        ? `https://${apps[appName].domain}`
+                        : `https://www.google.com/search?q=${appName}`
                   }
                   target="_blank"
                 >
@@ -181,14 +183,26 @@ const Components = {
       {dummyMarkdown}
     </ReactMarkdown>
   ),
-  additionalSection: ({ content, heading }) => (
-    <section className={`blog-page__section mb-5 p-2 w-75`}>
+  additionalSection: ({ content, heading, styling }) => (
+    <section
+      className={`blog-page__section mb-5 p-2 w-100 w-md-75`}
+      style={
+        styling?.bold
+          ? { borderLeft: "4px solid #a8200d", paddingLeft: "16px !important" }
+          : {}
+      }
+    >
       {heading && (
-        <h3 className="m-0" style={{ fontFamily: "var(--para-font)" }}>
+        <h3
+          style={{
+            fontFamily: "var(--para-font)",
+            ...(styling?.bold ? { fontWeight: "600" } : {}),
+          }}
+        >
           {heading}
         </h3>
       )}
-      <div className="bp-table-wrap">
+      <div className={styles.tableWrap}>
         <ReactMarkdown
           className={`d-flex flex-column gap-3 ${styles.content}`}
           remarkPlugins={[remarkGfm]}
