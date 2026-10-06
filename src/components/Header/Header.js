@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import UserDetail from '../UserDetailPopup/UserDetailPopup';
 import styles from './Header.module.scss';
 import Avatar from '@mui/material/Avatar';
@@ -6,6 +7,7 @@ import  {useUser}  from '@/context/UserContext';
 import { getCurrentEnvironment, setPathInLocalStorage } from '@/utils/storageHelper';
 
 const Header = () => {
+  const router = useRouter();
   const { user } = useUser();
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -20,8 +22,22 @@ const Header = () => {
   const toggleUserInfo = () => {
     setShowUserInfo(!showUserInfo);
   };
-  const loginUrl = (getCurrentEnvironment() !== 'prod')  ? 'http://localhost:3000/discovery/auth': 'https://viasocket.com/login?redirect_to=/discovery/auth&utm_source=/discovery';
-  const signupUrl = (getCurrentEnvironment() !== 'prod') ? 'http://localhost:3000/discovery/auth': 'https://viasocket.com/signup?redirect_to=/discovery/auth&utm_source=/discovery';
+  const routeSegments = router.asPath.split(/[?#]/, 1)[0].split('/').filter(Boolean);
+  const discoverySegments = routeSegments[0] === 'discovery' ? routeSegments.slice(1) : routeSegments;
+  const isBlogRoute = discoverySegments[0] === 'blog' && discoverySegments.length >= 4;
+  const utmSource = isBlogRoute
+    ? `/discovery/${discoverySegments[1]}/${discoverySegments[discoverySegments.length - 1]}`
+    : '/discovery';
+  const authQuery = new URLSearchParams({
+    redirect_to: '/discovery/auth',
+    utm_source: utmSource,
+  });
+  const loginUrl = (getCurrentEnvironment() !== 'prod')
+    ? 'http://localhost:3000/discovery/auth'
+    : `https://viasocket.com/login?${authQuery.toString()}`;
+  const signupUrl = (getCurrentEnvironment() !== 'prod')
+    ? 'http://localhost:3000/discovery/auth'
+    : `https://viasocket.com/signup?${authQuery.toString()}`;
 
   
   return (
