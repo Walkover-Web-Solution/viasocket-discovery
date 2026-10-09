@@ -58,6 +58,46 @@
       cursor: pointer;
     }
   }
+  .suggestionBanner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: var(--blog-width);
+    margin: 1rem 0 2rem;
+    padding: 1rem 1.5rem;
+    background-color: rgba(168, 32, 13, 0.06);
+    border: 1px solid rgba(168, 32, 13, 0.2);
+    border-radius: 8px;
+    h6 {
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    p {
+      font-size: 1rem;
+      margin-bottom: 0;
+    }
+    a {
+      color: #a8200d;
+      font-weight: 600;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .suggestionIconDiv {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      border-radius: 10px;
+      background-color: rgba(168, 32, 13, 0.12);
+    }
+    .suggestionIcon {
+      font-size: 2rem;
+      color: #a8200d;
+    }
+  }
   .appHeadingDiv {
     display: flex;
     gap: 1rem;
