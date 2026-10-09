@@ -8,6 +8,7 @@ import Integrations from "../Integrations/Integrations";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import ExtensionIcon from "@mui/icons-material/Extension";
 import InfoIcon from "@mui/icons-material/Info";
+import CampaignIcon from "@mui/icons-material/Campaign";
 import BlogHeader from "../BlogHeader/BlogHeader";
 import BlogSummary from "../BlogSummary/BlogSummary";
 import Link from "next/link";
@@ -64,6 +65,21 @@ const Components = {
               <InfoIcon className={styles.infoIcon} />
             </HtmlTooltip>
           </p>
+        </div>
+        <div className={styles.suggestionBanner}>
+          <div className={styles.suggestionIconDiv}>
+            <CampaignIcon className={styles.suggestionIcon} />
+          </div>
+          <div>
+            <h6>Have suggestions or improvements for this article?</h6>
+            <p>
+              Reach out to us at{" "}
+              <a href="mailto:discovery@viasocket.com">
+                discovery@viasocket.com
+              </a>
+              .
+            </p>
+          </div>
         </div>
         <List>
           {content.map(({ appName, content }, idx) => (
