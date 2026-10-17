@@ -7,7 +7,7 @@ const proxyUrl = process.env.NEXT_PUBLIC_PROXY_URL;
 
 export const deleteComment = async (commentId,blogId) => {
   try {
-    await axios.delete(proxyUrl + `/api/blog/${blogId}/comments/${commentId}`);
+    await axios.delete(baseUrl + `/api/blog/${blogId}/comments/${commentId}`);
     return true;
   } catch (error) {
     console.error('Failed to delete comment:', error);
@@ -18,7 +18,7 @@ export const deleteComment = async (commentId,blogId) => {
 
 export const postComment = async (blogId, comment) => {
   try{
-    const response = await axios.post(proxyUrl + `/api/blog/${blogId}/comments`, {
+    const response = await axios.post(baseUrl + `/api/blog/${blogId}/comments`, {
       text: comment
     });
     toast.success('Comment posted successfully');
