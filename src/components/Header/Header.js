@@ -86,6 +86,21 @@ const Header = () => {
           Discovery
         </a>
         <a
+          href="https://walkover-products.embarko.app/?from=viasocket"
+          target="_blank"
+          rel="noopener"
+          className = "px-4 text-decoration-none text-black d-none d-md-flex justify-content-center"
+          style={{
+            borderLeft: "1px solid #ccc",
+            minWidth: "120px",
+            fontSize: "14px",
+            paddingTop: "10px",
+            paddingBottom: "10px",
+          }}
+        >
+          Explore more
+        </a>
+        <a
           href="https://viasocket.com/support"
           target="_blank"
           className = "px-4 text-decoration-none text-black d-none d-md-flex justify-content-center"
