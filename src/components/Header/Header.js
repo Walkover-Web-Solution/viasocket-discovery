@@ -82,6 +82,22 @@ const Header = () => {
             Automation Ideas
           </a>
           <a
+            href="https://walkover-products.embarko.app/?from=viasocket-automation"
+            target="_blank"
+            rel="noopener"
+            className="px-4 text-decoration-none text-black d-none d-md-flex justify-content-center"
+            style={{
+              minWidth: "120px",
+              fontSize: "14px",
+              paddingTop: "10px",
+              paddingBottom: "10px",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+            }}
+          >
+            Explore more
+          </a>
+          <a
             href="https://viasocket.com/support"
             target="_blank"
             className="px-4 text-decoration-none text-black d-none d-md-flex justify-content-center"
