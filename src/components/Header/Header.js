@@ -91,6 +91,8 @@ const Header = () => {
               fontSize: "14px",
               paddingTop: "10px",
               paddingBottom: "10px",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
             }}
           >
             Explore more
