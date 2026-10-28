@@ -139,7 +139,7 @@ function PromoBody({ visible }) {
 }
 
 function currentHeadingId(headings) {
-  const marker = 120;
+  const marker = 180;
   let current = headings[0]?.id || "";
   headings.forEach((heading) => {
     const element = document.getElementById(heading.id);

@@ -18,6 +18,22 @@
     color-scheme: light;
 }
 
+// The app locks html, body, and #__next to the viewport height, so a long
+// compare article would be clipped. Let only these pages grow and scroll.
+// overflow-x: clip keeps the page from scrolling sideways without the
+// overflow-x: hidden rule, which stops position: sticky from working.
+:global(html):has(.compareWrapper),
+:global(body):has(.compareWrapper) {
+    height: auto;
+    min-height: 100%;
+    overflow-x: clip;
+}
+
+:global(#__next):has(.compareWrapper) {
+    height: auto;
+    min-height: 100%;
+}
+
 .compareMain {
     width: 100%;
     max-width: none;

@@ -120,6 +120,13 @@ $sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   line-height: 1.7;
 
   p,
+  li,
+  a,
+  summary {
+    font-family: $serif;
+  }
+
+  p,
   ul,
   ol {
     margin: 0 0 1rem;
