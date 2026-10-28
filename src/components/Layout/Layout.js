@@ -14,6 +14,8 @@ export default function Layout({ children }) {
   const [userBioPopup, setUserBioPopup] = useState(false);
   const [unAuthPopup, setUnAuthPopup] = useState(false);
   const isHomePage = router.pathname === '/';
+  const isComparePage =
+    router.pathname === "/compare" || router.pathname.startsWith("/compare/");
   
   useEffect(() => {
     if (typeof document === 'undefined') return ;
@@ -37,9 +39,9 @@ export default function Layout({ children }) {
 
 
   return (
-    <div className={styles.wrapper}>
+    <div className={isComparePage ? `${styles.wrapper} ${styles.compareWrapper}` : styles.wrapper}>
       <Header />
-      <main className = {styles.main}>{children}</main>
+      <main className={isComparePage ? `${styles.main} ${styles.compareMain}` : styles.main}>{children}</main>
       <UnauthorizedPopup isOpen={unAuthPopup} onClose={()=>setUnAuthPopup(false)} />
 			<UserBioPopup isOpen={userBioPopup} onClose={()=>setUserBioPopup(false)}/>
       {!isHomePage &&  

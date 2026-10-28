@@ -7,6 +7,7 @@ import PopularContent from "@/components/PopularContent/PopularContent";
 import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
 import MarqueeApps from "@/components/MarqueeApps/MarqueeApps";
 import TopContributors from "@/components/TopContributors/TopContributors";
+import CompareHomeBlock from "@/components/Compare/CompareHomeBlock";
 
 const HomePageContent = ({
   blogCreating,
@@ -30,6 +31,7 @@ const HomePageContent = ({
   popularUsers,
   tagsContainer,
   highlightText,
+  comparePages = [],
 }) => {
   return (
     <>
@@ -89,6 +91,7 @@ const HomePageContent = ({
                   setIsCategoryClicked={setIsCategoryClicked}
                 />
               )}
+              {!typingStart && <CompareHomeBlock pages={comparePages} />}
 
               {!typingStart && (
                 <>

@@ -13,8 +13,22 @@
     flex-direction: column;
 }
 
+.compareWrapper {
+    background: #f6f3ec;
+    color-scheme: light;
+}
+
+.compareMain {
+    width: 100%;
+    max-width: none;
+    background: #f6f3ec;
+}
+
 @media (max-width: 600px) {
   .main{
     width: calc(100% - 40px); 
-  }  
+  }
+  .compareMain {
+    width: 100%;
+  }
 }
