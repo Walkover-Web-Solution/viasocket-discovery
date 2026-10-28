@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import CampaignIcon from "@mui/icons-material/Campaign";
 import styles from "./CompareArticle.module.scss";
 
 const START_FREE_URL =
@@ -252,6 +253,23 @@ export default function CompareArticle({ page }) {
             className={styles.article}
             dangerouslySetInnerHTML={{ __html: page.html }}
           />
+          <aside className={styles.contact} aria-label="Suggestions">
+            <div className={styles.contactIcon} aria-hidden="true">
+              <CampaignIcon className={styles.contactGlyph} />
+            </div>
+            <div>
+              <p className={styles.contactTitle}>
+                Have suggestions or improvements for this article?
+              </p>
+              <p className={styles.contactText}>
+                Reach out to us at{" "}
+                <a href="mailto:discovery@viasocket.com">
+                  discovery@viasocket.com
+                </a>
+                .
+              </p>
+            </div>
+          </aside>
         </article>
 
         <div className={styles.sideColumn}>

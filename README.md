@@ -47,6 +47,8 @@ Create `content/compare/<slug>/` with:
 
 `authorId` is the Discovery user id. The byline links to `/discovery/user/<authorId>`, and that author's page lists their comparisons next to their blogs.
 
+The suggestion box at the end of every article is part of the template. It is not written into the page folder.
+
 The slug is the folder name: letters, numbers, hyphens, or underscores. Routes, with the `/discovery` base path:
 
 - `/discovery/compare` lists every page, newest first

@@ -113,6 +113,63 @@ $sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   font-size: 0.75rem;
 }
 
+.contact {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin: 2rem 0 0;
+  padding: 1rem 1.25rem;
+  color: $ink;
+  background: rgba(168, 32, 13, 0.06);
+  border: 1px solid rgba(168, 32, 13, 0.2);
+  border-radius: 12px;
+}
+
+.contactIcon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: rgba(168, 32, 13, 0.12);
+  border-radius: 10px;
+}
+
+.contactGlyph {
+  color: $accent;
+  font-size: 2rem;
+}
+
+.contactTitle,
+.contactText {
+  margin: 0;
+  font-family: $serif;
+  line-height: 1.45;
+}
+
+.contactTitle {
+  margin-bottom: 0.25rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.contactText {
+  color: $ink;
+  font-size: 1.05rem;
+
+  a {
+    color: $accent;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+  }
+}
+
 .article {
   color: $ink;
   font-family: $serif;
