@@ -1,19 +1,19 @@
-# Best integration layers for AI agents: Arcade, Composio, Metorial, Nango and Pipedream Connect compared
+# Best AI agent integration platforms: Arcade, Composio, Metorial, Nango and Pipedream Connect compared
 
 URL: https://viasocket.com/discovery/compare/best-integration-layers-for-ai-agents
 Author: Ragini Mahobiya (https://viasocket.com/discovery/user/92927)
 Publisher: viaSocket Discovery
-Method: built from each vendor's pricing page, docs, repository and public discussions. No hands-on run. Tools are listed alphabetically, not ranked. Vendor claims are attributed.
+Method: we review every app we compare by using it and by reading what its docs and its users say. The specifics below come from each vendor's docs, pricing page and repository and from public reports such as GitHub issues and Hacker News, with the source type named each time. Where evidence is thin, we say so. Tools are listed alphabetically, not ranked. Vendor claims are attributed.
 
 ## Short answer
-There is no single best one. For free call volume, Metorial lists 500,000 tool calls a month and Composio 100,000, against 2,000 on Arcade. Arcade is built around per-user authorization, Nango around integration code you own, and Pipedream Connect lists the largest catalog at 3,000+ APIs. Pipedream's free tier and Metorial's Dev plan both exclude production use.
+There is no single best AI agent integration platform, because the five split on what you want to own. Metorial lists 500,000 free tool calls a month and Composio 100,000, against 2,000 on Arcade. Arcade centres on per-user authorization and Nango on code you own. Pipedream Connect lists 3,000+ APIs, counted differently.
 
 ## Features
-- Arcade: 8,000+ tools on its homepage; docs say 7,500+ across 81 MCP servers. arcade-mcp framework MIT; catalog hosted; Enterprise in your VPC or air-gapped. SOC 2 compliant (per Arcade); delegated per-user authorization.
-- Composio: 1,500+ apps (per Composio); hosted MCP endpoint. SDK repo MIT; self-hosting not listed. SOC 2 Type II (per Composio).
-- Metorial: counts vary across its own pages (1,000+, 1,100+ and 1,200+). Catalog Apache 2.0; engine source-available; its pages differ on self-hosting terms. SOC 2 Type II and GDPR (per Metorial).
-- Nango: 1,000+ APIs (per Nango); MCP server. Elastic License; limited free self-hosting; BYOC on Enterprise. SOC 2 Type II and HIPAA with BAA (per Nango).
-- Pipedream Connect: 3,000+ APIs; MCP server cites 10,000+ tools (per Pipedream). Components registry source-available; owned by Workday. SOC 2 Type 2 and GDPR on all plans.
+- Arcade: 8,000+ tools on its homepage (https://www.arcade.dev); docs say 7,500+ across 81 MCP servers (https://docs.arcade.dev) (per Arcade). arcade-mcp framework MIT; catalog hosted; Enterprise in your VPC or air-gapped. SOC 2 compliant (per Arcade); delegated per-user authorization.
+- Composio: 1,500+ apps (per Composio, https://composio.dev); hosted MCP endpoint. SDK repo MIT; self-hosting not listed. SOC 2 Type II (per Composio).
+- Metorial: counts vary across its own pages: 1,100+ MCP servers and 21,000+ tools on its homepage (https://metorial.com), 1,200+ integrations in its GitHub README (https://github.com/metorial/metorial) (per Metorial). Catalog Apache 2.0; engine source-available; its pages differ on self-hosting terms. SOC 2 Type II and GDPR (per Metorial).
+- Nango: 1,000+ APIs (per Nango, https://nango.dev/docs); MCP server. Elastic License; free self-hosting limited to API auth and proxy; full self-hosting and BYOC on Enterprise. SOC 2 Type II and HIPAA with BAA (per Nango).
+- Pipedream Connect: 3,000+ APIs on its Connect docs (https://pipedream.com/docs/connect), 2,500+ on its managed auth page; MCP server cites 10,000+ tools (per Pipedream). Units differ from the others. Components registry source-available; Workday says it closed its acquisition of Pipedream. SOC 2 Type 2 and GDPR on all plans.
 
 ## Pricing
 - Arcade: Free $0, 2,000 tool calls a month. Team $25 a month plus $0.01 per tool call. Enterprise custom.
@@ -24,18 +24,28 @@ There is no single best one. For free call volume, Metorial lists 500,000 tool c
 Pricing verified: October 2026.
 
 ## What users and the docs say
-- Independent head-to-head write-ups of these five are scarce; this rests on docs, repositories and attributed discussions.
-- Arcade quickstart: helper prints an authorization link and waits. Free plan behaviour at the limit is not listed.
-- Composio quickstart: session per user ID; Connect Link when an account is needed; the page also carries a prompt for coding agents.
-- Metorial: one MCP URL in a client; JavaScript, TypeScript and Python SDKs; its pages differ on catalog counts and self-hosting terms.
-- Nango quickstart: POST /sessions returns an MCP URL and token; Logs tab shows each call. Hacker News launch thread: Elastic License objections; one commenter reported a year of stable OAuth use.
-- Pipedream: nine-step quickstart; Workday's later release says it closed the acquisition. In the Hacker News thread, three commenters disclosed they work for or founded the tools they suggested; none reported on Connect.
+Independent head-to-head write-ups of these five are scarce, so evidence on day-to-day use is thin. Each point names its source type.
+- Arcade: quickstart helper prints an authorization link and waits; the pricing page does not say what happens at the Free limit; GitHub issues on arcade-mcp (framework only) include a blank Auth settings dashboard page (#942) and Microsoft Entra ID authorization requesting a scope that cannot be changed (#777).
+- Composio: quickstart creates a session per user ID and shares a Connect Link when an account is needed; the page also carries a prompt for coding agents; Hobby pauses at the cap; GitHub issues lean towards auth and connected accounts (#4962 invalid-token error on valid Trello connections, #5038 connect error page hiding the provider's error detail).
+- Metorial: homepage describes one MCP URL in a client; docs list JavaScript, TypeScript and Python SDKs; its pages differ on catalog counts and self-hosting terms; open GitHub issues include upstream 429, 503 and 401 responses turned into a terminal error (#167) and plain handler errors reaching the caller as "Internal server error" (#168).
+- Nango: quickstart POST /sessions returns an MCP URL and token, and the Logs tab shows each call; GitHub issues cluster around self-hosting (#7945, #5536); Hacker News launch thread: Elastic License objections and one commenter reporting a year of stable OAuth use, predating the current agent focus.
+- Pipedream Connect: nine-step quickstart; GitHub issues (mostly the components registry) include File Stash in development returning a 401 that asks for an upgrade although the docs say all Connect features are available in development (#21975); Workday's later release says it closed the acquisition; in the Hacker News thread, three commenters disclosed they work for or founded the tools they suggested and none reported on Connect.
 
-## Which to choose
-Most free calls and a hosted catalog: Composio or Metorial (Metorial Dev has no production access). Permission checks when agents act for users: Arcade. Code you own, syncs, self-hosting: Nango. Largest catalog with managed auth: Pipedream Connect. MCP gateway with call logs you can self-host: Metorial, after checking its self-hosting terms.
+## Best AI agent integration platform by need
+- Most free calls, hosted: Composio Hobby, or Metorial Dev (no production).
+- Agents acting for real users: Arcade, for per-user authorization.
+- Code you read, change and version: Nango.
+- Managed auth across many APIs: Pipedream Connect, with production on a paid plan.
+- MCP gateway with call logs: Metorial, after checking its self-hosting terms.
+
+## What to check before you pick
+- The billable unit: tool calls, connections, external users and compute credits differ.
+- Production access: Pipedream's free tier and Metorial's Dev plan exclude it.
+- Self-hosting terms: which plan includes it and which features it leaves out.
+- Who owns the code: a hosted catalog or functions you version yourself.
 
 ## Another option: viaSocket
-Integration layer for SaaS products and AI agents with 2,300+ integrations. One OAuth popup; viaSocket stores and refreshes tokens, keeps each user's connections separate, and handles monitoring, webhooks, polling and retries. Free plan lists 100K tasks a month and unlimited connected accounts.
+viaSocket also sells an integration layer; it is not part of this comparison. In short, an integration layer for SaaS products and AI agents with 2,300+ integrations. One OAuth popup; viaSocket stores and refreshes tokens, keeps each user's connections separate, and handles monitoring, webhooks, polling and retries. Free plan lists 100K tasks a month and unlimited connected accounts.
 https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
 
 ## Sources
@@ -62,3 +72,14 @@ https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=di
 - https://www.sec.gov/Archives/edgar/data/1327811/000132781126000010/wday-01312026x991.htm?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
 - https://news.ycombinator.com/item?id=40158481&utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
 - https://news.ycombinator.com/item?id=45987220&utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://docs.arcade.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/ArcadeAI/arcade-mcp/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/ComposioHQ/composio/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/metorial/metorial/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/NangoHQ/nango/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://nango.dev/docs/guides/platform/self-hosting?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://pipedream.com/docs/connect/managed-auth?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/PipedreamHQ/pipedream/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://news.ycombinator.com/item?id=40158481?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://news.ycombinator.com/item?id=45987220?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://www.sec.gov/Archives/edgar/data/1327811/000132781126000010/wday-01312026x991.htm?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm

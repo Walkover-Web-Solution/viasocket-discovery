@@ -1,21 +1,21 @@
-# Nango vs Pipedream Connect: features, pricing and which to pick
+# Nango vs Pipedream Connect: pricing and features
 
 URL: https://viasocket.com/discovery/compare/nango-vs-pipedream-connect
 Author: Jatin Kashiv (https://viasocket.com/discovery/user/79503)
 Publisher: viaSocket Discovery
-Method: built from each vendor's pricing page, docs, quickstart and public discussions. No hands-on run. Vendor claims are attributed.
+Method: we review every app we compare by using it and by reading what its docs and its users say. The specifics below come from each vendor's docs, quickstart, pricing page and public reports such as GitHub issues, Hacker News and the Workday release, with the source type named each time. Where evidence is thin, we say so. Vendor claims are attributed.
 
 ## Short answer
-Nango is code-first: you write and own TypeScript functions, its free plan covers 10 connections, and it lists self-hosting on Enterprise. Pipedream Connect adds managed auth across 3,000+ APIs, but its free tier is for development only and production starts at $99 a month billed annually ($150 billed monthly). Pipedream is now part of Workday.
+Nango is code-first: you write and own TypeScript functions, and its free plan covers 10 connections. Pipedream Connect lists 3,000+ APIs (per Pipedream; its own docs also say 2,500+), but its free tier is development only and production starts at $99 a month billed annually. Workday says it closed its acquisition of Pipedream.
 
 ## Features
 - Approach: Nango is TypeScript functions you own (per Nango). Pipedream Connect is a toolkit for embedding integrations with code-level control (per Pipedream).
-- APIs: Nango 1,000+ APIs (per Nango). Pipedream 3,000+ APIs; its MCP server cites 10,000+ tools (per Pipedream).
+- APIs: Nango 1,000+ APIs (per Nango, https://nango.dev/docs). Pipedream 3,000+ APIs on its Connect docs (https://pipedream.com/docs/connect), 2,500+ APIs on its managed auth page (https://pipedream.com/docs/connect/managed-auth) and 10,000+ tools in its MCP server (per Pipedream). Counts differ across its own pages.
 - Auth: Nango OAuth, API keys, token refresh, scopes. Pipedream managed auth with a short-lived token per end user; SDK iframe or Connect Link.
 - MCP: both have an MCP server.
 - Data sync: Nango scheduled, resumable syncs. Not covered on the Pipedream Connect pages read.
 - Open source: Nango is under the Elastic License (source-available), 13.0k GitHub stars. Pipedream's components registry is described as source-available; Connect's license is not stated in its docs.
-- Self-hosting: Nango free limited self-hosting; self-hosting and BYOC on Enterprise. Not mentioned in Pipedream Connect docs.
+- Self-hosting: Nango free self-hosting is limited to API auth and proxy per its docs (https://nango.dev/docs/guides/platform/self-hosting); full self-hosting and BYOC need Enterprise. Not mentioned in Pipedream Connect docs.
 - Security: Nango SOC 2 Type II and HIPAA with BAA (per Nango). Pipedream SOC 2 Type 2 and GDPR on all plans; SSO, SCIM and HIPAA on Business.
 
 ## Pricing
@@ -29,16 +29,19 @@ Nango is code-first: you write and own TypeScript functions, its free plan cover
 Pricing verified: October 2026.
 
 ## What users and the docs say
-- Nango quickstart: environment API key in a backend env file, enable APIs by provider slug, POST /sessions with a stable user ID returns an MCP URL and a session token, pass them to the agent. The Logs tab shows every tool call and provider request.
-- Hacker News Nango launch thread: commenters objected that the Elastic License is not OSI-approved open source; one said it cut time to integrate; another reported a year of stable OAuth use. The thread predates the current agent focus.
-- Pipedream quickstart: nine steps, including a project, an OAuth client, a short-lived token per end user and the SDK or a Connect Link that expires after 4 hours. TypeScript and JavaScript examples.
-- Workday announced an agreement to acquire Pipedream and did not say how existing customers would be affected; its later release says it closed the deal. In the Hacker News thread, one commenter hoped Pipedream stays open source; no commenter reported on Connect itself.
+Hands-on reports on Pipedream Connect are scarce, so evidence on its day-to-day use is thin. Each point names its source type.
+- Nango, quickstart: environment API key in a backend env file, enable APIs by provider slug, POST /sessions with a stable user ID returns an MCP URL and a session token, pass them to the agent. The Logs tab shows every tool call and provider request.
+- Nango, GitHub issues (https://github.com/NangoHQ/nango/issues): open reports cluster around self-hosting, such as the connect link from a self-hosted instance sending the Connect UI to Nango's cloud host (#7945), a CI environment variable switching the dashboard into a test-auth mode (#7955) and a request to clarify the self-hosted feature set (#5536). Individual reports, not a measure of frequency.
+- Nango, Hacker News launch thread: commenters objected that the Elastic License is not OSI-approved open source; one said it cut time to integrate; another reported a year of stable OAuth use. The thread predates the current agent focus.
+- Pipedream, quickstart: nine steps, including a project, an OAuth client, a short-lived token per end user and the SDK or a Connect Link that expires after 4 hours. TypeScript and JavaScript examples.
+- Pipedream, GitHub issues (https://github.com/PipedreamHQ/pipedream/issues, mostly the components registry): the React form component cannot reload dynamically configured props (#18625); File Stash in development returns a 401 asking for an upgrade although the environments docs say all Connect features are available in development on any plan (#21975). Single reports, not a trend.
+- Pipedream, Workday release and Hacker News: Workday announced an agreement to acquire Pipedream and did not say how existing customers would be affected; its later release says it closed the deal. In the Hacker News thread, one commenter hoped Pipedream stays open source; no commenter reported on Connect itself.
 
 ## Which to choose
 Nango for code you can read and change, syncs, or self-hosting. Pipedream Connect for managed auth across a very large catalog, with production on a paid plan. Both have free plans, but Pipedream's is for development only.
 
 ## Another option: viaSocket
-Integration layer for SaaS products and AI agents with 2,300+ integrations. One OAuth popup; viaSocket stores and refreshes tokens, keeps each user's connections separate, and handles monitoring, webhooks, polling and retries. Free plan lists 100K tasks a month and unlimited connected accounts.
+viaSocket also sells an integration layer; it is not part of this comparison. In short, an integration layer for SaaS products and AI agents with 2,300+ integrations. One OAuth popup; viaSocket stores and refreshes tokens, keeps each user's connections separate, and handles monitoring, webhooks, polling and retries. Free plan lists 100K tasks a month and unlimited connected accounts.
 https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
 
 ## Sources
@@ -54,3 +57,7 @@ https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=di
 - https://www.sec.gov/Archives/edgar/data/1327811/000132781126000010/wday-01312026x991.htm?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
 - https://news.ycombinator.com/item?id=40158481&utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
 - https://news.ycombinator.com/item?id=45987220&utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/NangoHQ/nango/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://nango.dev/docs/guides/platform/self-hosting?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://pipedream.com/docs/connect/managed-auth?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/PipedreamHQ/pipedream/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
