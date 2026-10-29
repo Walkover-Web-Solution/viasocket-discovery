@@ -23,7 +23,18 @@ import { getCategoriesFromDbDash } from "./api/tags";
 import Loader from "@/components/loader/Loader";
 import HomePageContent from "@/components/HomePageContent/HomePageContent";
 
+async function loadComparePages() {
+  try {
+    const { getCompareSummaries } = await import("@/lib/compareContent");
+    return getCompareSummaries().slice(0, 3);
+  } catch (error) {
+    console.error("error loading compare pages", error);
+    return [];
+  }
+}
+
 export async function getServerSideProps() {
+  const comparePages = await loadComparePages();
   try {
     const env = process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT;
 
@@ -53,14 +64,18 @@ export async function getServerSideProps() {
       )
       .filter(Boolean);
 
-    return { props: { popularUsers: enrichedUsers, categories } };
+    return { props: { popularUsers: enrichedUsers, categories, comparePages } };
   } catch (error) {
     console.error("error on home page serverside props", error);
-    return { props: { popularUsers: [], categories: [] } };
+    return { props: { popularUsers: [], categories: [], comparePages } };
   }
 }
 
-export default function Home({ popularUsers = [], categories = [] }) {
+export default function Home({
+  popularUsers = [],
+  categories = [],
+  comparePages = [],
+}) {
   const [blogs, setBlogs] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [messages, setMessages] = useState([]);
@@ -347,6 +362,7 @@ export default function Home({ popularUsers = [], categories = [] }) {
         popularUsers={popularUsers}
         tagsContainer={tagsContainer}
         highlightText={highlightText}
+        comparePages={comparePages}
       />
       {blogCreating && (
         <div className={styles.createBlogLoaderContainer}>
