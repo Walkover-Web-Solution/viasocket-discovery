@@ -335,7 +335,7 @@ $sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   :global(.gc) :global(.hd) {
     display: flex;
     align-items: center;
-    gap: 0.875rem;
+    gap: 1rem;
   }
 
   :global(.gc) :global(.hd) b {
@@ -348,13 +348,13 @@ $sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   :global(.discovery-compare-table) img,
   :global(.scroll) img {
     flex: none;
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     margin: 0;
     object-fit: contain;
     background: #fff;
     border: 1px solid $line;
-    border-radius: 6px;
+    border-radius: 8px;
   }
 
   :global(.gc) :global(.lab) {
