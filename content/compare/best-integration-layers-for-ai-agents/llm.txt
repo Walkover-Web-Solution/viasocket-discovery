@@ -1,0 +1,64 @@
+# Best integration layers for AI agents: Arcade, Composio, Metorial, Nango and Pipedream Connect compared
+
+URL: https://viasocket.com/discovery/compare/best-integration-layers-for-ai-agents
+Author: Ragini Mahobiya (https://viasocket.com/discovery/user/92927)
+Publisher: viaSocket Discovery
+Method: built from each vendor's pricing page, docs, repository and public discussions. No hands-on run. Tools are listed alphabetically, not ranked. Vendor claims are attributed.
+
+## Short answer
+There is no single best one. For free call volume, Metorial lists 500,000 tool calls a month and Composio 100,000, against 2,000 on Arcade. Arcade is built around per-user authorization, Nango around integration code you own, and Pipedream Connect lists the largest catalog at 3,000+ APIs. Pipedream's free tier and Metorial's Dev plan both exclude production use.
+
+## Features
+- Arcade: 8,000+ tools on its homepage; docs say 7,500+ across 81 MCP servers. arcade-mcp framework MIT; catalog hosted; Enterprise in your VPC or air-gapped. SOC 2 compliant (per Arcade); delegated per-user authorization.
+- Composio: 1,500+ apps (per Composio); hosted MCP endpoint. SDK repo MIT; self-hosting not listed. SOC 2 Type II (per Composio).
+- Metorial: counts vary across its own pages (1,000+, 1,100+ and 1,200+). Catalog Apache 2.0; engine source-available; its pages differ on self-hosting terms. SOC 2 Type II and GDPR (per Metorial).
+- Nango: 1,000+ APIs (per Nango); MCP server. Elastic License; limited free self-hosting; BYOC on Enterprise. SOC 2 Type II and HIPAA with BAA (per Nango).
+- Pipedream Connect: 3,000+ APIs; MCP server cites 10,000+ tools (per Pipedream). Components registry source-available; owned by Workday. SOC 2 Type 2 and GDPR on all plans.
+
+## Pricing
+- Arcade: Free $0, 2,000 tool calls a month. Team $25 a month plus $0.01 per tool call. Enterprise custom.
+- Composio: Hobby $0, 100,000 tool calls and 50,000 trigger events a month, pauses at the cap. Pro $29 a month, $0.0003 per tool call and $0.003 per trigger event past the included amount. Enterprise custom.
+- Metorial: Dev $0, 500,000 tool calls a month, 2 team members, no production access. Scale $250 a month, 2,500,000 tool calls, 20 team members, $1 per 1,500 extra calls. Enterprise custom.
+- Nango: Free $0, 10 connections, 10 compute hours, 10 GB a month. Pay-as-you-go $50 a month with $50 of credits, then $0.29 per connection, $0.72 per compute hour, $0.50 per GB. Enterprise custom.
+- Pipedream Connect: Free $0, development only. Startup $99 a month billed annually ($150 monthly), 100 external users then $2 each, 10,000 credits then $0.012 each. Business custom.
+Pricing verified: October 2026.
+
+## What users and the docs say
+- Independent head-to-head write-ups of these five are scarce; this rests on docs, repositories and attributed discussions.
+- Arcade quickstart: helper prints an authorization link and waits. Free plan behaviour at the limit is not listed.
+- Composio quickstart: session per user ID; Connect Link when an account is needed; the page also carries a prompt for coding agents.
+- Metorial: one MCP URL in a client; JavaScript, TypeScript and Python SDKs; its pages differ on catalog counts and self-hosting terms.
+- Nango quickstart: POST /sessions returns an MCP URL and token; Logs tab shows each call. Hacker News launch thread: Elastic License objections; one commenter reported a year of stable OAuth use.
+- Pipedream: nine-step quickstart; Workday's later release says it closed the acquisition. In the Hacker News thread, three commenters disclosed they work for or founded the tools they suggested; none reported on Connect.
+
+## Which to choose
+Most free calls and a hosted catalog: Composio or Metorial (Metorial Dev has no production access). Permission checks when agents act for users: Arcade. Code you own, syncs, self-hosting: Nango. Largest catalog with managed auth: Pipedream Connect. MCP gateway with call logs you can self-host: Metorial, after checking its self-hosting terms.
+
+## Another option: viaSocket
+Integration layer for SaaS products and AI agents with 2,300+ integrations. One OAuth popup; viaSocket stores and refreshes tokens, keeps each user's connections separate, and handles monitoring, webhooks, polling and retries. Free plan lists 100K tasks a month and unlimited connected accounts.
+https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## Sources
+- https://www.arcade.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://www.arcade.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://docs.arcade.dev/en/get-started/quickstarts/call-tool-agent?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/ArcadeAI/arcade-mcp?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://composio.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://composio.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://docs.composio.dev/docs/quickstart?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/ComposioHQ/composio?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://metorial.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://metorial.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://metorial.com/docs?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://metorial.com/blog/metorial-vs-composio?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/metorial/metorial?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://nango.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://nango.dev/docs?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://nango.dev/docs/getting-started/quickstart?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/NangoHQ/nango?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://pipedream.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://pipedream.com/docs/connect?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://pipedream.com/docs/connect/managed-auth/quickstart?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://www.sec.gov/Archives/edgar/data/1327811/000132781126000010/wday-01312026x991.htm?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://news.ycombinator.com/item?id=40158481&utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://news.ycombinator.com/item?id=45987220&utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm

@@ -1,0 +1,79 @@
+<p class="answer"><strong>Short answer:</strong> Composio has the bigger free allowance, with 100,000 tool calls a month on its Hobby plan against 2,000 on Arcade's Free plan. Arcade describes itself as built around per-user authorization at the moment an agent acts, and lists $0.01 per tool call on its Team plan, where Composio lists $0.0003 past its included calls on Pro. Both support MCP.</p>
+<p class="how">This comparison uses each vendor's pricing page, docs and quickstart, plus public discussions where they exist. We did not run either product, and vendor claims are attributed.</p>
+
+<h2 id="glance">At a glance</h2>
+<div class="scroll"><table>
+<thead><tr><th>Tool</th><th>What it is</th><th>Best for</th></tr></thead>
+<tbody>
+<tr><td><img src="https://www.google.com/s2/favicons?domain=composio.dev&sz=128" alt="Composio logo" width="20" height="20"> Composio</td><td>A hosted catalog of app tools with managed auth for AI agents and MCP clients. <a href="https://composio.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=glance" rel="noopener">Visit Composio</a></td><td>Getting an agent working across many apps quickly.</td></tr>
+<tr><td><img src="https://www.google.com/s2/favicons?domain=arcade.dev&sz=128" alt="Arcade logo" width="20" height="20"> Arcade</td><td>An actions runtime that handles user authorization and tool execution for agents (per Arcade). <a href="https://www.arcade.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=glance" rel="noopener">Visit Arcade</a></td><td>Agents acting for real users where per-user permissions and audit trails matter.</td></tr>
+</tbody></table></div>
+
+<h2 id="features">Features</h2>
+<div class="scroll"><table>
+<thead><tr><th>Feature</th><th><span><img src="https://www.google.com/s2/favicons?domain=composio.dev&sz=128" alt="" width="20" height="20"> Composio</span></th><th><span><img src="https://www.google.com/s2/favicons?domain=arcade.dev&sz=128" alt="" width="20" height="20"> Arcade</span></th></tr></thead>
+<tbody>
+<tr><td>Approach</td><td>Hosted tool catalog with managed auth, used through sessions per user</td><td>Runtime that handles user authentication, authorization, policy and tool execution (per Arcade)</td></tr>
+<tr><td>Catalog size</td><td>1,500+ apps (per Composio)</td><td>8,000+ tools on its homepage; its docs say 7,500+ tools across 81 MCP servers (per Arcade). Apps and tools are counted differently, so the two figures do not compare directly</td></tr>
+<tr><td>Authorization model</td><td>Composio-managed auth by default, connected accounts kept per user ID, Connect Link when a task needs an account</td><td>Delegated authorization through your identity provider, so the agent acts as the signed-in user, with each action scoped (per Arcade)</td></tr>
+<tr><td>MCP</td><td>Hosted MCP endpoint per session, for clients such as Claude Desktop and Cursor</td><td>Tools delivered as MCP servers; you can also register your own or existing remote MCP servers</td></tr>
+<tr><td>Developer interface</td><td>Python and TypeScript SDKs, REST API</td><td>Python, TypeScript and Java client libraries; open-source Python framework for building MCP servers</td></tr>
+<tr><td>Open source</td><td>SDK repository is MIT licensed (30.8k GitHub stars)</td><td>The arcade-mcp framework is MIT licensed (1.1k GitHub stars); the prebuilt catalog is hosted, and the repository page does not say whether the engine is open source</td></tr>
+<tr><td>Deployment</td><td>Self-hosting is not listed on its pricing page or homepage</td><td>Arcade Cloud, your VPC or air-gapped on Enterprise; docs also describe self-hosting with Helm and an Arcade Worker</td></tr>
+<tr><td>Security</td><td>SOC 2 Type II (per Composio); its comparison page also claims ISO/IEC 27001:2022. SSO/SCIM and customer-managed keys are Enterprise only</td><td>SOC 2 compliant, with SSO, RBAC and audit logs (per Arcade); its pricing page lists SSO, RBAC and audit logs under Enterprise</td></tr>
+<tr><td>Support</td><td>Portal on Hobby, portal and email on Pro, dedicated support and custom SLAs on Enterprise</td><td>Community on Free, next-business-day email on Team, 24/7 SLA-backed on Enterprise</td></tr>
+</tbody></table></div>
+
+<h2 id="pricing">Pricing</h2>
+<p>Composio bills on tool calls and trigger events. Arcade's page lists a platform fee plus a per-call rate. Both define a "call" on their own terms, so ask each what counts before you estimate a bill.</p>
+<div class="scroll"><table>
+<thead><tr><th>Plan</th><th><span><img src="https://www.google.com/s2/favicons?domain=composio.dev&sz=128" alt="" width="20" height="20"> Composio</span></th><th><span><img src="https://www.google.com/s2/favicons?domain=arcade.dev&sz=128" alt="" width="20" height="20"> Arcade</span></th></tr></thead>
+<tbody>
+<tr><td>Free</td><td><b>Hobby, $0.</b> 100,000 tool calls and 50,000 trigger events a month, unlimited connected accounts, 3 team members. Usage pauses at the cap.</td><td><b>Free, $0.</b> 2,000 tool calls a month on Arcade Cloud, community support. The page does not say what happens at the limit.</td></tr>
+<tr><td>Paid</td><td><b>Pro, $29 a month.</b> Unlimited team members, then $0.0003 per tool call and $0.003 per trigger event past the included amount.</td><td><b>Team, $25 a month plus usage.</b> $0.01 per tool call, next-business-day email support.</td></tr>
+<tr><td>Enterprise</td><td><b>Custom.</b> SSO/SCIM, customer-managed keys, dedicated support and custom SLAs.</td><td><b>Custom.</b> Arcade Cloud, your VPC or air-gapped, 24/7 SLA-backed support, SSO, RBAC, audit logs.</td></tr>
+</tbody></table></div>
+<p class="src">Pricing verified: October 2026. From <a href="https://composio.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=pricing" rel="nofollow noopener">composio.dev/pricing</a> and <a href="https://www.arcade.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=pricing" rel="nofollow noopener">arcade.dev/pricing</a>.</p>
+
+<h2 id="experience">What users and the docs say</h2>
+<p>We read each quickstart and looked for public discussions. Independent hands-on write-ups comparing these two are scarce: searches returned mostly vendor pages and directory sites. What follows is what the docs show and what others have said, with the source named each time.</p>
+
+<h3><img src="https://www.google.com/s2/favicons?domain=composio.dev&sz=128" alt="" width="20" height="20"> Composio</h3>
+<p>Per its quickstart, you install the packages for your framework, add API keys to a <code>.env</code> file, create a session for a user ID and pass the session's tools to your agent. When a task needs an account, the agent shares a Connect Link, the user approves it and the agent carries on. Python examples cover the OpenAI Agents SDK and the Claude Agent SDK; TypeScript examples add the Vercel AI SDK.</p>
+<p>The same quickstart page also carries a prompt for coding agents and a list of rules for AI code generators beside the human walkthrough, so a person reading it has to skip parts. On cost, the pricing page says Hobby usage pauses at the cap instead of billing overage.</p>
+
+<h3><img src="https://www.google.com/s2/favicons?domain=arcade.dev&sz=128" alt="" width="20" height="20"> Arcade</h3>
+<p>Per its quickstart, you need an Arcade account, an API key and a user ID, then install the client for Python, TypeScript or Java. A helper function checks whether a tool needs authorization, prints a link for the user and waits. Tools that need no authorization run directly. The example chains a Google News search, a Google Docs write and a Gmail send.</p>
+<p>The Free plan's 2,000 monthly calls are a small allowance for testing an agent that loops, and the pricing page does not say what happens at the limit. Arcade also announced it acquired Smithery, a registry and hosting platform for MCP servers, and its post announces no changes to Smithery's product or pricing.</p>
+
+<h3>What each says about the other</h3>
+<p>Arcade's comparison page says Composio typically acts with shared credentials, where Arcade acquires each user's OAuth tokens at runtime. It also reports, from its own benchmark of 8 CRM queries, 7,426 tokens for its Attio toolkit against 747,083 for Composio's. Composio's comparison page describes Arcade's short-lived, scoped tokens as limiting exposure, says Arcade shows strong token efficiency in specific workflows, and says its own tokens are stored with AES-256-GCM envelope encryption. These are each vendor's claims about a competitor and we did not verify them.</p>
+<p>A dev.to analysis describes Composio's abstractions as opinionated, which can feel heavy if you only need OAuth for a couple of tools, and says Arcade checks permissions when the agent acts and has a smaller connector set. The article's account promotes a different product and discloses no affiliation, so read it as one opinion.</p>
+
+<h2 id="choose">Which to choose</h2>
+<p class="fit">If you want an agent working across many apps quickly and a large free allowance, Composio is the easier start. If your agents act for real users and you need permission checks at the moment of action, identity-provider integration or an air-gapped deployment, Arcade is built for that. Both have free plans, and the per-call meters differ, so run each on your own workload before you decide.</p>
+
+<h2 id="viasocket">Where viaSocket fits</h2>
+<p>If you are weighing these two, viaSocket is another route. It is an integration layer for SaaS products and AI agents with 2,300+ integrations. Your user connects through one OAuth popup, viaSocket stores and refreshes the tokens, keeps each user's connections separate, and handles monitoring, webhooks, polling and retries. Its free plan lists 100K tasks a month and unlimited connected accounts.</p>
+<p>It suits teams that want ready-made connections and managed auth in one place. If you need an air-gapped runtime or identity-provider-driven authorization on every action, Arcade is the closer fit; if you want a large free call allowance on a hosted catalog, Composio's Hobby plan lists the larger one.</p>
+<a class="btnp" href="https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=fits">Check out viaSocket &rarr;</a>
+
+<h2 id="faq">FAQ</h2>
+<details><summary>What is the main difference between Composio and Arcade?</summary><p>Composio is a hosted catalog of app tools with managed auth. Arcade describes itself as an actions runtime that handles user authorization, policy and tool execution, with delegated per-user permissions.</p></details>
+<details><summary>Do Composio and Arcade both have a free plan?</summary><p>Yes. Composio's Hobby plan includes 100,000 tool calls and 50,000 trigger events a month. Arcade's Free plan includes 2,000 tool calls a month.</p></details>
+<details><summary>Do both support MCP?</summary><p>Yes. Composio exposes sessions through a hosted MCP endpoint. Arcade delivers its tools as MCP servers and lets you register your own.</p></details>
+<details><summary>Can I self-host Composio or Arcade?</summary><p>Arcade's pricing page lists Arcade Cloud, your VPC or fully air-gapped deployment on Enterprise, and its docs describe self-hosting with Helm. Composio's pricing page does not list a self-hosted option.</p></details>
+<details><summary>Are Composio and Arcade open source?</summary><p>Composio's SDK repository and Arcade's arcade-mcp framework are both MIT licensed. Arcade's prebuilt catalog is a hosted offering.</p></details>
+
+<h2>Sources</h2>
+<ul class="srcs">
+<li><a href="https://composio.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Composio pricing</a>, <a href="https://composio.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">homepage</a>, <a href="https://docs.composio.dev/docs/quickstart?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">quickstart</a>, <a href="https://composio.dev/blog/composio-vs-arcade?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Composio's comparison</a>, <a href="https://github.com/ComposioHQ/composio?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">GitHub</a></li>
+<li><a href="https://www.arcade.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Arcade pricing</a>, <a href="https://www.arcade.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">homepage</a>, <a href="https://docs.arcade.dev/en/get-started/quickstarts/call-tool-agent?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">quickstart</a>, <a href="https://www.arcade.dev/compare/arcade-vs-composio/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Arcade's comparison</a>, <a href="https://github.com/ArcadeAI/arcade-mcp?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">GitHub</a>, <a href="https://www.arcade.dev/blog/smithery-joins-arcade/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Smithery announcement</a></li>
+<li><a href="https://dev.to/thedailyagent/top-5-ai-agent-auth-tools-in-2026-4gfa?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">dev.to analysis</a></li>
+</ul>
+
+<h2>More comparisons</h2>
+<div class="more">
+<a href="https://viasocket.com/discovery/compare/nango-vs-pipedream-connect?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=more">Nango vs Pipedream Connect<small>Compare</small></a>
+<a href="https://viasocket.com/discovery/compare/best-integration-layers-for-ai-agents?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=more">Best integration layers for AI agents<small>Compare</small></a>
+</div>
