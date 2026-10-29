@@ -127,7 +127,7 @@ function readPageMeta(slug) {
       authorId: asString(data.authorId),
       authorName: asString(data.authorName),
       publishedAt: asString(data.publishedAt),
-      publishedLabel: formatPublishedAt(data.publishedAt),
+      publishedLabel: "", // dates are not shown on compare pages; publishedAt still feeds sorting and schema
       category: asString(data.category),
     };
   } catch (error) {

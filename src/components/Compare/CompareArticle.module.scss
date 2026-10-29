@@ -296,6 +296,168 @@ $sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   :global(.discovery-compare-table) td:first-child {
     background: $shade !important;
   }
+
+  // Card and table markup used by body.html of generated compare pages.
+  :global(.answer) {
+    margin: 0 0 1.25rem;
+    font-size: 1.2rem;
+    line-height: 1.65;
+  }
+
+  :global(.how),
+  :global(.src) {
+    margin: 0 0 0.5rem;
+    color: $muted;
+    font-family: $sans;
+    font-size: 0.875rem;
+  }
+
+  :global(.glance) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  :global(.gc) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    padding: 1.5rem;
+    background: $paper;
+    border: 1px solid $line;
+    border-radius: 12px;
+    font-family: $sans;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  :global(.gc) :global(.hd) {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+  }
+
+  :global(.gc) :global(.hd) b {
+    font-family: $serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  :global(.gc) img,
+  :global(.discovery-compare-table) img,
+  :global(.scroll) img {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    object-fit: contain;
+    background: #fff;
+    border: 1px solid $line;
+    border-radius: 6px;
+  }
+
+  :global(.gc) :global(.lab) {
+    margin-bottom: 0.3rem;
+    color: $muted;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  :global(.gc) :global(.btn) {
+    align-self: flex-start;
+    margin-top: auto;
+    padding: 0.5rem 1rem;
+    color: $accent;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid $accent;
+    border-radius: 6px;
+  }
+
+  :global(.btnp) {
+    display: inline-block;
+    margin-top: 0.4rem;
+    padding: 0.7rem 1.25rem;
+    color: #fff;
+    font-family: $sans;
+    font-weight: 600;
+    text-decoration: none;
+    background: $accent;
+    border-radius: 6px;
+  }
+
+  :global(.scroll) {
+    margin: 1.25rem 0 1.5rem;
+    overflow-x: auto;
+  }
+
+  :global(.scroll) table {
+    width: 100%;
+    background: $paper;
+    border-collapse: collapse;
+    border: 1px solid $line;
+    font-family: $sans;
+    font-size: 0.875rem;
+  }
+
+  :global(.scroll) th,
+  :global(.scroll) td {
+    padding: 0.7rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid $line;
+  }
+
+  :global(.scroll) th {
+    background: $shade;
+    font-weight: 650;
+  }
+
+  :global(.scroll) th span {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  :global(.scroll) td:first-child {
+    background: $shade;
+    font-weight: 600;
+  }
+
+  :global(.srcs) {
+    padding-left: 1.1rem;
+    color: $muted;
+    font-family: $sans;
+    font-size: 0.875rem;
+    line-height: 1.8;
+  }
+
+  :global(.more) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.875rem;
+    margin-top: 0.625rem;
+  }
+
+  :global(.more) a {
+    display: block;
+    padding: 1rem 1.1rem;
+    color: $ink;
+    text-decoration: none;
+    background: $paper;
+    border: 1px solid $line;
+    border-radius: 12px;
+  }
+
+  :global(.more) a small {
+    display: block;
+    color: $muted;
+    font-family: $sans;
+    font-size: 0.8rem;
+  }
 }
 
 .tocLabel,
