@@ -1,0 +1,45 @@
+# Composio vs Nango (2026): features, pricing and which to pick
+
+URL: https://viasocket.com/discovery/compare/composio-vs-nango
+Author: Yashraj Sharma (https://viasocket.com/discovery/user/99440)
+Published: 2026-10-28
+Publisher: viaSocket Discovery
+
+## Short answer
+Composio is the quicker start if you want an agent working across many apps; its free plan covers 100,000 tool calls a month. Nango is the better fit if you want to own the integration code, run data syncs or self-host; its free plan covers 10 connections. Both support MCP.
+
+## Features
+- Approach: Composio is a hosted tool catalog with managed auth. Nango is a code-first platform for auth, tools, syncs and webhooks.
+- Apps: Composio 1,500+ apps. Nango 1,000+ APIs and 10,000+ MCP tools and templates.
+- Interface: Composio has Python and TypeScript SDKs, a REST API and a CLI. Nango is code-first.
+- Open source: Composio SDKs and CLI are MIT licensed. Nango says it is 100% open source.
+- Data sync: Nango (context sync, data sync, request proxy, unified API). Not listed for Composio.
+- Triggers and webhooks: both.
+- Self-hosting: Nango on Enterprise. Not listed on Composio's pricing page.
+- Security: Composio states SOC 2 Type II, action limits and approvals. Nango lists RBAC, per-user API scopes, audit trail, encryption and a Trust Center.
+
+## Pricing
+- Composio Hobby: $0. 100,000 tool calls and 50,000 trigger events a month, 3 team members, unlimited connected accounts, pauses at the cap.
+- Composio Pro: $29 a month, includes $29 of usage, then $0.0003 per tool call and $0.003 per trigger event.
+- Composio Enterprise: custom. SSO/SCIM, customer-managed keys, custom limits and SLAs.
+- Nango Free: $0. 10 connections, 10 compute hours, 10 GB data transfer a month.
+- Nango pay-as-you-go: $50 a month, includes $50 of usage, then $0.29 per connection, $0.72 per compute hour, $0.50 per GB.
+- Nango Growth add-on: $450 a month. Private Slack support, faster turnaround on new integrations.
+- Nango Enterprise: custom. Self-hosting, bring your own cloud, MSA, SLA, volume discounts.
+
+## Our experience
+- Composio: quick start. Calls that need no sign-in ran straight away. Hosted connect link worked for Gmail, Google Calendar and Google Sheets, read-only calls came back cleanly, triggers set up for all three. Less good: linking accounts through your own auth setup needs extra wiring; quickstart mixes human and AI-agent instructions; free plan pauses at its cap.
+- Nango: quickstart is built around a working GitHub example and a Logs tab for debugging. It asks for keys and connection IDs copied by hand and assumes you write the integration code.
+
+## Which to choose
+Composio for an agent working across many apps quickly. Nango for scheduled data syncs, code you can change, or self-hosting. Both have free plans.
+
+## Another option: viaSocket
+Integration layer for products and AI agents with 2,300+ apps. Users click Connect and the app's own consent screen opens; viaSocket stores and refreshes tokens, keeps each user's connections separate, and handles triggers, webhooks, polling and retries. Your server runs the actions. AI agents and browser agents, and per-user automations, sit on top. Start with one setup prompt in Cursor, Claude Code or Codex.
+https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## Sources
+- https://composio.dev/pricing
+- https://docs.composio.dev
+- https://nango.dev/pricing
+- https://nango.dev/docs/
