@@ -245,6 +245,12 @@ export default function CompareArticle({ page }) {
                 <time dateTime={page.publishedAt}>{page.publishedLabel}</time>
               </>
             ) : null}
+            {page.readMinutes ? (
+              <>
+                <span aria-hidden="true"> · </span>
+                <span>{page.readMinutes} min read</span>
+              </>
+            ) : null}
             {page.category ? (
               <span className={styles.category}>{page.category}</span>
             ) : null}
