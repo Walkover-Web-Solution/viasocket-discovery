@@ -1,0 +1,62 @@
+# Composio vs Nango: pricing and features
+
+URL: https://viasocket.com/discovery/compare/composio-vs-nango
+Author: Yashraj Sharma (https://viasocket.com/discovery/user/99440)
+Publisher: viaSocket Discovery
+Method: we review every app we compare by using it and by reading what its docs and its users say. The specifics below come from each vendor's docs, quickstart, pricing page and public reports such as GitHub issues, forum threads and Hacker News, with the source type named each time. Where evidence is thin, we say so. Vendor claims are attributed.
+
+## Short answer
+Composio is the quicker start if you want an agent working across many apps, and its free plan covers 100,000 tool calls a month. Nango suits teams that own the integration code, run data syncs or self-host, and its free plan covers 10 connections. Both support MCP.
+
+## Features
+- Approach: Composio is a hosted tool catalog with managed auth, used through sessions per user. Nango is a code-first platform for auth, tools, syncs and webhooks; integration logic is TypeScript functions you generate with AI, then edit and version (per Nango).
+- Catalog: Composio 1,500+ apps (https://composio.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm) (per Composio). Nango 1,000+ APIs and 10,000+ tools or templates (https://nango.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm) (per Nango).
+- Authentication: Composio-managed auth by default, connected accounts per user ID, Connect Link. Nango OAuth, API keys, token refresh, scopes and credential storage.
+- MCP: Composio hosted MCP endpoint. Nango MCP server; agent sessions return an MCP URL and a session token.
+- Triggers and webhooks: Composio trigger events, billed separately. Nango webhooks and triggers.
+- Data sync: Nango scheduled, resumable syncs with checkpoints (not part of free self-hosting). Not listed for Composio on the pages read.
+- Interface: Composio Python and TypeScript SDKs, REST API and CLI. Nango TypeScript functions.
+- Open source: Composio SDK repo MIT (30.8k stars). Nango under the Elastic License (source-available); its README and homepage call it open source (13.0k stars).
+- Self-hosting: Composio not listed. Nango free self-hosting is limited to API auth and proxy (https://nango.dev/docs/guides/platform/self-hosting?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm); full self-hosting and BYOC need Enterprise.
+- Security: Composio SOC 2 Type II (per Composio); SSO/SCIM and customer-managed keys on Enterprise only. Nango SOC 2 Type II and HIPAA with a BAA (per Nango); RBAC, audit trail and encryption listed on its homepage.
+
+## Pricing
+- Composio Hobby: $0. 100,000 tool calls and 50,000 trigger events a month, 3 team members, unlimited connected accounts, pauses at the cap.
+- Composio Pro: $29 a month, includes a $29 monthly usage credit, then $0.0003 per tool call and $0.003 per trigger event.
+- Composio Enterprise: custom. SSO/SCIM, customer-managed keys, custom limits and SLAs.
+- Nango Free: $0. 10 connections, 10 compute hours, 10 GB data transfer a month. Hard-capped.
+- Nango pay-as-you-go: $50 a month, includes $50 of credits, then $0.29 per connection, $0.72 per compute hour, $0.50 per GB.
+- Nango Growth add-on: $450 a month. Private Slack and 5 days requested integration delivery time.
+- Nango Enterprise: custom. Self-hosting, bring your own cloud, MSA, SLA, commitment discounts.
+Pricing verified: October 2026. Composio's page gives two different overage figures for Composio-managed apps; confirm the rate.
+
+## What users and the docs say
+Independent hands-on write-ups comparing these two are scarce, so evidence on day-to-day use is thin. Each point names its source type.
+- Composio, quickstart: install packages, add API keys, create a session for a user ID, pass its tools to the agent; the agent shares a Connect Link when a task needs an account. The page also carries a prompt for coding agents and rules for AI code generators beside the human walkthrough.
+- Composio, GitHub issues (https://github.com/ComposioHQ/composio/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): recent open reports lean towards auth and connected accounts: invalid-token error on valid Trello connections (#4962), connect error page hiding the provider's error detail (#5038), Composio-managed Outlook auth missing To Do scopes (#5033). Individual reports, not a measure of frequency.
+- Composio, pricing page and forum thread: Hobby usage pauses at the cap. In an older Cursor forum thread (https://forum.cursor.com/t/mcp-marketplace-wen/62829?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm), one commenter called it a much better experience for plugging in MCP servers; others worried about a remote server dropping out and about Composio controlling keys. The thread predates the session-based product.
+- Nango, quickstart: environment API key in a backend env file, enable APIs by provider slug, POST /sessions with a stable user ID returns an MCP URL and a session token, pass them to the agent. The Logs tab shows every tool call and provider request.
+- Nango, GitHub issues and docs (https://github.com/NangoHQ/nango/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): open reports cluster around self-hosting (#7945 connect link pointing at Nango's cloud host, #7955 CI variable switching the dashboard into a test-auth mode, #5536 clarify the self-hosted feature set). Docs say free self-hosting covers API auth and proxy only.
+- Nango, Hacker News launch thread (https://news.ycombinator.com/item?id=40158481&utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): commenters objected that the Elastic License is not OSI-approved open source; one said it cut time to integrate; another reported a year of stable OAuth use. The thread predates the current agent focus.
+
+## Which to choose
+Composio for an agent working across many apps quickly. Nango for scheduled data syncs, code you can change, or self-hosting. Both have free plans.
+
+## Another option: viaSocket
+viaSocket also sells an integration layer; it is not part of this comparison. In short, an integration layer for SaaS products and AI agents with 2,300+ integrations. One OAuth popup; viaSocket stores and refreshes tokens, keeps each user's connections separate, and handles monitoring, webhooks, polling and retries. Free plan lists 100K tasks a month and unlimited connected accounts.
+https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## Sources
+- https://composio.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://composio.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://docs.composio.dev/docs/quickstart?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/ComposioHQ/composio?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/ComposioHQ/composio/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://forum.cursor.com/t/mcp-marketplace-wen/62829?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://nango.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://nango.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://nango.dev/docs/getting-started/quickstart?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://nango.dev/docs/guides/platform/self-hosting?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/NangoHQ/nango?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://github.com/NangoHQ/nango/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- https://news.ycombinator.com/item?id=40158481&utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
