@@ -7,7 +7,6 @@ import UserProfileHeader from "@/components/UserProfileHeader/UserProfileHeader"
 import UserBlogList from "@/components/UserBlogList/UserBlogList";
 import BackToDashboardButton from "@/components/BackToDashboardButton/BackToDashboardButton";
 import  {useUser}  from "@/context/UserContext";
-import AuthorComparisons from "@/components/Compare/AuthorComparisons";
 
 export async function getServerSideProps(context) {
   const { userId } = context.params;
@@ -19,20 +18,12 @@ export async function getServerSideProps(context) {
     };
   }
 
-  let comparePages = [];
-  try {
-    const { getComparePagesByAuthor } = await import("@/lib/compareContent");
-    comparePages = getComparePagesByAuthor(user.id);
-  } catch (error) {
-    console.error("error loading author compare pages", error);
-  }
-
   return {
-    props: { user, comparePages },
+    props: { user },
   };
 }
 
-export default function UserPage({ user, comparePages = [] }) {
+export default function UserPage({ user }) {
   const router = useRouter();
   const [blogs, setBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -81,7 +72,6 @@ export default function UserPage({ user, comparePages = [] }) {
           isLoading={isLoading} 
           userName={user.name} 
         />
-        <AuthorComparisons pages={comparePages} authorName={user.name} />
       </div>
     </div>
   );
