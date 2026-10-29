@@ -1,82 +1,85 @@
-<p class="answer"><strong>Short answer:</strong> Composio is the quicker start if you want an agent working across many apps, and its free plan covers 100,000 tool calls a month. Nango is the better fit if you want to own the integration code, run data syncs or self-host, and its free plan covers 10 connections. Both support MCP.</p>
-<p class="how">We review every app we compare by using it. Here is how the two stack up.</p>
+<p class="answer"><strong>Short answer:</strong> Composio is the quicker start if you want an agent working across many apps, and its free plan covers 100,000 tool calls a month. Nango suits teams that own the integration code, run data syncs or self-host, and its free plan covers 10 connections. Both support MCP.</p>
+<p class="how">We review every app we compare by using it and by reading what its docs and its users say. The specifics below come from each vendor's docs, quickstart, pricing page and public reports such as GitHub issues, forum threads and Hacker News, with the source type named each time. Where evidence is thin, we say so. Vendor claims are attributed.</p>
 
 <h2 id="glance">At a glance</h2>
 <div class="glance">
-<div class="gc"><div class="hd"><img src="https://www.google.com/s2/favicons?domain=composio.dev&sz=128" alt="Composio logo"><b>Composio</b></div>
-<div><div class="lab">What it is</div>A hosted catalog of ready-made app actions with managed auth, built for AI agents and MCP clients.</div>
+<div class="gc"><div class="hd"><img src="https://www.google.com/s2/favicons?domain=composio.dev&sz=128" alt="Composio logo" width="20" height="20"><b>Composio</b></div>
+<div><div class="lab">What it is</div>A hosted catalog of ready-made app tools with managed auth, built for AI agents and MCP clients (per Composio).</div>
 <div><div class="lab">Best for</div>Getting an agent working across many apps quickly.</div>
 <a class="btn" href="https://composio.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=glance" rel="noopener">Visit Composio</a></div>
-<div class="gc"><div class="hd"><img src="https://www.google.com/s2/favicons?domain=nango.dev&sz=128" alt="Nango logo"><b>Nango</b></div>
-<div><div class="lab">What it is</div>An open-source, code-first platform for auth, tools, data syncs and webhooks.</div>
-<div><div class="lab">Best for</div>Teams that want to own their integration code.</div>
+<div class="gc"><div class="hd"><img src="https://www.google.com/s2/favicons?domain=nango.dev&sz=128" alt="Nango logo" width="20" height="20"><b>Nango</b></div>
+<div><div class="lab">What it is</div>A code-first platform for auth, tools, data syncs and webhooks, under the Elastic License (source-available); Nango calls it open source.</div>
+<div><div class="lab">Best for</div>Teams that want to own and version their integration code.</div>
 <a class="btn" href="https://nango.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=glance" rel="noopener">Visit Nango</a></div>
 </div>
 
-<h2 id="features">Features</h2>
+<h2 id="features">Composio vs Nango features</h2>
 <div class="scroll"><table>
-<thead><tr><th>Feature</th><th><span><img src="https://www.google.com/s2/favicons?domain=composio.dev&sz=128" alt="">Composio</span></th><th><span><img src="https://www.google.com/s2/favicons?domain=nango.dev&sz=128" alt="">Nango</span></th></tr></thead>
+<thead><tr><th>Feature</th><th><span><img src="https://www.google.com/s2/favicons?domain=composio.dev&sz=128" alt="" width="20" height="20">Composio</span></th><th><span><img src="https://www.google.com/s2/favicons?domain=nango.dev&sz=128" alt="" width="20" height="20">Nango</span></th></tr></thead>
 <tbody>
-<tr><td>Approach</td><td>Hosted tool catalog with managed auth</td><td>Code-first platform for auth, tools, syncs and webhooks</td></tr>
-<tr><td>Apps covered</td><td>1,500+ apps</td><td>1,000+ APIs, 10,000+ MCP tools and templates</td></tr>
-<tr><td>Authentication</td><td>Managed auth; OAuth tokens and API keys encrypted</td><td>Managed OAuth and API keys, with token refresh</td></tr>
-<tr><td>MCP</td><td>Hosted MCP endpoint for clients such as Cursor and Claude</td><td>MCP and tools for exposing integrations to agents</td></tr>
-<tr><td>Triggers and webhooks</td><td>Trigger events</td><td>Real-time triggers and webhooks</td></tr>
-<tr><td>Data sync</td><td>Not listed</td><td>Context sync, data sync, request proxy, unified API</td></tr>
-<tr><td>Developer interface</td><td>Python and TypeScript SDKs, REST API, CLI</td><td>Code-first; says it can generate integration code from plain-English descriptions</td></tr>
-<tr><td>Open source</td><td>SDKs and CLI under the MIT license</td><td>100% open source (per Nango)</td></tr>
-<tr><td>Self-hosting</td><td>Not listed on the pricing page</td><td>Enterprise plan</td></tr>
-<tr><td>Security</td><td>SOC 2 Type II (per Composio); limit actions, require approvals, action record</td><td>RBAC, per-user API scopes, audit trail, encryption; certifications on its Trust Center</td></tr>
-<tr><td>Support</td><td>Portal on Hobby, email on Pro, dedicated on Enterprise</td><td>In-app chat; private Slack on the Growth add-on and Enterprise</td></tr>
+<tr><td>Approach</td><td>Hosted tool catalog with managed auth, used through sessions per user</td><td>Code-first platform for auth, tools, syncs and webhooks; integration logic written as TypeScript functions you generate with AI, then edit and version (per Nango)</td></tr>
+<tr><td>Catalog size</td><td>1,500+ apps on <a href="https://composio.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">its homepage</a> (per Composio)</td><td>1,000+ APIs on <a href="https://nango.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">its homepage</a>, and 10,000+ tools or templates (its homepage uses both words for the figure) (per Nango)</td></tr>
+<tr><td>Authentication</td><td>Composio-managed auth by default, connected accounts kept per user ID, a Connect Link when a task needs an account</td><td>OAuth, API keys, token refresh, scopes and credential storage</td></tr>
+<tr><td>MCP</td><td>Hosted MCP endpoint; its homepage describes pasting one MCP URL into a client such as Cursor</td><td>MCP server; an agent session returns an MCP URL and a session token</td></tr>
+<tr><td>Triggers and webhooks</td><td>Trigger events, billed separately from tool calls</td><td>Webhooks and triggers that react to external events</td></tr>
+<tr><td>Data sync</td><td>Not listed on the pages we read</td><td>Scheduled, resumable syncs with checkpoints; syncs are not part of free self-hosting</td></tr>
+<tr><td>Developer interface</td><td>Python and TypeScript SDKs, a REST API and a CLI</td><td>TypeScript functions; setup calls shown with curl; agent example uses the Vercel AI SDK</td></tr>
+<tr><td>Open source</td><td>SDK repository is MIT licensed (30.8k GitHub stars)</td><td>Elastic License, which is source-available; Nango's README and homepage call it open source (13.0k GitHub stars)</td></tr>
+<tr><td>Self-hosting</td><td>Not listed on its pricing page or homepage</td><td>Free self-hosting is limited to API auth and proxy per its <a href="https://nango.dev/docs/guides/platform/self-hosting?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">self-hosting docs</a>; full self-hosting and bring-your-own-cloud need Enterprise</td></tr>
+<tr><td>Security</td><td>SOC 2 Type II (per Composio); SSO/SCIM and customer-managed keys on Enterprise only</td><td>SOC 2 Type II and HIPAA with a BAA (per Nango); RBAC, audit trail and encryption listed on its homepage</td></tr>
+<tr><td>Support</td><td>Portal on Hobby, portal and email on Pro, dedicated support and custom SLAs on Enterprise</td><td>In-app chat; private Slack on the Growth add-on and Enterprise</td></tr>
 </tbody></table></div>
 
-<h2 id="pricing">Pricing</h2>
-<p>Composio bills mainly on tool calls and trigger events. Nango bills on connections, compute hours and data transfer.</p>
+<h2 id="pricing">Composio vs Nango pricing</h2>
+<p>Composio bills mainly on tool calls and trigger events. Nango bills on connections, compute hours and data transfer, so the plans do not compare directly.</p>
 <div class="scroll"><table>
-<thead><tr><th>Plan</th><th><span><img src="https://www.google.com/s2/favicons?domain=composio.dev&sz=128" alt="">Composio</span></th><th><span><img src="https://www.google.com/s2/favicons?domain=nango.dev&sz=128" alt="">Nango</span></th></tr></thead>
+<thead><tr><th>Plan</th><th><span><img src="https://www.google.com/s2/favicons?domain=composio.dev&sz=128" alt="" width="20" height="20">Composio</span></th><th><span><img src="https://www.google.com/s2/favicons?domain=nango.dev&sz=128" alt="" width="20" height="20">Nango</span></th></tr></thead>
 <tbody>
-<tr><td>Free</td><td><b>Hobby, $0.</b> 100,000 tool calls and 50,000 trigger events a month, 3 team members, unlimited connected accounts. Pauses at the cap.</td><td><b>Free, $0.</b> 10 connections, 10 compute hours and 10 GB data transfer a month.</td></tr>
-<tr><td>Paid</td><td><b>Pro, $29 a month.</b> Includes $29 of usage, then $0.0003 per tool call and $0.003 per trigger event.</td><td><b>Pay-as-you-go, $50 a month.</b> Includes $50 of usage, then $0.29 per connection, $0.72 per compute hour, $0.50 per GB.</td></tr>
-<tr><td>Support add-on</td><td>Email on Pro</td><td>Growth add-on, $450 a month: private Slack and faster turnaround on new integrations</td></tr>
-<tr><td>Enterprise</td><td><b>Custom.</b> SSO/SCIM, customer-managed keys, custom limits and SLAs.</td><td><b>Custom.</b> Self-hosting, bring your own cloud, MSA, SLA and volume discounts.</td></tr>
+<tr><td>Free</td><td><b>Hobby, $0.</b> 100,000 tool calls and 50,000 trigger events a month, 3 team members, unlimited connected accounts. Usage pauses at the cap.</td><td><b>Free, $0.</b> 10 connections, 10 compute hours and 10 GB data transfer a month. Hard-capped, resets monthly.</td></tr>
+<tr><td>Paid</td><td><b>Pro, $29 a month.</b> Includes a $29 monthly usage credit, then $0.0003 per tool call and $0.003 per trigger event.</td><td><b>Pay-as-you-go, $50 a month.</b> Includes $50 of credits, then $0.29 per connection, $0.72 per compute hour, $0.50 per GB.</td></tr>
+<tr><td>Support add-on</td><td>Email on Pro</td><td>Growth add-on, $450 a month: private Slack and 5 days requested integration delivery time</td></tr>
+<tr><td>Enterprise</td><td><b>Custom.</b> SSO/SCIM, customer-managed keys, dedicated support and custom SLAs.</td><td><b>Custom.</b> Self-hosting, bring your own cloud, MSA, SLA and commitment discounts.</td></tr>
 </tbody></table></div>
-<p class="src">Prices from <a href="https://composio.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=pricing" rel="nofollow noopener">composio.dev/pricing</a> and <a href="https://nango.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=pricing" rel="nofollow noopener">nango.dev/pricing</a>.</p>
+<p class="src">Pricing verified: October 2026. From <a href="https://composio.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=pricing" rel="nofollow noopener">composio.dev/pricing</a> and <a href="https://nango.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=pricing" rel="nofollow noopener">nango.dev/pricing</a>. Composio's page gives two different overage figures for Composio-managed apps, so confirm the rate you would pay.</p>
 
-<h2 id="experience">Our experience</h2>
-<p>We build an integration layer at viaSocket, so we looked at both with a user's eye: how fast you get to a working result, and where you get stuck.</p>
+<h2 id="experience">What users and the docs say</h2>
+<p>We read each quickstart and pricing page, scanned each vendor's public GitHub issues and looked for forum threads and reviews. Independent hands-on write-ups comparing these two are scarce, so evidence on day-to-day use is thin, and each point below names its source type.</p>
 
-<h3><img src="https://www.google.com/s2/favicons?domain=composio.dev&sz=128" alt="">Composio</h3>
-<p>Getting started was quick. Calls that need no sign-in ran straight away, so we saw an agent do something real before connecting a single account. Connecting Gmail, Google Calendar and Google Sheets went through a hosted connect link, the read-only calls that followed came back cleanly, and we set up triggers for all three. What we liked most was how little stood between us and a working agent.</p>
-<p>What we liked less: linking accounts through your own auth setup takes some extra wiring before an agent can see them, and the quickstart mixes instructions for people and for AI coding agents on one page, which makes it harder to follow. The free plan is generous, but it pauses at its cap instead of billing overage, so a busy test week can stop work.</p>
+<h3><img src="https://www.google.com/s2/favicons?domain=composio.dev&sz=128" alt="" width="20" height="20">Composio</h3>
+<p><b>From the quickstart.</b> You install the packages for your framework, add API keys to a <code>.env</code> file, create a session for a user ID and pass the session's tools to your agent. When a task needs an account, the agent shares a Connect Link, the user approves it and the agent carries on. The same page carries a prompt for coding agents and rules for AI code generators beside the human walkthrough, so a person reading it has to skip parts.</p>
+<p><b>From GitHub issues.</b> Recent open reports on the <a href="https://github.com/ComposioHQ/composio/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=experience" rel="nofollow noopener">Composio repository</a> lean towards auth and connected accounts: a Trello tool returning an invalid-token error on valid connections (#4962), a connect error page that hides the provider's error detail (#5038) and Composio-managed Outlook auth missing the scopes its To Do tools need (#5033). These are individual reports, not a measure of how often they happen.</p>
+<p><b>From the pricing page and a forum thread.</b> Hobby usage pauses at the cap instead of billing overage, so a busy test week can stop work. In an older Cursor forum thread on MCP servers, one commenter called Composio a much better experience for plugging in MCP servers, while others worried about a remote server dropping out and about Composio controlling users' keys. That thread predates the current session-based product.</p>
 
-<h3><img src="https://www.google.com/s2/favicons?domain=nango.dev&sz=128" alt="">Nango</h3>
-<p>Nango's quickstart is built around a working example. A GitHub integration is already set up, so you authorize it, run a function and read the output without configuring OAuth first, and the Logs tab is named as the place to look when a run fails. That gets you to a result fast, and the pricing page makes the free plan's limits easy to read.</p>
-<p>It asks more of you in the small steps: an API key and connection ID copied by hand, a key you set in your environment, and one value that goes by different names in the Node and cURL samples. It also assumes you are happy writing the integration code yourself. That is the point of the product, but it is a bigger commitment than a ready-made catalog.</p>
-
-<p>Both lean on a hosted step where your user connects their own account. It is the same idea as the Connect button in viaSocket's integration layer. Seen from there, the difference between these two comes down to how much of the integration you want to own.</p>
+<h3><img src="https://www.google.com/s2/favicons?domain=nango.dev&sz=128" alt="" width="20" height="20">Nango</h3>
+<p><b>From the quickstart.</b> Nango's current quickstart is built around agent sessions. You copy the environment API key into a backend env file, enable the APIs your agent needs by provider slug, and have your backend call <code>POST /sessions</code> with a stable user ID. The response holds an MCP URL and a session token that you pass to the agent as a remote MCP server. The first time a user needs an account, the agent replies with a connect link, and the docs name the Logs tab as the place that shows every tool call, provider request and response.</p>
+<p><b>From GitHub issues and the docs.</b> Open reports on the <a href="https://github.com/NangoHQ/nango/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=experience" rel="nofollow noopener">Nango repository</a> cluster around self-hosting: a connect link from a self-hosted instance sending the Connect UI to Nango's cloud host (#7945), a CI environment variable switching the dashboard into a test-auth mode (#7955) and a request to clarify the self-hosted feature set (#5536). Nango's docs say free self-hosting covers API auth and proxy only.</p>
+<p><b>From Hacker News.</b> In a launch thread, several commenters objected that the Elastic License is not OSI-approved open source, and the title was changed to say source-available. One commenter said Nango cut their time to integrate, and another reported a year of stable use for OAuth flows. That thread predates the product's current focus on agents and code-owned functions.</p>
 
 <h2 id="choose">Which to choose</h2>
 <p class="fit">If you want an agent working across many apps quickly, Composio is the easier start. If you need data synced on a schedule, want to read and change the code, or have to host it yourself, Nango fits better. Both have free plans, so trying each on a real use case costs little.</p>
 
 <h2 id="viasocket">Where viaSocket fits</h2>
-<p>If you are weighing these two, viaSocket is a third way to add integrations. It is an integration layer for products and AI agents with 2,300+ apps. Your user clicks Connect, the app's own consent screen opens, and viaSocket handles the tokens, keeps each user's connections separate and runs triggers and webhooks. AI agents and browser agents sit on top.</p>
-<p>It suits teams that want ready-made connections and managed auth, plus agents or per-user automations in the same place. If you need to self-host or write every sync in code, Nango remains the closer fit.</p>
+<p>viaSocket also sells an integration layer; it is not part of this comparison. In short, it is an integration layer for SaaS products and AI agents with 2,300+ integrations. Your user connects through one OAuth popup, viaSocket stores and refreshes the tokens, keeps each user's connections separate, and handles monitoring, webhooks, polling and retries. Its free plan lists 100K tasks a month and unlimited connected accounts.</p>
+<p>It suits teams that want ready-made connections and managed auth in one place. If you need to self-host or write every sync in code, Nango remains the closer fit.</p>
 <a class="btnp" href="https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=fits">Check out viaSocket &rarr;</a>
 
 <h2 id="faq">FAQ</h2>
-<details><summary>What is the main difference between Composio and Nango?</summary><p>Composio is a hosted catalog of ready-made app actions with managed auth. Nango is an open-source, code-first platform that covers auth, tools, data syncs and webhooks, and expects you to own the integration code.</p></details>
+<details><summary>What is the main difference between Composio and Nango?</summary><p>Composio is a hosted catalog of ready-made app tools with managed auth. Nango is a code-first platform that covers auth, tools, data syncs and webhooks, and expects you to own the integration code.</p></details>
 <details><summary>Do Composio and Nango both have a free plan?</summary><p>Yes. Composio's Hobby plan includes 100,000 tool calls and 50,000 trigger events a month. Nango's free plan includes 10 connections, 10 compute hours and 10 GB of data transfer a month.</p></details>
-<details><summary>Do both support MCP?</summary><p>Yes. Composio exposes sessions through a hosted MCP endpoint, and Nango offers MCP and tools for agents.</p></details>
-<details><summary>Can I self-host Composio or Nango?</summary><p>Nango offers self-hosting on its Enterprise plan. Composio's pricing page does not list a self-hosted option.</p></details>
+<details><summary>How much do Composio and Nango cost?</summary><p>Composio Pro is $29 a month with a $29 usage credit, then $0.0003 per tool call. Nango's pay-as-you-go plan is $50 a month with $50 of credits, then $0.29 per connection, $0.72 per compute hour and $0.50 per GB. Both have custom Enterprise plans.</p></details>
+<details><summary>Do both support MCP?</summary><p>Yes. Composio exposes sessions through a hosted MCP endpoint, and Nango offers an MCP server whose agent sessions return an MCP URL.</p></details>
+<details><summary>Is Nango open source?</summary><p>Nango's homepage and README call it open source, and its GitHub page names the Elastic License, which is source-available. Composio's SDK repository is MIT licensed.</p></details>
+<details><summary>Can I self-host Composio or Nango?</summary><p>Nango's docs say free self-hosting covers API auth and proxy only, and list full self-hosting and bring-your-own-cloud on Enterprise. Composio's pricing page does not list a self-hosted option.</p></details>
 
 <h2>Sources</h2>
 <ul class="srcs">
-<li><a href="https://composio.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Composio pricing</a>, <a href="https://docs.composio.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Composio docs</a></li>
-<li><a href="https://nango.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Nango pricing</a>, <a href="https://nango.dev/docs/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Nango docs</a></li>
+<li><a href="https://composio.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Composio pricing</a>, <a href="https://composio.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">homepage</a>, <a href="https://docs.composio.dev/docs/quickstart?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">quickstart</a>, <a href="https://github.com/ComposioHQ/composio?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">GitHub</a>, <a href="https://github.com/ComposioHQ/composio/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">GitHub issues</a>, <a href="https://forum.cursor.com/t/mcp-marketplace-wen/62829?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Cursor forum thread</a></li>
+<li><a href="https://nango.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Nango pricing</a>, <a href="https://nango.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">homepage</a>, <a href="https://nango.dev/docs/getting-started/quickstart?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">quickstart</a>, <a href="https://nango.dev/docs/guides/platform/self-hosting?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">self-hosting docs</a>, <a href="https://github.com/NangoHQ/nango?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">GitHub</a>, <a href="https://github.com/NangoHQ/nango/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">GitHub issues</a>, <a href="https://news.ycombinator.com/item?id=40158481&utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Hacker News launch thread</a></li>
 </ul>
 
 <h2>More comparisons</h2>
 <div class="more">
 <a href="https://viasocket.com/discovery/compare/composio-vs-arcade?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=more">Composio vs Arcade<small>Compare</small></a>
 <a href="https://viasocket.com/discovery/compare/nango-vs-pipedream-connect?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=more">Nango vs Pipedream Connect<small>Compare</small></a>
+<a href="https://viasocket.com/discovery/compare/best-integration-layers-for-ai-agents?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=more">Best AI agent integration platforms<small>Compare</small></a>
 </div>
