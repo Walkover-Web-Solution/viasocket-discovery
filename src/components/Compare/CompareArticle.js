@@ -61,8 +61,8 @@ function PromoIcons() {
       <div className={styles.stripRow}>
         <span>50+ AI models</span>
         <span className={styles.icons}>
+          <BrandLogo label="Claude" file="claude" />
           <BrandLogo label="OpenAI" file="openai" />
-          <BrandLogo label="Anthropic" file="anthropic" />
           <BrandLogo label="Gemini" file="gemini" />
           <BrandLogo label="Mistral" file="mistral" />
         </span>
