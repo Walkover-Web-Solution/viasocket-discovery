@@ -1,115 +1,126 @@
-<p class="answer"><strong>Short answer:</strong> Mastra is an Apache 2.0 TypeScript framework with agents, workflows, memory, evals and a hosted platform, for teams that want one batteries-included toolkit. VoltAgent is an MIT TypeScript framework paired with the VoltOps console, for teams that want agent traces and operations beside their code. Both support MCP.</p>
+<p class="answer"><strong>Short answer:</strong> Mastra and VoltAgent are open-source TypeScript frameworks for building AI agents. Mastra (Apache 2.0) is the larger, batteries-included toolkit with its own Studio. VoltAgent (MIT) is lighter and pairs with the VoltOps console for traces and operations. Both frameworks are free and both support MCP; you pay only for the optional hosted platform.</p>
 
 <h2 id="glance">At a glance</h2>
 <div class="glance">
 <div class="gc"><div class="hd"><img src="/discovery/compare-logos/mastra.svg" alt="Mastra logo" width="36" height="36"><b>Mastra</b></div>
-<div><div class="lab">What it is</div>An open-source TypeScript framework for agents and workflows, with Studio and a hosted platform (per Mastra).</div>
-<div><div class="lab">Best for</div>TypeScript teams that want agents, workflows, memory and evals in one toolkit.</div>
-<a class="btn" href="https://mastra.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=glance" rel="noopener">Visit Mastra</a></div>
+<div><div class="lab">What it is</div>TypeScript agent framework with Studio and a hosted platform</div>
+<div><div class="lab">License</div>Apache 2.0 core</div>
+<div><div class="lab">GitHub stars</div>29.2k</div>
+<div><div class="lab">Hosted plan</div>Free Starter; Teams $250 a month</div>
+<a class="btn" href="https://mastra.ai/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=glance" rel="noopener">Visit Mastra</a></div>
 <div class="gc"><div class="hd"><img src="/discovery/compare-logos/voltagent.png" alt="VoltAgent logo" width="36" height="36"><b>VoltAgent</b></div>
-<div><div class="lab">What it is</div>An open-source TypeScript framework plus the VoltOps console for observability, evals and deployment (per VoltAgent).</div>
-<div><div class="lab">Best for</div>Teams that want a lightweight MIT framework with traces and operations beside it.</div>
-<a class="btn" href="https://voltagent.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=glance" rel="noopener">Visit VoltAgent</a></div>
+<div><div class="lab">What it is</div>TypeScript agent framework plus the VoltOps console</div>
+<div><div class="lab">License</div>MIT</div>
+<div><div class="lab">GitHub stars</div>10.9k</div>
+<div><div class="lab">Hosted plan</div>Free Developer; Core $50 a month</div>
+<a class="btn" href="https://voltagent.dev/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=glance" rel="noopener">Visit VoltAgent</a></div>
 </div>
 
 <h2 id="features">Mastra vs VoltAgent features</h2>
 <div class="scroll"><table>
 <thead><tr><th>Feature</th><th><span><img src="/discovery/compare-logos/mastra.svg" alt="Mastra logo" width="36" height="36"> Mastra</span></th><th><span><img src="/discovery/compare-logos/voltagent.png" alt="VoltAgent logo" width="36" height="36"> VoltAgent</span></th></tr></thead>
 <tbody>
-<tr><td>Approach</td><td>Framework for agents and workflows with its own Studio, memory, evals and server; hosted side is Mastra Platform (per Mastra)</td><td>Framework plus the VoltOps console for observability, evals, prompts and deployment (per VoltAgent)</td></tr>
-<tr><td>License</td><td>Apache 2.0 for the core; code under <code>ee/</code> directories is source-available under the Mastra Enterprise License (see its <a href="https://github.com/mastra-ai/mastra?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">GitHub repo</a>)</td><td>MIT (see its <a href="https://github.com/VoltAgent/voltagent?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">GitHub repo</a>)</td></tr>
-<tr><td>GitHub stars and npm downloads</td><td>29.2k stars; about 8.5 million monthly npm downloads of @mastra/core</td><td>10.9k stars; about 152,000 monthly npm downloads of @voltagent/core</td></tr>
-<tr><td>Agents</td><td><code>Agent</code> with a model, instructions and tools; models addressed as <code>provider/model</code> strings</td><td>Typed agents; supervisor agents that coordinate sub-agents</td></tr>
-<tr><td>Workflows</td><td><code>createStep</code> and <code>createWorkflow</code> chained with <code>.then()</code>; suspend and resume, shared state, step replay in Studio</td><td><code>createWorkflowChain</code> with <code>andThen</code>, <code>andAgent</code>, <code>andWhen</code>, <code>andAll</code>, <code>andRace</code>; suspend and resume with schemas, retries, restart and replay</td></tr>
-<tr><td>Memory</td><td>Four layers: message history, working memory, semantic recall and observational memory; needs a storage provider</td><td>Conversation storage, optional semantic search, working memory and workflow state; adapters for InMemory, VoltOps managed memory, LibSQL, Cloudflare D1, PostgreSQL and Supabase</td></tr>
-<tr><td>RAG</td><td>Chunking with <code>MDocument</code>, embeddings and vector stores including pgvector, Pinecone, Qdrant and MongoDB</td><td>Retrievers you run always-on or as a tool; guides for Chroma, Pinecone, Qdrant and LanceDB; a managed Knowledge Base on VoltOps</td></tr>
-<tr><td>Evals</td><td>Scorers that run live on agents and workflow steps, on historical traces and in CI; datasets and experiments in Studio</td><td>Offline experiments with datasets and scorers through a CLI or script, plus live scoring on traces; VoltOps is optional for offline runs</td></tr>
-<tr><td>Tools</td><td><code>createTool</code> with <code>inputSchema</code> and <code>execute</code></td><td>Zod-typed tools with lifecycle hooks and cancellation</td></tr>
-<tr><td>MCP</td><td>Both <code>MCPClient</code> and <code>MCPServer</code>, over stdio and Streamable HTTP</td><td>MCP client over http, streamable-http, SSE and stdio, plus an <code>MCPServer</code> package to expose your project</td></tr>
-<tr><td>Observability</td><td>Traces, logs and metrics in Studio; exporters for Mastra Platform, Langfuse, Datadog and Arize</td><td>VoltOps console with waterfall and node views, logs, feedback, cost tracking, alerts and user analytics</td></tr>
-<tr><td>Deployment</td><td>Hono-based server from <code>mastra build</code>; deployers for Vercel, Netlify and Cloudflare; embeds in Next.js; Mastra Platform</td><td>Node server with <code>npm run build</code>; guides for Cloudflare Workers and Netlify Functions; VoltOps Deploy with GitHub builds; local tunnel for sharing</td></tr>
-<tr><td>Quickstart</td><td><code>npm create mastra@latest</code> scaffolds an agent harness and installs skills for your coding agent; Studio opens against the project</td><td><code>npm create voltagent-app@latest</code> asks for a project name, provider and API key; runs on Node.js 20.19 or newer</td></tr>
-<tr><td>Community and support</td><td>Discord; shared Slack channel, SLA support and a dedicated support engineer on Enterprise</td><td>Discord, plus X, Reddit, LinkedIn and YouTube; priority support on Pro; dedicated account manager and Slack priority support on Enterprise</td></tr>
+<tr><td>License</td><td>Apache 2.0 core; <code>ee/</code> source-available</td><td>MIT</td></tr>
+<tr><td>Adoption</td><td>29.2k stars; 8.5M monthly npm downloads</td><td>10.9k stars; 152,000 monthly npm downloads</td></tr>
+<tr><td>Workflows</td><td>Steps chained with <code>.then()</code>; suspend and resume</td><td>Chain API with branches, parallel and race; suspend and resume</td></tr>
+<tr><td>Memory</td><td>History, working memory, semantic recall, observational memory</td><td>Conversation, working memory, semantic search; LibSQL, Postgres, Supabase, D1 adapters</td></tr>
+<tr><td>RAG</td><td>Built in, with pgvector, Pinecone, Qdrant, MongoDB</td><td>Retrievers; managed Knowledge Base on VoltOps</td></tr>
+<tr><td>Evals</td><td>Live scorers, datasets and experiments</td><td>Offline experiments and live scoring</td></tr>
+<tr><td>MCP</td><td>Client and server</td><td>Client and server</td></tr>
+<tr><td>Observability</td><td>Studio; exports to Langfuse, Datadog, Arize</td><td>VoltOps console with traces, costs and alerts</td></tr>
+<tr><td>Deploy</td><td>Vercel, Netlify, Cloudflare, Next.js, Mastra Platform</td><td>Node server, Cloudflare Workers, Netlify, VoltOps Deploy</td></tr>
 </tbody></table></div>
-<p class="src">Features from <a href="https://mastra.ai/docs?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">Mastra docs</a>, <a href="https://voltagent.dev/docs/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">VoltAgent docs</a>, <a href="https://github.com/mastra-ai/mastra?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">Mastra on GitHub</a> and <a href="https://github.com/VoltAgent/voltagent?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">VoltAgent on GitHub</a>. Star counts are from GitHub and download counts from npm.</p>
+<p class="src">From <a href="https://mastra.ai/docs?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=features" rel="nofollow noopener">Mastra docs</a>, <a href="https://voltagent.dev/docs/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=features" rel="nofollow noopener">VoltAgent docs</a>, <a href="https://github.com/mastra-ai/mastra?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=features" rel="nofollow noopener">GitHub</a> and npm.</p>
 
 <h2 id="pricing">Mastra vs VoltAgent pricing</h2>
-<p>Both frameworks are free and open source. What you might pay for is the hosted side. Mastra Platform meters observability events, CPU time and storage. VoltOps charges by seat and by traces a month, with prompts, evals and RAG limits per plan.</p>
+<p>Both frameworks are free to self-host. You pay only for the optional hosted platform: Mastra Platform or VoltOps.</p>
 <div class="scroll"><table>
 <thead><tr><th>Plan</th><th><span><img src="/discovery/compare-logos/mastra.svg" alt="Mastra logo" width="36" height="36"> Mastra</span></th><th><span><img src="/discovery/compare-logos/voltagent.png" alt="VoltAgent logo" width="36" height="36"> VoltAgent</span></th></tr></thead>
 <tbody>
-<tr><td>Free framework</td><td><b>Open source, $0.</b> Agents, workflows and memory under Apache 2.0, hosted anywhere.</td><td><b>Open source, $0.</b> The MIT framework runs on your own infrastructure.</td></tr>
-<tr><td>Free hosted</td><td><b>Starter, $0.</b> 100K observability events, 24 CPU hours, unlimited users and deployments, 15 days of data retention.</td><td><b>Developer, $0.</b> 1 seat, 1 prompt and 1 project, 250 traces a month, 7 days of retention, no credit card.</td></tr>
-<tr><td>Paid</td><td><b>Teams, $250 a month.</b> 1M observability events then $8 per 100K, 250 CPU hours then $0.25 an hour, multiple teams, SSO, 6 months of retention. Starter overage is $10 per 100K events and $0.35 an hour.</td><td><b>Core, $50 a month</b> (14-day free trial): 3 seats, unlimited prompts and agents, 50,000 traces, 90 days of retention. <b>Pro, $250 a month</b> (14-day free trial): 20 seats, 250,000 traces, SSO, priority support. Extra traces cost $10 per 5,000.</td></tr>
-<tr><td>Enterprise</td><td><b>Custom.</b> RBAC, audit logs, support and uptime SLAs, a dedicated support engineer, or a self-hosted license at one flat annual fee.</td><td><b>Custom.</b> Unlimited seats and traces, self-hosted deployment, dedicated account manager, Slack priority support, custom MSA.</td></tr>
+<tr><td>Framework</td><td><b>$0</b>, Apache 2.0</td><td><b>$0</b>, MIT</td></tr>
+<tr><td>Free hosted</td><td><b>Starter, $0.</b> 100K events, 24 CPU hours</td><td><b>Developer, $0.</b> 1 seat, 250 traces a month</td></tr>
+<tr><td>Paid</td><td><b>Teams, $250 a month.</b> 1M events, SSO</td><td><b>Core, $50 a month.</b> 3 seats, 50,000 traces. <b>Pro, $250.</b> 20 seats, SSO</td></tr>
+<tr><td>Enterprise</td><td>Custom; self-hosted license available</td><td>Custom; self-hosted deployment</td></tr>
 </tbody></table></div>
-<p class="src">Prices from <a href="https://mastra.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=pricing" rel="nofollow noopener">mastra.ai/pricing</a> and <a href="https://voltagent.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=pricing" rel="nofollow noopener">voltagent.dev/pricing</a>. Mastra's page lists the hosted side as Mastra Platform; VoltAgent's lists VoltOps.</p>
+<p class="src">Prices from <a href="https://mastra.ai/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=pricing" rel="nofollow noopener">mastra.ai/pricing</a> and <a href="https://voltagent.dev/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=pricing" rel="nofollow noopener">voltagent.dev/pricing</a>.</p>
 
-<h2 id="experience">What it's like to use Mastra and VoltAgent</h2>
-<p>Both get you from an empty folder to a working TypeScript agent quickly, and both treat observability as part of the job. The difference is the center of gravity. Mastra puts the framework first and adds Studio around it. VoltAgent puts the console in the loop from the first run.</p>
+<h2 id="experience">Mastra vs VoltAgent: what they're like to use</h2>
+<p>Both get you from an empty folder to a working TypeScript agent quickly. The difference is the center of gravity: Mastra puts the framework first, VoltAgent puts the console in the loop.</p>
 
 <h3 style="display:flex;align-items:center;gap:12px"><img src="/discovery/compare-logos/mastra.svg" alt="Mastra logo" width="36" height="36">Mastra</h3>
-<p>Mastra is the one that feels like a framework with a plan. You run <code>npm create mastra@latest</code>, get an agent harness with memory and a local workspace, and open Studio against it. The manual route is just as short: define a tool with <code>createTool</code>, give an <code>Agent</code> a <code>provider/model</code> string, and register both on a <code>Mastra</code> instance. What stood out to me is how much sits behind that one install: scorers, datasets, memory and a server. The trade is that you work the way it expects.</p>
+<p>Feels like a framework with a plan. <code>npm create mastra@latest</code> scaffolds an agent with memory, and Studio opens against it with traces, scorers and datasets in one place. The trade is that you work the way it expects.</p>
 <p><strong>What I liked</strong></p>
 <ul>
-<li>One package covers agents, workflows, memory, evals and MCP in both directions.</li>
-<li>Studio runs on localhost and brings traces, scorers, datasets and experiments into one place.</li>
-<li>Memory has four layers, including observational memory that compresses old messages.</li>
-<li>Deploys as a Hono server, to Vercel, Netlify or Cloudflare, or inside a Next.js app.</li>
-<li>The core is Apache 2.0 and the hosted platform is optional.</li>
+<li>Agents, workflows, memory, RAG, evals and MCP in one package.</li>
+<li>Studio runs locally with traces, scorers and experiments.</li>
+<li>Deploys to Vercel, Netlify, Cloudflare or inside Next.js.</li>
 </ul>
 <p><strong>What I didn't</strong></p>
 <ul>
-<li>It is opinionated, and designs that fall outside its patterns take more work.</li>
-<li>Branching, rules-based flows feel clunky to express in workflows.</li>
-<li>Memory does not work until you configure a storage provider.</li>
-<li>Code under the <code>ee/</code> directories is source-available, not Apache 2.0.</li>
+<li>Opinionated: designs outside its patterns take more work.</li>
+<li>Memory needs a storage provider before it works.</li>
+<li>Code under <code>ee/</code> is source-available, not Apache 2.0.</li>
 </ul>
-<p><strong>Best for:</strong> TypeScript teams that want a batteries-included framework with Studio, evals and memory in one place.</p>
+<p><strong>Best for:</strong> TypeScript teams that want one batteries-included toolkit.</p>
 
 <h3 style="display:flex;align-items:center;gap:12px"><img src="/discovery/compare-logos/voltagent.png" alt="VoltAgent logo" width="36" height="36">VoltAgent</h3>
-<p>VoltAgent starts from visibility. You run <code>npm create voltagent-app@latest</code>, answer a few prompts, and <code>npm run dev</code> starts a server on port 3141 with Swagger UI and a pointer to the VoltOps console. The starter includes an expense-approval workflow that auto-approves under $500 and suspends above it, which is a clear picture of how suspend and resume works. You'll notice the console does a lot of the explaining: you chat with the agent there and read the trace afterwards.</p>
+<p>Starts from visibility. <code>npm create voltagent-app@latest</code> starts a local server and points you to the VoltOps console, where you chat with the agent and read each run as a trace.</p>
 <p><strong>What I liked</strong></p>
 <ul>
-<li>The VoltOps console shows each run as a visual trace, with tool inputs and outputs.</li>
-<li>The whole framework is MIT licensed.</li>
-<li>Chain-style workflows with <code>andAgent</code>, <code>andWhen</code>, <code>andAll</code> and <code>andRace</code>, plus suspend and resume.</li>
-<li>Supervisor and sub-agent teams are part of the core runtime.</li>
-<li>Memory adapters range from LibSQL to PostgreSQL, Supabase and Cloudflare D1.</li>
+<li>Run-by-run visual traces with tool inputs and outputs.</li>
+<li>MIT licensed end to end.</li>
+<li>Supervisor and sub-agent teams built into the core.</li>
 </ul>
 <p><strong>What I didn't</strong></p>
 <ul>
-<li>The community is smaller, with fewer stars and far fewer downloads than Mastra.</li>
-<li>The free Developer plan allows 250 traces a month and 7 days of retention, which suits a trial, not a live app.</li>
-<li>Type inference can get complex enough to need a <code>@ts-ignore</code>.</li>
-<li>Managed memory, the Knowledge Base and VoltOps Deploy tie parts of the stack to the hosted console.</li>
-<li>Docs are split across separate sites for evals, observability and deployment.</li>
+<li>Smaller community: about 152,000 monthly npm downloads vs 8.5 million.</li>
+<li>The free console plan allows 250 traces a month.</li>
+<li>Docs are split across separate sites.</li>
 </ul>
-<p><strong>Best for:</strong> teams that want an MIT framework with a console that shows what the agent did, run by run.</p>
+<p><strong>Best for:</strong> teams that want a lighter MIT framework with traces beside the code.</p>
 
 <h2 id="choose">Which to choose</h2>
-<p class="fit">If you want the broadest set of built-in primitives, a larger community and a local Studio for traces and evals, Mastra fits. If you want an MIT framework with chain-style workflows and a hosted or self-hosted console for traces, VoltAgent fits. Both frameworks are free, so build the same small agent in each before you decide on any hosted plan.</p>
+<ul>
+<li><b>Choose Mastra</b> for the broadest built-in toolkit, a larger community and a local Studio.</li>
+<li><b>Choose VoltAgent</b> for an MIT framework with chain-style workflows and a trace console.</li>
+</ul>
+<p class="fit">Both are free, so build the same small agent in each before paying for any hosted plan.</p>
 
 <h2 id="viasocket">Where viaSocket fits</h2>
-<p>viaSocket is not a framework and not part of this comparison. Frameworks like these run the agent; the app connections it calls still have to come from somewhere. viaSocket is an integration layer with 2,300+ apps where, per viaSocket, every action has an input schema so an agent can call it as a tool. Its free plan lists 100K tasks a month.</p>
-<a class="btnp" href="https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=fits">Check out viaSocket &rarr;</a>
+<p>viaSocket is not a framework and not part of this comparison. A framework runs the agent; viaSocket gives that agent the apps and the browser it acts in, with auth handled.</p>
+<p><strong>What viaSocket offers</strong></p>
+<ul>
+<li><b>2,300+ app integrations as agent tools:</b> every action has an input schema, so your agent can call it (<a href="https://viasocket.com?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=fits" rel="noopener">per viaSocket</a>).</li>
+<li><b>Browser actions:</b> your agent can browse, click and fill in forms on sites with no API (<a href="https://viasocket.com/features/browser-actions?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=fits" rel="noopener">browser actions</a>).</li>
+<li><b>Managed auth:</b> users connect through the app's own consent screen; tokens are stored and refreshed.</li>
+<li><b>Triggers and webhooks:</b> react to events like a new Stripe payment, with polling and retries handled.</li>
+<li><b>Free plan:</b> 100K tasks and 1,000 AI credits a month (<a href="https://viasocket.com/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=fits" rel="noopener">pricing</a>).</li>
+</ul>
+<p><strong>What you can build with it</strong></p>
+<ul>
+<li>A Mastra or VoltAgent agent that updates HubSpot and emails through Gmail.</li>
+<li>A support agent that looks up Shopify orders and closes the ticket.</li>
+<li>An agent that reads a portal with no API in the browser, then logs the result in a sheet.</li>
+</ul>
+<a class="btnp" href="https://viasocket.com/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=fits">Give your agent 2,300+ apps with viaSocket &rarr;</a>
 
 <h2 id="faq">FAQ</h2>
-<details><summary>What is the main difference between Mastra and VoltAgent?</summary><p>Mastra is a framework with agents, workflows, memory, evals and its own Studio. VoltAgent describes itself as an agent engineering platform: an MIT framework paired with the VoltOps console for traces, evals, prompts and deployment.</p></details>
-<details><summary>Are Mastra and VoltAgent open source?</summary><p>Yes. VoltAgent is MIT licensed. Mastra's core is Apache 2.0, while code in its <code>ee/</code> directories is source-available under the Mastra Enterprise License.</p></details>
-<details><summary>Which has more GitHub stars?</summary><p>Mastra has about 29.2k stars and VoltAgent about 10.9k. On npm, @mastra/core shows about 8.5 million monthly downloads against about 152,000 for @voltagent/core.</p></details>
-<details><summary>Do both support MCP as a client and a server?</summary><p>Yes. Mastra has <code>MCPClient</code> and <code>MCPServer</code> over stdio and Streamable HTTP. VoltAgent has an MCP client over http, streamable-http, SSE and stdio, and an <code>@voltagent/mcp-server</code> package to expose your project.</p></details>
-<details><summary>Do I have to pay for the hosted platform?</summary><p>No. Both frameworks run on your own infrastructure. Mastra Platform has a $0 Starter plan and a $250 Teams plan. VoltOps has a $0 Developer plan, then Core at $50 and Pro at $250 a month.</p></details>
-<details><summary>Where can I deploy each one?</summary><p>Mastra builds a Hono server and has deployers for Vercel, Netlify and Cloudflare. VoltAgent runs as a Node server and has guides for Cloudflare Workers, Netlify Functions and VoltOps Deploy.</p></details>
+<details><summary>What is the difference between Mastra and VoltAgent?</summary><p>Both are open-source TypeScript agent frameworks. Mastra is the larger, batteries-included toolkit with its own Studio. VoltAgent is lighter and pairs with the VoltOps console for traces and operations.</p></details>
+<details><summary>Are Mastra and VoltAgent free?</summary><p>Yes. Both frameworks are free to self-host. The hosted platforms have free plans: Mastra Starter and VoltOps Developer.</p></details>
+<details><summary>Are they open source?</summary><p>VoltAgent is MIT. Mastra's core is Apache 2.0; code in its <code>ee/</code> directories is source-available.</p></details>
+<details><summary>Do both support MCP?</summary><p>Yes, both as an MCP client and as an MCP server.</p></details>
+<details><summary>Which is more popular?</summary><p>Mastra: about 29.2k GitHub stars and 8.5 million monthly npm downloads. VoltAgent: about 10.9k stars and 152,000 downloads.</p></details>
 
 <h2>Sources</h2>
 <ul class="srcs">
-<li><a href="https://mastra.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Mastra pricing</a>, <a href="https://mastra.ai?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">homepage</a>, <a href="https://mastra.ai/docs?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">docs</a>, <a href="https://mastra.ai/docs/getting-started/start?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">quickstart</a>, <a href="https://mastra.ai/mastra-studio?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">Studio</a>, <a href="https://github.com/mastra-ai/mastra?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">GitHub</a>, <a href="https://github.com/mastra-ai/mastra/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">GitHub issues</a></li>
-<li><a href="https://voltagent.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">VoltAgent pricing</a>, <a href="https://voltagent.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">homepage</a>, <a href="https://voltagent.dev/docs/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">docs</a>, <a href="https://voltagent.dev/docs/quick-start/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">quickstart</a>, <a href="https://voltagent.dev/observability-docs/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">observability docs</a>, <a href="https://github.com/VoltAgent/voltagent?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">GitHub</a>, <a href="https://github.com/VoltAgent/voltagent/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=sources" rel="nofollow noopener">GitHub issues</a></li>
+<li>Mastra: <a href="https://mastra.ai/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">pricing</a>, <a href="https://mastra.ai?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">homepage</a>, <a href="https://mastra.ai/docs?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">docs</a>, <a href="https://mastra.ai/docs/getting-started/start?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">quickstart</a>, <a href="https://github.com/mastra-ai/mastra?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">GitHub</a>, <a href="https://github.com/mastra-ai/mastra/issues?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">GitHub issues</a></li>
+<li>VoltAgent: <a href="https://voltagent.dev/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">pricing</a>, <a href="https://voltagent.dev?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">homepage</a>, <a href="https://voltagent.dev/docs/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">docs</a>, <a href="https://voltagent.dev/docs/quick-start/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">quickstart</a>, <a href="https://github.com/VoltAgent/voltagent?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">GitHub</a>, <a href="https://github.com/VoltAgent/voltagent/issues?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">GitHub issues</a></li>
+<li>viaSocket: <a href="https://viasocket.com?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="noopener">homepage</a>, <a href="https://viasocket.com/features/browser-actions?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="noopener">browser actions</a>, <a href="https://viasocket.com/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="noopener">pricing</a></li>
 </ul>
 
 <h2>More comparisons</h2>
 <div class="more">
-<a href="https://viasocket.com/discovery/compare/best-integration-layers-for-ai-agents?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=more">Best AI agent integration platforms<small>Compare</small></a>
-<a href="https://viasocket.com/discovery/compare/composio-vs-arcade?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=more">Composio vs Arcade<small>Compare</small></a>
+<a href="https://viasocket.com/discovery/compare/browserbase-vs-steel-vs-hyperbrowser?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=more">Browserbase vs Steel vs Hyperbrowser<small>Compare</small></a>
+<a href="https://viasocket.com/discovery/compare/best-integration-layers-for-ai-agents?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=more">Best AI agent integration platforms<small>Compare</small></a>
+<a href="https://viasocket.com/discovery/compare/composio-vs-arcade?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=more">Composio vs Arcade<small>Compare</small></a>
 </div>
