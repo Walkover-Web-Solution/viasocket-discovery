@@ -5,73 +5,109 @@ Author: Vaishali Raghuvanshi (https://viasocket.com/discovery/user/6485)
 Publisher: viaSocket Discovery
 
 ## Short answer
-Browserbase, Steel and Hyperbrowser all rent cloud browsers to AI agents. Browserbase pairs managed browsers with its Stagehand framework. Steel is open source and can be self-hosted. Hyperbrowser bundles browsers with a Web API and its own agent library. The key difference is what you want to own: the framework, the infrastructure or the whole agent stack.
-The three are listed alphabetically, not ranked.
+Browserbase, Steel and Hyperbrowser all run cloud browsers for AI agents. Browserbase is managed only and ships the Stagehand framework. Steel's browser server is open source and self-hostable. Hyperbrowser bundles browsers, a web data API and agent tooling on one credit balance. All three have a free plan.
+Listed alphabetically, not ranked.
 
 ## At a glance
-- Browserbase: A managed cloud browser platform for agents, with Stagehand, Search and Fetch APIs and session replay (per Browserbase). Best for: teams that want managed browsers plus an agent framework from one vendor.
-- Steel: Cloud browser infrastructure for AI agents, with an open-source server you can host yourself (per Steel). Best for: teams that want the option to run the browser layer on their own infrastructure.
-- Hyperbrowser: Cloud browsers, sandboxes, web data APIs and managed agents behind one credit balance (per Hyperbrowser). Best for: teams that want browsers and agent tooling billed on one meter.
+- Browserbase (https://www.browserbase.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Managed cloud browsers plus the Stagehand agent framework; Free plan: 1 browser hour, 3 concurrent browsers; Paid from: $20 a month; Self-host: No
+- Steel (https://steel.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Browser API with an open-source server and a managed cloud; Free plan: $30 of credits once, 10 concurrent sessions; Paid from: $250 a month plus usage; Self-host: Yes, Apache-2.0
+- Hyperbrowser (https://www.hyperbrowser.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Cloud browsers, web data APIs and agents on one credit balance; Free plan: 5,000 credits (50 browser hours), 1 concurrent session; Paid from: $30 a month; Self-host: Not listed
 
 ## Features
-- Approach: Browserbase: Managed browsers, Search and Fetch APIs, Agent Identity and Functions under one API key (per Browserbase). Steel: API for fleets of browsers; Steel Browser is the open-source server and Steel Cloud the managed version (per Steel). Hyperbrowser: Cloud browsers, sandboxes, web data APIs and managed agents (per Hyperbrowser).
-- Automation frameworks: Browserbase: Stagehand (JavaScript, Python), Playwright (JavaScript, Python, Java, C#), Puppeteer, Selenium. Steel: Playwright, Puppeteer and Selenium over a CDP WebSocket; Python and Node SDKs and a REST API. Its repo notes Selenium does not cover every CDP session feature. Hyperbrowser: Playwright and Puppeteer against a cloud Chrome session; Python and Node SDKs and a CLI; LangChain, LlamaIndex and Stagehand integrations.
-- Own agent library: Browserbase: Stagehand: MIT licensed (25.9k GitHub stars), TypeScript, Python and Go, with act, extract and observe. Steel: No agent framework listed; Steel is the browser layer under your own agent code. Hyperbrowser: HyperAgent: GNU AGPL v3 license file (1.6k GitHub stars).
-- Open source and self-hosting: Browserbase: Managed only; on-prem not offered. Private cloud and VPC connectivity for large enterprise (per Browserbase). Steel: Steel Browser is Apache-2.0 (7.9k GitHub stars) and runs from one Docker command; Steel Cloud is the managed version. The repo says it is in public beta. Hyperbrowser: Cloud platform; self-hosting not listed. The MCP server repository is MIT licensed.
-- CAPTCHA and stealth: Browserbase: Auto captcha solving and basic stealth on Developer and Startup; advanced stealth and Verified Agents on Scale (per Browserbase). Steel: Captcha solves priced per 1,000; fingerprint rotation and human-like mouse movement (per Steel); stealth browser listed under Enterprise. Hyperbrowser: Captcha solving on paid plans; basic stealth, with ultra stealth on Enterprise only (per Hyperbrowser docs).
-- Proxies: Browserbase: Residential and datacenter proxies; custom proxy configurations supported (per Browserbase). Steel: Residential and datacenter proxies, targeted from country to city, with dedicated, rotating or sticky IPs (per Steel). Hyperbrowser: Residential proxies on Startup, premium residential on Scale and Enterprise (per Hyperbrowser).
-- Observability: Browserbase: Logs, live view and session replay (per Browserbase). Steel: Live viewer, recordings, replays and human takeover for steps like 2FA (per Steel). Hyperbrowser: Live inspection and session recordings; saved profiles with cookies and logins (per Hyperbrowser).
-- MCP: Browserbase: Hosted MCP server with six tools (start, end, navigate, act, observe, extract). The self-hostable repository is archived. Steel: steel-mcp-server (MIT) for Claude and other MCP clients, installed from GitHub; its README says the hosted endpoint is not live yet. Hyperbrowser: Local MCP server run with npx; tools to scrape, extract structured data and crawl.
-- Compliance: Browserbase: SOC 2 Type II infrastructure (per Browserbase); HIPAA BAA and DPA on its Enterprise card. Steel: HIPAA-ready BAA on Scale and Enterprise (per Steel); security trust center at trust.steel.dev. Hyperbrowser: Trust center lists a SOC 2 Type 1 report on request; security program aligned with SOC 2 criteria (per Hyperbrowser).
-- Support: Browserbase: Support portal and email; SSO and private cloud options for enterprise. Steel: Email and community on every plan, dedicated Slack channel on Scale, 911 email and SLAs on Enterprise. Hyperbrowser: Premium support on Enterprise.
+- Open source: Browserbase: Stagehand framework (MIT); browsers are managed | Steel: Steel Browser server (Apache-2.0, 7.9k stars) | Hyperbrowser: HyperAgent library (AGPL v3)
+- Self-hosting: Browserbase: No; private cloud for large enterprise | Steel: Yes, one Docker command | Hyperbrowser: Not listed
+- Frameworks: Browserbase: Stagehand, Playwright, Puppeteer, Selenium | Steel: Playwright, Puppeteer, Selenium | Hyperbrowser: Playwright, Puppeteer
+- CAPTCHA solving: Browserbase: From the Developer plan | Steel: Per 1,000 solves | Hyperbrowser: Paid plans
+- Stealth: Browserbase: Basic; advanced on Scale | Steel: Fingerprinting; stealth browser on Enterprise | Hyperbrowser: Basic; ultra on Enterprise
+- MCP server: Browserbase: Hosted | Steel: Open source, from GitHub | Hyperbrowser: Local, via npx
+- Compliance (per vendor): Browserbase: SOC 2 Type II; HIPAA BAA on Enterprise | Steel: HIPAA BAA on Scale and Enterprise | Hyperbrowser: SOC 2 Type 1 report on request
+From browserbase.com, steel.dev and hyperbrowser.ai, their docs and GitHub.
 
 ## Pricing
-- Free: Browserbase: Free, $0. 3 concurrent browsers, 1 browser hour, 15 minute sessions, 7 day retention, no captcha solving. Steel: Launch, $0 plus usage. $30 of credits once, 10 concurrent sessions, 15 minute sessions, up to 3 seats, 7 day retention. No credit card. Hyperbrowser: Free, $0. 5,000 credits (50 browser hours per its page), 1 concurrent session, 7 day retention.
-- Entry paid: Browserbase: Developer, $20 a month. 25 concurrent, 100 browser hours, 1 GB of proxy, 30 day retention. Steel: Scale, $250 a month plus usage. $100 of credits each month, 100 concurrent, 1 hour sessions, unlimited seats, 14 day retention. Hyperbrowser: Startup, $30 a month. $30 of usage (30,000 credits), 25 concurrent, residential proxy, 30 day retention.
-- Higher paid: Browserbase: Startup, $99 a month. 100 concurrent, 500 browser hours, 5 GB of proxy. Steel: Enterprise is the next step (below). Hyperbrowser: Scale, $100 a month. $100 of usage (100,000 credits), 100 concurrent, premium residential proxy.
-- Enterprise: Browserbase: Scale, custom. 250+ concurrent, advanced stealth, Verified Agents. HIPAA BAA, DPA and SSO on its Enterprise card. Steel: Custom. 1,000+ concurrent, sessions up to 24 hours, stealth browser, reserved pools, SLAs, SSO. Hyperbrowser: Custom. 1,000+ concurrent, ultra stealth, 180+ day retention, premium support, 14 day trial.
-- Browser time: Browserbase: $0.12 an hour past Developer's included hours; $0.10 on Startup. Steel: $0.10 an hour on Launch; $0.08 on Scale. Hyperbrowser: 100 credits an hour, which is $0.10 (1 credit is $0.001).
-- Proxy: Browserbase: $12 per GB past Developer's 1 GB; $10 on Startup. Steel: $10 per GB on Launch; $6 on Scale. Dedicated IPs $5 each on Scale. Hyperbrowser: $10 per GB on every plan (10,000 credits).
-- CAPTCHA solving: Browserbase: Included on Developer and Startup; not on Free. Steel: $3 per 1,000 solves on Launch; $1 on Scale. Hyperbrowser: On paid plans; its docs list no separate charge.
+All three meter browser time and proxy data. At 1,000 browser hours a month, before proxies, they land between about $100 and $128.
+- Free: Browserbase: $0. 1 browser hour, 3 concurrent | Steel: $0. $30 credits once, 10 concurrent | Hyperbrowser: $0. 50 browser hours, 1 concurrent
+- Entry plan: Browserbase: $20 a month. 100 hours, 25 concurrent | Steel: $250 a month. $100 credits, 100 concurrent | Hyperbrowser: $30 a month. $30 credits, 25 concurrent
+- Browser hour: Browserbase: $0.12 ($0.10 on Startup) | Steel: $0.10 ($0.08 on Scale) | Hyperbrowser: $0.10
+- Proxy per GB: Browserbase: $12 ($10 on Startup) | Steel: $10 ($6 on Scale) | Hyperbrowser: $10
+- 1,000 browser hours a month: Browserbase: About $128 on Developer ($20 + 900 hours at $0.12) | Steel: About $100 on Launch (1,000 hours at $0.10) | Hyperbrowser: About $100 on Startup ($30 + 70,000 credits)
+- Enterprise: Browserbase: Custom, 250+ concurrent | Steel: Custom, 1,000+ concurrent | Hyperbrowser: Custom, 1,000+ concurrent
+Prices from browserbase.com/pricing, steel.dev/pricing and hyperbrowser.ai/pricing.
 
-## What it is like to use each
-- Browserbase: the Playground, Live View and Session Inspector make a first run easy to follow; Stagehand (MIT) sits next to the browsers; managed only, advanced stealth on Scale, 15 minute sessions on Free.
-- Steel: Apache-2.0 server with a one-line Docker start; human takeover for 2FA; self-hosted containers can fail to launch; Launch sessions end at 15 minutes.
-- Hyperbrowser: one credit balance for browsers, fetch, search and agent steps; 50 free browser hours; 1 concurrent session on Free; captcha solving needs a paid plan; HyperAgent is AGPL; no self-hosting listed.
+## Browserbase vs Steel vs Hyperbrowser: what they're like to use
+By Vaishali Raghuvanshi. All three hand your agent a real browser you drive from Playwright or Puppeteer, so the first hour feels similar. The differences show up in where the browser runs and how you're billed.
+
+### Browserbase
+The most guided start of the three: run a template in the Playground, watch it live, then replay it in the Session Inspector before you write any code.
+What I liked:
+- Live View and session replay make the first run easy to follow.
+- Stagehand (MIT) adds act, extract and observe on top of Playwright.
+- Works with Stagehand, Playwright, Puppeteer and Selenium.
+What I didn't:
+- Managed only; no on-prem option.
+- The free plan's 1 browser hour and 15 minute sessions go fast.
+- Advanced stealth sits on the custom Scale plan.
+Best for: teams that want managed browsers and an agent framework from one vendor.
+
+### Steel
+Feels like infrastructure you could run yourself: create a session, connect over a WebSocket, release it. The same server starts locally with one Docker command.
+What I liked:
+- Apache-2.0 server you can try locally before paying.
+- Human takeover lets a person clear a 2FA step, then hand back.
+- Clear unit prices for browser hours, proxy GB and captcha solves.
+What I didn't:
+- The repository still calls itself a public beta.
+- Self-hosted containers can fail to launch, for example without dbus.
+- The stealth browser is listed under Enterprise.
+Best for: teams that want the option to self-host the browser layer.
+
+### Hyperbrowser
+A broader toolbox: browser sessions, a web data API and agent tooling, each with its own quick start, all billed from the same credits.
+What I liked:
+- One credit balance covers browsers, scraping and agent steps.
+- The most free browser time of the three: 50 hours.
+- Integrations for LangChain, LlamaIndex and Stagehand.
+What I didn't:
+- Free is limited to 1 concurrent session and no captcha solving.
+- Credits take a little arithmetic to turn into browser hours.
+- HyperAgent is AGPL, which needs a read before you ship it.
+Best for: teams that want browsers, a web data API and agent tooling on one meter.
 
 ## Which to choose
-Browserbase if you want managed browsers with replay tooling and a first-party agent framework. Steel if you want the option to run the browser layer yourself or value an open-source server. Hyperbrowser if you want browsers, a web data API and agent tooling billed from one credit balance. All three have free entry plans, so run each on your own sites before you commit.
+- Choose Browserbase for managed browsers, replay tooling and a first-party agent framework.
+- Choose Steel if you may need to self-host the browser layer, or want an open-source server.
+- Choose Hyperbrowser for browsers, scraping and agent steps billed from one credit balance.
+Each has a free plan, so test on your own target sites first, especially captcha-heavy ones.
+
+## Where viaSocket fits
+viaSocket is not part of this comparison, but it also gives AI agents a browser. Where the three tools above are browser infrastructure you drive with your own code, viaSocket is an integration layer: browser actions sit next to 2,300+ app integrations, so an agent can use a website with no API and the apps that have one in the same task.
+What viaSocket offers:
+- Browser actions for AI agents: browse, click, fill in forms and read pages on sites with no API (per viaSocket).
+- Browser and API steps in one task: mix browser steps with actions from 2,300+ apps.
+- Managed auth: users connect apps through the app's own consent screen; tokens are stored and refreshed.
+- Agent tools and MCP: every action has an input schema, so an agent can call it as a tool.
+- Step-by-step monitoring: review each step the agent took in the browser.
+- Free plan: 100K tasks and 1,000 AI credits a month, unlimited connected accounts (pricing).
+What you can build with it:
+- Pull reports or submit forms on supplier and government portals that have no API.
+- Research websites and save the results into a sheet or CRM.
+- Work with legacy web tools that never shipped an API.
+- An agent that reads a portal in the browser, then updates HubSpot or posts to Slack through the API.
+Give your agents a browser with viaSocket: https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
 
 ## FAQ
-- What is the main difference between Browserbase, Steel and Hyperbrowser? All three provide cloud browsers for AI agents. Browserbase is managed only and pairs its browsers with the Stagehand framework. Steel offers an open-source Apache-2.0 browser server you can self-host, plus a managed cloud. Hyperbrowser bundles browsers with a Web API and agent tooling billed in credits.
-- Do all three have a free plan? Yes. Browserbase Free gives 3 concurrent browsers and 1 browser hour. Steel Launch gives $30 of credits once and 10 concurrent sessions. Hyperbrowser Free gives 5,000 credits, which its page states as 50 browser hours, and 1 concurrent session.
-- Can I self-host any of them? Steel Browser is Apache-2.0 and runs from a Docker image. Browserbase is managed only and does not offer on-prem. Hyperbrowser does not list self-hosting, though its HyperAgent library is published under the AGPL.
-- How do they handle CAPTCHAs and proxies? Browserbase includes automatic captcha solving from the Developer plan and proxies by the GB. Steel prices captcha solves per 1,000 and proxies per GB. Hyperbrowser solves captchas on paid plans and charges proxy data at $10 per GB.
-- Do they support MCP? Yes, in different forms. Browserbase has a hosted MCP server. Steel publishes an MCP server installed from GitHub. Hyperbrowser provides an MCP server you run locally with npx.
-- What compliance do they state? Browserbase states SOC 2 Type II infrastructure and lists HIPAA BAA and DPA for Enterprise. Steel lists HIPAA-ready BAAs on Scale and Enterprise. Hyperbrowser's trust center lists a SOC 2 Type 1 report on request. Confirm current documents with each vendor.
-
-## Another option: viaSocket
-viaSocket does not offer cloud browsers and is not part of this comparison. It is an integration layer for AI agents and SaaS products with 2,300+ integrations, which suits cases where the app you need has an API. Free plan lists 100K tasks a month and unlimited connected accounts.
-https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+Q: What is the difference between Browserbase, Steel and Hyperbrowser?
+A: All three run cloud browsers for AI agents. Browserbase is managed only and ships Stagehand. Steel offers an Apache-2.0 server you can self-host. Hyperbrowser bundles browsers, a web data API and agent tooling on one credit balance.
+Q: Which has the biggest free plan?
+A: Hyperbrowser's free plan lists 50 browser hours with 1 concurrent session. Steel gives $30 of credits once with 10 concurrent sessions. Browserbase gives 1 browser hour with 3 concurrent browsers.
+Q: Can I self-host any of them?
+A: Steel, yes: its browser server is Apache-2.0 and runs from Docker. Browserbase is managed only. Hyperbrowser does not list self-hosting.
+Q: Do they support MCP?
+A: Yes. Browserbase has a hosted MCP server, Steel publishes one on GitHub, and Hyperbrowser's runs locally with npx.
+Q: How much does a browser hour cost?
+A: About $0.10 to $0.12 at entry level: Browserbase charges $0.12 past the Developer plan's hours, Steel $0.10 on Launch and Hyperbrowser 100 credits ($0.10). At 1,000 hours a month that is about $128, $100 and $100.
 
 ## Sources
-- https://www.browserbase.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://www.browserbase.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://docs.browserbase.com/introduction/getting-started?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://docs.stagehand.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://github.com/browserbase/stagehand?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://github.com/browserbase/mcp-server-browserbase?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://steel.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://steel.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://docs.steel.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://github.com/steel-dev/steel-browser?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://github.com/steel-dev/steel-browser/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://github.com/steel-dev/steel-mcp-server?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://news.ycombinator.com/item?id=42245573&utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://www.hyperbrowser.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://www.hyperbrowser.ai?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://hyperbrowser.ai/docs?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://hyperbrowser.ai/docs/pricing.md?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://github.com/hyperbrowserai/HyperAgent?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://trust.hyperbrowser.ai?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
-- https://news.ycombinator.com/item?id=42381712&utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Browserbase: pricing https://www.browserbase.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, homepage https://www.browserbase.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.browserbase.com/introduction/getting-started?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Stagehand on GitHub https://github.com/browserbase/stagehand?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, MCP repository https://github.com/browserbase/mcp-server-browserbase?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Steel: pricing https://steel.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, homepage https://steel.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.steel.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/steel-dev/steel-browser?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub issues https://github.com/steel-dev/steel-browser/issues?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, MCP server https://github.com/steel-dev/steel-mcp-server?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Hyperbrowser: pricing https://www.hyperbrowser.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, homepage https://www.hyperbrowser.ai?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://hyperbrowser.ai/docs?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, credit rates https://hyperbrowser.ai/docs/pricing.md?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, HyperAgent on GitHub https://github.com/hyperbrowserai/HyperAgent?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, trust center https://trust.hyperbrowser.ai?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
