@@ -1,0 +1,113 @@
+# n8n vs Activepieces vs Windmill: licenses, pricing and which to self-host
+
+URL: https://viasocket.com/discovery/compare/activepieces-vs-windmill-vs-n8n
+Author: Yashraj Sharma (https://viasocket.com/discovery/user/99440)
+Publisher: viaSocket Discovery
+
+## Short answer
+n8n vs Activepieces vs Windmill comes down to license, style and billing unit. n8n is a visual builder under the fair-code Sustainable Use License, Activepieces is a visual builder with an MIT core, and Windmill is code-first. All three run on your own server. They bill by executions, credits and seats.
+
+## At a glance
+- n8n (https://n8n.io/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Visual workflow builder with AI agent nodes; Free plan: Community Edition, self-hosted; Paid from: €20 a month, billed annually; License: Sustainable Use (fair-code)
+- Activepieces (https://www.activepieces.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Visual, Zapier-style builder with open-source pieces; Free plan: 1,000 credits, up to 5 users; Paid from: $20 a month; License: MIT outside the ee folders
+- Windmill (https://www.windmill.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Code-first workflows, scripts and internal apps; Free plan: Unlimited executions, 3 workspaces, 50 users; Paid from: $120 a month (Enterprise); License: AGPLv3 and Apache 2.0, plus proprietary EE
+
+## Features
+- Style: n8n: Visual canvas, code nodes | Activepieces: Visual step builder | Windmill: Code-first, visual flow editor
+- License: n8n: Sustainable Use; .ee files licensed separately | Activepieces: MIT; ee folders licensed separately | Windmill: AGPLv3 and Apache 2.0; proprietary EE
+- GitHub stars: n8n: 209k | Activepieces: 25.3k | Windmill: 18.3k
+- Integrations: n8n: 2,000+ (n8n integrations page) | Activepieces: 770+ pieces (per Activepieces) | Windmill: Hub of scripts; REST and GraphQL
+- Languages: n8n: JavaScript, Python in Code node | Activepieces: TypeScript pieces and code | Windmill: 20+ languages
+- MCP: n8n: Instance server; server trigger node | Activepieces: MCP server; agents use any MCP server | Windmill: Server and client
+- Self-host: n8n: Docker; free Community Edition | Activepieces: Docker Compose, Helm, air-gapped | Windmill: Docker, Kubernetes, Fargate
+- Cloud: n8n: Starter and Pro plans | Activepieces: Free, Plus and Team plans | Windmill: Windmill Cloud
+From n8n, Activepieces and Windmill pages and the n8n MCP docs.
+
+## Pricing
+The three bill in different units, so compare the unit before the price: n8n counts executions, Activepieces counts credits, Windmill counts seats and compute.
+- Free: n8n: Community Edition, $0. Self-hosted | Activepieces: Free, $0. 1,000 credits, 5 users | Windmill: Free, $0. Unlimited executions, 3 workspaces
+- Entry paid: n8n: Starter, €20 a month (annual). 2.5K executions | Activepieces: Plus, $20 a month. 10,000 credits | Windmill: Enterprise, from $120 a month
+- Unit rate: n8n: Pro, €50 a month (annual). 10K executions | Activepieces: $0.007 per extra credit; 1 credit per run | Windmill: $20 per builder, $10 per non-builder
+- 10,000 runs a month: n8n: Pro, €50 (annual), 10K executions | Activepieces: Plus, $20, 10,000 credits at 1 credit per run | Windmill: Free, $0. Unlimited executions; seats and compute on paid plans
+- Larger plan: n8n: Business, €667 a month (annual). 40K executions, self-hosted | Activepieces: Team, $200 a month. 50,000 credits, 25 users | Windmill: Compute billed per worker memory
+- Enterprise: n8n: Custom; hosted or self-hosted | Activepieces: Custom; air-gapped option | Windmill: Custom; SOC 2 Type II per Windmill
+Currencies differ (€ and $), so check each pricing page before comparing. Prices from n8n.io/pricing, activepieces.com/pricing and windmill.dev/pricing.
+
+## n8n vs Activepieces vs Windmill: who each one suits
+By Yashraj Sharma. All three install with Docker and all three can host AI agents. What changes is who they are built for: n8n for the broadest audience, Activepieces for no-code teams, Windmill for engineers.
+
+### n8n
+The most widely used of the three, with about 209,000 GitHub stars. The editor is a node canvas where you can drop into JavaScript or Python when a node falls short, and the Docker quickstart is one command.
+What I liked:
+- Huge integration directory: n8n lists 2,000+ on its integrations page.
+- Code nodes with JavaScript, Python and npm packages.
+- MCP server for your whole instance, plus an MCP Server Trigger node.
+What I didn't:
+- Not OSI open source: the license limits how you can use it commercially.
+- Cloud plans are capped by executions, from 2.5K a month.
+- The Business plan is self-hosted only and costs €667 a month.
+Best for: teams that want the largest community and a visual canvas with code escape hatches.
+
+### Activepieces
+The friendliest of the three for non-developers. Flows are built step by step, every integration is a TypeScript piece, and the installer sets up Docker Compose with PostgreSQL and Redis.
+What I liked:
+- MIT core, and Activepieces says every piece is MIT.
+- A run costs one credit however many steps it has.
+- Air-gapped self-hosting is supported.
+What I didn't:
+- Smaller catalog: 770+ pieces, per Activepieces.
+- AI steps cost 2, 10 or 20 credits depending on the model tier.
+- Fewer escape hatches than a code-first tool.
+Best for: ops and marketing teams that want an MIT-licensed Zapier alternative.
+
+### Windmill
+A developer platform more than an app connector. You write scripts in TypeScript, Python, Go, SQL and more, and Windmill turns them into endpoints, forms and flows you can also draw.
+What I liked:
+- Scripts in 20+ languages become APIs and forms automatically.
+- Retries, approvals and parallel branches are built into flows.
+- MCP works in both directions: server and client.
+What I didn't:
+- Expects you to write code; there is no big app catalog to click through.
+- The free tier caps workspaces at 3 and job history at 30 days.
+- Seat pricing: builders $20 and non-builders $10 a month.
+Best for: engineering teams that want scripts, workflows and internal tools on one self-hosted platform.
+
+## Which to choose
+- Choose n8n for the biggest community and integration directory, and if the license terms fit your use.
+- Choose Activepieces for an MIT-licensed visual builder that non-developers can run.
+- Choose Windmill if your team writes code and wants scripts, flows and internal apps together.
+Community editions are free to self-host in all three, so budget for the server and upgrades, not only the plan.
+
+## Where viaSocket fits
+viaSocket is a hosted option rather than a self-hosted one, so it suits teams that would rather not run servers. It covers the same ground as these tools: triggers, actions and AI agents.
+What viaSocket offers:
+- 2,300+ app integrations with managed authentication (features).
+- Browser actions: browse, click, fill in forms and read pages on sites with no API, in the same task as app actions (browser actions).
+- AI agents and MCP support, so compatible AI clients can use your tools.
+- Triggers, webhooks and schedules, with retries, execution replay and monitoring.
+- Free plan: 100K tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- A new-lead flow that enriches the contact and posts to Slack.
+- An agent that reads a supplier portal with no API, then logs the result in a sheet.
+- A scheduled report that pulls from several apps and emails a summary.
+Try viaSocket with 2,300+ integrations: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: Which is cheapest to self-host?
+A: The Community editions of all three are free to run, so the cost is your server and upgrade time. Paid tiers add support and enterprise features.
+Q: Which is better, n8n, Activepieces or Windmill?
+A: It depends on the team. n8n has the largest community, Activepieces has the most permissive license for a visual builder, and Windmill suits developers who want code-first workflows.
+Q: Is n8n open source?
+A: n8n describes itself as fair-code under the Sustainable Use License, which is source-available rather than OSI open source. Files marked .ee need an enterprise license.
+Q: Is Activepieces free to self-host?
+A: Yes. The core is MIT-licensed and the Community edition is free to run with Docker Compose. Code in its ee folders has a separate license.
+Q: Does Windmill charge per execution?
+A: No. Its pricing page lists unlimited executions on both the free and Enterprise plans. Paid plans charge per builder and non-builder seat, plus compute.
+Q: Do all three support MCP?
+A: Yes. n8n offers an instance-level MCP server, Activepieces has an MCP server, and Windmill works as both an MCP server and client.
+
+## Sources
+- n8n: pricing https://n8n.io/pricing/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, integrations https://n8n.io/integrations/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/n8n-io/n8n?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, license https://github.com/n8n-io/n8n/blob/master/LICENSE.md?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, MCP docs https://docs.n8n.io/advanced-ai/mcp/accessing-n8n-mcp-server/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Activepieces: pricing https://www.activepieces.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, homepage https://www.activepieces.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, install docs https://www.activepieces.com/docs/install/overview?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/activepieces/activepieces?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Windmill: pricing https://www.windmill.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, homepage https://www.windmill.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, MCP docs https://www.windmill.dev/docs/core_concepts/mcp?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/windmill-labs/windmill?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm

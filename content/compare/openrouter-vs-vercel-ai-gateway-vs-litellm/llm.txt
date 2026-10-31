@@ -1,0 +1,110 @@
+# OpenRouter alternatives: OpenRouter vs Vercel AI Gateway vs LiteLLM
+
+URL: https://viasocket.com/discovery/compare/openrouter-vs-vercel-ai-gateway-vs-litellm
+Author: Dhwanil Bhavsar (https://viasocket.com/discovery/user/95758)
+Publisher: viaSocket Discovery
+
+## Short answer
+OpenRouter, Vercel AI Gateway and LiteLLM each put many LLM providers behind one OpenAI-compatible API. OpenRouter and Vercel are hosted; LiteLLM is an MIT-licensed gateway you run yourself. Fees differ: OpenRouter adds 5.5% when you buy credits, Vercel says it adds no markup on tokens, and self-hosted LiteLLM has no license fee.
+
+## At a glance
+- OpenRouter (https://openrouter.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Hosted API for hundreds of models; Free plan: 25+ free models, 50 requests a day; Paid from: 5.5% fee on credit purchases; Self-host: No, hosted only
+- Vercel AI Gateway (https://vercel.com/ai-gateway?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Managed gateway with budgets and failover; Free plan: Free credits on a subset of models; Paid from: No markup on tokens, per Vercel; Self-host: No, hosted only
+- LiteLLM (https://www.litellm.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Open-source SDK and self-hosted proxy; Free plan: Open source, self-hosted; Paid from: Enterprise, quote only; Self-host: Yes, MIT core
+
+## Features
+- Hosting: OpenRouter: Hosted | Vercel AI Gateway: Hosted | LiteLLM: Self-hosted, plus Enterprise support
+- License: OpenRouter: Proprietary service | Vercel AI Gateway: Proprietary service | LiteLLM: MIT; enterprise/ folder separate
+- OpenAI-compatible API: OpenRouter: Yes | Vercel AI Gateway: Yes, plus Anthropic Messages | LiteLLM: Yes, via proxy
+- Models or providers: OpenRouter: 600+ models, 80+ providers (per OpenRouter) | Vercel AI Gateway: Large catalog; browse in dashboard | LiteLLM: 100+ providers
+- Fallbacks: OpenRouter: Automatic routing and fallbacks | Vercel AI Gateway: Ordered provider and model fallbacks | LiteLLM: Router with retry and fallback
+- Budgets: OpenRouter: Credit balance | Vercel AI Gateway: Per team, project, key or member | LiteLLM: Per key, team and user
+- BYOK: OpenRouter: Yes; first $25,000 a month free | Vercel AI Gateway: Yes, no fee; needs credits | LiteLLM: Yes; your keys by design
+- GitHub stars: OpenRouter: Closed source | Vercel AI Gateway: Closed source | LiteLLM: 62.4k
+From OpenRouter docs, Vercel AI Gateway docs, LiteLLM docs and GitHub.
+
+## Pricing
+Token prices follow each provider's list price on all three. What differs is the fee on top: a percentage on credit purchases, a markup, or your own infrastructure.
+- Free: OpenRouter: Free, $0. 25+ free models, 5 workspaces | Vercel AI Gateway: Free credits on a subset of models | LiteLLM: Open source, $0. Self-hosted
+- Platform fee: OpenRouter: 5.5% Standard, 8% Business, on credit purchases | Vercel AI Gateway: No markup on tokens, per Vercel | LiteLLM: No license fee; you pay your servers
+- Bring your own key: OpenRouter: No fee up to $25,000 a month, then 5% | Vercel AI Gateway: No fee; needs purchased credits | LiteLLM: No fee; keys stay yours
+- Add-ons: OpenRouter: Business: 1,000 workspaces, EU in-region routing | Vercel AI Gateway: $0.075 per 1,000 reporting writes; $0.10 per 1,000 requests for ZDR | LiteLLM: Enterprise: SSO, SCIM, audit logs
+- Enterprise: OpenRouter: Custom discounts via sales | Vercel AI Gateway: Invoicing and volume discounts | LiteLLM: Annual plan sized to request capacity
+Prices from openrouter.ai/pricing, Vercel AI Gateway pricing and litellm.ai/pricing.
+
+## OpenRouter vs Vercel AI Gateway vs LiteLLM: what they're like to use
+By Dhwanil Bhavsar. All three get a first request working in minutes. The real choice is who runs the gateway: a marketplace (OpenRouter), a managed control plane (Vercel) or you (LiteLLM).
+
+### OpenRouter
+The fastest way to try many models: one key, one credit balance, and an OpenAI-compatible endpoint you can point your existing SDK at.
+What I liked:
+- One balance and one key for 600+ models from 80+ providers, per OpenRouter.
+- Failed attempts are not charged for model tokens.
+- Bring your own key: first $25,000 a month of list-price inference has no fee.
+What I didn't:
+- The platform fee applies to every credit purchase: 5.5% Standard, 8% Business.
+- Free models are capped at 20 requests a minute and 50 a day.
+- No self-hosted option, so prompts pass through a third party.
+Best for: developers and small teams who want the widest model catalog behind one key.
+
+### Vercel AI Gateway
+Reads like an operations tool more than a model marketplace. It works from any server, not only Vercel, and logs each request with its provider attempts, latency and cost.
+What I liked:
+- No markup on tokens, including with your own key, per Vercel.
+- Budgets per team, project, API key or team member.
+- Ordered provider and model fallbacks, plus request logs.
+What I didn't:
+- BYOK needs purchased credits first.
+- Add-ons cost extra, such as $0.10 per 1,000 requests for team-wide zero data retention.
+- Budgets do not cover BYOK spend.
+Best for: teams already on Vercel or the AI SDK who want logs and budgets without running a proxy.
+
+### LiteLLM
+A library and gateway you operate. The Python SDK gives one completion() call across 100+ providers, and the proxy server is an OpenAI-compatible gateway your existing clients can point at.
+What I liked:
+- MIT core with virtual keys, budgets and rate limits included.
+- Router with retry, fallback and load balancing.
+- Runs in your own environment, so prompts stay with you.
+What I didn't:
+- You run, secure and upgrade it yourself.
+- SSO, SCIM and audit logs are Enterprise features.
+- Enterprise has no list price; it is sized by annual request capacity.
+Best for: platform teams that need control over keys, data and spend inside their own infrastructure.
+
+## Which to choose
+- Choose OpenRouter for the broadest catalog and a single prepaid balance.
+- Choose Vercel AI Gateway for budgets, logs and failover with no token markup and no servers to run.
+- Choose LiteLLM if keys, prompts and spend data must stay inside your own infrastructure.
+A gateway adds a hop and a dependency, so test latency and failure behaviour with your own traffic before committing.
+
+## Where viaSocket fits
+A model gateway decides which LLM answers; viaSocket decides what the agent can do. They solve different problems and work side by side.
+What viaSocket offers:
+- 2,300+ app integrations as agent tools, with managed authentication (features).
+- Browser actions: your agent can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- AI agents and MCP support for compatible AI clients.
+- Triggers, webhooks and schedules, with retries, execution replay and monitoring.
+- Free plan: 100K tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- An agent on any gateway that answers a support email and updates the CRM.
+- A daily digest that reads several apps and posts a summary in Slack.
+- An agent that checks a vendor portal with no API, then records the result in a sheet.
+Give your agent 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: What is the difference between OpenRouter and LiteLLM?
+A: OpenRouter is a hosted service with one balance for many models. LiteLLM is an open-source SDK and proxy that you run yourself with your own provider keys.
+Q: Does Vercel AI Gateway charge a markup?
+A: Per Vercel, no. It charges no markup and no platform fee on tokens, including with your own key. Optional add-ons such as reporting and zero data retention are billed separately.
+Q: How much does OpenRouter charge?
+A: Inference is billed at provider list price. OpenRouter adds a 5.5% fee on credit purchases on Standard and 8% on Business.
+Q: Can I self-host a model gateway?
+A: Yes, with LiteLLM. Its open-source plan is free and self-hosted. OpenRouter and Vercel AI Gateway are hosted services.
+Q: Do I need a gateway at all?
+A: Not for one provider. A gateway helps when you use several models, want one set of logs and budgets, or need failover between providers.
+
+## Sources
+- OpenRouter: pricing https://openrouter.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, quickstart https://openrouter.ai/docs/quickstart?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, models API https://openrouter.ai/api/v1/models?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Vercel AI Gateway: docs https://vercel.com/docs/ai-gateway?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://vercel.com/docs/ai-gateway/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- LiteLLM: docs https://docs.litellm.ai/docs/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://www.litellm.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/BerriAI/litellm?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, license https://github.com/BerriAI/litellm/blob/main/LICENSE?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
