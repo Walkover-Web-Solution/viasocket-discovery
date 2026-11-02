@@ -1,0 +1,11 @@
+{
+  "title": "Mem0 vs Zep vs Letta: Agent Memory Compared",
+  "description": "Mem0 adds memory to an existing agent, Zep tracks how facts change, Letta runs the agent itself. Compared on pricing, self-hosting and fit.",
+  "canonical": "https://viasocket.com/discovery/compare/mem0-vs-zep-vs-letta",
+  "authorId": 79503,
+  "authorName": "Jatin Kashiv",
+  "publishedAt": "2026-11-02",
+  "category": "Compare",
+  "h1": "Mem0 vs Zep vs Letta: which agent memory layer fits",
+  "readMinutes": 6
+}

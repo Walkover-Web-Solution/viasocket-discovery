@@ -1,0 +1,109 @@
+# Zapier MCP vs Composio vs Pipedream MCP: pricing and setup compared
+
+URL: https://viasocket.com/discovery/compare/zapier-mcp-vs-composio-vs-pipedream-mcp
+Author: Ragini Mahobiya (https://viasocket.com/discovery/user/92927)
+Publisher: viaSocket Discovery
+
+## Short answer
+Zapier MCP, Composio and Pipedream MCP all let an AI agent call apps through MCP. Zapier suits non-developers and bills 2 tasks per successful call. Composio is built for developers and bills per tool call, with 100,000 included on its free plan. Pipedream is developer-first and bills compute credits per call.
+
+## At a glance
+- Zapier MCP (https://zapier.com/mcp?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: MCP access to apps you already use in Zapier; Free plan: 100 tasks a month, MCP included; Paid from: $19.99 a month, billed annually; Apps: 9,000+ apps, per Zapier
+- Composio (https://composio.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Tool layer for agents with managed auth; Free plan: 100,000 tool calls a month; Paid from: $29 a month (Pro); Apps: 1,500+ toolkits
+- Pipedream MCP (https://pipedream.com/connect?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Hosted MCP servers for apps, inside Pipedream Connect; Free plan: Free, development use only; Paid from: $99 a month, billed annually; Apps: 3,000+ APIs, 10,000+ tools
+
+## Features
+- Apps: Zapier MCP: 9,000+ apps | Composio: 1,500+ toolkits | Pipedream MCP: 3,000+ APIs, 10,000+ tools
+- Built for: Zapier MCP: People using Claude, ChatGPT, Cursor | Composio: Developers building agents | Pipedream MCP: Developers adding MCP to a product
+- Setup: Zapier MCP: Pick apps and actions, connect a client | Composio: SDK, auth config, server, per-user URL | Pipedream MCP: Project, OAuth client, four headers
+- Authentication: Zapier MCP: Zapier-managed connections | Composio: Managed auth per user | Pipedream MCP: Managed per external user
+- Billing unit: Zapier MCP: Tasks, 2 per call | Composio: Tool calls | Pipedream MCP: Compute credits
+- Clients named: Zapier MCP: Claude, ChatGPT, Cursor | Composio: OpenAI, Claude Agent SDK, Mastra | Pipedream MCP: Vercel AI SDK, OpenAI, Claude, Gemini
+- Security and compliance: Zapier MCP: SOC 2 Type II | Composio: SSO and SCIM on Enterprise | Pipedream MCP: SOC 2 Type 2; HIPAA on Business
+From Zapier MCP, Composio MCP docs and Pipedream MCP docs.
+
+## Pricing
+All three bill the same action in different units: tasks, tool calls or compute credits. The row for 10,000 calls a month puts them on one footing.
+- Free: Zapier MCP: Free. 100 tasks a month, about 50 MCP calls | Composio: Hobby, $0. 100,000 tool calls a month | Pipedream MCP: Free, $0. Development use only
+- Entry paid plan: Zapier MCP: Pro from $19.99 a month, 750 tasks, billed annually | Composio: Pro, $29 a month | Pipedream MCP: Startup, $99 a month billed annually
+- Rate that drives the bill: Zapier MCP: 2 tasks per successful call; failed calls cost none | Composio: $0.30 per 1,000 calls beyond the plan | Pipedream MCP: $0.012 per credit beyond 10,000; 1 credit per 30 seconds
+- 10,000 calls a month: Zapier MCP: $189 a month: 20,000 tasks, Pro, billed annually | Composio: $0, inside Hobby's 100,000 calls | Pipedream MCP: $99 a month if each call uses one credit
+- Enterprise: Zapier MCP: Custom: SCIM, audit logs, annual limits | Composio: Custom: SSO, SCIM, SLA, discounts | Pipedream MCP: Business, custom: SSO, SCIM, HIPAA, SLAs
+Prices from zapier.com/pricing, composio.dev/pricing and pipedream.com/pricing. 10,000 calls at 2 tasks each is 20,000 tasks. One Pipedream credit is 30 seconds of compute.
+
+## Zapier MCP vs Composio vs Pipedream MCP: what they're like to use
+By Ragini Mahobiya. The choice is mostly who does the setup: someone who wants an assistant in minutes, or a developer who needs per-user auth and usage-based billing.
+
+### Zapier MCP
+The easiest to try if your team already uses Zapier. You choose which apps and actions the agent may use, connect a client such as Claude or Cursor, and your existing connections do the rest.
+What I liked:
+- Widest app catalog of the three: 9,000+ apps, per Zapier.
+- App-level and action-level controls, and every call shows in History.
+- Credentials stay in Zapier's connection layer, not in the model's context.
+What I didn't:
+- Each successful call uses 2 tasks from the same pool your Zaps use.
+- A loop of 1,000 agent calls consumes 2,000 tasks.
+- No separate MCP budget, so agent traffic and Zaps compete for one quota.
+Best for: teams already on Zapier that want an assistant to act in connected apps, with no code.
+
+### Composio
+Built around developers wiring tools into their own agents. You create an auth config, define an MCP server with the tools you allow, then generate a separate MCP URL for each user.
+What I liked:
+- Per-user MCP URLs with managed authentication for each toolkit.
+- You list the exact tools each server may expose.
+- A flat per-call rate: $0.30 per 1,000 calls beyond your plan.
+What I didn't:
+- More setup: SDK, auth config, server config, then a URL per user.
+- Requests need an x-api-key header, which Anthropic's hosted MCP connector cannot send on that route.
+- The free plan pauses at its cap until the next month.
+Best for: developers building multi-user agents who want managed auth and per-call pricing.
+
+### Pipedream MCP
+Pipedream hosts a remote MCP server and handles your users' account connections. It reads as a developer product: you authenticate your app with OAuth client credentials and pass headers that say which user and app a request is for.
+What I liked:
+- Hosted remote MCP server, with SSE and streamable HTTP selected for you.
+- Missing accounts return a connect link inside the tool-call response.
+- Failed tool calls return an error with where it came from, so the model can react.
+What I didn't:
+- Setup needs a project, OAuth credentials and four request headers.
+- Credits track compute time, so cost per call is less predictable.
+- Production use needs the $99 Startup plan; Free is for development only.
+Best for: developers adding MCP tools and per-user connections to their own product.
+
+## Which to choose
+- Choose Zapier MCP if your team already runs on Zapier and you want an assistant to act in those apps with no code.
+- Choose Composio if you are building a multi-user agent and want managed auth with per-call pricing.
+- Choose Pipedream MCP if you want hosted MCP servers and user connections inside your own product.
+Count your real calls per task before comparing prices, because agents often make several calls for one job.
+
+## Where viaSocket fits
+viaSocket is another route to the same goal: giving an agent tools in other apps. It sits next to these three rather than replacing the choice above.
+What viaSocket offers:
+- 2,300+ app integrations as agent tools, with managed authentication (features).
+- Browser actions: your agent can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- AI agents and MCP support for compatible AI clients.
+- Triggers, webhooks and schedules, with retries, execution replay and monitoring.
+- Free plan: 100K tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- An assistant that reads a new lead in your CRM and drafts the first email.
+- A daily digest that reads several apps and posts a summary in Slack.
+- An agent that pulls a report from a supplier portal with no API into a sheet.
+Give your agent 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: How much does Zapier MCP cost?
+A: MCP is included on every Zapier plan, including Free. Each successful tool call uses 2 tasks from your plan's quota, and failed calls use none.
+Q: Is Composio free?
+A: Composio's Hobby plan is $0 and includes 100,000 tool calls a month. Usage pauses at the cap until the next month or an upgrade.
+Q: What does Pipedream MCP cost?
+A: MCP servers are included on all plans, and MCP tool calls use credits. Free is for development only; Startup is $99 a month billed annually.
+Q: Which has the most apps?
+A: Zapier says 9,000+ apps, Pipedream 3,000+ APIs and Composio 1,500+ toolkits. Counts are each vendor's own.
+Q: Can I use these with Claude, ChatGPT or Cursor?
+A: Zapier names Claude, ChatGPT and Cursor. Composio's docs list OpenAI, Claude Agent SDK, Claude Desktop and Cursor. Pipedream's docs cover Vercel AI SDK, OpenAI, Claude and Gemini.
+
+## Sources
+- Zapier MCP: MCP page https://zapier.com/mcp?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://zapier.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, MCP usage docs https://docs.zapier.com/mcp/overview/usage.md?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Composio: pricing https://composio.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, MCP docs https://docs.composio.dev/docs/mcp-overview?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Pipedream: pricing https://pipedream.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, MCP docs https://pipedream.com/docs/connect/mcp/developers?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, billing docs https://pipedream.com/docs/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
