@@ -60,8 +60,8 @@ function listReviewedSince() {
     return;
   }
   const log = lines(
-    git('log', '--date=short', '--format=  %h %ad %an: %s', `${reviewed}..HEAD`, '--', ...CODE_PATHS),
-  );
+    git('log', '--date=short', '--format=%h %ad %an: %s', `${reviewed}..HEAD`, '--', ...CODE_PATHS),
+  ).map((l) => `  ${l}`);
   if (log.length === 0) {
     console.log(`No commits touched code since the reviewed commit ${reviewed}.`);
   } else {
