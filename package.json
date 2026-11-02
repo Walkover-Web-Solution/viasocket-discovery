@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "status:check": "node scripts/status-check.mjs",
     "build:test": "dotenv -e .env.test next build",
     "build:production": "dotenv -e .env.production next build"
   },
