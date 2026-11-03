@@ -1,0 +1,111 @@
+# Exa vs Tavily vs Firecrawl: which web search API for AI agents
+
+URL: https://viasocket.com/discovery/compare/exa-vs-tavily-vs-firecrawl
+Author: Abhijeet Singh (https://viasocket.com/discovery/user/22351)
+Publisher: viaSocket Discovery
+
+## Short answer
+Exa, Tavily and Firecrawl give AI agents live web results. Exa is an AI search engine priced per request. Tavily bundles search, extract and research in credits. Firecrawl is an open-source scraping API that also searches. 10,000 searches cost about $70 on Exa, $80 on Tavily, or 20,000 credits inside Firecrawl's $99 plan.
+
+## At a glance
+- Exa (https://exa.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Search engine API built for AI agents; Free plan: $10 credit, refilled monthly; Paid from: Pay per request, no subscription; License: Proprietary API; MIT MCP server
+- Tavily (https://www.tavily.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Search, extract and research API for agents; Free plan: 1,000 credits a month; Paid from: $0.008 a credit, or $30 a month; License: Proprietary API
+- Firecrawl (https://www.firecrawl.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Scrape, crawl and search API for agents; Free plan: 1,000 credits a month; Paid from: $19 a month (Hobby); License: AGPL-3.0, self-hostable
+
+## Features
+- Core strength: Exa: AI-native search results | Tavily: Search plus extract | Firecrawl: Scraping and crawling
+- Full page text: Exa: Contents endpoint, extra charge | Tavily: Extract endpoint | Firecrawl: Scrape, 1 credit a page
+- Crawl a whole site: Exa: Subpage crawling (advanced) | Tavily: Crawl and Map | Firecrawl: Crawl and Map
+- Research agent: Exa: Deep Search and Agent | Tavily: Research endpoint | Firecrawl: Agent endpoint
+- MCP server: Exa: Yes, hosted | Tavily: Not listed | Firecrawl: Yes, npx firecrawl-mcp
+- Open source: Exa: MCP server only (MIT) | Tavily: No | Firecrawl: Yes, AGPL-3.0
+- Self-host: Exa: No | Tavily: No | Firecrawl: Yes, Docker Compose
+- Zero data retention: Exa: Enterprise | Tavily: Not listed | Firecrawl: Enterprise
+From Exa pricing, Exa MCP on GitHub, tavily.com, Tavily credits docs, Firecrawl pricing and Firecrawl on GitHub.
+
+## Pricing
+Exa charges per request, Tavily per credit and Firecrawl in monthly credit plans. The volume row prices 10,000 plain searches; fetching full page text costs extra on all three.
+- Free: Exa: $10 credit a month, about 2,500 Lite searches | Tavily: 1,000 credits a month | Firecrawl: 1,000 credits a month, 2 concurrent
+- Entry paid: Exa: Pay as you go, no minimum | Tavily: $0.008 a credit, or Project $30 for 4,000 | Firecrawl: Hobby, $19 a month, 5,000 credits
+- Search rate: Exa: $4 (Lite) to $7 (auto) per 1,000 | Tavily: 1 credit basic, 2 advanced | Firecrawl: 2 credits per 10 results
+- Page content: Exa: $1 per 1,000 pages | Tavily: 1 credit per 5 URLs (basic) | Firecrawl: 1 credit per page
+- 10,000 searches: Exa: $70 (auto) or $40 (Lite) | Tavily: $80 pay as you go | Firecrawl: Fits Standard, $99 (100,000 credits)
+- Enterprise: Exa: Custom: SLAs, zero data retention | Tavily: Custom: SLAs, rate limits | Firecrawl: Custom: SLA, SSO, zero data retention
+Prices from exa.ai/pricing, tavily.com/pricing, Tavily credits docs and firecrawl.dev/pricing. Volume: Exa 10 x $7; Tavily 10,000 credits x $0.008; Firecrawl 10,000 x 2 credits = 20,000 credits.
+
+## Exa vs Tavily vs Firecrawl: what they're like to use
+By Abhijeet Singh. All three can answer "search the web" for an agent. The difference is what they are best at underneath: finding pages (Exa), finding and reading them in one API (Tavily) or reading them in full (Firecrawl).
+
+### Exa
+Exa feels like a search engine designed around how agents ask questions rather than how people type them. Pricing is the simplest of the three: you load credit and each endpoint has a flat rate per thousand calls.
+What I liked:
+- Flat rates per 1,000 requests, from $4 for Lite search.
+- Hosted MCP server, so Claude or Cursor can use it with one URL.
+- Deep Search and Agent endpoints for multi-step research.
+What I didn't:
+- Full page contents are a separate $1 per 1,000 pages charge.
+- No self-hosted option.
+- Results beyond 10 per search add $1 per 1,000.
+Best for: agents that need search built for AI queries and a predictable price per call.
+
+### Tavily
+Tavily's pitch is one API for the whole job: it covers search, extracting pages, crawling a site and running a research task. Tavily says it is joining Nebius, and its logo now reads "Tavily by Nebius".
+What I liked:
+- A basic search costs 1 credit, so the bill is easy to predict.
+- Extract, Map, Crawl and Research sit behind the same key.
+- SOC 2 and ISO badges, with a trust center.
+What I didn't:
+- Requests stop at the monthly limit until reset or upgrade.
+- Research calls vary from 4 to 250 credits each.
+- No self-hosted option.
+Best for: teams that want search, extraction and research behind one simple credit system.
+
+### Firecrawl
+Firecrawl comes at search from the other side: its core is scraping, so it is strongest when you need the full, clean text of pages, not just links. You can run it yourself from a Docker Compose file, which none of the others offer.
+What I liked:
+- Open source under AGPL-3.0, with 198k GitHub stars.
+- Scraping is 1 credit a page, and big plans cut the unit cost sharply.
+- Crawl, Map, Monitor and Agent endpoints beyond search.
+What I didn't:
+- Monthly plans mean paying for credits you may not use.
+- The cloud version has features the self-hosted build lacks.
+- JSON output adds 4 credits per page.
+Best for: agents that need full page content at volume, or teams that must self-host.
+
+## Which to choose
+- Choose Exa if result relevance matters most and you want a flat price per call with no plan.
+- Choose Tavily for one search-and-extract API with a simple credit system and SOC 2 badges.
+- Choose Firecrawl if your agent needs full page content at volume or you need to self-host.
+Result quality depends on your queries, so run the same 50 real questions through each free tier before you commit.
+
+## Where viaSocket fits
+A search API tells an agent what is on the web. viaSocket lets it act on what it found: it turns 2,300+ app actions into tools, so results can become a CRM record, a Slack message or a row in a sheet.
+What viaSocket offers:
+- 2,300+ app integrations as agent tools, with managed authentication (features).
+- Browser actions: an agent can open pages, click, fill in forms and read sites with no API (browser actions).
+- AI agents and MCP access for compatible AI clients.
+- Triggers, webhooks and schedules, with retries, execution monitoring and replay.
+- Free plan: 100,000 tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- A lead research agent that searches the web for a new signup's company and enriches the CRM record.
+- A competitor watch that searches for pricing changes each week and posts a summary to Slack.
+- An agent that logs into a portal with no API, reads the latest figures and saves them to a sheet.
+Turn agent research into action with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: What is the difference between Exa and Tavily?
+A: Exa is a search engine API priced per request, from $4 per 1,000 Lite searches. Tavily bundles search, extract, crawl and research behind one credit system, at 1 credit per basic search.
+Q: Is Firecrawl a search API?
+A: It has a search endpoint at 2 credits per 10 results, but its core is scraping and crawling full pages into clean text for agents.
+Q: Which web search API has a free tier?
+A: All three. Exa gives $10 of credit a month, while Tavily and Firecrawl each give 1,000 credits a month.
+Q: Can I self-host Firecrawl, Exa or Tavily?
+A: Only Firecrawl. It is AGPL-3.0 with a Docker Compose setup, though the cloud version has extra features. Exa and Tavily are hosted APIs.
+Q: What is the best web search API for AI agents?
+A: It depends on the job: Exa for AI-native search at a flat price per call, Tavily for search plus extraction in one credit system, Firecrawl for full page content or self-hosting.
+
+## Sources
+- Exa: pricing https://exa.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, MCP server on GitHub https://github.com/exa-labs/exa-mcp-server?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Tavily: homepage https://www.tavily.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://www.tavily.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, credits docs https://docs.tavily.com/documentation/api-credits?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Firecrawl: pricing https://www.firecrawl.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/firecrawl/firecrawl?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
