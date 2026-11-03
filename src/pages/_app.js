@@ -8,12 +8,16 @@ import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
 import '../globals.scss';
 import Head from 'next/head';
 import { getCurrentEnvironment } from '@/utils/storageHelper';
+import { mwSend, mwVariant } from '@/utils/mwExperiments';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {
     if (typeof document !== 'undefined') {
       import('bootstrap/dist/js/bootstrap.bundle.min.js');
     }
+    // Available to every page. Nothing is assigned or recorded until a page calls them.
+    window.mwVariant = mwVariant;
+    window.mwSend = mwSend;
   }, []);
 
   return (

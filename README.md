@@ -57,3 +57,26 @@ The slug is the folder name: letters, numbers, hyphens, or underscores. Routes, 
 - `/discovery/llms.txt` is a plain-text index of those text files
 
 `/discovery/sitemap.xml` includes the compare index and each comparison. `/discovery/robots.txt` allows them. Ship the folder on the next build and the page is live. `content/compare/sample/` is a placeholder so the routes can be reviewed.
+
+## Experiments
+
+`src/utils/mwExperiments.js` is loaded once from `src/pages/_app.js`, so every page can record an experiment the owner defines in the middleware. The module does not change what a page shows, and it does not start an experiment.
+
+A page imports the functions, or calls the same functions on `window` after the app loads:
+
+```js
+import { mwVariant, mwSend } from '@/utils/mwExperiments';
+
+const variant = mwVariant('experiment-name');
+mwSend('exposure', { experiment: 'experiment-name', variant });
+mwSend('conversion', { experiment: 'experiment-name', variant, name: 'signup' });
+```
+
+`mwVariant(experiment, variants)` returns a stable variant for this browser (`control` or `treatment` when `variants` is omitted). On the server it returns `null`. `mwSend('exposure' | 'conversion', fields)` POSTs JSON to the events URL and sends the key in the `x-mw-key` header. If either variable is missing, `mwSend` does nothing.
+
+Set both variables in the site environment. Do not put the values in source. Next.js inlines `NEXT_PUBLIC_` variables when the app is built:
+
+- `NEXT_PUBLIC_MW_EVENTS_URL` — events ingest URL
+- `NEXT_PUBLIC_MW_KEY` — ingest key
+
+Local dev reads `.env.local` via `npm run dev`. The production build reads `.env.production` via `npm run build:production`. Use a write-only ingest key; the value is included in the browser bundle.
