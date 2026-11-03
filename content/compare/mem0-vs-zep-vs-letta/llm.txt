@@ -1,0 +1,111 @@
+# Mem0 vs Zep vs Letta: which agent memory layer fits
+
+URL: https://viasocket.com/discovery/compare/mem0-vs-zep-vs-letta
+Author: Jatin Kashiv (https://viasocket.com/discovery/user/79503)
+Publisher: viaSocket Discovery
+
+## Short answer
+Mem0, Zep and Letta all give an AI agent memory, in different ways. Mem0 is a memory layer you add to an existing agent. Zep builds a graph that tracks how facts change over time. Letta is an agent runtime where the agent edits its own memory. Mem0 and Letta are Apache-2.0; Zep's open-source part is Graphiti.
+
+## At a glance
+- Mem0 (https://mem0.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Memory layer for existing agents and apps; Free plan: 50,000 adds, 10,000 retrievals a month; Paid from: Custom, through sales; Self-host: Yes, Apache-2.0
+- Zep (https://www.getzep.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Managed context layer on a temporal graph; Free plan: 10,000 credits a month, 2 projects; Paid from: $125 a month (Flex); Self-host: Graphiti only, Apache-2.0
+- Letta (https://www.letta.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Runtime for stateful agents that manage memory; Free plan: 3 stateful agents, bring your own keys; Paid from: $20 a month (Pro or API plan); Self-host: Yes, Apache-2.0
+
+## Features
+- Approach: Mem0: Memory layer added to your agent | Zep: Temporal knowledge graph of facts | Letta: Agent runtime with self-edited memory
+- Storage: Mem0: Vector embeddings | Zep: Graph nodes and edges | Letta: Agent state in memory blocks
+- Open source: Mem0: Apache-2.0 SDK and server | Zep: Graphiti, Apache-2.0; Zep is managed | Letta: Apache-2.0
+- Self-host: Mem0: Yes, Docker server | Zep: Graphiti only; Zep is cloud or BYOC | Letta: Yes, letta server
+- Time-aware facts: Mem0: Not a headline feature | Zep: Yes, timestamps and supersession | Letta: No temporal graph
+- Fits an existing agent: Mem0: Yes, drop-in API | Zep: Yes, via API | Letta: Agent runs inside Letta
+- Enterprise extras: Mem0: SSO, audit logs, on-prem | Zep: SOC 2 Type II, HIPAA BAA, BYOC | Letta: RBAC, SAML/OIDC SSO
+- GitHub stars: Mem0: 68.3k | Zep: 32.4k (Graphiti) | Letta: 25.3k
+From Mem0 on GitHub, Graphiti on GitHub, Letta on GitHub, Mem0 pricing, Zep pricing and Letta pricing.
+
+## Pricing
+The three bill in different units: adds and retrievals (Mem0), credits per episode written (Zep) and agents plus tool time (Letta). That makes a like-for-like price hard, so the rows below show each unit.
+- Free: Mem0: Free. 50,000 adds, 10,000 retrievals (own LLM key) | Zep: Free, $0. 10,000 credits, 2 projects | Letta: Free, $0. 3 agents, bring your own keys
+- Entry paid plan: Mem0: Custom, through sales | Zep: Flex, $125 a month, 50,000 credits | Letta: Pro, $20 a month, or API plan, $20
+- Rate that drives the bill: Mem0: Usage beyond limits billed, with a cap you set | Zep: $25 per 10,000 extra credits (Flex) | Letta: $0.10 per active agent a month; $0.00015 per second of tool time
+- Typical volume: Mem0: Not listed | Zep: 25,000 episodes of 640 bytes fit in Flex's 50,000 credits | Letta: $30 a month for 100 active agents, before LLM usage
+- Enterprise: Mem0: Custom: SSO, audit logs, on-prem | Zep: Custom: SOC 2 Type II, HIPAA BAA, BYOC | Letta: Custom: RBAC, SAML/OIDC SSO
+Prices from mem0.ai/pricing, getzep.com/pricing and Letta pricing. Zep bills 1 credit per 350 bytes, so a 640-byte episode is 2 credits. Letta: $20 plus $0.10 times 100 agents.
+
+## Mem0 vs Zep vs Letta: what they're like to use
+By Jatin Kashiv. The real choice is how much of your stack you hand over: a small API (Mem0), a graph you run or rent (Zep) or the agent runtime (Letta).
+
+### Mem0
+The lightest of the three to adopt. You keep your own agent and call a small API to store and retrieve what users have said, which is why it reads as the default pick for adding memory to something that already works.
+What I liked:
+- A small API: a few calls cover most use cases.
+- Apache-2.0 SDK plus a Docker server you can self-host.
+- Largest community of the three, at 68.3k GitHub stars.
+What I didn't:
+- Memories are vector embeddings, so they are hard to read or audit by eye.
+- No built-in forgetting or decay for stale facts.
+- Mem0's published benchmark scores are from its managed platform, which Mem0 says has optimizations the open-source SDK lacks.
+Best for: teams that want persistent per-user memory in an existing agent with minimal code changes.
+
+### Zep
+Zep's pitch is that facts change. Its graph records when something was true, so an agent can tell a customer's old address from the current one. That depth comes with more infrastructure than the other two.
+What I liked:
+- Facts carry timestamps and supersession, so history stays queryable.
+- Retrieval, storage and users cost no credits; you pay for episodes written.
+- Graphiti runs on Neo4j, FalkorDB or Amazon Neptune.
+What I didn't:
+- Self-hosting means running a graph database yourself.
+- Self-serve paid plans start at $125 a month.
+- Graphiti's bundled MCP server is a reference build with no authentication.
+Best for: agents that must track how facts change over time and can carry a graph database.
+
+### Letta
+Letta is less a memory add-on than a place your agent lives. The agent edits its own memory blocks, with core memory kept in context and the rest paged in on demand, so you adopt its runtime along with its memory.
+What I liked:
+- The agent edits its own memory blocks, and blocks can be shared across agents.
+- A visual environment shows memory changing in real time.
+- Entry price of $20 a month, with a free tier to start.
+What I didn't:
+- You adopt a whole framework, a heavier integration than a memory API.
+- Switching agent architectures means exporting and reconfiguring agents.
+- Self-editing memory can make debugging harder.
+Best for: long-running stateful agents built from scratch that should manage their own context.
+
+## Which to choose
+- Choose Mem0 to add memory to an agent you already have, with the least code and a large community.
+- Choose Zep if your agent has to reason about what was true when, and you can run or buy a graph.
+- Choose Letta if you are building a long-running agent and want it to manage its own context.
+Memory quality depends on your data, so run each against a sample of your real conversations before committing.
+
+## Where viaSocket fits
+A memory layer stores what an agent knows. viaSocket gives the agent apps to act in, so it can use remembered context to do work. They sit side by side, whichever memory layer you pick.
+What viaSocket offers:
+- 2,300+ app integrations as agent tools, with managed authentication (features).
+- Browser actions: your agent can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- AI agents and MCP support for compatible AI clients.
+- Triggers, webhooks and schedules, with retries, execution replay and monitoring.
+- Free plan: 100K tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- A support agent that recalls a customer's history, then updates the CRM and posts in Slack.
+- A sales assistant that remembers account context and drafts follow-ups in your email app.
+- An agent that reads a vendor portal with no API and saves what changed to a sheet.
+Give your agent 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: What is the difference between Mem0 and Zep?
+A: Mem0 stores memories as vector embeddings behind a small API. Zep stores facts in a temporal graph that records when each fact was true, which suits data that changes.
+Q: Is Letta the same as MemGPT?
+A: Letta is the platform that grew out of MemGPT. Its agents edit their own memory blocks, and the open-source runtime is Apache-2.0.
+Q: Can I self-host Mem0, Zep or Letta?
+A: Mem0 and Letta both offer self-hosting under Apache-2.0. For Zep, only Graphiti, its graph framework, is self-hosted; Zep itself is managed or runs in your cloud.
+Q: How much does agent memory cost?
+A: Each has a free tier. Paid entry is $20 a month on Letta and $125 a month on Zep Flex. Mem0 lists no self-serve paid price, only a custom plan.
+Q: Can I compare them by benchmark score?
+A: Not reliably. Mem0 says its managed platform scores 92.5 on LoCoMo and 94.4 on LongMemEval, but those are vendor-published and Mem0 notes the open-source SDK lacks some optimizations. Test finalists on your own conversations.
+
+## Sources
+- Mem0: pricing https://mem0.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/mem0ai/mem0?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Zep: pricing https://www.getzep.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Graphiti on GitHub https://github.com/getzep/graphiti?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Letta: pricing https://docs.letta.com/letta-code/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/letta-ai/letta?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, forum comparison https://forum.letta.com/t/agent-memory-letta-vs-mem0-vs-zep-vs-cognee/88?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Independent: Mem0 vs Letta vs Zep on DEV https://dev.to/plur9/mem0-vs-letta-vs-zep-which-should-you-use-for-agent-memory-1n8m?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
