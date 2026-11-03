@@ -1,0 +1,23 @@
+name: status-check
+
+on:
+  pull_request:
+
+jobs:
+  status-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check STATUS.md stayed current
+        env:
+          STATUS_BASE_REF: ${{ github.event.pull_request.base.sha }}
+        run: npm run status:check
