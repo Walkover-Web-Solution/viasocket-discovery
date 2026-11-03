@@ -1,0 +1,112 @@
+# E2B vs Daytona vs Modal: which sandbox for AI-generated code
+
+URL: https://viasocket.com/discovery/compare/e2b-vs-daytona-vs-modal
+Author: Vaishali Raghuvanshi (https://viasocket.com/discovery/user/6485)
+Publisher: viaSocket Discovery
+
+## Short answer
+E2B, Daytona and Modal run AI-generated code in isolated cloud sandboxes. E2B uses Firecracker microVMs and can be self-hosted. Daytona adds GPU, Windows and macOS sandboxes. Modal bundles sandboxes into its GPU cloud. A 2 vCPU, 4 GiB sandbox costs about $0.17 an hour on E2B or Daytona and $0.24 on Modal.
+
+## At a glance
+- E2B (https://e2b.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Firecracker microVM sandboxes for agent code; Free plan: $100 one-time credit, 1-hour sessions; Paid from: $150 a month plus usage (Pro); Self-host: Yes, Apache-2.0
+- Daytona (https://www.daytona.io/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Sandboxes for agents, including GPU, Windows, macOS; Free plan: $200 free compute, no card; Paid from: Pay as you go, per second; Self-host: No; public repo archived, BYOC on Enterprise
+- Modal (https://modal.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Serverless GPU cloud with sandboxes built in; Free plan: $30 credits a month, 3 seats; Paid from: $250 a month plus compute (Team); Self-host: No, managed cloud only
+
+## Features
+- Default isolation: E2B: Firecracker microVM | Daytona: Linux container | Modal: gVisor
+- Stronger option: E2B: Already a microVM | Daytona: VM sandboxes | Modal: VM runtime with own kernel
+- GPU sandboxes: E2B: No | Daytona: Yes, up to 8 GPUs | Modal: Yes, gVisor only
+- Windows or macOS: E2B: No | Daytona: Yes | Modal: No
+- Max single run: E2B: 1 hour free, 24 hours Pro | Daytona: Set by auto-stop rules | Modal: 24 hours (default 5 min)
+- Pause keeps memory: E2B: Yes, kept indefinitely | Daytona: VM sandboxes only | Modal: Filesystem snapshots
+- SDKs: E2B: Python, JS/TS | Daytona: Python, TS, Ruby, Go, Java | Modal: Python, JS, Go
+- Open source: E2B: Yes, Apache-2.0 | Daytona: Archived; now private | Modal: No
+From E2B infra on GitHub, E2B persistence docs, Daytona sandbox docs, Daytona on GitHub and Modal sandbox docs.
+
+## Pricing
+All three bill compute per second. E2B and Daytona list the same CPU and memory rates; Modal charges sandboxes three times its list rate. Plan fees are what really separates them.
+- Free: E2B: Hobby, $0. $100 one-time credit, 20 concurrent | Daytona: $200 free compute, no card | Modal: Starter, $0. $30 credits a month
+- Entry paid plan: E2B: Pro, $150 a month plus usage | Daytona: No plan fee, pay as you go | Modal: Team, $250 a month plus compute
+- CPU and memory: E2B: $0.0504 per vCPU-hour, $0.0162 per GiB-hour | Daytona: $0.0504 per vCPU-hour, $0.0162 per GiB-hour | Modal: $0.1419 per core (2 vCPU) hour, $0.024 per GiB-hour
+- 2 vCPU, 4 GiB for 1 hour: E2B: $0.17 | Daytona: $0.17 | Modal: $0.24
+- H100 GPU: E2B: Not offered | Daytona: $2.27 an hour (preemptible) | Modal: $3.95 an hour
+- Enterprise: E2B: Custom, $3,000 a month minimum, BYOC | Daytona: Custom: SSO, audit logs, BYOC | Modal: Custom, volume discounts
+Prices from e2b.dev/pricing, daytona.io/pricing and modal.com/pricing. Hourly figures are the per-second rates times 3,600; Modal bills a physical core, which equals 2 vCPU.
+
+## E2B vs Daytona vs Modal: what they're like to use
+By Vaishali Raghuvanshi. Rates are close, so the real choice is isolation, GPUs and how much platform you want around the sandbox.
+
+### E2B
+E2B feels built for one job: give an agent a disposable computer, fast, from a two-line SDK call. What stood out to me is pause and resume, which keeps memory and running processes, so an agent can pick up exactly where it stopped.
+What I liked:
+- One Firecracker microVM per sandbox, with its own kernel.
+- Paused sandboxes keep memory and processes, and are kept indefinitely.
+- Open source infrastructure you can run on AWS, GCP, Azure or one Linux host.
+What I didn't:
+- No GPU sandboxes on any plan.
+- Free sessions stop at 1 hour; Pro caps a run at 24 hours.
+- Pro is $150 a month before any usage.
+Best for: agent products that run untrusted code at scale and want strong isolation or a self-hosted option.
+
+### Daytona
+Daytona reads like a full workspace for an agent rather than a code runner. You'll notice the range: Linux containers by default, plus VM, Windows, macOS and GPU sandboxes, with SDKs in five languages.
+What I liked:
+- Same CPU and memory rates as E2B, with no monthly plan fee.
+- GPU sandboxes, from $2.27 an hour for a preemptible H100.
+- SDKs for Python, TypeScript, Ruby, Go and Java.
+What I didn't:
+- Default sandboxes are containers; pick a VM for stronger isolation.
+- The public repo is archived; development is now private.
+- Default sandbox size is small (1 vCPU, 1 GB) until you raise it.
+Best for: agents that need a full machine, a GPU or a non-Linux desktop, billed purely by usage.
+
+### Modal
+Modal is the pick if sandboxes are one piece of a bigger Python workload. Sandboxes share the same cloud as your functions, GPUs and storage, so an agent can run code next to the model jobs it depends on.
+What I liked:
+- GPU sandboxes on the same rates as Modal's regular GPU compute.
+- Free credits refill every month.
+- Filesystem snapshots carry work past the 24-hour limit.
+What I didn't:
+- Sandbox CPU and memory are billed at 3x Modal's list rate.
+- Default sandbox lifetime is 5 minutes; you set a timeout up to 24 hours.
+- GPU sandboxes only run on gVisor, not the VM runtime.
+Best for: teams already on Modal, or agents whose code needs GPUs beside other serverless jobs.
+
+## Which to choose
+- Choose E2B for microVM isolation, long pauses that keep memory, or a sandbox stack you can self-host.
+- Choose Daytona for GPU, Windows or macOS sandboxes on pure usage billing with no plan fee.
+- Choose Modal if your agent's code runs next to GPU jobs and serverless functions you already run there.
+Idle time drives the bill more than the rate card, so check how each one stops or pauses a sandbox you are not using.
+
+## Where viaSocket fits
+A sandbox runs an agent's code. viaSocket connects the agent to your apps, turning 2,300+ app actions into tools so results land in your CRM, sheet or inbox.
+What viaSocket offers:
+- 2,300+ app integrations as agent tools, with managed authentication (features).
+- Browser actions: an agent can open pages, click, fill in forms and read sites with no API (browser actions).
+- AI agents and MCP access for compatible AI clients.
+- Triggers, webhooks and schedules, with retries, execution monitoring and replay.
+- Free plan: 100,000 tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- An analyst agent that runs Python in a sandbox, then posts the chart to Slack and logs it to a sheet.
+- A data-cleanup agent that pulls CRM records, fixes them in code and writes them back.
+- An agent that reads a supplier portal with no API, computes the changes and emails a summary.
+Connect your agent to 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: Is E2B cheaper than Daytona?
+A: Per second, no: both list $0.0504 per vCPU-hour and $0.0162 per GiB-hour. The difference is the plan fee: E2B Pro is $150 a month, while Daytona is pay as you go.
+Q: Which AI sandbox supports GPUs?
+A: Daytona and Modal do. E2B sandboxes are CPU only on every plan.
+Q: Is Daytona still open source?
+A: Its public GitHub repo says core development moved to a private codebase and the repo is no longer maintained. E2B's sandbox infrastructure is Apache-2.0 and self-hostable.
+Q: What is the best AI code sandbox?
+A: It depends on the workload: E2B for microVM isolation and self-hosting, Daytona for GPU or desktop sandboxes on usage billing, Modal for code that runs beside GPU jobs.
+Q: Why are Modal sandboxes more expensive?
+A: Modal bills sandbox CPU and memory at three times its standard rate, so a 2 vCPU, 4 GiB sandbox costs about $0.24 an hour against $0.17 on E2B or Daytona.
+
+## Sources
+- E2B: pricing https://e2b.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, infra on GitHub https://github.com/e2b-dev/infra?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, SDK on GitHub https://github.com/e2b-dev/E2B?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, persistence docs https://docs.e2b.dev/sandbox/persistence?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Daytona: pricing https://www.daytona.io/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, sandbox docs https://www.daytona.io/docs/en/sandboxes?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/daytonaio/daytona?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Modal: pricing https://modal.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, sandbox docs https://modal.com/docs/guide/sandbox?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Other comparisons: Fly.io sandbox comparison https://fly.io/learn/sprites-vs-e2b-vs-modal-vs-daytona/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
