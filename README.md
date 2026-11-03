@@ -34,3 +34,22 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Experiments
+
+A/B recording lives in one shared module, `src/utils/experiments.js`. The running UI is the Pages Router (`src/pages`), so any page imports the helpers from there. No page calls them yet: nothing on screen changes, and no experiment is started. The owner defines experiments in the middleware.
+
+```js
+import { mwVariant, mwSend } from '@/utils/experiments';
+
+const variant = await mwVariant('experiment-key');
+await mwSend('exposure', { experiment: 'experiment-key', variant });
+await mwSend('conversion', { experiment: 'experiment-key', variant });
+```
+
+`mwVariant` returns `null` until the middleware assigns a variant. It does not pick one itself. Set these in the environment before building. Next.js inlines `NEXT_PUBLIC_` values at build time, and the values must not be written into source:
+
+- `NEXT_PUBLIC_MW_EVENTS_URL` — events URL
+- `NEXT_PUBLIC_MW_KEY` — write key sent as `Authorization: Bearer`
+
+Put them in `.env.local` for local `next dev`. The production image runs `npm run build:production`, which loads `.env.production`.
