@@ -1,4 +1,4 @@
-**Plan:** Not supplied · **Last updated:** 2026-11-03 · **Reviewed up to commit:** `9ca970e9ad88a66b3ff3f6dc2a4748164f0ee319`
+**Plan:** Not supplied · **Last updated:** 2026-11-03 · **Reviewed up to commit:** `8cb393452ad6e06aa87d51358aa706e536861286`
 
 ## Legend
 
@@ -72,4 +72,5 @@ These are in the tree and were not named by a plan. Built code that this pass di
 
 ## Change log
 
+- 2026-11-03 · cursor agent · Set "Reviewed up to commit" to `8cb3934`, the commit that added the tracker. This line cannot name its own commit: writing the hash would change it. · no row changes
 - 2026-11-03 · cursor agent · Added this scorecard, `npm run status:check`, and the PR workflow. No plan was found, so phases, scope items, and plan tests are ⛔. Code that exists is 🟡 or 🙈. The sample compare folder is ⬜. · ⛔ plan sections; no ✅
