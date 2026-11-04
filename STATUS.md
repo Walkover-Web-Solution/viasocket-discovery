@@ -1,4 +1,4 @@
-**Plan:** none found · **Last updated:** 2026-11-04 · **Reviewed up to commit:** `9ca970e9ad88a66b3ff3f6dc2a4748164f0ee319`
+**Plan:** none found · **Last updated:** 2026-11-04 · **Reviewed up to commit:** `5fb229cb6da1ecaed9666398a9448e455cb7073b`
 
 ## Legend
 
@@ -108,8 +108,9 @@ Statuses below come from files in this repo at the reviewed commit. Built and no
 
 | Item | Status | Notes |
 | --- | --- | --- |
-| Progress scorecard | 🟡 | `STATUS.md`, `npm run status:check`, and `.github/workflows/status-check.yml`. Local pass/fail is in the change log. Not used by people yet. |
+| Progress scorecard | 🟡 | `STATUS.md`, `npm run status:check`, and `.github/workflows/status-check.yml`. Each code commit must update this file, or say `[no status]`. Local pass/fail is in the change log. Not used by people yet. |
 
 ## Change log
 
+- 2026-11-04 · Cursor Agent · The status check fails a commit that touches `src/`, `lib/`, `models/`, or `scripts/` and does not update this file, unless that commit says `[no status]`. Reviewed hash moved to the scorecard commit. · 🟡 progress scorecard note
 - 2026-11-04 · Cursor Agent · Added the scorecard, the status check, and the pull-request workflow. No plan document was found, so phases and scope stay blocked. Code that exists is listed above as built, not proven. · ⛔ plan sections; 🟡 34; 🙈 2; ⬜ test suite; nothing ✅

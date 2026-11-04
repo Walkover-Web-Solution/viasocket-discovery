@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
- * Fail when code directories changed against the base branch but STATUS.md
- * did not. A commit message containing "[no status]" waives that for
- * committed changes only. Always list commits that touched code after the
- * "Reviewed up to commit" hash in STATUS.md.
+ * Fail when a commit since the base branch touches a code directory and does
+ * not touch STATUS.md, unless that commit message contains "[no status]".
+ * Uncommitted code fails too, and the waiver does not cover it.
+ * Always list commits that touched code after the "Reviewed up to commit"
+ * hash in STATUS.md.
  *
  * Watched directories: src/, lib/, models/, scripts/.
  * There is no migrations/ directory in this repo. content/ is not watched:
@@ -59,12 +60,6 @@ function resolveBase() {
   return null;
 }
 
-function namesAgainstBase(base) {
-  return lines(
-    git(["diff", "--name-only", `${base}...HEAD`, "--", ...CODE_DIRS, STATUS_FILE]),
-  );
-}
-
 function namesAgainstHead() {
   const tracked = lines(git(["diff", "--name-only", "HEAD", "--", ...CODE_DIRS, STATUS_FILE]));
   const untracked = lines(
@@ -111,9 +106,20 @@ function listCodeCommits(hash) {
   return lines(out);
 }
 
-function committedMessages(base) {
-  const out = git(["log", "--format=%B%x1e", `${base}..HEAD`]);
-  return out.split("\x1e").map((message) => message.trim()).filter(Boolean);
+function isMerge(hash) {
+  const line = tryGit(["rev-list", "--parents", "-n", "1", hash]);
+  if (!line) return false;
+  return line.split(/\s+/).length > 2;
+}
+
+function commitsSince(base) {
+  const hashes = lines(git(["rev-list", "--reverse", `${base}..HEAD`]));
+  return hashes.filter((hash) => !isMerge(hash)).map((hash) => {
+    const names = lines(git(["diff-tree", "--no-commit-id", "--name-only", "-r", hash]));
+    const subject = git(["log", "-1", "--format=%h %s", hash]).trim();
+    const message = git(["log", "-1", "--format=%B", hash]);
+    return { hash, subject, message, names };
+  });
 }
 
 function main() {
@@ -139,29 +145,29 @@ function main() {
     process.exit(1);
   }
 
-  let committed = [];
+  let commits = [];
   try {
-    committed = namesAgainstBase(base);
+    commits = commitsSince(base);
   } catch (error) {
-    console.error(`status check failed: could not diff against ${base}.`);
+    console.error(`status check failed: could not read commits since ${base}.`);
     console.error(error.stderr?.toString?.() || error.message);
     process.exit(1);
   }
 
   const dirty = namesAgainstHead();
-  const codeCommitted = committed.filter(isCodePath);
   const codeDirty = [...new Set(dirty.filter(isCodePath))];
-  const statusCommitted = committed.some(isStatusPath);
   const statusDirty = dirty.some(isStatusPath);
 
-  const waiver = committedMessages(base).some((message) => message.includes(WAIVER));
-
   const failures = [];
-  if (codeCommitted.length > 0 && !statusCommitted && !waiver) {
-    failures.push(
-      `Code committed since ${base} changed and ${STATUS_FILE} did not. Commit messages do not contain ${WAIVER}.`,
-    );
-    for (const file of codeCommitted) failures.push(`  ${file}`);
+  for (const commit of commits) {
+    const code = commit.names.filter(isCodePath);
+    const status = commit.names.some(isStatusPath);
+    if (code.length > 0 && !status && !commit.message.includes(WAIVER)) {
+      failures.push(
+        `${commit.subject} changed code and did not change ${STATUS_FILE}. The message does not contain ${WAIVER}.`,
+      );
+      for (const file of code) failures.push(`  ${file}`);
+    }
   }
   if (codeDirty.length > 0 && !statusDirty) {
     failures.push(
