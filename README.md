@@ -60,4 +60,6 @@ The slug is the folder name: letters, numbers, hyphens, or underscores. Routes, 
 
 ## Progress
 
-`STATUS.md` is the scorecard. `npm run status:check` fails when a commit touches `src/`, `lib/`, `models/`, or `scripts/` and does not update `STATUS.md` in that same commit, unless that commit message contains `[no status]`. The rule for updating the scorecard is in `AGENTS.md`.
+`STATUS.md` is the scorecard for this repo. Every change to a feature, screen, rule, table, or decision updates that file in the same change: the row, a change-log line, and the "Reviewed up to commit" hash. Update it for teammates who didn't.
+
+`npm run status:check` fails when a commit touches `src/`, `lib/`, `models/`, or `scripts/` and does not update `STATUS.md` in that same commit, unless that commit message contains `[no status]`. The command still lists every commit that touched those directories after the reviewed hash. Pull requests run this check. The rule is in `AGENTS.md`.

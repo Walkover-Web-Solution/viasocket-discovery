@@ -2,108 +2,103 @@
 /**
  * Fail when a commit since the base branch touches a code directory and does
  * not touch STATUS.md, unless that commit message contains "[no status]".
- * Uncommitted code fails too, and the waiver does not cover it.
+ * One waiver does not cover a different commit. Uncommitted code fails too,
+ * and the waiver does not cover it.
  * Always list commits that touched code after the "Reviewed up to commit"
  * hash in STATUS.md.
  *
  * Watched directories: src/, lib/, models/, scripts/.
- * There is no migrations/ directory in this repo. content/ is not watched:
- * README says a new compare page is a new folder and does not need a code change.
- *
- * Base ref: STATUS_BASE_REF, else origin/$GITHUB_BASE_REF, else origin/main, else main.
+ * There is no migrations/ directory. content/ is not watched.
+ * Rename and copy detection is on, so a renamed code file still counts.
+ * Base ref: STATUS_BASE_REF (must resolve), else origin/$GITHUB_BASE_REF,
+ * else origin/main, else main.
  */
 
 import { execFileSync } from "node:child_process";
-import fs from "node:fs";
-import path from "node:path";
+import { existsSync, readFileSync } from "node:fs";
 
 const CODE_DIRS = ["src", "lib", "models", "scripts"];
 const STATUS_FILE = "STATUS.md";
 const WAIVER = "[no status]";
 
 function git(args) {
-  return execFileSync("git", args, {
+  return execFileSync("git", ["-c", "core.quotepath=false", ...args], {
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
-  });
+  }).trim();
 }
 
 function tryGit(args) {
   try {
-    return git(args).trim();
+    return git(args);
   } catch {
     return null;
   }
 }
 
 function lines(text) {
+  if (!text) return [];
   return text
     .split("\n")
     .map((line) => line.trim())
     .filter(Boolean);
 }
 
+function normalize(file) {
+  return file.replace(/\\/g, "/").replace(/^\.\//, "");
+}
+
+function isCodePath(file) {
+  const normalized = normalize(file);
+  return CODE_DIRS.some(
+    (dir) => normalized === dir || normalized.startsWith(`${dir}/`),
+  );
+}
+
+function isStatusPath(file) {
+  return normalize(file) === STATUS_FILE;
+}
+
+function changedPaths(args) {
+  const paths = [];
+  for (const line of lines(tryGit(args))) {
+    const parts = line.split("\t");
+    const status = parts[0] || "";
+    if (status.startsWith("R") || status.startsWith("C")) {
+      if (parts[1]) paths.push(parts[1]);
+      if (parts[2]) paths.push(parts[2]);
+    } else if (parts[1]) {
+      paths.push(parts[1]);
+    }
+  }
+  return paths;
+}
+
+function unique(paths) {
+  return [...new Set(paths)];
+}
+
 function resolveBase() {
+  if (process.env.STATUS_BASE_REF) {
+    const ref = process.env.STATUS_BASE_REF;
+    if (!tryGit(["rev-parse", "--verify", "--quiet", `${ref}^{commit}`])) {
+      console.error(`STATUS_BASE_REF does not resolve to a commit: ${ref}`);
+      process.exit(1);
+    }
+    return ref;
+  }
+
   const candidates = [];
-  if (process.env.STATUS_BASE_REF) candidates.push(process.env.STATUS_BASE_REF);
   if (process.env.GITHUB_BASE_REF) {
     candidates.push(`origin/${process.env.GITHUB_BASE_REF}`);
     candidates.push(process.env.GITHUB_BASE_REF);
   }
   candidates.push("origin/main", "main");
 
-  for (const candidate of candidates) {
-    if (tryGit(["rev-parse", "--verify", "--quiet", `${candidate}^{commit}`])) {
-      return candidate;
-    }
+  for (const ref of candidates) {
+    if (tryGit(["rev-parse", "--verify", "--quiet", `${ref}^{commit}`])) return ref;
   }
   return null;
-}
-
-function namesAgainstHead() {
-  const tracked = lines(git(["diff", "--name-only", "HEAD", "--", ...CODE_DIRS, STATUS_FILE]));
-  const untracked = lines(
-    git(["ls-files", "--others", "--exclude-standard", "--", ...CODE_DIRS, STATUS_FILE]),
-  );
-  return [...tracked, ...untracked];
-}
-
-function isCodePath(file) {
-  return CODE_DIRS.some((dir) => file === dir || file.startsWith(`${dir}/`));
-}
-
-function isStatusPath(file) {
-  return file === STATUS_FILE;
-}
-
-function readReviewedHash() {
-  const statusPath = path.join(process.cwd(), STATUS_FILE);
-  if (!fs.existsSync(statusPath)) {
-    return { error: `${STATUS_FILE} is missing.` };
-  }
-  const text = fs.readFileSync(statusPath, "utf8");
-  const match = text.match(/Reviewed up to commit:\*\*\s*`([0-9a-fA-F]{7,40})`/);
-  if (!match) {
-    return {
-      error: `${STATUS_FILE} has no "Reviewed up to commit" hash in the header.`,
-    };
-  }
-  const resolved = tryGit(["rev-parse", "--verify", "--quiet", `${match[1]}^{commit}`]);
-  if (!resolved) {
-    return { error: `Reviewed commit ${match[1]} is not in this repository.` };
-  }
-  return { hash: resolved, written: match[1] };
-}
-
-function listCodeCommits(hash) {
-  const out = git([
-    "log",
-    "--format=%h %s",
-    `${hash}..HEAD`,
-    "--",
-    ...CODE_DIRS,
-  ]);
-  return lines(out);
 }
 
 function isMerge(hash) {
@@ -113,35 +108,63 @@ function isMerge(hash) {
 }
 
 function commitsSince(base) {
-  const hashes = lines(git(["rev-list", "--reverse", `${base}..HEAD`]));
+  const hashes = lines(tryGit(["rev-list", "--reverse", `${base}..HEAD`]));
   return hashes.filter((hash) => !isMerge(hash)).map((hash) => {
-    const names = lines(git(["diff-tree", "--no-commit-id", "--name-only", "-r", hash]));
-    const subject = git(["log", "-1", "--format=%h %s", hash]).trim();
+    const names = changedPaths([
+      "diff-tree",
+      "--no-commit-id",
+      "--name-status",
+      "-M",
+      "-r",
+      hash,
+    ]);
+    const subject = git(["log", "-1", "--format=%h %s", hash]);
     const message = git(["log", "-1", "--format=%B", hash]);
     return { hash, subject, message, names };
   });
 }
 
 function main() {
+  if (!existsSync(STATUS_FILE)) {
+    console.error(`${STATUS_FILE} is missing.`);
+    process.exit(1);
+  }
+
+  const statusText = readFileSync(STATUS_FILE, "utf8");
+  const reviewedMatch = statusText.match(
+    /\*\*Reviewed up to commit:\*\*\s*`([0-9a-fA-F]{7,40})`/,
+  );
+  if (!reviewedMatch) {
+    console.error(
+      'STATUS.md has no "**Reviewed up to commit:** `<hash>`" header.',
+    );
+    process.exit(1);
+  }
+
+  const reviewed = reviewedMatch[1];
+  if (!tryGit(["rev-parse", "--verify", "--quiet", `${reviewed}^{commit}`])) {
+    console.error(`Reviewed up to commit \`${reviewed}\` is not in this repository.`);
+    process.exit(1);
+  }
+
+  const reviewedFull = git(["rev-parse", `${reviewed}^{commit}`]);
+  const codeLog = tryGit([
+    "log",
+    "--format=%h %s",
+    `${reviewedFull}..HEAD`,
+    "--",
+    ...CODE_DIRS,
+  ]);
+
+  console.log(`Reviewed up to commit: ${reviewedFull}`);
+  console.log("Commits that touched code since that commit:");
+  console.log(codeLog ? codeLog : "(none)");
+
   const base = resolveBase();
   if (!base) {
     console.error(
       "status check failed: could not resolve a base branch. Set STATUS_BASE_REF.",
     );
-    process.exit(1);
-  }
-
-  const reviewed = readReviewedHash();
-  if (reviewed.hash) {
-    const commits = listCodeCommits(reviewed.hash);
-    console.log(`Commits that touched code since ${reviewed.hash}:`);
-    if (commits.length === 0) {
-      console.log("(none)");
-    } else {
-      for (const commit of commits) console.log(commit);
-    }
-  } else {
-    console.error(reviewed.error);
     process.exit(1);
   }
 
@@ -154,13 +177,27 @@ function main() {
     process.exit(1);
   }
 
-  const dirty = namesAgainstHead();
-  const codeDirty = [...new Set(dirty.filter(isCodePath))];
+  const dirty = unique([
+    ...changedPaths(["diff", "--name-status", "-M", "HEAD", "--", ...CODE_DIRS, STATUS_FILE]),
+    ...changedPaths([
+      "diff",
+      "--name-status",
+      "-M",
+      "--cached",
+      "--",
+      ...CODE_DIRS,
+      STATUS_FILE,
+    ]),
+    ...lines(
+      tryGit(["ls-files", "--others", "--exclude-standard", "--", ...CODE_DIRS, STATUS_FILE]),
+    ),
+  ]);
+  const codeDirty = dirty.filter(isCodePath);
   const statusDirty = dirty.some(isStatusPath);
 
   const failures = [];
   for (const commit of commits) {
-    const code = commit.names.filter(isCodePath);
+    const code = unique(commit.names.filter(isCodePath));
     const status = commit.names.some(isStatusPath);
     if (code.length > 0 && !status && !commit.message.includes(WAIVER)) {
       failures.push(

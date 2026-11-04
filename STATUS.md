@@ -1,4 +1,4 @@
-**Plan:** none found · **Last updated:** 2026-11-04 · **Reviewed up to commit:** `1291aceecf4f164ca90b7221553f06ad9b275873`
+**Plan:** none found · **Last updated:** 2026-11-04 · **Reviewed up to commit:** `995e592c40b123b19056d6229be975a77746f253`
 
 ## Legend
 
@@ -6,14 +6,14 @@
 
 ## At a glance
 
-No plan document was found. The request named the plan as `<PLAN DOC / LINK>`. That placeholder was not a file or a link. `origin/main` has no plan file, the README does not name phases, and the GitHub repo has no issues. Phases, scope items, and plan must-pass tests are ⛔. Nothing is ✅: this pass read the code and did not run the app, and the repo has no test suite.
+No plan document was found. The request named the plan as `<PLAN DOC / LINK>`. That placeholder was not a file or a link. The repo has no plan file, the README does not name phases, and the GitHub repo has no issues. Phases, scope items, and plan must-pass tests are ⛔. Nothing is ✅: this pass read the code and did not run the app, and the repo has no test suite.
 
 | | Count |
 | --- | --- |
 | ✅ works for real people | 0 |
-| 🟡 built, not proven | 34 |
-| 🙈 hidden | 2 |
-| ⬜ not started | 1 (automated tests) |
+| 🟡 built, not proven | 36 |
+| 🙈 hidden | 3 |
+| ⬜ not started | 2 (automated tests, sample compare folder) |
 | ⛔ blocked | plan phases, plan scope, plan must-pass tests |
 | ❌ dropped | 0 |
 
@@ -27,7 +27,7 @@ No plan document was found. The request named the plan as `<PLAN DOC / LINK>`. T
 
 No plan sections were found, so there is no scope table.
 
-Plan items that could not be placed: all of them. No plan item was named in the repo, in `README.md`, on `origin/main`, or in GitHub issues.
+Plan items that could not be placed: all of them. No plan item was named in the repo, in `README.md`, on `origin/main`, or in GitHub issues. The request named a plan only as the placeholder `<PLAN DOC / LINK>`.
 
 ## Must-pass tests
 
@@ -47,7 +47,7 @@ Plan items that could not be placed: all of them. No plan item was named in the 
 
 ## Beyond the plan
 
-Statuses below come from files in this repo at the reviewed commit. Built and not run for a real person is 🟡.
+Statuses below come from files in this repo. Built and not run for a real person is 🟡. Rows from both scorecards are kept. The extra rows from the tracker that landed on `main` were checked against the tree before they were added here.
 
 ### Screens
 
@@ -89,6 +89,7 @@ Statuses below come from files in this repo at the reviewed commit. Built and no
 | Bulk comment merge | 🟡 | `src/pages/api/update-blogs.js`. POST answers 200 before the work finishes. Not in the middleware protected list. |
 | DB Dash blog patch | 🟡 | `src/pages/api/udpate-blog-from-db-dash.js` (the filename spells `udpate`). PATCH. Not in the middleware protected list. |
 | Mongo to DB Dash | 🟡 | `src/pages/api/mongo-to-dbdash.js` copies blogs on POST. Not in the middleware protected list. |
+| Route gate | 🟡 | `src/middleware.js` and `src/auth.js`. See open question 5. |
 
 ### Data
 
@@ -96,22 +97,28 @@ Statuses below come from files in this repo at the reviewed commit. Built and no
 | --- | --- | --- |
 | Mongo models | 🟡 | `lib/mongoDb.js` uses `MONGODB_URI` or `MONGODB_URI_LOCAL`. Models: `models/BlogModel.js`, `models/AuthorModel.js`, `models/tagsModel.js`. |
 | Compare articles on disk | 🟡 | `src/lib/compareContent.js` reads `content/compare/<slug>/` (`meta.json`, `body.html`, `llm.txt`). Thirteen folders are present. `content/compare/sample/` is documented and absent. |
+| Discovery base path | 🟡 | `next.config.js` sets `basePath` to `/discovery`. `src/lib/site.js` builds `https://viasocket.com/discovery` URLs. `next.config.mjs` is an empty config. Which file Next loads was not confirmed. |
+| Sample compare page | ⬜ | README describes `content/compare/sample/`. The folder is not in the tree. |
 
 ### Not on a route
 
 | Item | Status | Notes |
 | --- | --- | --- |
 | Old navbar | 🙈 | `src/components/Navbar/Navbar.js` is marked depreciated. No other file imports it. |
-| Unused root page and layout | 🙈 | `src/page.js` and `src/layout.js` sit outside `src/pages` and there is no `src/app`. `src/layout.js` imports `./globals.css`, which is not in the tree. |
+| Unused root page and layout | 🙈 | `src/page.js`, `src/layout.js`, and `src/page.module.css` sit outside `src/pages`. There is no `src/app`. `src/layout.js` imports `./globals.css`, which is not in the tree. |
+| Embedded chatbot | 🙈 | The chatbot script in `src/pages/_app.js` is commented out. The in-page Ask AI chat is a separate row above. |
 
 ### This change
 
 | Item | Status | Notes |
 | --- | --- | --- |
-| Progress scorecard | 🟡 | `STATUS.md`, `npm run status:check`, and `.github/workflows/status-check.yml`. Each code commit must update this file, or say `[no status]`. Local pass/fail is in the change log. Not used by people yet. |
+| Progress scorecard | 🟡 | `STATUS.md`, `npm run status:check`, and `.github/workflows/status-check.yml`. Each code commit must update this file, or say `[no status]`. Renames count, and a `STATUS_BASE_REF` that does not resolve fails the check. The workflow installs Node 20 and fetches full history. Local pass/fail is in the change log. Not used by people yet. |
 
 ## Change log
 
+- 2026-11-04 · Cursor Agent · Merged `main`, which already had this tracker from pull request 153. Kept the per-commit check. Kept rename detection, quoted-path handling, the hard failure on a bad base ref, and the Node 20 setup from that pull request. Added the rows it had that this file did not, after checking them in the tree: route gate, base path, sample compare page, commented embed, and `src/page.module.css`. · 🟡 36; 🙈 3; ⬜ sample page; nothing ✅
 - 2026-11-04 · Cursor Agent · Recorded `1291aceecf4f164ca90b7221553f06ad9b275873` as the reviewed hash. That commit is the per-commit status check. This commit only updates the scorecard, so the hash cannot name itself. · reviewed hash only
 - 2026-11-04 · Cursor Agent · The status check fails a commit that touches `src/`, `lib/`, `models/`, or `scripts/` and does not update this file, unless that commit says `[no status]`. Reviewed hash moved to the scorecard commit. · 🟡 progress scorecard note
 - 2026-11-04 · Cursor Agent · Added the scorecard, the status check, and the pull-request workflow. No plan document was found, so phases and scope stay blocked. Code that exists is listed above as built, not proven. · ⛔ plan sections; 🟡 34; 🙈 2; ⬜ test suite; nothing ✅
+- 2026-11-03 · cursor agent · Set "Reviewed up to commit" to `8cb3934`, the commit that added the tracker on `main`. That line cannot name its own commit. · no row changes
+- 2026-11-03 · cursor agent · Added the scorecard that landed on `main`, `npm run status:check`, and the PR workflow. No plan was found, so phases, scope items, and plan tests are ⛔. · ⛔ plan sections; no ✅
