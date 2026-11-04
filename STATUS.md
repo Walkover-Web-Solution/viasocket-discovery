@@ -116,6 +116,7 @@ Statuses below come from files in this repo. Built and not run for a real person
 
 ## Change log
 
+- 2026-11-04 · Cursor Agent · Reconciled the other merge of `main` onto this branch (`6cbd9ed`), which had kept the tracker copies from pull request 153. This merge keeps the combined scorecard and the per-commit check. · no row changes
 - 2026-11-04 · Cursor Agent · Recorded `ab6d10bc6e26aa3d9dd6d16a5478bcf018c61336` as the reviewed hash. That commit is the merge with `main`. This commit only updates the scorecard, so the hash cannot name itself. · reviewed hash only
 - 2026-11-04 · Cursor Agent · Merged `main`, which already had this tracker from pull request 153. Kept the per-commit check. Kept rename detection, quoted-path handling, the hard failure on a bad base ref, and the Node 20 setup from that pull request. Added the rows it had that this file did not, after checking them in the tree: route gate, base path, sample compare page, commented embed, and `src/page.module.css`. · 🟡 36; 🙈 3; ⬜ sample page; nothing ✅
 - 2026-11-04 · Cursor Agent · Recorded `1291aceecf4f164ca90b7221553f06ad9b275873` as the reviewed hash. That commit is the per-commit status check. This commit only updates the scorecard, so the hash cannot name itself. · reviewed hash only
