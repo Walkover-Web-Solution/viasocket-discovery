@@ -1,4 +1,4 @@
-**Plan:** Not supplied · **Last updated:** 2026-11-03 · **Reviewed up to commit:** `8cb393452ad6e06aa87d51358aa706e536861286`
+**Plan:** Not supplied · **Last updated:** 2026-11-04 · **Reviewed up to commit:** `957486b8aa8570b407d28081dfbde05a7189c90d`
 
 ## Legend
 
@@ -54,7 +54,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 | Comparisons index for agents | 🟡 | `src/pages/llms.txt.js` serves `renderLlmsTxt()`. |
 | Sitemap | 🟡 | `src/pages/sitemap.xml.js` lists `/discovery/compare` and each comparison only. |
 | Robots | 🟡 | `src/pages/robots.txt.js` allows `/`, the compare paths, and `/discovery/llms.txt`. |
-| Blog page | 🟡 | `src/pages/blog/[...blogId]/index.js`. |
+| Blog page | 🟡 | `src/pages/blog/[...blogId]/index.js`. The In Depth Reviews intro in `src/components/BlogComponents/BlogComponents.js` shows "We independently review every app we recommend" once (it was duplicated). |
 | Edit chat | 🟡 | `src/pages/edit/[chatId]/index.js`. |
 | User profile | 🟡 | `src/pages/user/[...userId].js` loads the user, their blogs, and compare pages for that author id. |
 | Auth return | 🟡 | `src/pages/auth/index.js` reads `proxy_auth_token` and sends the browser on. |
@@ -72,5 +72,6 @@ These are in the tree and were not named by a plan. Built code that this pass di
 
 ## Change log
 
+- 2026-11-04 · Ragini Mahobiya (Claude) · Removed the duplicated "We independently review every app we recommend" sentence from the In Depth Reviews section of the blog page. Reviewed up to `957486b`. · Blog page notes updated; status unchanged 🟡
 - 2026-11-03 · cursor agent · Set "Reviewed up to commit" to `8cb3934`, the commit that added the tracker. This line cannot name its own commit: writing the hash would change it. · no row changes
 - 2026-11-03 · cursor agent · Added this scorecard, `npm run status:check`, and the PR workflow. No plan was found, so phases, scope items, and plan tests are ⛔. Code that exists is 🟡 or 🙈. The sample compare folder is ⬜. · ⛔ plan sections; no ✅
