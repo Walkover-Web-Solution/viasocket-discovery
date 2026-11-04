@@ -35,8 +35,7 @@ const Components = {
         <h2 style={{ fontFamily: "var(--para-font)" }}>📖 In Depth Reviews</h2>
         <div className={styles.howWeAssess}>
           <p>
-            We independently review every app we recommend We independently
-            review every app we recommend
+            We independently review every app we recommend
             <HtmlTooltip
               className={styles.tooltip}
               title={
