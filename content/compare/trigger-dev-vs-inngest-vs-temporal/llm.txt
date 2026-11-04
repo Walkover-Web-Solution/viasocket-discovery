@@ -1,0 +1,113 @@
+# Trigger.dev vs Inngest vs Temporal: which durable execution platform
+
+URL: https://viasocket.com/discovery/compare/trigger-dev-vs-inngest-vs-temporal
+Author: Jatin Kashiv (https://viasocket.com/discovery/user/79503)
+Publisher: viaSocket Discovery
+
+## Short answer
+Trigger.dev, Inngest and Temporal run long jobs and AI agent workflows that survive failures. Trigger.dev runs Apache-2.0 TypeScript tasks billed by compute second. Inngest adds durable steps to your own app, from $99 a month on Pro. Temporal is an MIT engine with SDKs in eight languages, and its cloud charges $50 per million Actions.
+
+## At a glance
+- Trigger.dev (https://trigger.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Durable TypeScript tasks and AI agents, billed by compute; Free plan: $5 compute credits, 20 concurrent runs; Paid from: $10 a month (Hobby); License: Apache-2.0, self-hostable
+- Inngest (https://www.inngest.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Durable steps for functions in your own app; Free plan: 50,000 executions a month; Paid from: $99 a month (Pro); License: SSPL server, Apache-2.0 SDKs
+- Temporal (https://temporal.io/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Durable workflow engine with SDKs in eight languages; Free plan: $150 cloud credits for 90 days; Paid from: Pay as you go, no base fee; License: MIT, self-hostable
+
+## Features
+- Billing unit: Trigger.dev: Runs plus compute seconds | Inngest: Executions: each run and each step | Temporal: Actions: starts, activities, timers, signals
+- SDK languages: Trigger.dev: TypeScript (can run Python scripts) | Inngest: TypeScript, Python, Go, Kotlin | Temporal: Go, Java, .NET, PHP, Python, Ruby, Rust, TypeScript
+- Where code runs: Trigger.dev: Trigger.dev cloud, or your self-host | Inngest: Your own app and infrastructure | Temporal: Your own workers
+- Self-host: Trigger.dev: Yes, self-hosting guide | Inngest: Single binary; Postgres and Redis to scale | Temporal: Docker, Kubernetes or manual
+- AI agent tooling: Trigger.dev: Chat agents (per Trigger.dev), MCP server | Inngest: AgentKit framework (Apache-2.0) | Temporal: OpenAI Agents SDK integration (Python)
+- Run length: Trigger.dev: No timeouts (per Trigger.dev) | Inngest: Up to 90 days on Pro | Temporal: 51,200-event history cap per workflow
+- History kept: Trigger.dev: 1 to 30 days by plan | Inngest: 24 hours to 14 days; 90 on Enterprise | Temporal: 1 to 90 days, default 30
+- Compliance: Trigger.dev: SOC 2 report on Enterprise; HIPAA add-on | Inngest: SOC 2 Type II (per Inngest); HIPAA add-on | Temporal: SOC 2 and HIPAA listed
+- GitHub stars: Trigger.dev: 16.7k | Inngest: 6.0k | Temporal: 24.2k
+From trigger.dev, Trigger.dev pricing, Trigger.dev MCP docs, inngest.com, Inngest pricing, Inngest self-hosting docs, Temporal docs, Temporal Cloud limits and each project's GitHub page. Stars as shown on GitHub.
+
+## Pricing
+Each platform meters something different: compute time on Trigger.dev, steps on Inngest and Actions on Temporal. The volume row prices one job on all three: 200,000 runs a month with five steps each, assuming 5 seconds of compute per Trigger.dev run.
+- Free: Trigger.dev: $5 compute credits, 20 concurrent runs | Inngest: 50,000 executions, 5 concurrent steps | Temporal: $150 credits for 90 days
+- Entry paid: Trigger.dev: Hobby $10 or Pro $50, usage credits included | Inngest: Pro $99, 1M executions included | Temporal: Pay as you go, no base fee
+- Unit rate: Trigger.dev: $0.000025 a run + $0.0000338/s (Small 1x) | Inngest: $50 per 1M executions over plan | Temporal: $50 per 1M Actions (lower tiers on Business)
+- 200k runs, 5 steps: Trigger.dev: About $50 (Pro) | Inngest: Up to $109 (Pro) | Temporal: $60 plus storage
+- Next tier: Trigger.dev: Pro, 200+ concurrent runs, 30-day logs | Inngest: Business $499, 10M executions | Temporal: Business add-on, $500 or 10% of usage
+- Enterprise: Trigger.dev: Custom: SSO, RBAC, SOC 2 report | Inngest: Custom: SAML, audit trails, HIPAA | Temporal: Custom: 30-minute P0 SLA, private Slack
+Prices from trigger.dev/pricing, inngest.com/pricing, temporal.io/pricing and Temporal Cloud pricing docs. Volume: Trigger.dev 200,000 x $0.000025 + 1,000,000 s x $0.0000338 = $38.80, inside Pro's $50 credit; Inngest 200,000 x 6 = 1.2M executions = $99 + $10; Temporal 200,000 x 6 Actions = 1.2M x $50 per million.
+
+## Trigger.dev vs Inngest vs Temporal: what they're like to use
+By Jatin Kashiv. All three keep a job running through crashes, retries and long waits. The real difference is where your code runs and what you pay for: compute time, steps or Actions.
+
+### Trigger.dev
+Trigger.dev feels the most like writing normal TypeScript: you define a task, deploy it, and it runs on Trigger.dev's machines with no timeouts. Billing follows compute time, so short jobs are cheap and long AI runs cost more.
+What I liked:
+- Waits longer than 5 seconds are checkpointed and not billed.
+- Apache-2.0, with a self-hosting guide.
+- Local dev mode and docs that users praise.
+What I didn't:
+- Code runs on Trigger.dev's machines unless you self-host.
+- The v3 to v4 move meant a migration, with some v3 docs still around.
+- A security incident disclosed on 1 November exposed environment variables for some organizations.
+Best for: TypeScript teams running long AI or browser jobs who want them off their own servers.
+
+### Inngest
+Inngest wraps your existing functions in steps, so the code stays in your own app and infrastructure. Pricing is easy to forecast once you know your step count, because a run with five steps is six executions.
+What I liked:
+- Code stays in your own app and infrastructure.
+- The largest free tier here: 50,000 executions a month.
+- Concurrency and fairness controls built in.
+What I didn't:
+- Every step is billed, so long agent loops add up.
+- The server is SSPL, with Apache-2.0 release delayed.
+- Inngest does not guarantee support for self-hosted instances.
+Best for: event-driven apps that want durable steps without moving code to another platform.
+
+### Temporal
+Temporal is the heavyweight: nine years in production by its own count, eight language SDKs and workflows that can wait for days. You run your own workers either way, and the determinism rules for workflow code take some learning.
+What I liked:
+- MIT license and SDKs in eight languages.
+- Temporal names OpenAI, Replit and Cursor among its users.
+- Cloud is pay as you go with no base fee.
+What I didn't:
+- Workflow code must follow strict determinism rules.
+- Self-hosting a production cluster is real operations work.
+- The Business support tier starts at $500 a month.
+Best for: multi-language teams and long-running workflows where failure is expensive.
+
+## Which to choose
+- Choose Trigger.dev if you write TypeScript and want long jobs run for you, billed by compute time.
+- Choose Inngest if you want durable steps inside your existing app and a large free tier.
+- Choose Temporal if you need many languages, very long workflows or a mature engine you can self-host.
+Model your own runs first: step count drives the bill on Inngest and Temporal, run time drives it on Trigger.dev.
+
+## Where viaSocket fits
+These platforms are for developers writing workflow code. viaSocket covers the connections around it: 2,300+ apps your workflows and agents can call without writing each integration, with retries and replay built in.
+What viaSocket offers:
+- 2,300+ app integrations with managed authentication (features).
+- Triggers, webhooks and schedules, with background execution and retries.
+- Execution monitoring, debugging and replay for every run.
+- AI agents and MCP access, so agents can use your apps as tools.
+- Browser actions: agents can browse, click and fill in forms on sites with no API (browser actions).
+- Free plan: 100,000 tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- A webhook flow that your job calls when it finishes, which updates HubSpot, posts to Slack and logs a row in Google Sheets.
+- An AI agent that uses your CRM, inbox and calendar as tools, with sign-in handled for each app.
+- A nightly schedule that reads figures from a portal with no API and saves them to a sheet.
+Connect your workflows to 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: What is the difference between Trigger.dev and Inngest?
+A: Trigger.dev runs your TypeScript tasks on its own machines and bills compute time. Inngest runs durable steps inside your own app and bills each run and each step as an execution.
+Q: Is Temporal free?
+A: The server is MIT and free to self-host. Temporal Cloud has no base fee, charges from $50 per million Actions and gives $150 in credits for 90 days.
+Q: Can I self-host Inngest?
+A: Yes, as a single binary, with Docker or a Helm chart. The default SQLite setup runs on one node only, scaling needs Postgres and Redis, and Inngest does not guarantee support for self-hosted instances.
+Q: Which is best for AI agents?
+A: Trigger.dev has durable chat agents and an MCP server, Inngest has the AgentKit framework and Temporal integrates with the OpenAI Agents SDK. Per-step billing on Inngest and Temporal adds up on long agent loops.
+Q: What is the difference between Inngest and Temporal?
+A: Inngest wraps functions in your own app as steps and bills executions. Temporal runs workflows on your own workers in eight languages, enforces determinism rules and bills Actions.
+
+## Sources
+- Trigger.dev: homepage https://trigger.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://trigger.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, MCP docs https://trigger.dev/docs/mcp-introduction?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, security disclosure https://trigger.dev/blog/security-incident-nov-2026?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/triggerdotdev/trigger.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Inngest: homepage https://www.inngest.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://www.inngest.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, limits https://www.inngest.com/docs/durable-execution/limits?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, self-hosting https://www.inngest.com/docs/self-hosting?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/inngest/inngest?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Temporal: homepage https://temporal.io?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://temporal.io/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Cloud pricing docs https://docs.temporal.io/cloud/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Cloud limits https://docs.temporal.io/cloud/limits?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/temporalio/temporal?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
