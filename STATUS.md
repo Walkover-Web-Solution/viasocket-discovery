@@ -1,4 +1,4 @@
-**Plan:** none found · **Last updated:** 2026-11-04 · **Reviewed up to commit:** `5fb229cb6da1ecaed9666398a9448e455cb7073b`
+**Plan:** none found · **Last updated:** 2026-11-04 · **Reviewed up to commit:** `1291aceecf4f164ca90b7221553f06ad9b275873`
 
 ## Legend
 
@@ -112,5 +112,6 @@ Statuses below come from files in this repo at the reviewed commit. Built and no
 
 ## Change log
 
+- 2026-11-04 · Cursor Agent · Recorded `1291aceecf4f164ca90b7221553f06ad9b275873` as the reviewed hash. That commit is the per-commit status check. This commit only updates the scorecard, so the hash cannot name itself. · reviewed hash only
 - 2026-11-04 · Cursor Agent · The status check fails a commit that touches `src/`, `lib/`, `models/`, or `scripts/` and does not update this file, unless that commit says `[no status]`. Reviewed hash moved to the scorecard commit. · 🟡 progress scorecard note
 - 2026-11-04 · Cursor Agent · Added the scorecard, the status check, and the pull-request workflow. No plan document was found, so phases and scope stay blocked. Code that exists is listed above as built, not proven. · ⛔ plan sections; 🟡 34; 🙈 2; ⬜ test suite; nothing ✅
