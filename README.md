@@ -58,6 +58,8 @@ The slug is the folder name: letters, numbers, hyphens, or underscores. Routes, 
 
 `/discovery/sitemap.xml` includes the compare index and each comparison. `/discovery/robots.txt` allows them. Ship the folder on the next build and the page is live. `content/compare/sample/` is a placeholder so the routes can be reviewed.
 
-## Progress
+## Progress tracker
 
-`STATUS.md` is the scorecard. `npm run status:check` fails when a commit touches `src/`, `lib/`, `models/`, or `scripts/` and does not update `STATUS.md` in that same commit, unless that commit message contains `[no status]`. The rule for updating the scorecard is in `AGENTS.md`.
+`STATUS.md` is the scorecard for this repo. Every change to a feature, screen, rule, table, or decision updates that file in the same change: the row, a change-log line, and the "Reviewed up to commit" hash. Update it for teammates who didn't.
+
+`npm run status:check` fails when `src/`, `lib/`, `models/`, or `scripts/` changed against the base branch and `STATUS.md` did not. A commit message that contains `[no status]` waives that failure for committed changes. The command still lists every commit that touched those directories after the reviewed hash. Pull requests run this check.

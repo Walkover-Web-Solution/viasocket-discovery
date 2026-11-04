@@ -1,4 +1,4 @@
-name: Status check
+name: status-check
 
 on:
   pull_request:
@@ -12,7 +12,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check STATUS.md is current
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check STATUS.md stayed current
         env:
           STATUS_BASE_REF: ${{ github.event.pull_request.base.sha }}
         run: npm run status:check

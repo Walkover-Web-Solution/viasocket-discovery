@@ -1,5 +1,5 @@
-# Claude notes
+# CLAUDE.md
 
-Every change to a feature, screen, rule, table, or decision updates `STATUS.md` in the same change: the row, a change-log line (`date · who · what · status effect`), and the `Reviewed up to commit` hash. Update `STATUS.md` for teammates who didn't.
+Follow AGENTS.md.
 
-See `AGENTS.md` for the directories `npm run status:check` watches.
+Every change to a feature, screen, rule, table or decision updates STATUS.md in the same change (the row, a change-log line, and the "Reviewed up to commit" hash). Update it for teammates who didn't.

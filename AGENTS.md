@@ -1,15 +1,7 @@
-# Agent notes
+# AGENTS.md
 
-## STATUS.md
+## Progress tracker
 
-Every change to a feature, screen, rule, table, or decision updates `STATUS.md` in the same change:
+Every change to a feature, screen, rule, table or decision updates STATUS.md in the same change (the row, a change-log line, and the "Reviewed up to commit" hash). Update it for teammates who didn't.
 
-- the row for what changed
-- a change-log line (`date · who · what · status effect`)
-- the `Reviewed up to commit` hash
-
-Update `STATUS.md` for teammates who didn't.
-
-`npm run status:check` fails when a commit since the base branch touches `src/`, `lib/`, `models/`, or `scripts/` and does not touch `STATUS.md` in that same commit. A commit message that contains `[no status]` waives that commit. Uncommitted code fails too, and the waiver does not cover it. The command always lists commits that touched those directories after the reviewed hash.
-
-`content/compare/` is not part of that check. A new compare article is still a screen, so update `STATUS.md` for it anyway.
+`npm run status:check` enforces that for `src/`, `lib/`, `models/`, and `scripts/`. A commit message containing `[no status]` waives the failure for committed changes. The command still lists every commit that touched those directories after the reviewed hash.
