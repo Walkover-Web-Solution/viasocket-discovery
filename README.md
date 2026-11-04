@@ -57,3 +57,7 @@ The slug is the folder name: letters, numbers, hyphens, or underscores. Routes, 
 - `/discovery/llms.txt` is a plain-text index of those text files
 
 `/discovery/sitemap.xml` includes the compare index and each comparison. `/discovery/robots.txt` allows them. Ship the folder on the next build and the page is live. `content/compare/sample/` is a placeholder so the routes can be reviewed.
+
+## Progress
+
+`STATUS.md` is the scorecard. `npm run status:check` fails when `src/`, `lib/`, `models/`, or `scripts/` changed against the base branch and `STATUS.md` did not, unless a commit message contains `[no status]`. The rule for updating the scorecard is in `AGENTS.md`.
