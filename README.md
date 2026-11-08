@@ -1,39 +1,15 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# viaSocket Discovery
 
-## Getting Started
+Next.js 14 (pages router) app served at `https://viasocket.com/discovery`. It hosts AI-written app-discovery blogs (stored in MongoDB) and file-based compare pages.
 
-First, run the development server:
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open the dev server (port 3000) at the `/discovery` path. `next.config.js` sets that base path, so `/` returns 404. Blog, chat, and login flows need server-side secrets. See [docs/development.md](docs/development.md) for commands and checks, and [docs/architecture.md](docs/architecture.md) for how the app is built.
 
 ## Compare pages
 
@@ -41,7 +17,7 @@ Comparison pages are files in this repo, generated at build time. A new page is 
 
 Create `content/compare/<slug>/` with:
 
-- `meta.json` — `title`, `description`, `canonical`, `authorId`, `authorName`, `publishedAt` (ISO date), and `category`
+- `meta.json` — `title`, `description`, `canonical`, `authorId`, `authorName`, `publishedAt` (ISO date), `category`, and optionally `readMinutes` (shown as "N min read"). Existing files also carry `h1`, which no code reads.
 - `body.html` — the article. Give each `h2` an `id`; those ids become the "On this page" index. Put questions in `details`/`summary` blocks so they can be read as an FAQ. Tables that follow one another, with only whitespace between them, render side by side.
 - `llm.txt` — the same article as plain text for AI agents
 
@@ -56,10 +32,8 @@ The slug is the folder name: letters, numbers, hyphens, or underscores. Routes, 
 - `/discovery/compare/<slug>/llm.txt` serves `llm.txt` as plain text
 - `/discovery/llms.txt` is a plain-text index of those text files
 
-`/discovery/sitemap.xml` includes the compare index and each comparison. `/discovery/robots.txt` allows them. Ship the folder on the next build and the page is live. `content/compare/sample/` is a placeholder so the routes can be reviewed.
+`/discovery/sitemap.xml` includes the compare index and each comparison. `/discovery/robots.txt` allows them, but crawlers read the host-level `https://viasocket.com/robots.txt`. Ship the folder on the next build and the page is live. A slug without `meta.json` is skipped.
 
 ## Progress tracker
 
-`STATUS.md` is the scorecard for this repo. Every change to a feature, screen, rule, table, or decision updates that file in the same change: the row, a change-log line, and the "Reviewed up to commit" hash. Update it for teammates who didn't.
-
-`npm run status:check` fails when `src/`, `lib/`, `models/`, or `scripts/` changed against the base branch and `STATUS.md` did not. A commit message that contains `[no status]` waives that failure for committed changes. The command still lists every commit that touched those directories after the reviewed hash. Pull requests run this check.
+`STATUS.md` is the scorecard for this repo. The rule for keeping it current and the `npm run status:check` gate are in [AGENTS.md](AGENTS.md#progress-tracker).
