@@ -1,0 +1,113 @@
+# Langfuse vs Helicone vs Braintrust: LLM observability and evals compared
+
+URL: https://viasocket.com/discovery/compare/langfuse-vs-helicone-vs-braintrust
+Author: Dhwanil Bhavsar (https://viasocket.com/discovery/user/95758)
+Publisher: viaSocket Discovery
+
+## Short answer
+Langfuse is open-source tracing and evals, Helicone is an AI gateway with request logging, and Braintrust is a hosted evals platform. At 1M units a month Langfuse Core costs $101 and Braintrust Pro starts at $249; Helicone Pro starts at $79, usage rates unpublished. ClickHouse owns Langfuse; Mintlify owns Helicone, now in maintenance mode.
+Ownership matters here. Langfuse says it stays open source and self-hostable. Per Mintlify, Helicone keeps getting security fixes, bug fixes and new-model support, but no new feature work. Braintrust is independent.
+
+## At a glance
+- Langfuse (https://langfuse.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Open-source tracing, prompts and evals; Free plan: 50k units a month, 2 users; Paid from: $29 a month (Core); Self-host: Yes, MIT core
+- Helicone (https://www.helicone.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: AI gateway with request logging and cost tracking; Free plan: 10,000 requests a month, 1 seat; Paid from: $79 a month (Pro); Self-host: Yes, Apache-2.0
+- Braintrust (https://www.braintrust.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Hosted tracing, evals and datasets for AI apps; Free plan: 1 GB data, 10K scores a month; Paid from: $249 a month (Pro); Self-host: Hybrid, Enterprise only
+
+## Features
+- Main job: Langfuse: Tracing, prompts, evals | Helicone: Gateway plus request logging | Braintrust: Evals, tracing, datasets
+- Integration: Langfuse: SDKs, OpenTelemetry | Helicone: Gateway base URL or SDK | Braintrust: SDKs in 6 languages, OpenTelemetry
+- Evals: Langfuse: LLM-as-judge, annotation queues | Helicone: Not a headline feature | Braintrust: Experiments, scorers, datasets
+- Prompt management: Langfuse: Versioned, labels, playground | Helicone: Versioned, deploy without code | Braintrust: Prompts and playground
+- Gateway: Langfuse: AI Gateway, beta | Helicone: Core product, 100+ models | Braintrust: Gateway for model calls
+- License: Langfuse: MIT; ee/ separate | Helicone: Apache-2.0 | Braintrust: Closed source platform
+- Self-host: Langfuse: Docker, Kubernetes, clouds | Helicone: Docker; Helm via sales | Braintrust: Hybrid data plane, Enterprise
+- GitHub stars: Langfuse: 37.3k | Helicone: 6.3k | Braintrust: Closed source
+- Ownership: Langfuse: ClickHouse | Helicone: Mintlify, maintenance mode | Braintrust: Independent
+From Langfuse docs, Helicone docs, Braintrust docs and GitHub (Langfuse, Helicone).
+
+## Pricing
+Each vendor meters differently: Langfuse counts units, Braintrust gigabytes and scores, Helicone requests.
+- Free: Langfuse: $0. 50k units, 30 days, 2 users | Helicone: $0. 10,000 requests, 7 days, 1 seat | Braintrust: $0. 1 GB, 10K scores, 14 days
+- Entry paid: Langfuse: $29 a month Core, 100k units | Helicone: $79 a month Pro, 7-day trial | Braintrust: $249 a month Pro, 5 GB
+- Rate that drives the bill: Langfuse: $8 per 100k units from 100k to 1M | Helicone: Usage-based; rates not listed | Braintrust: $3 per GB, $1.50 per 1,000 scores
+- Cost at 1M a month: Langfuse: $101 Core; $271 Pro, for 1M units | Helicone: $79 plus usage; rate unpublished | Braintrust: $249 up to 5 GB; then $3/GB
+- Enterprise: Langfuse: $2,499 a month, SSO, audit logs | Helicone: Contact sales, on-prem | Braintrust: Custom, RBAC, hybrid deployment
+Prices from langfuse.com/pricing, helicone.ai/pricing and braintrust.dev/pricing. Langfuse: $29 + 900k units x $8 per 100k = $101; Pro $199 + $72 = $271. Braintrust bills by data volume, not span count: Pro includes 5 GB, then $3 a GB, so your span size sets the bill.
+
+## Langfuse vs Helicone vs Braintrust: what they're like to use
+By Dhwanil Bhavsar. Langfuse is the open platform you can own, Braintrust is the managed eval workbench, and Helicone is the gateway that logs what passes through.
+
+### Langfuse
+The broadest open-source option: traces, versioned prompts, LLM-as-a-judge evaluators, datasets and experiments in one product, built on OpenTelemetry. You instrument your code with an SDK or integration.
+What I liked:
+- Cheapest paid entry point at $29 a month, with unlimited users on paid plans.
+- Self-hosting is a documented, first-class path, per Langfuse.
+- Alerts can reach Slack or webhooks.
+What I didn't:
+- Self-hosting needs Postgres, ClickHouse, Redis and blob storage.
+- Scores and observations count as billable units, so eval work adds to the bill.
+- Some features need a license key, and ee/ folders use a separate license.
+Best for: teams that want tracing and evals they can inspect, extend and run themselves.
+
+### Helicone
+The quickest way to get logs and cost data: point your OpenAI-style client at its gateway and every request is recorded with cost, latency and errors. It is a gateway first and an evals tool second, and it is now in maintenance mode.
+What I liked:
+- Base-URL change gets you logging, with fallbacks across 100+ models.
+- Cost breakdowns by user or feature.
+- Apache-2.0 code you can run with Docker.
+What I didn't:
+- Maintenance mode means no new features are planned, per Mintlify.
+- The pricing page does not list per-request usage rates.
+- Its docs overview says little about evals or scoring.
+Best for: teams that mainly need gateway logging and cost tracking and accept a maintenance-mode roadmap.
+
+### Braintrust
+Evaluation is the center of gravity: experiments, datasets, scorers and an in-product agent called Loop, with tracing feeding them. It accepts OpenTelemetry traces.
+What I liked:
+- Strongest eval workflow of the three, from datasets to experiments.
+- Six SDK languages, an MCP server and a CLI.
+- Slack alerts and webhook-based sustained score alerts.
+What I didn't:
+- Entry paid plan is $249 a month, the highest of the three.
+- Several meters: data, scores, retention, credits.
+- Self-hosting is Enterprise only, with a control plane Braintrust runs.
+Best for: teams where evals gate releases and a managed platform is acceptable.
+
+## Which to choose
+- Choose Langfuse if you want open-source tracing and evals with the lowest entry price and the option to self-host.
+- Choose Helicone if you mainly need a gateway with logs and cost tracking and can live with maintenance mode.
+- Choose Braintrust if evals and release gating matter most and you prefer a managed platform.
+Send a day of real traffic first and check the bill against your own span sizes.
+
+## Where viaSocket fits
+These tools show what an agent did; viaSocket gives the agent things to do and reacts to what they report. It works alongside any of them.
+What viaSocket offers:
+- 2,300+ app integrations as agent tools, with managed authentication (features).
+- AI agents and MCP support for compatible AI clients and agents.
+- Browser actions: your agent can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- Triggers and webhooks, with retries for eligible failed executions.
+- Execution monitoring and debugging for each run.
+- Free plan: 100K tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- A Slack alert when an eval score drops, triggered by a webhook from your observability tool.
+- A daily cost and trace-volume digest written to a Google Sheet.
+- A support ticket opened automatically when a trace is flagged as failing.
+Give your agent 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: What is the difference between Langfuse, Helicone and Braintrust?
+A: Langfuse is open-source tracing, prompts and evals. Helicone is an AI gateway that logs requests and tracks cost. Braintrust is a hosted platform centered on evals, datasets and tracing.
+Q: Is Helicone still maintained?
+A: Per Mintlify, which acquired it, Helicone continues in maintenance mode with security updates, bug fixes and support for new models. No new feature development is promised.
+Q: Is Langfuse still open source after the ClickHouse acquisition?
+A: Per Langfuse, yes: it stays open source and self-hostable, with no planned license changes. The core is MIT.
+Q: How much does Langfuse cost at 1M units a month?
+A: On Core it is $101: $29 for the first 100k units plus $8 per 100k for the next 900k. On Pro it is $271.
+Q: Can I self-host Braintrust?
+A: Only on the Enterprise plan, as a hybrid setup. You run the data plane and Braintrust runs the control plane.
+
+## Sources
+- Langfuse: pricing https://langfuse.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://langfuse.com/docs?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, self-hosting https://langfuse.com/docs/deployment/self-host?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, ClickHouse announcement https://langfuse.com/blog/joining-clickhouse?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/langfuse/langfuse?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Helicone: pricing https://www.helicone.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.helicone.ai/getting-started/platform-overview?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Mintlify announcement https://mintlify.com/blog/mintlify-acquires-helicone?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/Helicone/helicone?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Braintrust: pricing https://www.braintrust.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.braintrust.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, hybrid deployment https://braintrust.dev/blog/hybrid-deployment?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm

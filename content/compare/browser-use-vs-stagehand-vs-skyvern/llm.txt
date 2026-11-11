@@ -1,0 +1,110 @@
+# Browser Use vs Stagehand vs Skyvern: which AI browser agent framework
+
+URL: https://viasocket.com/discovery/compare/browser-use-vs-stagehand-vs-skyvern
+Author: Dhwanil Bhavsar (https://viasocket.com/discovery/user/95758)
+Publisher: viaSocket Discovery
+
+## Short answer
+Browser Use, Stagehand and Skyvern let AI agents drive a real browser. Browser Use is an MIT Python agent with a cloud at $0.02 a browser hour. Stagehand is Browserbase's MIT SDK that adds AI steps to Playwright-style code. Skyvern is an AGPL agent that reads the screen, and its cloud bills $0.03 an action.
+
+## At a glance
+- Browser Use (https://browser-use.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Open-source Python agent that drives a browser; Free plan: $1 credit once, no card; Paid from: Pay as you go, $5 minimum top-up; License: MIT, self-hostable
+- Stagehand (https://www.stagehand.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: AI steps for Playwright-style browser code; Free plan: Library free; Browserbase gives 1 browser hour; Paid from: $20 a month (Browserbase Developer); License: MIT, runs on any Chromium
+- Skyvern (https://www.skyvern.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Vision-based agent for website workflows; Free plan: 14-day trial, 30,000 credits; Paid from: $29 a month (Hobby); License: AGPL-3.0, self-hostable
+
+## Features
+- Approach: Browser Use: Agent loop decides each step | Stagehand: You script steps, AI fills gaps | Skyvern: Vision plus LLM reads the screen
+- Languages: Browser Use: Python library; Python and TS cloud SDKs | Stagehand: TypeScript, Python, Go | Skyvern: Python and TypeScript SDKs
+- Models: Browser Use: OpenAI, Anthropic, Google, Ollama, own BU model | Stagehand: Supported providers, or your own client | Skyvern: OpenAI, Anthropic, Gemini, Bedrock, Ollama, more
+- Cheaper repeat runs: Browser Use: Not listed | Stagehand: Cache on Browserbase skips tokens | Skyvern: Cached actions at half price
+- CAPTCHA and proxies: Browser Use: Residential proxy on by default | Stagehand: CAPTCHA solving on paid Browserbase plans | Skyvern: Basic on Hobby; residential proxy from Pro
+- MCP server: Browser Use: Listed on site | Stagehand: Hosted Browserbase MCP | Skyvern: Yes
+- GitHub stars: Browser Use: 120k | Stagehand: 25.9k | Skyvern: 23.3k
+- Compliance: Browser Use: SOC 2 Type II, HIPAA (per Browser Use) | Stagehand: SOC 2 per Browserbase; HIPAA on Scale | Skyvern: SOC 2 Type II, HIPAA (per Skyvern)
+From each vendor's site, docs and GitHub repo, listed under Sources. Stars as shown on GitHub.
+
+## Pricing
+All three libraries are free to run on your own machine; you pay for model tokens. The rows below price each vendor's cloud, where Stagehand runs on Browserbase.
+- Free: Browser Use: $1 credit once, no card | Stagehand: Library free; 1 browser hour on Browserbase Free | Skyvern: 14-day trial, 30,000 credits
+- Entry paid: Browser Use: Pay as you go, $5 minimum top-up | Stagehand: Developer, $20 a month, 100 browser hours | Skyvern: Hobby, $29 a month, 30,000 credits
+- Browser hour: Browser Use: $0.02, plus proxy at $5/GB | Stagehand: $0.20 effective on Developer; $0.12 overage | Skyvern: $0.20 (200 credits)
+- Agent steps: Browser Use: Model cost plus 20% | Stagehand: Your model tokens at market price | Skyvern: $0.03 an action, $0.015 cached
+- 100 browser hours: Browser Use: $2, plus proxy and model | Stagehand: $20 on Developer, plus tokens | Skyvern: $20 in credits, inside Hobby ($29)
+- Enterprise: Browser Use: Custom, on-prem available | Stagehand: Scale: custom, HIPAA BAA, SSO | Skyvern: Custom: SOC 2 report, HIPAA
+Prices from browser-use.com/pricing, browserbase.com/pricing, skyvern.com/pricing and Skyvern billing docs. 100 hours: Browser Use 100 x $0.02; Browserbase Developer includes 100 hours; Skyvern 100 x 200 credits x $0.001.
+
+## Browser Use vs Stagehand vs Skyvern: what they're like to use
+By Dhwanil Bhavsar. All three put a language model in charge of a real browser. The difference is how each sees the page and how much control you keep: Browser Use and Stagehand work from the page structure, with Browser Use choosing each step and Stagehand following your script, while Skyvern reads screenshots to run whole workflows.
+
+### Browser Use
+Browser Use is the quickest of the three to get moving: you give it a goal in plain words and the agent works out the clicks. The trade-off is predictability on long or messy tasks.
+What I liked:
+- MIT license and the largest community, at 120k GitHub stars.
+- Works with OpenAI, Anthropic, Google or local models through Ollama.
+- Lowest listed browser-hour rate, $0.02, before proxy and agent fees.
+What I didn't:
+- Long tasks can loop or stall instead of failing cleanly.
+- Cloud agent cost is model price plus 20%, so tasks vary.
+- Some sites with strong bot walls still block it.
+Best for: Python teams that want an open agent that reaches goals with little scripting.
+
+### Stagehand
+Stagehand feels like Playwright with an AI assist: you keep writing the steps, and act, extract and observe handle the parts where selectors would break. It gives you the most control of the three, and asks the most code of you.
+What I liked:
+- Plain page calls and AI steps mix in one script.
+- SDKs in TypeScript, Python and Go with matching methods.
+- Cached actions on Browserbase skip the model call entirely.
+What I didn't:
+- Caching and the model gateway need Browserbase-hosted browsers.
+- You write and maintain the flow yourself.
+- CAPTCHA solving starts on Browserbase's $20 plan.
+Best for: developers who want repeatable scripts with AI only where pages change.
+
+### Skyvern
+Skyvern reads the page from a screenshot, the way a person does, so it copes with forms and portals that change layout between runs. It is also the most complete product of the three, with a visual builder, a credential vault and 2FA handling next to the SDKs.
+What I liked:
+- Handles forms and popups that shift from run to run.
+- CAPTCHA solving, proxies and 2FA handling built into the cloud.
+- Cached actions cost half, at $0.015 each.
+What I didn't:
+- AGPL-3.0, and the cloud's anti-bot code is not in the repo.
+- Hobby's 30,000 credits cover about 1,000 actions.
+- No permanent free plan, only a 14-day trial.
+Best for: operations teams automating forms and portals that change often, with less code.
+
+## Which to choose
+- Choose Browser Use if you want an open-source Python agent and the lowest browser-hour rate.
+- Choose Stagehand if you already write Playwright and want AI only where selectors break.
+- Choose Skyvern if you automate changing forms and portals and want CAPTCHA, proxies and 2FA built in.
+Success rates vary a lot from site to site, so run your ten hardest real tasks on each before you commit.
+
+## Where viaSocket fits
+A browser agent framework is the engine; you still have to connect what it finds to the rest of your stack. viaSocket offers browser actions as agent tools next to 2,300+ app actions, so one task can read a portal and update your CRM.
+What viaSocket offers:
+- Browser actions: an agent can browse, click, fill in forms and read pages on sites with no API, and each step is shown for review (browser actions).
+- 2,300+ app integrations as agent tools, with managed authentication (features).
+- Triggers, webhooks and schedules, with retries, execution monitoring and replay.
+- Free plan: 100,000 tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- An agent that signs in to a supplier portal with no API, reads the latest report figures and adds them to Google Sheets.
+- A form filler that takes new rows from a sheet and submits each one on a vendor or government site.
+- A weekly check that reads a competitor's pricing page and posts any change to Slack.
+Give your agent browser actions with viaSocket: https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: What is the difference between Browser Use and Stagehand?
+A: Browser Use is an agent: you give it a goal and it decides each step. Stagehand is an SDK: you write the steps and use act, extract and observe where selectors would be fragile.
+Q: Is Skyvern open source?
+A: Yes, under AGPL-3.0, and it self-hosts with pip or Docker Compose. Skyvern notes that its managed cloud's anti-bot measures are not in the open-source repo.
+Q: How much does an AI browser agent cost to run?
+A: Browser time is cheap: $0.02 an hour on Browser Use Cloud, $0.20 effective on Browserbase Developer and $0.20 on Skyvern. Model tokens, or Skyvern's $0.03 per action, usually drive the bill.
+Q: Do they work with Claude Code or Cursor through MCP?
+A: Stagehand does through Browserbase's hosted MCP server, and Skyvern supports MCP clients such as Claude Code and Cursor. Browser Use lists an MCP server on its site.
+Q: Can I run them without a cloud account?
+A: Yes. All three run locally with your own browser and model key. The clouds add hosted browsers, proxies and CAPTCHA handling.
+
+## Sources
+- Browser Use: homepage https://browser-use.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://browser-use.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.browser-use.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/browser-use/browser-use?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Stagehand: homepage https://www.stagehand.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.stagehand.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/browserbase/stagehand?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Browserbase pricing https://www.browserbase.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Skyvern: homepage https://www.skyvern.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://www.skyvern.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, billing docs https://www.skyvern.com/docs/cloud/account-settings/billing-usage.md?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/Skyvern-AI/skyvern?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
