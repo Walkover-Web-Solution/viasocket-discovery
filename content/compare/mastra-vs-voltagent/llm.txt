@@ -8,7 +8,7 @@ Publisher: viaSocket Discovery
 Mastra and VoltAgent are open-source TypeScript frameworks for building AI agents. Mastra (Apache 2.0) is the larger, batteries-included toolkit with its own Studio. VoltAgent (MIT) is lighter and pairs with the VoltOps console for traces and operations. Both frameworks are free and both support MCP; you pay only for the optional hosted platform.
 
 ## At a glance
-- Mastra (https://mastra.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: TypeScript agent framework with Studio and a hosted platform; License: Apache 2.0 core; GitHub stars: 29.2k; Hosted plan: Free Starter; Teams $250 a month
+- Mastra (https://mastra.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: TypeScript agent framework with Studio and a hosted platform; License: Apache 2.0 core; GitHub stars: 29.2k; Hosted plan: Free; Teams $250 a month
 - VoltAgent (https://voltagent.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: TypeScript agent framework plus the VoltOps console; License: MIT; GitHub stars: 10.9k; Hosted plan: Free Developer; Core $50 a month
 
 ## Features
@@ -26,9 +26,9 @@ From Mastra docs, VoltAgent docs, GitHub and npm.
 ## Pricing
 Both frameworks are free to self-host. You pay only for the optional hosted platform: Mastra Platform or VoltOps.
 - Framework: Mastra: $0, Apache 2.0 | VoltAgent: $0, MIT
-- Free hosted: Mastra: Starter, $0. 100K events, 24 CPU hours | VoltAgent: Developer, $0. 1 seat, 250 traces a month
-- Paid: Mastra: Teams, $250 a month. 1M events, SSO | VoltAgent: Core, $50 a month. 3 seats, 50,000 traces. Pro, $250. 20 seats, SSO
-- Enterprise: Mastra: Custom; self-hosted license available | VoltAgent: Custom; self-hosted deployment
+- Free hosted: Mastra: Free, $0. 100K events, 40 vCPU-hours | VoltAgent: Developer, $0. 1 seat, 250 traces a month
+- Paid: Mastra: Teams, $250 a month. 10M events, SOC 2 report | VoltAgent: Core, $50 a month. 3 seats, 50,000 traces. Pro, $250. 20 seats, SSO
+- Enterprise: Mastra: Custom: RBAC, SSO, audit logs | VoltAgent: Custom; self-hosted deployment
 Prices from mastra.ai/pricing and voltagent.dev/pricing.
 
 ## Mastra vs VoltAgent: what they're like to use
@@ -81,7 +81,7 @@ Give your agent 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=vi
 Q: What is the difference between Mastra and VoltAgent?
 A: Both are open-source TypeScript agent frameworks. Mastra is the larger, batteries-included toolkit with its own Studio. VoltAgent is lighter and pairs with the VoltOps console for traces and operations.
 Q: Are Mastra and VoltAgent free?
-A: Yes. Both frameworks are free to self-host. The hosted platforms have free plans: Mastra Starter and VoltOps Developer.
+A: Yes. Both frameworks are free to self-host. The hosted platforms have free plans: Mastra Free and VoltOps Developer.
 Q: Are they open source?
 A: VoltAgent is MIT. Mastra's core is Apache 2.0; code in its ee/ directories is source-available.
 Q: Do both support MCP?

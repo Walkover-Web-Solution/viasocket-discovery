@@ -30,7 +30,7 @@ All three bill compute per second. E2B and Daytona list the same CPU and memory 
 - CPU and memory: E2B: $0.0504 per vCPU-hour, $0.0162 per GiB-hour | Daytona: $0.0504 per vCPU-hour, $0.0162 per GiB-hour | Modal: $0.1419 per core (2 vCPU) hour, $0.024 per GiB-hour
 - 2 vCPU, 4 GiB for 1 hour: E2B: $0.17 | Daytona: $0.17 | Modal: $0.24
 - H100 GPU: E2B: Not offered | Daytona: $2.27 an hour (preemptible) | Modal: $3.95 an hour
-- Enterprise: E2B: Custom, $3,000 a month minimum, BYOC | Daytona: Custom: SSO, audit logs, BYOC | Modal: Custom, volume discounts
+- Enterprise: E2B: Custom, $2,000 a month commit, BYOC | Daytona: Custom: SSO, audit logs, BYOC | Modal: Custom, volume discounts
 Prices from e2b.dev/pricing, daytona.io/pricing and modal.com/pricing. Hourly figures are the per-second rates times 3,600; Modal bills a physical core, which equals 2 vCPU.
 
 ## E2B vs Daytona vs Modal: what they're like to use

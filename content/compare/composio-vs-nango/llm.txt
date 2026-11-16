@@ -13,7 +13,7 @@ Composio and Nango both connect AI agents to third-party apps, with auth and MCP
 
 ## Features
 - Approach: Composio is a hosted tool catalog with managed auth, used through sessions per user. Nango is a code-first platform for auth, tools, syncs and webhooks; integration logic is TypeScript functions you generate with AI, then edit and version (per Nango).
-- Catalog size: Composio 1,500+ apps (per Composio). Nango 1,000+ APIs and 10,000+ tools or templates (per Nango).
+- Catalog size: Composio 1,700+ apps (per Composio). Nango 1,000+ APIs and 10,000+ tools or templates (per Nango).
 - Authentication: Composio-managed auth by default, connected accounts per user ID, a Connect Link when a task needs an account. Nango OAuth, API keys, token refresh, scopes and credential storage.
 - MCP: Composio hosted MCP endpoint; a client such as Cursor connects by pasting one MCP URL (per Composio). Nango MCP server; an agent session returns an MCP URL and a session token.
 - Triggers and webhooks: Composio trigger events, billed separately from tool calls. Nango webhooks and triggers that react to external events.
