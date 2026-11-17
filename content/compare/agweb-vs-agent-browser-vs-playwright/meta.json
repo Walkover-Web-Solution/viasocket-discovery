@@ -1,0 +1,11 @@
+{
+  "title": "agweb vs agent-browser vs Playwright for Agents",
+  "description": "All three are free and open source. agweb is a macOS WebKit app, agent-browser a Rust CLI on Chrome, Playwright offers a CLI and an MCP server. Compared.",
+  "canonical": "https://viasocket.com/discovery/compare/agweb-vs-agent-browser-vs-playwright",
+  "authorId": 6485,
+  "authorName": "Vaishali Raghuvanshi",
+  "publishedAt": "2026-11-17",
+  "category": "Compare",
+  "h1": "agweb vs agent-browser vs Playwright: which browser should your coding agent drive?",
+  "readMinutes": 6
+}
