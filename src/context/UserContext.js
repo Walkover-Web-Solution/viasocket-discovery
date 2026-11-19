@@ -1,5 +1,5 @@
 import { getCurrentUser } from '@/utils/apiHelper';
-import { getCurrentEnvironment, getFromCookies } from '@/utils/storageHelper';
+import { getProxyAuthToken } from '@/utils/storageHelper';
 import { createContext, useState, useContext, useEffect } from 'react';
 
 const UserContext = createContext();
@@ -15,8 +15,12 @@ export const UserProvider = ({ children }) => {
     //   setLoading(false);
     //   return ;
     // }
-    const token = getFromCookies(getCurrentEnvironment())
-    if (!token) { setUser(null); return }
+    const token = getProxyAuthToken()
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
     const userInfo = await getCurrentUser();
     // localStorage.setItem("userDetail", JSON.stringify({ name: userData.name, email: userData.email, id: userData.id }));
     if(userInfo){

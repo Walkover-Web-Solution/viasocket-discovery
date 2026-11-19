@@ -1,10 +1,10 @@
 import axios from "axios";
-import { getCurrentEnvironment, getFromCookies, removeCookie } from "./storageHelper";
+import { getCurrentEnvironment, getProxyAuthToken, removeCookie } from "./storageHelper";
 import { toast } from "react-toastify";
 
 axios.interceptors.request.use(
     async (config) => {
-        const token = getFromCookies(getCurrentEnvironment())
+        const token = getProxyAuthToken()
         config.headers['proxy_auth_token'] = token;
         config.headers['env'] = getCurrentEnvironment();
         return config;

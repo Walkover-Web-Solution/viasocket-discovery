@@ -1,5 +1,5 @@
 // /utils/apiHelper.js
-import { getCurrentEnvironment, getFromCookies, removeCookie } from "@/utils/storageHelper";
+import { getCurrentEnvironment, getProxyAuthToken, removeCookie } from "@/utils/storageHelper";
 import { toast } from "react-toastify";
 const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -8,10 +8,7 @@ const proxyBaseURL = "https://routes.msg91.com/api";
 export const getCurrentUser = async () => {
     const endpoint = "/c/getDetails"; 
 
-    const getToken = () => {
-        const env = getCurrentEnvironment();
-        return (env === 'local') ? localStorage.getItem("proxy_auth_token") : getFromCookies(env);
-    };
+    const getToken = () => getProxyAuthToken();
 
     try {
         const token = getToken();

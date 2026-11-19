@@ -1,47 +1,65 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router';
 import WithAuth from '@/components/auth/WithAuth';
-// import { useUser } from '@/context/UserContext';
 
-import { getFromCookies, getCurrentEnvironment, removeCookie, getRedirectPath, clearPath } from '@/utils/storageHelper'
+import {
+    getCurrentEnvironment,
+    removeCookie,
+    getRedirectPath,
+    clearPath,
+    getProxyAuthToken,
+    persistProxyAuthTokenFromSearch,
+} from '@/utils/storageHelper'
 import { getCurrentUser } from '@/utils/apiHelper'
 
 export default function AuthPage() {
     const router = useRouter();
-    const queryParams = router.query;
     const redirectPath = getRedirectPath();
 
-    const redirectToHomePage = async () => {
-        const token = getFromCookies(getCurrentEnvironment())
-        if (token) {
-            const userInfo = await getCurrentUser();
-            const userData = userInfo?.data[0]
-            if (!userData) {
-                removeCookie(getCurrentEnvironment())
-                localStorage.clear()
-                sessionStorage.clear()
-            }
-            clearPath();
-            window.location.href= redirectPath ? redirectPath : '/discovery'
-        }
+    const persistTokenFromRoute = () => {
+        const search = router.asPath.includes('?') ? `?${router.asPath.split('?')[1]}` : window.location.search
+        return persistProxyAuthTokenFromSearch(search) || persistProxyAuthTokenFromSearch()
     }
 
+    const redirectToHomePage = async () => {
+        persistTokenFromRoute()
+        const token = getProxyAuthToken()
+        if (!token) return
+
+        const userInfo = await getCurrentUser();
+        const userData = userInfo?.data?.[0]
+        if (!userData) {
+            removeCookie(getCurrentEnvironment())
+            localStorage.clear()
+            sessionStorage.clear()
+            return
+        }
+        clearPath();
+        window.location.href = redirectPath ? redirectPath : '/discovery'
+    }
 
     useEffect(() => {
-        async function runEffect() {
-            if (!queryParams['proxy_auth_token'] && !getFromCookies(getCurrentEnvironment())) {
+        if (!router.isReady) return
 
+        async function runEffect() {
+            persistTokenFromRoute()
+
+            const hasToken = Boolean(
+                router.query.proxy_auth_token || getProxyAuthToken(),
+            )
+
+            if (!hasToken) {
                 const configuration = {
                     referenceId: process.env.NEXT_PUBLIC_NEXT_APP_REFERENCE_ID,
                     addInfo: {
-                        redirect_path: `/discovery/auth`
+                        redirect_path: `/discovery/auth`,
                     },
                     success: (data) => {
                         console.log('success response', data)
                     },
                     failure: (error) => {
                         console.log('failure reason', error)
-                    }
+                    },
                 }
 
                 const script = document.createElement('script')
@@ -58,12 +76,13 @@ export default function AuthPage() {
                 script.src = 'https://proxy.msg91.com/assets/proxy-auth/proxy-auth.js'
 
                 document.body.appendChild(script)
-                redirectToHomePage()
+                return
             }
-            redirectToHomePage();
+
+            await redirectToHomePage()
         }
         runEffect();
-    }, [queryParams, queryParams['proxy_auth_token']])
+    }, [router.isReady, router.asPath, router.query.proxy_auth_token])
 
 
     return (

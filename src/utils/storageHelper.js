@@ -14,6 +14,32 @@ function getDomain() {
 }
 export const getCurrentEnvironment = () => process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT
 
+const PROXY_AUTH_KEY = 'proxy_auth_token'
+
+/** Token from env cookie (prod) or localStorage (local), with cross-store fallback. */
+export const getProxyAuthToken = () => {
+    if (typeof window === 'undefined') return null
+    const env = getCurrentEnvironment()
+    const fromEnvCookie = getFromCookies(env)
+    if (fromEnvCookie) return fromEnvCookie
+    const fromLs = localStorage.getItem(PROXY_AUTH_KEY)
+  if (fromLs) return fromLs
+  return null
+}
+
+/** Read `proxy_auth_token` from the query string and persist it like the auth callback does. */
+export const persistProxyAuthTokenFromSearch = (search) => {
+    if (typeof window === 'undefined') return null
+    const query = search ?? window.location.search
+    if (!query) return null
+    const params = new URLSearchParams(query.startsWith('?') ? query.slice(1) : query)
+    const token = params.get(PROXY_AUTH_KEY)
+    if (!token) return null
+    localStorage.setItem(PROXY_AUTH_KEY, token)
+    setInCookies(getCurrentEnvironment(), token)
+    return token
+}
+
 export const getFromCookies = (cookieId) => {
     // Split cookies string into individual cookie pairs and trim whitespace
     const cookies = document.cookie?.split(';').map((cookie) => cookie.trim())
@@ -64,7 +90,7 @@ export const setInCookies = (key, value) => {
 
     const date = new Date()
     date.setTime(date.getTime() + 2 * 24 * 60 * 60 * 1000)
-    expires = `; expires= ${date.toUTCString()}`
+    expires = `; expires=${date.toUTCString()}`
     document.cookie = `${key}=${value || ''}${expires}; domain=${domain}; path=/`
 }
 
