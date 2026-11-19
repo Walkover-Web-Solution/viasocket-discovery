@@ -1,4 +1,4 @@
-**Plan:** Not supplied · **Last updated:** 2026-11-08 · **Reviewed up to commit:** `7cab049`
+**Plan:** Not supplied · **Last updated:** 2026-11-19 · **Reviewed up to commit:** `f5583f1`
 
 ## Legend
 
@@ -72,7 +72,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 
 ## Change log
 
-- 2026-11-19 · cursor agent · Fixed Discovery login callback: persist token from URL before redirect (race with `WithAuth`), gate auth effects on `router.isReady`, unify token reads via `getProxyAuthToken()`, fix cookie `expires`, and restore local header Login/Signup links. Reviewed up to commit on this branch after merge. · Auth return notes; no status emoji change (not exercised end-to-end with MSG91).
+- 2026-11-19 · cursor agent · Fixed Discovery login callback: persist token from URL before redirect (race with `WithAuth`), gate auth effects on `router.isReady`, unify token reads via `getProxyAuthToken()`, fix cookie `expires`, and restore local header Login/Signup links. Reviewed up to `f5583f1`. · Auth return notes; no status emoji change (not exercised end-to-end with MSG91).
 - 2026-11-08 · cursor agent (docs refresh) · Added `docs/` (architecture, development, security and operations, maintenance) and an AGENTS.md task map. Answered open questions 3 and 5. Reviewed up to `7cab049`. · Sample compare page ⬜ → ❌
 - 2026-11-04 · Ragini Mahobiya (Claude) · Removed the duplicated "We independently review every app we recommend" sentence from the In Depth Reviews section of the blog page. Reviewed up to `957486b`. · Blog page notes updated; status unchanged 🟡
 - 2026-11-03 · cursor agent · Set "Reviewed up to commit" to `8cb3934`, the commit that added the tracker. This line cannot name its own commit: writing the hash would change it. · no row changes
