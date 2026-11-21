@@ -1,0 +1,11 @@
+{
+  "title": "Browser Use vs Stagehand vs Skyvern: AI Browser Agents",
+  "description": "Browser Use runs an agent loop, Stagehand adds AI steps to Playwright code, Skyvern reads the screen. Pricing, licenses and fit compared.",
+  "canonical": "https://viasocket.com/discovery/compare/browser-use-vs-stagehand-vs-skyvern",
+  "authorId": 95758,
+  "authorName": "Dhwanil Bhavsar",
+  "publishedAt": "2026-11-04",
+  "category": "Compare",
+  "h1": "Browser Use vs Stagehand vs Skyvern: which AI browser agent framework",
+  "readMinutes": 6
+}
