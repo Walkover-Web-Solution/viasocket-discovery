@@ -1,0 +1,111 @@
+# Granola vs Yogurt vs Fathom: AI meeting notes compared
+
+URL: https://viasocket.com/discovery/compare/granola-vs-yogurt-vs-fathom
+Author: Abhijeet Singh (https://viasocket.com/discovery/user/22351)
+Publisher: viaSocket Discovery
+
+## Short answer
+Granola is a bot-free notepad with a free Basic plan and paid plans from $14 per user per month. Yogurt is a free, MIT-licensed app that records and summarizes meetings on your own computer. Fathom has a free plan with unlimited recordings and team plans from $15 per user per month on annual billing.
+
+## At a glance
+- Granola (https://www.granola.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Bot-free AI notepad for meetings; Free plan: Basic: $0, 30 days of history; Paid from: $14 per user per month; Compliance: SOC 2 Type II, per Granola
+- Yogurt (https://yogurt.so/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Open-source meeting notes that run on your computer; Free plan: Free, no account needed; Paid from: No paid tier; License: MIT
+- Fathom (https://fathom.video/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: AI note taker with a free plan and team tools; Free plan: Unlimited recordings and transcripts; Paid from: $16 per user per month, annual; Compliance: HIPAA with a BAA on Team
+
+## Features
+- Capture: Granola: Bot-free, device audio | Yogurt: Bot-free, your mic and speakers | Fathom: Bot, or bot-free on Mac (beta)
+- Where AI runs: Granola: Cloud service | Yogurt: Local models on your computer | Fathom: Cloud service
+- Platforms: Granola: Desktop, iOS, Android, Apple Watch | Yogurt: Mac, Windows, Linux | Fathom: Zoom, Meet, Teams; iOS app
+- MCP: Granola: All plans; Basic reads last 30 days | Yogurt: Local, read-only, off by default | Fathom: MCP, plus an API
+- Integrations: Granola: Slack on Basic; Notion, Zapier, HubSpot on Business | Yogurt: Markdown export | Fathom: Zapier, HubSpot, Salesforce, Slack
+- Free history: Granola: 30 days on Basic | Yogurt: Stored on your computer | Fathom: Unlimited recordings
+- Compliance: Granola: SOC 2 Type II; HIPAA on Enterprise | Yogurt: Data stays local | Fathom: HIPAA BAA on Team
+- Maturity: Granola: Commercial product | Yogurt: About 1,900 stars | Fathom: Commercial product
+From Granola pricing, the Yogurt README and Fathom pricing. Yogurt stars read from the GitHub API: 1,897.
+
+## Pricing
+Granola and Fathom bill per user. Yogurt is free to run on your own computer. The five-person row uses each vendor's listed entry paid team rate.
+- Free: Granola: $0 Basic, 30 days of history | Yogurt: $0, MIT, no account | Fathom: $0, unlimited recordings
+- Entry paid: Granola: $14 per user per month (Business) | Yogurt: None | Fathom: $20 Premium monthly, $16 annual
+- Team plan: Granola: Business: $14 | Yogurt: None | Fathom: Team: $19 monthly, $15 annual, 2 users minimum
+- Five users, per month: Granola: $70 | Yogurt: $0 | Fathom: $75 annual rate, $95 monthly rate
+- Top tier: Granola: Enterprise $35 per user | Yogurt: None | Fathom: Enterprise $35 per user, annual only
+From the vendor pages. Arithmetic: Granola 5 x $14 = $70. Fathom Team 5 x $15 = $75 on annual billing, 5 x $19 = $95 month to month. Plans differ in features, so read the rows as a rate comparison, not like for like.
+
+## Granola vs Yogurt vs Fathom: what they're like to use
+By Abhijeet Singh. These three differ on where your meeting data goes. Granola and Fathom are cloud products with free plans and paid tiers. Yogurt keeps everything on your machine.
+
+### Granola
+Granola captures device audio without a bot and turns your own notes into a summary. The free Basic plan is a real trial, while the history limit and integrations push working teams to Business.
+What I liked:
+- Bot-free capture on desktop, iOS, Android and Apple Watch.
+- Custom note templates and AI chat across meetings.
+- Audio is deleted after transcription, per Granola.
+What I didn't:
+- Basic keeps only 30 days of meeting history.
+- Notion, Zapier and HubSpot links need Business.
+- SSO and HIPAA workspaces sit on the top Enterprise plan.
+Best for: individuals and small teams who want clean notes without a bot in the call.
+
+### Yogurt
+Yogurt is the privacy-first option: transcription and summaries run locally, and no bot joins the call. It is young, with about 1,900 GitHub stars, and it asks for a capable machine and a one-time model download.
+What I liked:
+- Audio, transcripts and AI processing stay on your computer.
+- Free, open source and usable without an account.
+- Optional local MCP server and Markdown export.
+What I didn't:
+- Needs 8 GB of memory and a one-time model download.
+- Speaker names from calls work on Mac only for now.
+- While MCP access is on, any app under your account can read.
+Best for: privacy-minded individuals who want free, local notes.
+
+### Fathom
+Fathom's free plan is the most generous of the three on volume, and it lets you choose bot capture or a bot-free mode. The bot-free mode is a Mac beta, and sales features such as Deal View and CRM sync sit on Business.
+What I liked:
+- Free plan with unlimited recordings and transcription.
+- Choice of bot capture or bot-free (beta, Mac).
+- API and MCP, plus Zapier and CRM integrations.
+What I didn't:
+- Bot-free capture is a beta feature for Mac.
+- Team plans need at least two users.
+- CRM field sync and Deal View start at Business.
+Best for: teams that want free recording volume and sales-call tools as they grow.
+
+## Which to choose
+- Choose Granola if you want a polished, bot-free notepad and will pay $14 for history and integrations.
+- Choose Yogurt if privacy and zero cost matter more than polish, and your computer can run local models.
+- Choose Fathom if you want free unlimited recordings now and sales-call tools later.
+Whichever you pick, tell the people on the call you are recording.
+
+## Where viaSocket fits
+Meeting note tools capture the conversation. viaSocket can carry what comes out of it into the rest of your stack, so a summary or action item lands in the CRM, helpdesk or chat where work happens.
+What viaSocket offers:
+- 2,300+ app integrations with managed authentication (features).
+- Triggers and webhooks, so a finished meeting can start a workflow.
+- AI agents and MCP access, so an agent can call your apps as tools.
+- Browser actions: agents can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- Custom API requests, for endpoints without a ready-made action.
+- Free plan: 100K tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- Meeting ends, a webhook fires, and next steps become tasks in your project tool.
+- A summary is posted to the right Slack channel and logged on the CRM contact.
+- An agent reads the notes, drafts the follow-up email and files it as a draft.
+Send meeting outcomes to 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: What is a free alternative to Granola?
+A: Yogurt is a free, MIT-licensed alternative that runs on your computer. Fathom also has a free plan with unlimited recordings and transcripts.
+Q: How much does Granola cost?
+A: Granola Basic is $0, Business is $14 per user per month and Enterprise is $35 per user per month, per its pricing page.
+Q: Does Yogurt send my meetings to the cloud?
+A: Its README says audio, transcripts and AI processing stay on your computer. It goes online for model downloads and update checks.
+Q: Do these tools join my call as a bot?
+A: Granola and Yogurt do not. Fathom offers bot capture, and a bot-free mode in beta for Mac.
+Q: Which supports MCP?
+A: All three. Granola offers MCP on every plan, Fathom lists MCP and an API, and Yogurt has a local read-only MCP server that is off by default.
+
+## Sources
+- Granola: homepage https://www.granola.ai?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://www.granola.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Yogurt: homepage https://yogurt.so?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/FrigadeHQ/yogurt?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Fathom: homepage https://fathom.video?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://fathom.video/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
