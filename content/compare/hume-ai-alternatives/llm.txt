@@ -1,0 +1,113 @@
+# Hume AI alternatives: ElevenLabs vs Cartesia vs Deepgram
+
+URL: https://viasocket.com/discovery/compare/hume-ai-alternatives
+Author: Ragini Mahobiya (https://viasocket.com/discovery/user/92927)
+Publisher: viaSocket Discovery
+
+## Short answer
+Hume announced that its TTS and EVI APIs close 13 November, with account data deleted after. ElevenLabs, Cartesia and Deepgram are three common Hume AI alternatives. ElevenLabs covers 90+ languages at $0.08 an agent minute. Cartesia targets low-latency agents at $0.03 a minute. Deepgram pairs speech-to-text with TTS at $0.030 per 1,000 characters.
+Hume gives no migration guide, only a link to its Real World VoiceEQ comparison of voice models, so export prompts, configuration and voice settings before the cutoff.
+
+## At a glance
+- ElevenLabs (https://elevenlabs.io/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Voice platform: TTS, agents and speech-to-text; Free plan: 10k credits a month, 15 agent minutes; Paid from: $6 a month (Starter); Self-host: No; data residency on Enterprise
+- Cartesia (https://cartesia.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Low-latency TTS, speech-to-text and voice agents; Free plan: 20K credits a month; Paid from: $5 a month (Pro); Self-host: On-prem or VPC through sales
+- Deepgram (https://deepgram.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Speech-to-text, TTS and voice agent API; Free plan: $200 credit, no expiry; Paid from: Pay as you go, no minimum; Self-host: Enterprise, in your VPC or on-prem
+
+## Features
+- TTS languages: ElevenLabs: 90+ (v4, v4 Turbo) | Cartesia: 44 (Sonic 3.6) | Deepgram: 7 (Aura-2)
+- Voice cloning: ElevenLabs: Instant from Starter, Professional from Creator | Cartesia: Instant from Pro, from a 10-second clip | Deepgram: Not offered
+- Emotion control: ElevenLabs: Audio tags such as [whispers] | Cartesia: Emotion, speed, volume (emotion beta, English) | Deepgram: Inferred by Flux TTS; no controls
+- Latency claim: ElevenLabs: About 75 to 100ms (per ElevenLabs) | Cartesia: About 90ms (per Cartesia) | Deepgram: From 80ms, Flux TTS (per Deepgram)
+- Speech-to-text: ElevenLabs: Scribe v2, $0.22 an hour | Cartesia: Ink, included on Free | Deepgram: Core product, Nova-3
+- Voice agents: ElevenLabs: ElevenAgents: phone, chat, WhatsApp; 31 languages | Cartesia: Managed Agents for phone calls | Deepgram: Voice Agent API over WebSocket
+- Compliance: ElevenLabs: SOC 2, GDPR; BAA on Enterprise | Cartesia: SOC 2 Type II; BAA on Enterprise | Deepgram: SOC 2, HIPAA BAA, GDPR EU endpoint
+From ElevenLabs TTS docs, ElevenLabs voices docs, ElevenLabs data residency, Cartesia docs, Cartesia emotion controls, Cartesia pricing, Deepgram TTS models and Deepgram pricing.
+
+## Pricing
+TTS is billed per character on all three, and agents per minute. The two volume rows price 1 million characters of TTS and 10,000 agent minutes at list rates; agent rates bundle different things, so treat them as a starting point.
+- Free: ElevenLabs: 10k credits, 15 agent minutes | Cartesia: 20K credits, $1 agent credit | Deepgram: $200 credit, no expiry
+- Entry paid: ElevenLabs: Starter, $6 a month, 30k credits | Cartesia: Pro, $5 a month, 100K credits | Deepgram: Pay as you go; Growth from $4,000 a year
+- TTS rate: ElevenLabs: $0.04 per 1K characters (Flash, v4 Turbo) | Cartesia: 1 credit a character; $38 to $65 per 1M over plan | Deepgram: $0.030 per 1K characters (Aura-2)
+- 1M characters: ElevenLabs: $40 | Cartesia: $49 (Startup, 1.25M credits) | Deepgram: $30
+- 10,000 agent minutes: ElevenLabs: $800 ($0.08 a minute) plus LLM | Cartesia: $300 ($0.03 a minute) plus LLM and telephony | Deepgram: $750 ($0.075 a minute, Standard)
+- Enterprise: ElevenLabs: Custom: SSO, BAA, data residency | Cartesia: Custom: DPA, BAA, SSO, shared Slack | Deepgram: Custom: self-hosting, model training
+Prices from elevenlabs.io/pricing, ElevenLabs API pricing, ElevenLabs agents pricing, cartesia.ai/pricing and deepgram.com/pricing. Volume: 1,000 x $0.04; 1M credits inside Startup's 1.25M; 1,000 x $0.030; 10,000 minutes x each per-minute rate.
+
+## ElevenLabs vs Cartesia vs Deepgram: what they're like to use
+By Ragini Mahobiya. None of these Hume EVI alternatives is a drop-in copy of EVI, so the right pick depends on what you used Hume for: expressive voices, cheap real-time agents, or listening as much as speaking.
+
+### ElevenLabs
+ElevenLabs is the broadest platform here: TTS in 90+ languages, cloning, speech-to-text and an agent product for phone, chat and WhatsApp. If Hume's expressive delivery was the draw, audio tags are the closest match I found.
+What I liked:
+- Voice realism that independent benchmarks rate highly.
+- Audio tags such as [whispers] for expressive delivery.
+- The most languages here, 90+ on v4.
+What I didn't:
+- Pricing mixes credits, characters and minutes, which confuses some users.
+- The highest agent rate of the three, at $0.08 a minute.
+- No self-hosting; data residency is Enterprise only.
+Best for: products where voice quality, cloning and language coverage matter more than unit price.
+
+### Cartesia
+Cartesia is built for real-time voice agents, and the pricing shows it: the lowest agent rate here and one credit per character for TTS. Its emotion control is beta and English only, so test it first if expressiveness is why you chose Hume.
+What I liked:
+- $0.03 an agent minute, the lowest list rate here.
+- Clones a voice from a 10-second clip.
+- Speed, volume and emotion controls in the API.
+What I didn't:
+- Emotion control is beta and English only.
+- Free plan concurrency is 2 TTS streams.
+- An independent phone-agent benchmark measured 244ms, against the claimed 90ms.
+Best for: teams building phone agents where cost per minute and response speed matter most.
+
+### Deepgram
+Deepgram comes from speech-to-text, and that is still its edge: one vendor for listening and speaking, with a self-hosted option for regulated teams. Its TTS is the most limited of the three on languages and expression.
+What I liked:
+- Speech-to-text and TTS from one vendor on one bill.
+- $200 of free credit that does not expire.
+- Self-hosting in your VPC or on-prem on Enterprise.
+What I didn't:
+- Aura-2 covers 7 languages, and Flux TTS starts English only.
+- No voice cloning yet.
+- No emotion controls, a gap for teams leaving Hume.
+Best for: teams that need accurate transcription and TTS together, or must self-host.
+
+## Which to choose
+- Choose ElevenLabs if voice quality, cloning and language coverage are the priority.
+- Choose Cartesia if you run high-volume phone agents and want the lowest per-minute rate.
+- Choose Deepgram if transcription accuracy, one vendor for both directions or self-hosting matter most.
+Rebuild your most-used Hume voice and prompt on two of these free tiers and compare before access ends.
+
+## Where viaSocket fits
+A speech API gives an agent a voice. viaSocket connects what the agent hears to 2,300+ apps, so a call can end with a booked meeting, an updated CRM record or a new ticket.
+What viaSocket offers:
+- 2,300+ app integrations as agent tools, with managed authentication (features).
+- AI agents and MCP access for compatible AI clients.
+- Triggers and webhooks, so a call summary can start a workflow.
+- Browser actions: agents can browse, click and fill in forms on sites with no API (browser actions).
+- Free plan: 100,000 tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- A post-call flow that receives each call summary by webhook, logs it in HubSpot and alerts the team in Slack.
+- An AI agent that uses your calendar and CRM as tools to book meetings and update records.
+- A flow that files every new support call as a ticket with the caller's details attached.
+Connect your voice agent to 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: When do Hume's TTS and EVI APIs shut down?
+A: Hume's notice says access ends 13 November at 12:01 a.m. EST, and data in your account is permanently deleted after that.
+Q: Which Hume alternative costs least for voice agents?
+A: On list rates, Cartesia's Managed Agents cost $0.03 a minute, against $0.075 for Deepgram's Standard Voice Agent and $0.08 for ElevenLabs. Each bundles LLM and telephony differently, so compare the full bill.
+Q: Which Hume EVI alternative has emotion control?
+A: ElevenLabs uses audio tags such as [whispers]. Cartesia has emotion, speed and volume controls, with emotion in beta for English only. Deepgram has no emotion controls today.
+Q: Does Deepgram support voice cloning?
+A: Not today. Trade press on the Flux TTS launch says Deepgram plans voice cloning and finer emotional controls, with no date.
+Q: Can I self-host a Hume alternative?
+A: Deepgram offers self-hosted containers on Enterprise, and Cartesia offers on-prem or VPC deployment through sales. ElevenLabs lists no self-hosted option.
+
+## Sources
+- Hume: TTS and EVI sunset notice (archived) https://web.archive.org/web/20261007074105/https://dev.hume.ai/voice/changelog?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Real World VoiceEQ https://www.hume.ai/rw-voice-eq?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- ElevenLabs: pricing https://elevenlabs.io/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, API pricing https://elevenlabs.io/pricing/api?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, agents pricing https://elevenlabs.io/pricing/agents?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, TTS docs https://elevenlabs.io/docs/overview/capabilities/text-to-speech?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Cartesia: pricing https://cartesia.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.cartesia.ai?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, emotion controls https://docs.cartesia.ai/build-with-cartesia/sonic-3/volume-speed-emotion?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, trust center https://trust.cartesia.ai?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Independent: Cekura voice agent TTS benchmark https://www.cekura.ai/blogs/best-tts-for-ai-voice-agents?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Deepgram: pricing https://deepgram.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, TTS models https://developers.deepgram.com/docs/tts-models?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Flux TTS launch https://deepgram.com/learn/text-to-speech-comes-of-age-deepgram-launches-conversation-native-speech?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
