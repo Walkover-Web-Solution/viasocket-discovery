@@ -9,11 +9,11 @@ Zapier MCP, Composio and Pipedream MCP all let an AI agent call apps through MCP
 
 ## At a glance
 - Zapier MCP (https://zapier.com/mcp?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: MCP access to apps you already use in Zapier; Free plan: 100 tasks a month, MCP included; Paid from: $19.99 a month, billed annually; Apps: 9,000+ apps, per Zapier
-- Composio (https://composio.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Tool layer for agents with managed auth; Free plan: 100,000 tool calls a month; Paid from: $29 a month (Pro); Apps: 1,500+ toolkits
+- Composio (https://composio.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Tool layer for agents with managed auth; Free plan: 100,000 tool calls a month; Paid from: $29 a month (Pro); Apps: 1,700+ toolkits
 - Pipedream MCP (https://pipedream.com/connect?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Hosted MCP servers for apps, inside Pipedream Connect; Free plan: Free, development use only; Paid from: $99 a month, billed annually; Apps: 3,000+ APIs, 10,000+ tools
 
 ## Features
-- Apps: Zapier MCP: 9,000+ apps | Composio: 1,500+ toolkits | Pipedream MCP: 3,000+ APIs, 10,000+ tools
+- Apps: Zapier MCP: 9,000+ apps | Composio: 1,700+ toolkits | Pipedream MCP: 3,000+ APIs, 10,000+ tools
 - Built for: Zapier MCP: People using Claude, ChatGPT, Cursor | Composio: Developers building agents | Pipedream MCP: Developers adding MCP to a product
 - Setup: Zapier MCP: Pick apps and actions, connect a client | Composio: SDK, auth config, server, per-user URL | Pipedream MCP: Project, OAuth client, four headers
 - Authentication: Zapier MCP: Zapier-managed connections | Composio: Managed auth per user | Pipedream MCP: Managed per external user
@@ -98,7 +98,7 @@ A: Composio's Hobby plan is $0 and includes 100,000 tool calls a month. Usage pa
 Q: What does Pipedream MCP cost?
 A: MCP servers are included on all plans, and MCP tool calls use credits. Free is for development only; Startup is $99 a month billed annually.
 Q: Which has the most apps?
-A: Zapier says 9,000+ apps, Pipedream 3,000+ APIs and Composio 1,500+ toolkits. Counts are each vendor's own.
+A: Zapier says 9,000+ apps, Pipedream 3,000+ APIs and Composio 1,700+ toolkits. Counts are each vendor's own.
 Q: Can I use these with Claude, ChatGPT or Cursor?
 A: Zapier names Claude, ChatGPT and Cursor. Composio's docs list OpenAI, Claude Agent SDK, Claude Desktop and Cursor. Pipedream's docs cover Vercel AI SDK, OpenAI, Claude and Gemini.
 
