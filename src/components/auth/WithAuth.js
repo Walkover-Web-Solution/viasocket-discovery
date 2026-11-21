@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { getCurrentEnvironment, setInCookies, getFromCookies } from '@/utils/storageHelper';
+import { getCurrentEnvironment, setInCookies, getFromCookies, persistProxyAuthTokenFromSearch } from '@/utils/storageHelper';
 
 function WithAuth({ children }) {
   const router = useRouter();
@@ -8,6 +8,9 @@ function WithAuth({ children }) {
   const proxyKey = 'proxy_auth_token';
 
   useEffect(() => {
+    persistProxyAuthTokenFromSearch(
+      router.asPath.includes('?') ? `?${router.asPath.split('?')[1]}` : '',
+    );
     const searchParams = new URLSearchParams(router.asPath.split('?')[1]);
 
     Array.from(searchParams?.entries()).forEach(([key, value]) => {

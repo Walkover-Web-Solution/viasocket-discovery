@@ -32,11 +32,11 @@ const Header = () => {
     redirect_to: '/discovery/auth',
     utm_source: utmSource,
   });
-  const loginUrl = (getCurrentEnvironment() !== 'prod')
-    ? 'http://localhost:3000/discovery/auth'
+  const loginUrl = getCurrentEnvironment() === 'local'
+    ? '/discovery/auth'
     : `https://viasocket.com/login?${authQuery.toString()}`;
-  const signupUrl = (getCurrentEnvironment() !== 'prod')
-    ? 'http://localhost:3000/discovery/auth'
+  const signupUrl = getCurrentEnvironment() === 'local'
+    ? '/discovery/auth'
     : `https://viasocket.com/signup?${authQuery.toString()}`;
 
   
