@@ -2,7 +2,7 @@
 
 viaSocket Discovery is one Next.js 14 **pages-router** app served under the `/discovery` base path on `https://viasocket.com`. It holds the website, the product UI, and its own API routes. There is no separate backend, CLI, or SDK in this repo.
 
-Reviewed against commit `7cab049`. Everything here comes from the code. It describes what the code does, which is not necessarily what the product intends.
+Reviewed against commit `3e05e50`. Everything here comes from the code. It describes what the code does, which is not necessarily what the product intends.
 
 ## Two content systems
 
@@ -59,6 +59,7 @@ flowchart LR
 - **Comments:** `POST /api/blog/<id>/comments` stores a `pending` comment. `POST /api/update-blogs` merges comments into blogs with AI (`updateBlogUsingComments` in `src/pages/api/blog/[blogId]/update-blog.js`).
 - **Batch maintenance (no UI caller found):** `improve-blogs`, `improve/[id]`, `update-blogs`, `sync-apps`, `tags`, `mongo-to-dbdash`, and `udpate-blog-from-db-dash` (sic). Results go to a viaSocket webhook through `sendMessageTochannel`. How these are scheduled is not in this repo.
 - **Compare pages:** see [README → Compare pages](../README.md#compare-pages). `getComparePage()` turns `h2`s into the "On this page" index, `details/summary` into FAQ JSON-LD, and adjacent tables into a side-by-side row.
+- **Login return:** `Header` sends prod users to `viasocket.com/login` or `/signup` with `redirect_to=/discovery/auth` (local uses `/discovery/auth` only). `src/pages/auth/index.js` loads MSG91 `proxy-auth.js` when there is no token; on success the browser lands on `/discovery/auth?proxy_auth_token=…`. The page waits for `router.isReady`, then `persistProxyAuthTokenFromSearch()` stores the token in `localStorage` and in a cookie keyed by `NEXT_PUBLIC_NEXT_API_ENVIRONMENT` before redirecting to the saved path or `/discovery`. `WithAuth` (wrapped around most pages) runs the same persistence on navigation so child effects see a token. Client code reads the token only through `getProxyAuthToken()` (env cookie first, then `localStorage`). `UserContext` calls MSG91 `getDetails` when a token exists; axios and `apiHelper` attach it to Discovery API and proxy calls.
 
 ## API routes
 

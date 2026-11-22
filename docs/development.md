@@ -9,11 +9,11 @@
 
 ## Commands
 
-| Command | What it does | Verified 2026-11-08 at `7cab049` |
+| Command | What it does | Verified 2026-11-22 at `3e05e50` |
 | --- | --- | --- |
 | `npm run dev` | Next dev server | not run |
-| `npm run build` | Production build. Compare pages are prerendered from `content/compare/`. | passes with no secrets set |
-| `npm start` | Serves the build on port 3000 | ran with `-p 3123`. Compare, `llms.txt`, `sitemap.xml`, and `robots.txt` returned 200. An unknown slug returned 404. `POST /discovery/api/blog` without a token returned 401. |
+| `npm run build` | Production build. Compare pages are prerendered from `content/compare/` (13 slugs on disk). | passes with no secrets set |
+| `npm start` | Serves the build on port 3000 | not re-run this maintenance pass (last smoke 2026-11-08 at `7cab049`) |
 | `npm run lint` | `next lint` (`next/core-web-vitals`) | passes, warnings only |
 | `npm run status:check` | Fails when `src/`, `lib/`, `models/`, or `scripts/` changed without `STATUS.md` ([AGENTS.md](../AGENTS.md)) | passes |
 | `npm run build:production` | Build with `.env.production` (used by the Dockerfile) | not run |

@@ -1,10 +1,10 @@
 # Security and operations
 
-What the code does today, as reviewed at commit `7cab049`. Items marked **finding** are observed risks. None of them is fixed or approved here. Each needs an owner's decision.
+What the code does today, as reviewed at commit `3e05e50`. Items marked **finding** are observed risks. None of them is fixed or approved here. Each needs an owner's decision.
 
 ## Trust boundaries
 
-- **Login:** the browser holds a MSG91 `proxy_auth_token` (a cookie named after the environment; `localStorage` locally) and sends it as a header (`src/utils/interceptor.js`). On every matched request, `src/middleware.js` exchanges it with MSG91 for a JWT. It decodes the payload **without verifying the signature** (`decodeJwtPayload` in `src/auth.js`), then loads the user from MSG91 by id. The trust comes from the server-to-server call to MSG91, not from the JWT.
+- **Login:** MSG91 issues a `proxy_auth_token` after the user signs in on viasocket.com (or through the widget on `/discovery/auth` in local). `persistProxyAuthTokenFromSearch()` and `WithAuth` copy it into `localStorage` and a cookie named after `NEXT_PUBLIC_NEXT_API_ENVIRONMENT` (`prod` or `local`); `getProxyAuthToken()` reads the cookie first, then `localStorage`. Every axios call and gated flow sends it as the `proxy_auth_token` header (`src/utils/interceptor.js`, `src/utils/apiHelper.js`). On each request, `src/middleware.js` exchanges it with MSG91 for a JWT, decodes the payload **without verifying the signature** (`decodeJwtPayload` in `src/auth.js`), then loads the user from MSG91 by id. Trust comes from the server-to-server call to MSG91, not from the JWT. The callback page persists the query token only after `router.isReady` so redirect does not outrun storage (see [architecture → Login return](architecture.md#main-flows)).
 - **Admin token:** a request whose token equals `ADMIN_TOKEN` passes the gate, but no `x-profile` is set for it.
 - **User identity in routes:** route handlers read the user from the `x-profile` **request** header. The middleware sets `x-profile` on the **response** (`res.headers.set`), not through `NextResponse.next({ request: { headers } })`. Not tested: whether a client-supplied `x-profile` reaches the routes unchanged. If it does, any route that trusts it can be spoofed. Also, the profile (name, email, org) is returned to the browser as a response header.
 - **Database choice is client-controlled:** API routes connect to prod or local Mongo based on the request's `env` header.

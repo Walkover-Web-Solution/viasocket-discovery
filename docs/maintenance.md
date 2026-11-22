@@ -1,6 +1,6 @@
 # Documentation maintenance
 
-The weekly docs run starts here. **Reviewed revision:** `7cab049` (main, 2026-11-08, first run). The next run reviews `git log 7cab049..HEAD` plus the "Unfinished" list below.
+The weekly docs run starts here. **Reviewed revision:** `3e05e50` (main, 2026-11-22). The next run reviews `git log 3e05e50..HEAD` plus the "Unfinished" list below.
 
 ## Coverage map
 
@@ -11,9 +11,9 @@ Status: **verified** means checked against code or by running it. **partial** me
 | Agent rules and progress tracker | [AGENTS.md](../AGENTS.md), [STATUS.md](../STATUS.md) | verified | `npm run status:check` passed. `CLAUDE.md` defers to AGENTS.md. |
 | Product purpose, ICP, vision, non-goals, success measures | — | missing | There is no VISION.md or plan (see STATUS.md open question 1). It needs an owner to write one. The code shows the features, not the intent. |
 | Feature inventory | [STATUS.md](../STATUS.md) "Beyond the plan" | partial | Rows exist. None is ✅ (not exercised with real sessions). |
-| Architecture, routes, data model, integrations | [architecture.md](architecture.md) | verified | Read from the code. Base path checked in the build manifest. |
+| Architecture, routes, data model, integrations | [architecture.md](architecture.md) | verified | Re-read through `3e05e50`; login return journey documented after PR #163. Base path checked in the build manifest. |
 | Compare page authoring and SEO routes | [README → Compare pages](../README.md#compare-pages) | verified | Built and served locally. All 13 routes prerendered. |
-| Setup, commands, tests | [development.md](development.md) | verified | build, start, lint, and status:check run. dev and build:production not run. |
+| Setup, commands, tests | [development.md](development.md) | verified | build, lint, and status:check run 2026-11-22. `npm start` smoke not re-run. dev and build:production not run. |
 | Security, trust boundaries, secrets | [security-and-operations.md](security-and-operations.md) | partial | Findings are recorded. Spoofing `x-profile` was not tested. Gateway protection is unknown. |
 | Performance and caching | [security-and-operations.md](security-and-operations.md#performance-and-caching) | partial | Behavior is described. No budgets exist. |
 | Website SEO (sitemap, robots, canonicals, JSON-LD, llms.txt) | [security-and-operations.md](security-and-operations.md#seo-surface), README | partial | Host-level robots.txt is not confirmed. Blogs are not in the sitemap; whether that is intended is unknown. |
@@ -43,4 +43,5 @@ Status: **verified** means checked against code or by running it. **partial** me
 
 ## Run log
 
+- 2026-11-22 · Weekly run at `3e05e50`. Five commits since `7cab049` (docs refresh PR #156, login fix PR #163). Documented MSG91 login return and token persistence in architecture and security. Re-ran `npm run build`, `npm run lint`, and `npm run status:check`.
 - 2026-11-08 · First run at `7cab049`. Added AGENTS.md task map, `docs/architecture.md`, `docs/development.md`, `docs/security-and-operations.md`, and this file. Corrected README boilerplate and compare fields.
