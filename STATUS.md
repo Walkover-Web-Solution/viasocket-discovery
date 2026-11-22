@@ -13,6 +13,7 @@ Rules: every status rests on code in the repo. Built but unchecked is 🟡, neve
 | Plan scorecard | ⛔ | No plan to score against. Phases, scope items and must-pass tests are empty until a plan is linked above. |
 | Code inventory | 🟡 | Everything found in `src/`, `lib/`, `models/` is listed under "Beyond the plan". Nothing is marked ✅: no tests or usage evidence in the repo. |
 | Status tracking | 🟡 | `scripts/status-check.mjs` + `.github/workflows/status-check.yml`. Verified locally; not yet seen running on a PR. |
+| Contributor docs (`docs/`, `AGENTS.md`) | 🟡 | Added 2026-11-22; lint/build verified. No product vision doc yet. |
 
 ## Phases
 
@@ -61,4 +62,5 @@ Everything below exists in code; with no plan, none of it can be placed in one.
 
 Newest first: date · who · what · status effect.
 
+- 2026-11-22 · Cursor agent · First docs maintenance on `automation-ideas`: `docs/*`, expanded `AGENTS.md`, README · No feature status change; see [docs/maintenance.md](docs/maintenance.md).
 - 2026-11-02 · Cursor agent · Created STATUS.md, `npm run status:check`, PR workflow, and the update rule in `AGENTS.md`/`CLAUDE.md` · Inventory added as 🟡; plan scorecard ⛔ (no plan supplied).

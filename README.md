@@ -1,43 +1,28 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# viaSocket Automation Ideas
 
-## Getting Started
+Next.js app (pages router) for **automation use cases** and related AI blogs, served at **`https://viasocket.com/automation-ideas`**. MongoDB holds live content; see [docs/architecture.md](docs/architecture.md) for routes and data model.
 
-First, run the development server:
+Agents and contributors: start with [AGENTS.md](AGENTS.md). Feature status lives in [STATUS.md](STATUS.md).
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the dev server on port 3000 at the `/automation-ideas` base path. Server-only secrets (Mongo, MSG91, GTWY, use-case agent ids) are required for full flows — see [docs/development.md](docs/development.md) and [docs/security-and-operations.md](docs/security-and-operations.md).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Command | Purpose |
+| --- | --- |
+| `npm run build` | Production build |
+| `npm run build:production` | Build using committed `.env.production` (Docker image) |
+| `npm run lint` | ESLint |
+| `npm run status:check` | Ensures `STATUS.md` stays current when code changes |
 
 ## Experiments
 
-A/B recording lives in one shared module, `src/utils/experiments.js`. The running UI is the Pages Router (`src/pages`), so any page imports the helpers from there. No page calls them yet: nothing on screen changes, and no experiment is started. The owner defines experiments in the middleware.
+A/B recording lives in `src/utils/experiments.js`. The running UI is the Pages Router (`src/pages`). **No page imports the helpers yet** — nothing on screen changes, and no experiment is started. The owner defines experiments in the middleware.
 
 ```js
 import { mwVariant, mwSend } from '@/utils/experiments';
@@ -47,9 +32,18 @@ await mwSend('exposure', { experiment: 'experiment-key', variant });
 await mwSend('conversion', { experiment: 'experiment-key', variant });
 ```
 
-`mwVariant` returns `null` until the middleware assigns a variant. It does not pick one itself. Set these in the environment before building. Next.js inlines `NEXT_PUBLIC_` values at build time, and the values must not be written into source:
+`mwVariant` returns `null` until the middleware assigns a variant. Set before build:
 
 - `NEXT_PUBLIC_MW_EVENTS_URL` — events URL
-- `NEXT_PUBLIC_MW_KEY` — write key sent as `Authorization: Bearer`
+- `NEXT_PUBLIC_MW_KEY` — bearer write key
 
-Put them in `.env.local` for local `next dev`. The production image runs `npm run build:production`, which loads `.env.production`.
+Use `.env.local` for `next dev`; production image uses `npm run build:production` (`.env.production`). Do not commit secret values.
+
+## Documentation map
+
+| Doc | Contents |
+| --- | --- |
+| [docs/architecture.md](docs/architecture.md) | Routes, APIs, Mongo models, integrations |
+| [docs/development.md](docs/development.md) | Setup, commands, manual verification |
+| [docs/security-and-operations.md](docs/security-and-operations.md) | Auth, secrets, SEO, deploy |
+| [docs/maintenance.md](docs/maintenance.md) | Coverage map and docs run history |
