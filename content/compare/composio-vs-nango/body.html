@@ -17,7 +17,7 @@
 <thead><tr><th>Feature</th><th><span><img src="/discovery/compare-logos/composio.png" alt="Composio logo" width="36" height="36"> Composio</span></th><th><span><img src="/discovery/compare-logos/nango.png" alt="Nango logo" width="36" height="36"> Nango</span></th></tr></thead>
 <tbody>
 <tr><td>Approach</td><td>Hosted tool catalog with managed auth, used through sessions per user</td><td>Code-first platform for auth, tools, syncs and webhooks; integration logic written as TypeScript functions you generate with AI, then edit and version (per Nango)</td></tr>
-<tr><td>Catalog size</td><td>1,500+ apps (per <a href="https://composio.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">Composio</a>)</td><td>1,000+ APIs and 10,000+ tools or templates (per <a href="https://nango.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">Nango</a>)</td></tr>
+<tr><td>Catalog size</td><td>1,700+ apps (per <a href="https://composio.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">Composio</a>)</td><td>1,400+ APIs and 10,000+ tools (per <a href="https://nango.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">Nango</a>)</td></tr>
 <tr><td>Authentication</td><td>Composio-managed auth by default, connected accounts kept per user ID, a Connect Link when a task needs an account</td><td>OAuth, API keys, token refresh, scopes and credential storage</td></tr>
 <tr><td>MCP</td><td>Hosted MCP endpoint; a client such as Cursor connects by pasting one MCP URL (per Composio)</td><td>MCP server; an agent session returns an MCP URL and a session token</td></tr>
 <tr><td>Triggers and webhooks</td><td>Trigger events, billed separately from tool calls</td><td>Webhooks and triggers that react to external events</td></tr>
@@ -30,12 +30,12 @@
 </tbody></table></div>
 
 <h2 id="pricing">Composio vs Nango pricing</h2>
-<p>Composio bills on tool calls and trigger events. Nango bills on connections, compute hours and data transfer, so the plans do not line up one to one.</p>
+<p>Composio bills on tool calls. Nango bills on connections, compute hours and data transfer, so the plans do not line up one to one.</p>
 <div class="scroll"><table>
 <thead><tr><th>Plan</th><th><span><img src="/discovery/compare-logos/composio.png" alt="Composio logo" width="36" height="36"> Composio</span></th><th><span><img src="/discovery/compare-logos/nango.png" alt="Nango logo" width="36" height="36"> Nango</span></th></tr></thead>
 <tbody>
-<tr><td>Free</td><td><b>Hobby, $0.</b> 100,000 tool calls and 50,000 trigger events a month, 3 team members, unlimited connected accounts. Usage pauses at the cap.</td><td><b>Free, $0.</b> 10 connections, 10 compute hours and 10 GB data transfer a month. Hard-capped, resets monthly.</td></tr>
-<tr><td>Paid</td><td><b>Pro, $29 a month.</b> Includes a $29 monthly usage credit, then $0.0003 per tool call and $0.003 per trigger event.</td><td><b>Pay-as-you-go, $50 a month.</b> Includes $50 of credits, then $0.29 per connection, $0.72 per compute hour, $0.50 per GB.</td></tr>
+<tr><td>Free</td><td><b>Free, $0.</b> 10,000 tool calls a month, 3 team members, up to 5 shared connections. Usage pauses at the cap.</td><td><b>Free, $0.</b> 10 connections, 10 compute hours and 10 GB data transfer a month. Hard-capped, resets monthly.</td></tr>
+<tr><td>Paid</td><td><b>Standard, $18 per seat a month (listed as coming soon).</b> Includes $18 in credits per seat, then $0.005 per extra tool call.</td><td><b>Pay-as-you-go, $50 a month.</b> Includes $50 of credits, then $0.29 per connection, $0.72 per compute hour, $0.50 per GB.</td></tr>
 <tr><td>Support add-on</td><td>Email on Pro</td><td>Growth add-on, $450 a month: private Slack and 5 days requested integration delivery time</td></tr>
 <tr><td>Enterprise</td><td><b>Custom.</b> SSO/SCIM, customer-managed keys, dedicated support and custom SLAs.</td><td><b>Custom.</b> Self-hosting, bring your own cloud, MSA, SLA and commitment discounts.</td></tr>
 </tbody></table></div>
@@ -51,7 +51,7 @@
 <li>A short path from install to an agent calling real apps.</li>
 <li>Managed auth by default, with each connection scoped to the user's ID.</li>
 <li>One hosted MCP URL for clients such as Cursor (per Composio).</li>
-<li>Room to build on the free plan: 100,000 tool calls and 50,000 trigger events a month.</li>
+<li>Room to build on the free plan: 10,000 tool calls a month and up to 3 custom MCP servers.</li>
 </ul>
 <p><strong>What I didn't</strong></p>
 <ul>
@@ -90,8 +90,8 @@
 
 <h2 id="faq">FAQ</h2>
 <details><summary>What is the main difference between Composio and Nango?</summary><p>Composio is a hosted catalog of ready-made app tools with managed auth. Nango is a code-first platform that covers auth, tools, data syncs and webhooks, and expects you to own the integration code.</p></details>
-<details><summary>Do Composio and Nango both have a free plan?</summary><p>Yes. Composio's Hobby plan includes 100,000 tool calls and 50,000 trigger events a month. Nango's free plan includes 10 connections, 10 compute hours and 10 GB of data transfer a month.</p></details>
-<details><summary>How much do Composio and Nango cost?</summary><p>Composio Pro is $29 a month with a $29 usage credit, then $0.0003 per tool call. Nango's pay-as-you-go plan is $50 a month with $50 of credits, then $0.29 per connection, $0.72 per compute hour and $0.50 per GB. Both have custom Enterprise plans.</p></details>
+<details><summary>Do Composio and Nango both have a free plan?</summary><p>Yes. Composio's Free plan includes 10,000 tool calls a month. Nango's free plan includes 10 connections, 10 compute hours and 10 GB of data transfer a month.</p></details>
+<details><summary>How much do Composio and Nango cost?</summary><p>Composio Standard is $18 per seat a month, listed as coming soon, with $18 in credits per seat, then $0.005 per extra tool call. Nango's pay-as-you-go plan is $50 a month with $50 of credits, then $0.29 per connection, $0.72 per compute hour and $0.50 per GB. Both have custom Enterprise plans.</p></details>
 <details><summary>Do both support MCP?</summary><p>Yes. Composio exposes sessions through a hosted MCP endpoint, and Nango offers an MCP server whose agent sessions return an MCP URL.</p></details>
 <details><summary>Is Nango open source?</summary><p>Nango calls itself open source, and its repository uses the Elastic License, which is source-available. Composio's SDK repository is MIT licensed.</p></details>
 <details><summary>Can I self-host Composio or Nango?</summary><p>Nango's free self-hosting covers API auth and proxy only; full self-hosting and bring-your-own-cloud are on Enterprise. Composio does not list a self-hosted option.</p></details>
