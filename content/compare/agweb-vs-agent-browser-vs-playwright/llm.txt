@@ -1,0 +1,112 @@
+# agweb vs agent-browser vs Playwright: which browser should your coding agent drive?
+
+URL: https://viasocket.com/discovery/compare/agweb-vs-agent-browser-vs-playwright
+Author: Vaishali Raghuvanshi (https://viasocket.com/discovery/user/6485)
+Publisher: viaSocket Discovery
+
+## Short answer
+All three are free and open source and let a coding agent read a page as a tree and click by reference. agweb is a macOS app on WebKit that never steals focus. agent-browser is a Rust command line tool on Chrome. Playwright ships a CLI and an MCP server. The key difference is engine and platform.
+
+## At a glance
+- agweb (https://github.com/paul-nameless/agweb?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: macOS browser app built for coding agents; Free plan: Free, MIT license; Paid from: No paid tier; Engine: WebKit, macOS 15.4 or later
+- agent-browser (https://github.com/vercel-labs/agent-browser?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Native Rust CLI that drives a browser for agents; Free plan: Free, Apache 2.0; Paid from: No paid tier; Engine: Chrome for Testing by default
+- Playwright CLI and MCP (https://github.com/microsoft/playwright-cli?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Microsoft's Playwright for agents, as CLI or MCP; Free plan: Free, Apache 2.0; Paid from: No paid tier; Engine: Playwright browsers; headless by default
+
+## Features
+- Interface: agweb: CLI plus macOS app | agent-browser: CLI, plus MCP over stdio | Playwright CLI and MCP: CLI with skills, or MCP server
+- Engine: agweb: WebKit | agent-browser: Chrome for Testing, others optional | Playwright CLI and MCP: Playwright browsers
+- Platform: agweb: macOS 15.4 or later | agent-browser: npm or Homebrew; Linux supported | Playwright CLI and MCP: Node.js 18 or 20 and up
+- Page format: agweb: Snapshot tree with refs | agent-browser: Compact snapshot with refs | Playwright CLI and MCP: Accessibility snapshots
+- Many agents at once: agweb: Workspaces, one dashboard | agent-browser: One session per daemon | Playwright CLI and MCP: Named sessions
+- Saved logins: agweb: Named profiles, shared live | agent-browser: Session persistence option | Playwright CLI and MCP: Persistent profile flag
+- Cloud browsers: agweb: None | agent-browser: Browserbase, Kernel, more | Playwright CLI and MCP: Not stated in its README
+- GitHub stars: agweb: About 255 | agent-browser: About 52,000 | Playwright CLI and MCP: MCP 39,800; CLI 15,300
+From the agweb README, the agent-browser README, the Playwright MCP README and the Playwright CLI README. Stars read from the GitHub API: agweb 255, agent-browser 52,088, Playwright MCP 39,756, Playwright CLI 15,252.
+
+## Pricing
+There is nothing to buy for any of the three. Your costs are model tokens and, if you choose one, a cloud browser. The memory figures below are agweb's own measurement on its author's Mac, not an independent benchmark.
+- Price: agweb: $0 | agent-browser: $0 | Playwright CLI and MCP: $0
+- License: agweb: MIT | agent-browser: Apache 2.0 | Playwright CLI and MCP: Apache 2.0
+- Hosted option: agweb: None | agent-browser: Optional cloud providers, billed by them | Playwright CLI and MCP: Not stated in its README
+- Token cost: agweb: Replies report changes, fewer snapshots (per agweb) | agent-browser: Compact snapshots | Playwright CLI and MCP: CLI lighter than MCP (per Microsoft)
+- Memory, five idle pages: agweb: 590 MB (per agweb) | agent-browser: Not published | Playwright CLI and MCP: Headless Chrome 730 MB, Playwright Chrome 1.6 GB (per agweb)
+- Enterprise: agweb: None | agent-browser: None | Playwright CLI and MCP: None
+From the agweb README memory table and the license files on each repository. Memory figures belong to agweb's author and compare against headless Chrome and Playwright Chrome; agent-browser is not in that table.
+
+## agweb vs agent-browser vs Playwright: what they're like to use
+By Vaishali Raghuvanshi. I read the three READMEs side by side, and the real split is not features but who the browser is for. One suits a Mac with many agents, one suits a portable CLI, and one suits teams already on Playwright.
+
+### agweb
+agweb is one window that never takes focus, so several agents can work at once while you watch every tab on a dashboard. It is very new, with a few hundred GitHub stars, and it is deliberately narrow: WebKit on a Mac.
+What I liked:
+- Never steals your keyboard focus while agents work.
+- Replies say what changed, so agents skip extra snapshots.
+- One named profile keeps logins shared across agents.
+What I didn't:
+- WebKit only, so Chrome-only sites may misbehave.
+- No Chrome DevTools Protocol, so Playwright cannot attach.
+- macOS only, and the ad blocker cannot run uBlock scripts.
+Best for: Mac users who run several coding agents at once and want to watch them.
+
+### agent-browser
+agent-browser is a Vercel Labs project and the most starred of the three. Each command is one short shell call against a background daemon, and the same tool can attach to your own Chrome or hand off to a cloud browser provider.
+What I liked:
+- Short commands with refs like @e1 from compact snapshots.
+- Attach to running Chrome, or use Lightpanda or Obscura engines.
+- Cloud providers such as Browserbase and Kernel plug in.
+What I didn't:
+- Refs go stale after navigation, so you snapshot again.
+- A click fails if a banner covers the target.
+- Headless sessions close after an hour without commands.
+Best for: teams that want one cross-platform CLI with room to move to cloud browsers.
+
+### Playwright CLI and MCP
+Playwright comes in two shapes. The CLI plus skills suits coding agents, and the MCP server suits longer exploratory loops. Microsoft's own docs steer coding agents toward the CLI because it uses fewer tokens.
+What I liked:
+- Two entry points: a CLI with skills, and an MCP server.
+- Works with VS Code, Cursor, Claude Code and many MCP clients.
+- Headed mode, named sessions and an optional persistent profile.
+What I didn't:
+- The MCP server loads bigger schemas and snapshots into context.
+- In-memory profiles are lost when the browser closes.
+- Headless by default; headed mode opens a visible window.
+Best for: teams already on Playwright who want agents on the same stack.
+
+## Which to choose
+- Choose agweb if you are on a Mac, run several agents and want a calm window you can watch.
+- Choose agent-browser if you need a cross-platform CLI and the option to move to a cloud browser.
+- Choose Playwright CLI or MCP if your team already uses Playwright and wants one stack for tests and agents.
+If you need Chrome-only sites or the Chrome DevTools Protocol, skip the WebKit option.
+
+## Where viaSocket fits
+These tools give a coding agent a browser. viaSocket gives an agent actions across apps and a browser for the sites that have no API, so the two can sit side by side in one agent.
+What viaSocket offers:
+- Browser actions: agents can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- 2,300+ app integrations with managed authentication (features).
+- AI agents and MCP access, so an agent can call your apps as tools.
+- Triggers, webhooks and schedules, with background execution and retries.
+- Execution monitoring and replay, so you can review each step an agent took.
+- Free plan: 100K tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- An agent that pulls a report from a supplier portal with no API and saves it to a sheet.
+- A research agent that reads pages, then posts a summary to Slack.
+- A support agent that mixes a browser step with an order lookup and a helpdesk reply.
+Give your agent a browser and 2,300+ apps with viaSocket: https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: What is the best browser for coding agents?
+A: It depends on your setup. agweb suits Macs running many agents, agent-browser suits a portable CLI on Chrome, and Playwright suits teams already using it.
+Q: Are agweb, agent-browser and Playwright free?
+A: Yes. agweb is MIT licensed, and agent-browser and Playwright are Apache 2.0. Your costs are model tokens and any cloud browser you add.
+Q: Should I use Playwright MCP or Playwright CLI?
+A: Microsoft says coding agents often do better with the CLI because it uses fewer tokens. It keeps MCP for longer exploratory loops with persistent state.
+Q: Does agweb work on Windows or Linux?
+A: No. Its README says it needs macOS 15.4 or later and is built on WebKit.
+Q: Can an agent drive my own Chrome?
+A: agent-browser can attach to a running Chrome over CDP with its --cdp or --auto-connect options. agweb cannot, since it uses WebKit.
+
+## Sources
+- agweb: GitHub https://github.com/paul-nameless/agweb?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- agent-browser: GitHub https://github.com/vercel-labs/agent-browser?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://agent-browser.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Playwright: Playwright MCP https://github.com/microsoft/playwright-mcp?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Playwright CLI https://github.com/microsoft/playwright-cli?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm

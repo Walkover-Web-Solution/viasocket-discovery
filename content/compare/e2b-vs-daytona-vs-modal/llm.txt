@@ -29,7 +29,7 @@ All three bill compute per second. E2B and Daytona list the same CPU and memory 
 - Entry paid plan: E2B: Pro, $150 a month plus usage | Daytona: No plan fee, pay as you go | Modal: Team, $250 a month plus compute
 - CPU and memory: E2B: $0.0504 per vCPU-hour, $0.0162 per GiB-hour | Daytona: $0.0504 per vCPU-hour, $0.0162 per GiB-hour | Modal: $0.1419 per core (2 vCPU) hour, $0.024 per GiB-hour
 - 2 vCPU, 4 GiB for 1 hour: E2B: $0.17 | Daytona: $0.17 | Modal: $0.24
-- H100 GPU: E2B: Not offered | Daytona: $2.27 an hour (preemptible) | Modal: $3.95 an hour
+- H100 GPU: E2B: Not offered | Daytona: $2.47 an hour (preemptible) | Modal: $3.95 an hour
 - Enterprise: E2B: Custom, $3,000 a month minimum, BYOC | Daytona: Custom: SSO, audit logs, BYOC | Modal: Custom, volume discounts
 Prices from e2b.dev/pricing, daytona.io/pricing and modal.com/pricing. Hourly figures are the per-second rates times 3,600; Modal bills a physical core, which equals 2 vCPU.
 
@@ -52,7 +52,7 @@ Best for: agent products that run untrusted code at scale and want strong isolat
 Daytona reads like a full workspace for an agent rather than a code runner. You'll notice the range: Linux containers by default, plus VM, Windows, macOS and GPU sandboxes, with SDKs in five languages.
 What I liked:
 - Same CPU and memory rates as E2B, with no monthly plan fee.
-- GPU sandboxes, from $2.27 an hour for a preemptible H100.
+- GPU sandboxes, from $2.47 an hour for a preemptible H100.
 - SDKs for Python, TypeScript, Ruby, Go and Java.
 What I didn't:
 - Default sandboxes are containers; pick a VM for stronger isolation.

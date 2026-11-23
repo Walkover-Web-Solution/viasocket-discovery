@@ -13,7 +13,7 @@ Composio is a hosted catalog of app tools with managed auth, for teams that want
 
 ## Features
 - Approach: Composio is a hosted tool catalog with managed auth, used through sessions per user. Arcade is a runtime that handles user authentication, authorization, policy and tool execution (per Arcade).
-- Catalog: Composio 1,500+ apps (per Composio, https://composio.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm). Arcade 8,000+ tools on its homepage (https://www.arcade.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm) and 7,500+ tools across 81 MCP servers in its docs (https://docs.arcade.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm) (per Arcade). Counted in tools, not apps.
+- Catalog: Composio 1,700+ apps (per Composio, https://composio.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm). Arcade 8,000+ tools on its homepage (https://www.arcade.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm) and 7,500+ tools across 81 MCP servers in its docs (https://docs.arcade.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm) (per Arcade). Counted in tools, not apps.
 - Authorization: Composio-managed auth by default, connected accounts per user ID, Connect Link when a task needs an account. Arcade uses delegated authorization through your identity provider, so the agent acts as the signed-in user, with each action scoped (per Arcade).
 - MCP: Composio hosted MCP endpoint per session, for clients such as Claude Desktop and Cursor. Arcade tools delivered as MCP servers; you can register your own.
 - Developer interface: Composio Python and TypeScript SDKs and REST API. Arcade Python, TypeScript and Java client libraries and an open-source Python framework for MCP servers.
@@ -23,9 +23,9 @@ Composio is a hosted catalog of app tools with managed auth, for teams that want
 - Support: Composio portal on Hobby, portal and email on Pro, dedicated support and custom SLAs on Enterprise. Arcade community on Free, next-business-day email on Team, 24/7 SLA-backed on Enterprise.
 
 ## Pricing
-Composio bills on tool calls and trigger events. Arcade charges a platform fee plus a per-call rate. Each defines a call on its own terms.
-- Composio Hobby: $0. 100,000 tool calls and 50,000 trigger events a month, unlimited connected accounts, 3 team members. Usage pauses at the cap.
-- Composio Pro: $29 a month. Unlimited team members, then $0.0003 per tool call and $0.003 per trigger event past the included amount.
+Composio bills on tool calls. Arcade charges a platform fee plus a per-call rate. Each defines a call on its own terms.
+- Composio Free: $0. 10,000 tool calls a month, up to 5 shared connections, 3 team members. Usage pauses at the cap.
+- Composio Standard: $18 per seat a month, listed as coming soon. Whole team, $18 in credits per seat, 10,000 tool calls per seat, then $0.005 per extra tool call.
 - Composio Enterprise: custom. SSO/SCIM, customer-managed keys, dedicated support, custom SLAs.
 - Arcade Free: $0. 2,000 tool calls a month on Arcade Cloud, community support, no credit card.
 - Arcade Team: $25 a month plus usage at $0.01 per tool call. Next-business-day email support.
@@ -67,7 +67,7 @@ Composio if you want an agent working across many apps on a hosted catalog with 
 
 ## FAQ
 - What is the main difference between Composio and Arcade? Composio is a hosted catalog of app tools with managed auth. Arcade describes itself as an actions runtime that handles user authorization, policy and tool execution, with delegated per-user permissions.
-- Do both have a free plan? Yes. Composio Hobby includes 100,000 tool calls and 50,000 trigger events a month. Arcade Free includes 2,000 tool calls a month.
+- Do both have a free plan? Yes. Composio Free includes 10,000 tool calls a month. Arcade Free includes 2,000 tool calls a month.
 - Do both support MCP? Yes. Composio through a hosted MCP endpoint per session; Arcade delivers its tools as MCP servers and lets you register your own.
 - Can I self-host? Arcade lists Arcade Cloud, your VPC or air-gapped on Enterprise, and its docs describe self-hosting with Helm. Composio does not list a self-hosted option.
 - Are they open source? Composio's SDK repository and Arcade's arcade-mcp framework are both MIT licensed. Arcade's prebuilt catalog is hosted.

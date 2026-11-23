@@ -17,7 +17,7 @@
 <thead><tr><th>Feature</th><th><span><img src="/discovery/compare-logos/composio.png" alt="Composio logo" width="36" height="36"> Composio</span></th><th><span><img src="/discovery/compare-logos/arcade.svg" alt="Arcade logo" width="36" height="36"> Arcade</span></th></tr></thead>
 <tbody>
 <tr><td>Approach</td><td>Hosted tool catalog with managed auth, used through sessions per user</td><td>Runtime that handles user authentication, authorization, policy and tool execution (per Arcade)</td></tr>
-<tr><td>Catalog size</td><td>1,500+ apps on <a href="https://composio.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">its homepage</a> (per Composio)</td><td>8,000+ tools on <a href="https://www.arcade.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">its homepage</a> and 7,500+ tools across 81 MCP servers in <a href="https://docs.arcade.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">its docs</a> (per Arcade). Counted in tools, not apps</td></tr>
+<tr><td>Catalog size</td><td>1,700+ apps on <a href="https://composio.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">its homepage</a> (per Composio)</td><td>8,000+ tools on <a href="https://www.arcade.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">its homepage</a> and 7,500+ tools across 81 MCP servers in <a href="https://docs.arcade.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=features" rel="nofollow noopener">its docs</a> (per Arcade). Counted in tools, not apps</td></tr>
 <tr><td>Authorization model</td><td>Composio-managed auth by default, connected accounts kept per user ID, Connect Link when a task needs an account</td><td>Delegated authorization through your identity provider, so the agent acts as the signed-in user, with each action scoped (per Arcade)</td></tr>
 <tr><td>MCP</td><td>Hosted MCP endpoint per session, for clients such as Claude Desktop and Cursor</td><td>Tools delivered as MCP servers; you can also register your own or existing remote MCP servers</td></tr>
 <tr><td>Developer interface</td><td>Python and TypeScript SDKs, REST API</td><td>Python, TypeScript and Java client libraries; open-source Python framework for building MCP servers</td></tr>
@@ -28,12 +28,12 @@
 </tbody></table></div>
 
 <h2 id="pricing">Composio vs Arcade pricing</h2>
-<p>Composio bills on tool calls and trigger events. Arcade charges a platform fee plus a per-call rate. Each defines a call on its own terms, so the per-call figures do not compare one to one.</p>
+<p>Composio bills on tool calls. Arcade charges a platform fee plus a per-call rate. Each defines a call on its own terms, so the per-call figures do not compare one to one.</p>
 <div class="scroll"><table>
 <thead><tr><th>Plan</th><th><span><img src="/discovery/compare-logos/composio.png" alt="Composio logo" width="36" height="36"> Composio</span></th><th><span><img src="/discovery/compare-logos/arcade.svg" alt="Arcade logo" width="36" height="36"> Arcade</span></th></tr></thead>
 <tbody>
-<tr><td>Free</td><td><b>Hobby, $0.</b> 100,000 tool calls and 50,000 trigger events a month, unlimited connected accounts, 3 team members. Usage pauses at the cap.</td><td><b>Free, $0.</b> 2,000 tool calls a month on Arcade Cloud, community support, no credit card.</td></tr>
-<tr><td>Paid</td><td><b>Pro, $29 a month.</b> Unlimited team members, then $0.0003 per tool call and $0.003 per trigger event past the included amount.</td><td><b>Team, $25 a month plus usage.</b> $0.01 per tool call, next-business-day email support.</td></tr>
+<tr><td>Free</td><td><b>Free, $0.</b> 10,000 tool calls a month, up to 5 shared connections, 3 team members. Usage pauses at the cap.</td><td><b>Free, $0.</b> 2,000 tool calls a month on Arcade Cloud, community support, no credit card.</td></tr>
+<tr><td>Paid</td><td><b>Standard, $18 per seat a month (listed as coming soon).</b> Whole team, $18 in credits per seat, 10,000 tool calls per seat, then $0.005 per extra tool call.</td><td><b>Team, $25 a month plus usage.</b> $0.01 per tool call, next-business-day email support.</td></tr>
 <tr><td>Enterprise</td><td><b>Custom.</b> SSO/SCIM, customer-managed keys, dedicated support and custom SLAs.</td><td><b>Custom.</b> Arcade Cloud, your VPC or air-gapped, 24/7 SLA-backed support, SSO, RBAC, audit logs.</td></tr>
 </tbody></table></div>
 <p class="src">Prices from <a href="https://composio.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=pricing" rel="nofollow noopener">composio.dev/pricing</a> and <a href="https://www.arcade.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=pricing" rel="nofollow noopener">arcade.dev/pricing</a>.</p>
@@ -87,7 +87,7 @@
 
 <h2 id="faq">FAQ</h2>
 <details><summary>What is the main difference between Composio and Arcade?</summary><p>Composio is a hosted catalog of app tools with managed auth. Arcade describes itself as an actions runtime that handles user authorization, policy and tool execution, with delegated per-user permissions.</p></details>
-<details><summary>Do Composio and Arcade both have a free plan?</summary><p>Yes. Composio's Hobby plan includes 100,000 tool calls and 50,000 trigger events a month. Arcade's Free plan includes 2,000 tool calls a month.</p></details>
+<details><summary>Do Composio and Arcade both have a free plan?</summary><p>Yes. Composio's Free plan includes 10,000 tool calls a month. Arcade's Free plan includes 2,000 tool calls a month.</p></details>
 <details><summary>Do both support MCP?</summary><p>Yes. Composio exposes sessions through a hosted MCP endpoint. Arcade delivers its tools as MCP servers and lets you register your own.</p></details>
 <details><summary>Can I self-host Composio or Arcade?</summary><p>Arcade lists Arcade Cloud, your VPC or fully air-gapped deployment on Enterprise, and its docs describe self-hosting with Helm. Composio does not list a self-hosted option.</p></details>
 <details><summary>Are Composio and Arcade open source?</summary><p>Composio's SDK repository and Arcade's arcade-mcp framework are both MIT licensed. Arcade's prebuilt catalog is a hosted offering.</p></details>
