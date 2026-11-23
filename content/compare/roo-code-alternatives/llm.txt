@@ -1,0 +1,112 @@
+# Roo Code alternatives: Zoo Code vs Cline vs Kilo Code
+
+URL: https://viasocket.com/discovery/compare/roo-code-alternatives
+Author: Abhijeet Singh (https://viasocket.com/discovery/user/22351)
+Publisher: viaSocket Discovery
+
+## Short answer
+Roo Code shut down on 15 May and its repo is archived. Zoo Code is a community fork that imports Roo settings and keeps its modes. Cline, Roo's upstream, is the largest project, with 71.5k GitHub stars. Kilo Code has a step-by-step Roo migration guide and a $15 Teams plan. All three are free with your own API keys.
+
+## At a glance
+- Zoo Code (https://www.zoocode.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Community fork of Roo Code, same modes and settings; Free plan: Free extension, bring your own keys; Paid from: Optional prepaid Gateway credits; License: Apache-2.0
+- Cline (https://cline.bot/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Open-source coding agent: IDE extension, CLI and SDK; Free plan: Free; your keys or credits at cost; Paid from: Enterprise only, custom pricing; License: Apache-2.0
+- Kilo Code (https://kilo.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Open-source agent for VS Code, JetBrains and CLI; Free plan: Free extension, BYOK or local models; Paid from: Teams $15 a user a month; License: MIT
+
+## Features
+- Link to Roo: Zoo Code: Direct fork, same settings | Cline: Roo's upstream project | Kilo Code: Separate project, migration guide
+- Modes: Zoo Code: Architect, Code, Debug, custom | Cline: Plan and Act | Kilo Code: Ask, Plan, Code, Debug, custom
+- Roo import: Zoo Code: Export and import settings | Cline: Manual: rules renamed, modes recreated | Kilo Code: Copy files; wizard converts .roomodes
+- Editors: Zoo Code: VS Code, Open VSX; JetBrains beta | Cline: VS Code, JetBrains, Cursor, Windsurf, CLI | Kilo Code: VS Code, Open VSX, JetBrains, CLI
+- MCP: Zoo Code: Yes, restrictable per mode | Cline: Yes | Kilo Code: Yes; Roo MCP config migrates
+- Models: Zoo Code: Any provider, your keys | Cline: Major providers, Ollama, LM Studio | Kilo Code: 500+ models, local models
+- Enterprise: Zoo Code: Not listed | Cline: SSO, RBAC, VPC or air-gapped | Kilo Code: SSO, audit logs, SLA
+- GitHub stars: Zoo Code: 2.1k | Cline: 71.5k | Kilo Code: 27.9k
+From zoocode.dev, the Zoo Code repo, cline.bot, Cline enterprise, kilo.ai, the Roo to Kilo migration guide, the archived Roo Code repo and each project's GitHub page. Stars as shown on GitHub.
+
+## Pricing
+All three extensions are free, and with your own API keys you pay only your model provider. The differences are in optional credits, team plans and enterprise.
+- Extension: Zoo Code: Free | Cline: Free | Kilo Code: Free
+- Model usage: Zoo Code: Your keys, or prepaid Gateway credits | Cline: Your keys, or credits at cost | Kilo Code: Your keys, or provider rates + 5% fee on credits
+- Subscription: Zoo Code: None listed | Cline: None | Kilo Code: Kilo Pass $19, $49 or $199 a month
+- Team of 5, seats a month: Zoo Code: Team wallet; price not listed | Cline: $0, no seat fees | Kilo Code: $75 (Teams, $15 a user)
+- Enterprise: Zoo Code: Not listed | Cline: Custom: SSO, RBAC, central billing | Kilo Code: Custom: SSO, audit logs, SLA
+Prices from zoocode.dev, cline.bot/pricing and kilo.ai/pricing. Kilo Pass tiers include bonus credits, up to $26.60, $68.60 and $278.60. Team of 5: Kilo 5 x $15 = $75; model usage is extra on all three.
+
+## Zoo Code vs Cline vs Kilo Code: what they're like after Roo
+By Abhijeet Singh. All three are open-source agents in your editor, and all three accept your own keys, so the switch is mostly about your modes, rules and MCP servers. Pick by how much of your Roo setup you want to keep.
+
+### Zoo Code
+Zoo Code is the closest thing to keeping Roo: the same settings structure, Architect, Code and Debug modes, custom modes and MCP, maintained by developers who contributed to Roo. It ships often, and it is still a young project.
+What I liked:
+- Export your Roo settings and import them; modes and model configs carry over.
+- Per-mode MCP restrictions and Orchestrator workflows, per Zoo.
+- Frequent releases since the fork began in late April.
+What I didn't:
+- The smallest community here, at 2.1k GitHub stars.
+- The JetBrains plugin is still in beta.
+- No enterprise plan, SSO or compliance claims listed on the site.
+Best for: Roo users who want their modes and workflow back with the least change.
+
+### Cline
+Cline is where Roo started, and it has by far the biggest community. Its Plan and Act modes are simpler than Roo's mode system, so expect to rebuild custom modes as rules or prompts. It runs in more editors than the others.
+What I liked:
+- The largest project here: 71.5k stars and frequent releases.
+- VS Code, JetBrains, Cursor and Windsurf, plus a CLI and SDK.
+- Enterprise can run in your VPC, on-prem or air-gapped.
+What I didn't:
+- Moving from Roo is manual: rename .roorules and recreate modes.
+- The most-discussed open issues concern terminal integration reliability.
+- Some Roo users say it works less well with certain models.
+Best for: developers who want the most established open-source agent and broad editor support.
+
+### Kilo Code
+Kilo Code is the most complete platform of the three, with cloud agents, code review and a model gateway around the open-source extension. Its migration guide maps every Roo file, but the new extension is a rebuild and some Roo features are not there yet.
+What I liked:
+- A documented Roo migration path covering rules, modes and MCP config.
+- 500+ models at provider rates, or local models for free.
+- A clear Teams plan at $15 a user a month.
+What I didn't:
+- Orchestrator mode is deprecated and codebase indexing is not yet ported.
+- API keys do not transfer from Roo.
+- Buying gateway credits adds a 5% processing fee.
+Best for: teams that want an open-source agent plus managed billing, cloud agents and team plans.
+
+## Which to choose
+- Choose Zoo Code if you want Roo's modes and settings back with almost no change.
+- Choose Cline if you want the largest, most established project and can rebuild your modes.
+- Choose Kilo Code if you want a guided migration plus team plans and cloud agents.
+Back up your .roomodes, rules and MCP config before you switch: every path above reuses them.
+
+## Where viaSocket fits
+These agents write and change code. viaSocket gives them, and the apps you build, a tested way to reach other tools: 2,300+ apps over MCP or an SDK, with authentication handled for each one.
+What viaSocket offers:
+- 2,300+ app integrations with managed authentication (features).
+- AI agents and MCP access, so your coding agent can use your apps as tools.
+- A setup prompt you paste into Cursor, Claude Code or Codex to add integrations.
+- Browser actions: agents can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- Execution monitoring and replay, with retries for every run.
+- Free plan: 100,000 tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- A coding agent that can open Linear issues, post to Slack and read Google Sheets while it works.
+- An app built with your agent that sends Gmail, updates HubSpot and takes Stripe events without writing each integration.
+- A browser step that pulls data from a vendor portal with no API into your app's database.
+Give your coding agent 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: Is Roo Code still available?
+A: No. The extension was shut down on 15 May, and its GitHub repo is archived and read-only. The README points users to Zoo Code and Cline, and roocode.com now redirects to the team's new product, Roomote.
+Q: What is the closest alternative to Roo Code?
+A: Zoo Code, a community fork that keeps Roo's settings structure and modes. You export settings from Roo and import them into Zoo.
+Q: Can I move my Roo modes to Kilo Code?
+A: Yes. Kilo's guide has you copy .roomodes to .kilocodemodes, and a first-launch wizard converts them. Rules and MCP config move too, but API keys do not.
+Q: Is Cline free?
+A: Yes. The open-source extension has no subscription or seat fees; you bring your own keys or buy inference credits at cost. Enterprise pricing is custom.
+Q: Do these alternatives support MCP?
+A: All three do. Zoo Code can restrict MCP servers per mode, and Kilo's migration carries over Roo's MCP config.
+
+## Sources
+- Roo Code: archived repo https://github.com/RooCodeInc/Roo-Code?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Roomote https://roomote.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Zoo Code: homepage https://www.zoocode.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/Zoo-Code-Org/Zoo-Code?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Cline: homepage https://cline.bot?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://cline.bot/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, enterprise https://cline.bot/enterprise?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/cline/cline?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Kilo Code: homepage https://kilo.ai?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://kilo.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Roo migration guide https://kilo.ai/articles/roo-to-kilo-migration-guide?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/Kilo-Org/kilocode?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm

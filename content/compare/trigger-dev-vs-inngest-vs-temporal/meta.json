@@ -1,0 +1,11 @@
+{
+  "title": "Trigger.dev vs Inngest vs Temporal: Durable Execution",
+  "description": "Trigger.dev bills compute time, Inngest bills steps, Temporal bills Actions. Licenses, self-hosting and a 200,000-run price model compared.",
+  "canonical": "https://viasocket.com/discovery/compare/trigger-dev-vs-inngest-vs-temporal",
+  "authorId": 79503,
+  "authorName": "Jatin Kashiv",
+  "publishedAt": "2026-11-04",
+  "category": "Compare",
+  "h1": "Trigger.dev vs Inngest vs Temporal: which durable execution platform",
+  "readMinutes": 6
+}

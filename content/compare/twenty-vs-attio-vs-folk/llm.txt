@@ -1,0 +1,114 @@
+# Twenty vs Attio vs Folk: which modern CRM fits your team
+
+URL: https://viasocket.com/discovery/compare/twenty-vs-attio-vs-folk
+Author: Vaishali Raghuvanshi (https://viasocket.com/discovery/user/6485)
+Publisher: viaSocket Discovery
+
+## Short answer
+Twenty, Attio and folk are modern CRMs for teams leaving spreadsheets or Salesforce. Twenty is open source (AGPLv3) and self-hostable, with cloud from $9 a seat. Attio is a flexible, agent-driven CRM with a free plan for 3 seats. Folk bundles prospecting, enrichment and sequences, from $24 a member. For 5 seats a year: $540, $2,100 and $1,440.
+
+## At a glance
+- Twenty (https://twenty.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Open-source CRM you can self-host or run in cloud; Free plan: Self-host free; cloud has a 30-day trial; Paid from: $9 a user a month, yearly (Pro); License: AGPLv3 core, some enterprise-licensed files
+- Attio (https://attio.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Flexible CRM where AI agents work your pipeline; Free plan: Up to 3 seats and 50,000 records; Paid from: $35 a user a month, yearly (Plus); Self-host: No self-host option listed
+- folk (https://www.folk.app/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Relationship CRM with prospecting, enrichment and sequences; Free plan: None; 2-week trial with all features; Paid from: $24 a member a month, yearly (Standard); Self-host: No self-host option listed
+
+## Features
+- Hosting: Twenty: Cloud or self-host (AGPLv3) | Attio: Cloud only | folk: Cloud only
+- Custom objects: Twenty: Yes | Attio: Pro and Enterprise; 3 to 12 objects | folk: Premium and up
+- API: Twenty: REST and GraphQL; 50 to 100 calls/min | Attio: REST, webhooks, App SDK | folk: REST and webhooks; Premium
+- MCP server: Twenty: Native in every Cloud workspace | Attio: Yes, for Claude and ChatGPT | folk: Hosted, OAuth
+- Automation: Twenty: No-code workflows, TypeScript apps | Attio: Workflows with agent steps | folk: Workflow Assistant; sequences on Premium
+- AI: Twenty: AI chat and agents, 100 to 500 tasks/week | Attio: Ask Attio, custom and web agents | folk: AI assistants, Magic fields
+- Inbox sync: Twenty: Email and calendar | Attio: Real-time email and contact sync | folk: Email, calendar, WhatsApp
+- SSO: Twenty: SAML/OIDC on Organization | Attio: SAML on Enterprise | folk: Google sign-in listed
+- Compliance: Twenty: DPA on all plans | Attio: SOC 2, ISO 27001, GDPR (per Attio) | folk: SOC 2, GDPR (per folk)
+From twenty.com, Twenty pricing, Twenty docs, Twenty license, attio.com, Attio pricing, Attio developer docs, Attio trust center, folk.app, folk pricing and folk developer docs. Twenty shows 60,700 stars on GitHub.
+
+## Pricing
+All three charge per seat, with AI and enrichment metered by credits or monthly caps on top. The 5-seat rows use yearly billing; the second compares the plan where each offers API access and custom objects.
+- Free: Twenty: Self-host free; cloud 30-day trial | Attio: 3 seats, 50,000 records | folk: None; 2-week trial
+- Entry paid: Twenty: Pro $9 a user, yearly | Attio: Plus $35 yearly, $44 monthly | folk: Standard $24 yearly, $30 monthly
+- API and custom objects: Twenty: Pro $9 | Attio: Pro $79 yearly, $99 monthly | folk: Premium $48 yearly, $60 monthly
+- 5 seats a year, entry plan: Twenty: $540 | Attio: $2,100 | folk: $1,440
+- 5 seats a year, API and custom objects: Twenty: $540 | Attio: $4,740 | folk: $2,880
+- Enterprise: Twenty: From $50k a year; SCIM, single tenant | Attio: Custom, yearly; SAML | folk: From $80 a member, yearly
+Prices from twenty.com/pricing, attio.com/pricing and folk.app/pricing. 5 seats x 12 months: Twenty 5 x $9 = $540; Attio Plus 5 x $35 = $2,100, Pro 5 x $79 = $4,740; folk Standard 5 x $24 = $1,440, Premium 5 x $48 = $2,880. Self-hosted Twenty excludes your own server costs.
+
+## Twenty vs Attio vs Folk: what they're like to use
+By Vaishali Raghuvanshi. All three replace a spreadsheet or a heavy legacy CRM with something faster. What separates them is ownership, depth and focus: Twenty you own, Attio you model, folk you prospect with.
+
+### Twenty
+Twenty is the one you shape yourself: custom objects, views, no-code workflows and a TypeScript apps framework, on your own servers or Twenty's cloud. It is the cheapest paid option here, and the trade-off is fewer ready-made integrations.
+What I liked:
+- Self-host the AGPLv3 core for free, with Docker Compose.
+- Cloud Pro at $9 a seat is the lowest paid price here.
+- REST and GraphQL APIs, webhooks and a native MCP server, per Twenty.
+What I didn't:
+- No free cloud plan, only a 30-day trial.
+- SSO, audit logs and field-level permissions need Organization at $39.
+- Twenty's own docs say it suits teams that don't need hundreds of prebuilt integrations.
+Best for: technical teams that want to own their CRM data and build on it.
+
+### Attio
+Attio feels like the most polished of the three: a flexible data model, real-time contact sync and enrichment from day one, with Ask Attio, custom agents and workflow agent steps layered on top. The bill climbs fast once you need custom objects.
+What I liked:
+- A real free plan: 3 seats, 50,000 records, automatic enrichment.
+- App SDK, REST API, webhooks and an MCP server for developers.
+- Agents for research, enrichment and deal risk, built into workflows.
+What I didn't:
+- Custom objects need Pro, at $79 a seat yearly.
+- AI features draw on credits that run out by plan.
+- Reviewers find integrations and enterprise tooling thinner than HubSpot's or Salesforce's.
+Best for: startups and revenue teams that want a modern CRM with agents built in.
+
+### folk
+Folk is the lightest to adopt: import contacts, grab people from LinkedIn with the Chrome extension, enrich them and send campaigns from one place. It suits relationship-driven teams more than complex data models, and the developer features sit on Premium.
+What I liked:
+- Enrichment, LinkedIn capture and email campaigns in one tool.
+- Email, calendar and WhatsApp sync on the entry plan.
+- API at 600 requests a minute plus a hosted MCP server.
+What I didn't:
+- No free plan once the trial ends.
+- API access, custom objects and sequences need Premium at $48.
+- Reviewers report duplicate contacts on Sales Navigator imports and Google-only account sync.
+Best for: founders, agencies and small sales teams living in their inbox and LinkedIn.
+
+## Which to choose
+- Choose Twenty if you want open source, self-hosting or the lowest seat price, and have developers to build on it.
+- Choose Attio if you want a flexible data model with AI agents and can start on the free plan.
+- Choose folk if your work is relationships and outreach, and you want enrichment and campaigns in one place.
+Price the plan you will actually need: custom objects and API access move Attio and folk up a tier.
+
+## Where viaSocket fits
+All three CRMs have APIs, webhooks and MCP servers, but few native integrations compared with legacy suites. viaSocket fills that gap: it connects your CRM to 2,300+ apps and lets AI agents act on its records.
+What viaSocket offers:
+- 2,300+ app integrations with managed authentication (features).
+- Triggers, webhooks and schedules, with background execution and retries.
+- Custom API requests, for endpoints without a ready-made action.
+- AI agents and MCP access, so agents can use your apps as tools.
+- Browser actions: agents can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- Free plan: 100,000 tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- A webhook flow that creates a CRM record from each new form, Stripe payment or calendar booking.
+- An agent that researches a new lead on the web, scores it and writes the result back to the CRM.
+- A deal-won flow that posts to Slack, creates an invoice and starts onboarding tasks.
+- A nightly sync that reads figures from a partner portal with no API and updates matching records.
+Connect your CRM to 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: Is Twenty really free?
+A: The AGPLv3 core is free to self-host. Twenty's cloud has no free plan, only a 30-day trial, then starts at $9 a user a month billed yearly.
+Q: Does Attio have a free plan?
+A: Yes. Attio Free covers up to 3 seats and 50,000 records, with 3 objects and automatic enrichment. Plus starts at $35 a user a month billed yearly.
+Q: Is folk cheaper than Attio?
+A: On entry plans, yes: folk Standard is $24 a member a month yearly against $35 for Attio Plus. For API access and custom objects, folk Premium is $48 against $79 for Attio Pro.
+Q: Which of these CRMs has an MCP server?
+A: All three. Twenty includes one in every Cloud workspace, Attio offers one for Claude and ChatGPT, and folk has a hosted MCP server with OAuth.
+Q: Can I self-host Attio or folk?
+A: Neither lists a self-hosting option. Of the three, only Twenty can run on your own servers.
+
+## Sources
+- Twenty: homepage https://twenty.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://twenty.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.twenty.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, self-hosting https://docs.twenty.com/developers/self-host/self-host?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/twentyhq/twenty?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Attio: homepage https://attio.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://attio.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, custom objects https://attio.com/help/reference/managing-your-data/objects/create-and-manage-custom-objects?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, developer docs https://docs.attio.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, trust center https://trust.attio.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- folk: homepage https://www.folk.app?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://www.folk.app/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, developer docs https://developer.folk.app?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, rate limits https://developer.folk.app/api-reference/rate-limits?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm

@@ -1,0 +1,112 @@
+# Resend vs Loops vs Plunk: which email tool fits your app
+
+URL: https://viasocket.com/discovery/compare/resend-vs-loops-vs-plunk
+Author: Yashraj Sharma (https://viasocket.com/discovery/user/99440)
+Publisher: viaSocket Discovery
+
+## Short answer
+Resend is a developer email API for transactional and marketing sends, Loops is lifecycle email for SaaS teams priced by contacts, and Plunk is an open-source platform at $0.001 an email. For 50,000 emails a month the list price is $20 on Resend, $49 on Loops (up to 5,000 contacts) and $50 on Plunk.
+
+## At a glance
+- Resend (https://resend.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Email API for developers, with React Email; Free plan: 3,000 emails a month, 100 a day; Paid from: $20 a month for 50,000 emails; Self-host: No self-host option listed
+- Loops (https://loops.so/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Email platform for SaaS lifecycle, campaigns and transactional; Free plan: 1,000 contacts, 4,000 sends in 30 days; Paid from: $49 a month for 5,000 contacts; Self-host: No self-host option listed
+- Plunk (https://www.useplunk.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Open-source email platform for transactional, campaigns and workflows; Free plan: 1,000 emails a month; self-host free; Paid from: $0.001 an email, no base fee; License: AGPL-3.0, 5.6k GitHub stars
+
+## Features
+- Focus: Resend: Developer email API | Loops: SaaS lifecycle email | Plunk: Open-source email platform
+- Transactional: Resend: API and SDKs | Loops: API with data payload | Plunk: API with templates
+- Campaigns: Resend: Broadcasts and segments | Loops: Campaigns to segments | Plunk: Campaigns and segments
+- Automation: Resend: Automations | Loops: Workflows with branching | Plunk: Visual workflows
+- SDKs: Resend: Node, Python, PHP, Go, Rust, more | Loops: JS, Go, PHP, Ruby, Nuxt | Plunk: REST API and SMTP
+- MCP and agents: Resend: Hosted MCP, CLI, plugin | Loops: MCP server, CLI, skills | Plunk: Not listed
+- Inbound email: Resend: Yes, via webhooks | Loops: Not listed | Plunk: Yes, with webhooks
+- Rate limit: Resend: 10 requests a second by default | Loops: 10 emails a second free; 1,000 paid | Plunk: Not stated
+- Self-host: Resend: No | Loops: No | Plunk: Yes, Docker and AWS SES
+From resend.com, Resend rate limits, loops.so, Loops docs, useplunk.com, Plunk docs and Plunk on GitHub.
+
+## Pricing
+Resend bills by emails sent, Plunk by emails sent with no base fee, and Loops by subscribed contacts. Volume rows price sends only; Resend marketing contacts bill on top, and Loops tiers above 5,000 contacts are not listed.
+- Free: Resend: 3,000 emails a month, 100 a day | Loops: 1,000 contacts, 4,000 sends | Plunk: 1,000 emails a month
+- Entry paid: Resend: Pro $20, 50,000 emails | Loops: Growth $49, 5,000 contacts | Plunk: Pay as you grow, no base fee
+- Unit rate: Resend: $0.90 per 1,000 over, Pro | Loops: Unlimited sends, no per-send charge | Plunk: $0.001 an email
+- 50,000 emails a month: Resend: $20 | Loops: $49 up to 5,000 contacts | Plunk: $50
+- 200,000 emails a month: Resend: $160 (Scale) | Loops: $49 up to 5,000 contacts | Plunk: $200
+- Enterprise: Resend: Custom; 99.99% uptime SLA | Loops: Custom; 1.5 million contacts and up | Plunk: Not listed; self-host free
+Prices from resend.com/pricing, loops.so/pricing and useplunk.com/pricing. Plunk: 50,000 x $0.001 = $50 and 200,000 x $0.001 = $200. Self-hosted Plunk excludes your own server and AWS SES costs.
+
+## Resend vs Loops vs Plunk: what they're like to use
+By Yashraj Sharma. All three send transactional and marketing email. The difference is who they are built for: Resend the developer, Loops the SaaS lifecycle marketer, Plunk whoever wants control of the stack.
+
+### Resend
+Resend feels built around the API call: verify a domain, grab a key, pick an SDK and send, with templates written in React Email. Marketing features exist but bill separately from sending.
+What I liked:
+- Official SDKs in nine languages, plus a CLI.
+- Hosted MCP server and an agent plugin, per Resend.
+- Pro at $20 covers 50,000 emails with a flat overage rate.
+What I didn't:
+- The free plan stops at 100 emails a day.
+- Marketing contacts are a separate bill, from $40 for 5,000.
+- Self-serve plans are monthly only, with 30-day data retention.
+Best for: developers who want a clean transactional API and are happy to build the product emails themselves.
+
+### Loops
+Loops is aimed at whoever runs onboarding and winback emails, not just the engineer. All email types share one contact record, you design in its editor, and the bill follows subscribed contacts.
+What I liked:
+- Workflows branch on audience filters, with themes and reusable components.
+- Paid plans send unlimited transactional and marketing email.
+- Integrations with Stripe, Supabase, Clerk and Zapier, plus an MCP server.
+What I didn't:
+- Pricing is by contact, and the page shows one paid tier.
+- Emails are designed inside Loops, so API calls pass data variables, as one Bubble forum user found.
+- The free plan adds a Loops footer and caps combined sends.
+Best for: SaaS teams that want marketing and product email on one contact record without per-send fees.
+
+### Plunk
+Plunk has the simplest bill and is the only one you can run yourself. Transactional, campaigns, workflows and inbound routing sit in one product. Self-hosting is the real work: Docker, a domain and your own AWS SES account.
+What I liked:
+- Pay per email with unlimited contacts and no base fee.
+- Self-host with Docker under AGPL-3.0.
+- Transactional, workflows and inbound email in one tool.
+What I didn't:
+- Self-hosting needs SES and SNS setup, and new SES accounts start in sandbox.
+- SDKs and MCP are not listed on its site.
+- The free plan carries Plunk branding.
+Best for: cost-conscious teams, or those who need to own the stack, and can run email infrastructure.
+
+## Which to choose
+- Choose Resend if your engineers own email and you want a clean API, many SDKs and React templates.
+- Choose Loops if product and marketing run onboarding emails and you want one contact record without per-send fees.
+- Choose Plunk if you want pay-per-email pricing or need to self-host, and can manage AWS SES.
+Count your contacts as well as your sends before you decide: Loops and Resend marketing bill on contacts, Plunk and Resend sending bill on volume.
+
+## Where viaSocket fits
+An email tool sends the message; something else decides when. viaSocket connects 2,300+ apps and fires on events, so a payment or signup can call the send API of whichever tool you pick.
+What viaSocket offers:
+- 2,300+ app integrations with managed authentication (features).
+- Triggers, webhooks and schedules, with execution monitoring.
+- Custom API requests, for send and contact endpoints without a ready-made action.
+- AI agents and MCP access, so agents can use your apps as tools.
+- Browser actions: agents can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- Free plan: 100,000 tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- A flow that sends a receipt or welcome email when Stripe records a payment or your app gets a signup.
+- A new form or CRM lead that becomes a contact, with an event that starts onboarding.
+- A webhook flow that turns bounce or complaint events into a Slack alert and a sheet row.
+- An agent that reads a supplier portal with no API and emails the summary to your team.
+Trigger email from 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: Is Loops transactional email free?
+A: On Loops paid plans, transactional email is included at no extra charge. On the free plan it shares a 4,000-send cap with marketing email per rolling 30 days.
+Q: What is Resend's free plan limit?
+A: Resend Free allows 3,000 emails a month, capped at 100 a day. Paid plans have no daily limit.
+Q: Can I self-host Plunk?
+A: Yes. Plunk is AGPL-3.0 and runs from a Docker image. Its docs also require a domain and an AWS SES account.
+Q: Which of these has an MCP server?
+A: Resend lists a hosted MCP server and a CLI. Loops lists an MCP server, a CLI and agent skills. Plunk's site does not list an MCP server.
+
+## Sources
+- Resend: homepage https://resend.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://resend.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, rate limits https://resend.com/docs/api-reference/rate-limit?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Loops: homepage https://loops.so?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://loops.so/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://loops.so/docs?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Plunk: homepage https://www.useplunk.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://www.useplunk.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.useplunk.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, email setup https://docs.useplunk.com/self-hosting/email-setup?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/useplunk/plunk?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
