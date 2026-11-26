@@ -15,7 +15,6 @@ import { getCurrentUser } from '@/utils/apiHelper'
 
 export default function AuthPage() {
     const router = useRouter();
-    const redirectPath = getRedirectPath();
 
     const persistTokenFromRoute = () => {
         const search = router.asPath.includes('?') ? `?${router.asPath.split('?')[1]}` : window.location.search
@@ -35,8 +34,9 @@ export default function AuthPage() {
             sessionStorage.clear()
             return
         }
+        const returnPath = getRedirectPath() || '/discovery'
         clearPath();
-        window.location.href = redirectPath ? redirectPath : '/discovery'
+        window.location.href = returnPath
     }
 
     useEffect(() => {
@@ -46,7 +46,10 @@ export default function AuthPage() {
             persistTokenFromRoute()
 
             const hasToken = Boolean(
-                router.query.proxy_auth_token || getProxyAuthToken(),
+                persistTokenFromRoute() ||
+                    router.query.proxy_auth_token ||
+                    router.query.proxy_auth ||
+                    getProxyAuthToken(),
             )
 
             if (!hasToken) {
@@ -87,7 +90,12 @@ export default function AuthPage() {
             await redirectToHomePage()
         }
         runEffect();
-    }, [router.isReady, router.asPath, router.query.proxy_auth_token])
+    }, [
+        router.isReady,
+        router.asPath,
+        router.query.proxy_auth_token,
+        router.query.proxy_auth,
+    ])
 
 
     return (

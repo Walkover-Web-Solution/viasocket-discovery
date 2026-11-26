@@ -1,5 +1,5 @@
 import { getCurrentUser } from '@/utils/apiHelper';
-import { getProxyAuthToken } from '@/utils/storageHelper';
+import { getProxyAuthToken, persistProxyAuthTokenFromSearch } from '@/utils/storageHelper';
 import { createContext, useState, useContext, useEffect } from 'react';
 
 const UserContext = createContext();
@@ -9,6 +9,7 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isChatOpen,setIsChatOpen]=useState(false);
   const getCurrentUserFunction = async  () => {
+    persistProxyAuthTokenFromSearch();
     // const storedUser = getUserDataFromLocalStorage();
     // if (storedUser) {
     //   setUser(storedUser);

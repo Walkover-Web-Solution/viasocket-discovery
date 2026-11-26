@@ -1,4 +1,4 @@
-**Plan:** Not supplied · **Last updated:** 2026-11-26 · **Reviewed up to commit:** `829a531`
+**Plan:** Not supplied · **Last updated:** 2026-11-26 · **Reviewed up to commit:** `PENDING`
 
 ## Legend
 
@@ -57,7 +57,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 | Blog page | 🟡 | `src/pages/blog/[...blogId]/index.js`. The In Depth Reviews intro in `src/components/BlogComponents/BlogComponents.js` shows "We independently review every app we recommend" once (it was duplicated). |
 | Edit chat | 🟡 | `src/pages/edit/[chatId]/index.js`. |
 | User profile | 🟡 | `src/pages/user/[...userId].js` loads the user, their blogs, and compare pages for that author id. |
-| Auth return | 🟡 | Prod sign-in starts at `https://viasocket.com/signup?redirect_to=/discovery/auth` (`src/utils/authRedirect.js`; `/login` 307s to flow and drops Discovery). `src/pages/auth/index.js` waits for `router.isReady`, persists `proxy_auth_token`, then sends the user to `loginRedirectionPath` or `/discovery`. |
+| Auth return | 🟡 | Prod sign-in starts at `https://viasocket.com/signup?redirect_to=/discovery/auth` (`src/utils/authRedirect.js`; `/login` 307s to flow). Callback reads `proxy_auth` or `proxy_auth_token`, persists before `getCurrentUser`, then redirects to `loginRedirectionPath` or `/discovery` (re-read at redirect time). |
 | Blog and comment APIs | 🟡 | `src/pages/api/blog.js`, `blog/[blogId]/*`, `public-blogs.js`, `related-blogs/[blogId].js`. |
 | Ask AI, markdown, history | 🟡 | `src/pages/api/ask-ai.js`, `ai.js`, `gethistory.js`. |
 | Tags, users, integrations, suggestions | 🟡 | `src/pages/api/tags.js`, `users.js`, `integrations.js`, `suggestions.js`. |
@@ -72,6 +72,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 
 ## Change log
 
+- 2026-11-26 · cursor agent · Reverted PR #172 merge, then accept `proxy_auth` on `/discovery/auth` so callback tokens persist and users return to Discovery (INT-P4R7Q2). · Auth return row
 - 2026-11-26 · cursor agent · Discovery sign-in uses viasocket.com `/signup` with `redirect_to=/discovery/auth` instead of `/login` (307 to flow). Added `authRedirect.js` and `docs/INTENTS.md` INT-A8K2M9. Reviewed up to `829a531`. · Auth return row
 - 2026-11-19 · cursor agent · Fixed Discovery login callback: persist token from URL before redirect (race with `WithAuth`), gate auth effects on `router.isReady`, unify token reads via `getProxyAuthToken()`, fix cookie `expires`, and restore local header Login/Signup links. Reviewed up to `f5583f1`. · Auth return notes; no status emoji change (not exercised end-to-end with MSG91).
 - 2026-11-08 · cursor agent (docs refresh) · Added `docs/` (architecture, development, security and operations, maintenance) and an AGENTS.md task map. Answered open questions 3 and 5. Reviewed up to `7cab049`. · Sample compare page ⬜ → ❌
