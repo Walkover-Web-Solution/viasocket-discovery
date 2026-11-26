@@ -1,0 +1,113 @@
+# Postman alternatives: Bruno vs Hoppscotch vs Yaak compared
+
+URL: https://viasocket.com/discovery/compare/bruno-vs-hoppscotch-vs-yaak
+Author: Jatin Kashiv (https://viasocket.com/discovery/user/79503)
+Publisher: viaSocket Discovery
+
+## Short answer
+Bruno, Hoppscotch and Yaak are MIT-licensed API clients and Postman alternatives. Bruno is an offline desktop app that keeps collections as files in Git. Hoppscotch runs in the browser, desktop and CLI with a self-host option. Yaak is a desktop app, free for personal use, with a paid license for work.
+
+## At a glance
+- Bruno (https://www.usebruno.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Offline API client with Git-friendly files; Free plan: $0, open source; Paid from: $6 per user per month, annual; License: MIT
+- Hoppscotch (https://hoppscotch.io/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Open-source API client for web, desktop and CLI; Free plan: $0 forever; Paid from: $6 per user per month, annual; License: MIT
+- Yaak (https://yaak.app/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Desktop API client for REST, GraphQL and gRPC; Free plan: Free for personal use; Paid from: $79 per year, or $349 once; License: MIT
+
+## Features
+- Where it runs: Bruno: Desktop app, offline only | Hoppscotch: Web, desktop and CLI | Yaak: Desktop app
+- Protocols: Bruno: HTTP, REST, GraphQL, gRPC | Hoppscotch: REST, GraphQL, realtime | Yaak: REST, GraphQL, WebSockets, SSE, gRPC
+- Where data lives: Bruno: Files in a folder, Git friendly | Hoppscotch: Cloud or self-hosted workspace | Yaak: Local desktop app
+- Team sharing: Bruno: Through Git, deeper on Pro | Hoppscotch: Team workspaces on Business | Yaak: Business license, transferable seats
+- MCP: Bruno: Not listed | Hoppscotch: MCP server support on Business | Yaak: Not listed
+- API docs and mocking: Bruno: Documentation, OpenAPI sync | Hoppscotch: Docs publishing and mocking on Business | Yaak: Not listed
+- SSO: Bruno: Enterprise, $18 | Hoppscotch: Enterprise, $11 | Yaak: Business, $149 per year
+- License: Bruno: MIT, 48,570 stars | Hoppscotch: MIT, 80,975 stars | Yaak: MIT, 19,547 stars
+From Bruno pricing and GitHub, Hoppscotch pricing and GitHub, and Yaak pricing and GitHub. Star counts are from the GitHub API.
+
+## Pricing
+Bruno and Hoppscotch sell per-user subscriptions, while Yaak sells licenses for work use. The team row assumes 10 people on annual billing.
+- Free: Bruno: $0, open source | Hoppscotch: $0 forever | Yaak: Free for personal use
+- Entry paid: Bruno: $6 per user per month (Pro) | Hoppscotch: $6 per user per month (Business) | Yaak: $79 per year (Individual)
+- Mid tier: Bruno: $11 per user per month (Ultimate) | Hoppscotch: $11 per user per month (Enterprise) | Yaak: $349 one time (lifetime)
+- Team of 10, per year: Bruno: About $720 (Pro) | Hoppscotch: About $720 (Business) | Yaak: $1,490 (Business)
+- Top tier: Bruno: $18 per user per month (Enterprise) | Hoppscotch: Not listed beyond Enterprise | Yaak: Business, contact sales for bulk
+- Trial: Bruno: 14 days of Ultimate | Hoppscotch: Free plan, no trial listed | Yaak: 30 days
+From the vendor pricing pages. Arithmetic: Bruno Pro $6 x 10 users x 12 months = $720. Hoppscotch Business $6 x 10 x 12 = $720. Yaak Business $149 x 10 users = $1,490 per year. Prices for Bruno and Hoppscotch are billed annually.
+
+## Bruno vs Hoppscotch vs Yaak: what they're like to use
+By Jatin Kashiv. All three replace a heavier client, but they make different bets: Bruno on Git, Hoppscotch on the web, and Yaak on a focused desktop app with one-time licensing.
+
+### Bruno
+Bruno is built around the idea that your collections are just files. Requests live in a folder you can commit, and the project says there will be no cloud sync.
+What I liked:
+- Collections are plain files, so Git is the sync layer.
+- HTTP, REST, GraphQL and gRPC in the free edition.
+- Clear tiers at $6, $11 and $18 per user per month.
+What I didn't:
+- Free is limited to 2 workspaces and 5 OpenAPI syncs a month.
+- Push, branching and merge tools in the Git UI are paid.
+- No cloud sync by design, so sharing goes through Git.
+Best for: teams that want API collections in Git next to their code.
+
+### Hoppscotch
+Hoppscotch is the lightest to start with. You can open it in a browser, install the desktop app or use the CLI, and choose cloud or self-hosted workspaces.
+What I liked:
+- Runs in the browser, on desktop and from the CLI.
+- Free plan includes collections, scripts, tests and a runner.
+- Business adds MCP server support and API mocking.
+What I didn't:
+- Team workspaces and shared collections need Business.
+- SSO, SCIM and audit logs sit on the $11 Enterprise plan.
+- Self-hosting means you run and update it.
+Best for: teams that want a web-first client with an optional self-hosted setup.
+
+### Yaak
+Yaak is a focused desktop client with a different pricing idea. It is free at home, and you buy a license when you use it at work.
+What I liked:
+- Covers REST, GraphQL, WebSockets, SSE and gRPC.
+- A one-time $349 license gives lifetime commercial use.
+- 30-day free trial, activated on first launch.
+What I didn't:
+- Work use needs a paid license from day one.
+- Business is $149 per user per year, the highest here.
+- Smaller community than the other two, 19,547 stars.
+Best for: solo developers who prefer a one-time purchase over a subscription.
+
+## Which to choose
+- Choose Bruno if you want collections as files in Git and no cloud sync.
+- Choose Hoppscotch if you want a browser-first client, a self-host option and team workspaces.
+- Choose Yaak if you are a solo developer and prefer paying once for a desktop client.
+- Cost-sensitive team? At 10 users, Bruno Pro and Hoppscotch Business come to the same yearly price.
+Import an existing collection into one of them and run a single real workflow before you commit. Looking at the workflow side? See Activepieces vs Windmill vs n8n.
+
+## Where viaSocket fits
+Bruno, Hoppscotch and Yaak are where you design and test API calls. viaSocket works once those calls are settled: it runs the same endpoints inside workflows, triggered by events and connected to your other apps.
+What viaSocket offers:
+- 2,300+ app integrations with managed authentication (features).
+- Custom API requests, for endpoints you have just tested in your API client.
+- Triggers and webhooks, so an incoming event can start a workflow.
+- AI agents and MCP access, so an agent can call your apps as tools.
+- Browser actions: agents can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- Free plan: 100K tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- Turn a tested endpoint into a scheduled workflow that writes results to a sheet.
+- A webhook from your API starts a workflow that notifies Slack and updates your CRM.
+- An agent calls your API as a tool, then fills a vendor form with browser actions.
+Run your tested API calls as workflows with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: Are Bruno, Hoppscotch and Yaak free?
+A: All three have a free route. Bruno and Hoppscotch have free open-source or free plans, and Yaak is free for personal use but needs a license for work.
+Q: Which is cheapest for a team of 10?
+A: Bruno Pro and Hoppscotch Business are both $6 per user per month on annual billing, about $720 a year. Yaak Business is $149 per user per year, about $1,490.
+Q: Does Bruno have cloud sync?
+A: No. The Bruno README says it is offline-only with no plans for cloud sync. Teams share collections through Git.
+Q: Can I self-host Hoppscotch?
+A: Yes. Its pricing page lists a Self-Host option next to Cloud, and the project is MIT-licensed on GitHub.
+Q: Does Yaak have a one-time license?
+A: Yes. The Individual lifetime license is $349 one time and covers commercial use, including future updates.
+
+## Sources
+- Bruno: homepage https://www.usebruno.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://www.usebruno.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/usebruno/bruno?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Hoppscotch: homepage https://hoppscotch.io?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://hoppscotch.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/hoppscotch/hoppscotch?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Yaak: homepage https://yaak.app?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://yaak.app/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/mountain-loop/yaak?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
