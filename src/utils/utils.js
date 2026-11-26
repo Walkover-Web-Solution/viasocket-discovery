@@ -1,5 +1,6 @@
 import { customAlphabet } from 'nanoid';
-import { getCurrentEnvironment, setPathInLocalStorage } from './storageHelper';
+import { setPathInLocalStorage } from './storageHelper';
+import { buildViasocketSignInUrl, discoveryUtmSourceFromPath } from './authRedirect';
 import { createdBlogSchema, searchResultsSchema, updateBlogSchema } from './schema';
 import { getUserById } from '@/services/proxyServices';
 const axios = require('axios');
@@ -98,8 +99,12 @@ export const sendMessageTochannel = async (message) => {
 }
 
 export const handleSignIn = async () => {
-    setPathInLocalStorage()
-    window.location.href = getCurrentEnvironment()==='local'?'/discovery/auth' : "https://viasocket.com/login?redirect_to=/discovery/auth";
+    setPathInLocalStorage();
+    const utmSource =
+        typeof window !== 'undefined'
+            ? discoveryUtmSourceFromPath(window.location.pathname + window.location.search)
+            : undefined;
+    window.location.href = buildViasocketSignInUrl({ utmSource });
 };
 
 export const  ValidateAiResponse = (response ,schema) => {

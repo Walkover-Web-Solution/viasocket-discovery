@@ -10,6 +10,7 @@ import {
     getProxyAuthToken,
     persistProxyAuthTokenFromSearch,
 } from '@/utils/storageHelper'
+import { DISCOVERY_AUTH_CALLBACK } from '@/utils/authRedirect'
 import { getCurrentUser } from '@/utils/apiHelper'
 
 export default function AuthPage() {
@@ -49,10 +50,14 @@ export default function AuthPage() {
             )
 
             if (!hasToken) {
+                const redirectTo = router.query.redirect_to
+                const msg91RedirectPath =
+                    (Array.isArray(redirectTo) ? redirectTo[0] : redirectTo) ||
+                    DISCOVERY_AUTH_CALLBACK
                 const configuration = {
                     referenceId: process.env.NEXT_PUBLIC_NEXT_APP_REFERENCE_ID,
                     addInfo: {
-                        redirect_path: `/discovery/auth`,
+                        redirect_path: msg91RedirectPath,
                     },
                     success: (data) => {
                         console.log('success response', data)

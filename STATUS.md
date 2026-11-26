@@ -57,7 +57,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 | Blog page | 🟡 | `src/pages/blog/[...blogId]/index.js`. The In Depth Reviews intro in `src/components/BlogComponents/BlogComponents.js` shows "We independently review every app we recommend" once (it was duplicated). |
 | Edit chat | 🟡 | `src/pages/edit/[chatId]/index.js`. |
 | User profile | 🟡 | `src/pages/user/[...userId].js` loads the user, their blogs, and compare pages for that author id. |
-| Auth return | 🟡 | `src/pages/auth/index.js` waits for `router.isReady`, persists `proxy_auth_token` from the query before redirect, and uses `getProxyAuthToken()` in `src/utils/storageHelper.js`. |
+| Auth return | 🟡 | Prod sign-in starts at `https://viasocket.com/signup?redirect_to=/discovery/auth` (`src/utils/authRedirect.js`; `/login` 307s to flow and drops Discovery). `src/pages/auth/index.js` waits for `router.isReady`, persists `proxy_auth_token`, then sends the user to `loginRedirectionPath` or `/discovery`. |
 | Blog and comment APIs | 🟡 | `src/pages/api/blog.js`, `blog/[blogId]/*`, `public-blogs.js`, `related-blogs/[blogId].js`. |
 | Ask AI, markdown, history | 🟡 | `src/pages/api/ask-ai.js`, `ai.js`, `gethistory.js`. |
 | Tags, users, integrations, suggestions | 🟡 | `src/pages/api/tags.js`, `users.js`, `integrations.js`, `suggestions.js`. |
