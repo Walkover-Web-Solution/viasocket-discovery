@@ -1,4 +1,4 @@
-**Plan:** Not supplied · **Last updated:** 2026-11-26 · **Reviewed up to commit:** `1398b97`
+**Plan:** Not supplied · **Last updated:** 2026-11-26 · **Reviewed up to commit:** `cb65798`
 
 ## Legend
 
@@ -72,7 +72,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 
 ## Change log
 
-- 2026-11-26 · cursor agent · Discovery sign-in uses viasocket.com `/signup` with `redirect_to=/discovery/auth` instead of `/login` (307 to flow). Added `authRedirect.js` and `docs/INTENTS.md` INT-A8K2M9. Reviewed up to `1398b97`. · Auth return row
+- 2026-11-26 · cursor agent · Discovery sign-in uses viasocket.com `/signup` with `redirect_to=/discovery/auth` instead of `/login` (307 to flow). Added `authRedirect.js` and `docs/INTENTS.md` INT-A8K2M9. Reviewed up to `cb65798`. · Auth return row
 - 2026-11-19 · cursor agent · Fixed Discovery login callback: persist token from URL before redirect (race with `WithAuth`), gate auth effects on `router.isReady`, unify token reads via `getProxyAuthToken()`, fix cookie `expires`, and restore local header Login/Signup links. Reviewed up to `f5583f1`. · Auth return notes; no status emoji change (not exercised end-to-end with MSG91).
 - 2026-11-08 · cursor agent (docs refresh) · Added `docs/` (architecture, development, security and operations, maintenance) and an AGENTS.md task map. Answered open questions 3 and 5. Reviewed up to `7cab049`. · Sample compare page ⬜ → ❌
 - 2026-11-04 · Ragini Mahobiya (Claude) · Removed the duplicated "We independently review every app we recommend" sentence from the In Depth Reviews section of the blog page. Reviewed up to `957486b`. · Blog page notes updated; status unchanged 🟡
