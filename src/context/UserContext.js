@@ -1,12 +1,10 @@
 import { getCurrentUser } from '@/utils/apiHelper';
-import { getProxyAuthToken, persistProxyAuthTokenFromSearch } from '@/utils/storageHelper';
+import { getProxyAuthToken } from '@/utils/storageHelper';
 import { createContext, useState, useContext, useEffect } from 'react';
-import { useRouter } from 'next/router';
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isChatOpen,setIsChatOpen]=useState(false);
@@ -37,16 +35,9 @@ export const UserProvider = ({ children }) => {
     setLoading(false);
   }
   useEffect(() => {
-    const search =
-      router.isReady && router.asPath.includes('?')
-        ? `?${router.asPath.split('?')[1]}`
-        : typeof window !== 'undefined'
-          ? window.location.search
-          : '';
-    persistProxyAuthTokenFromSearch(search);
-    getCurrentUserFunction();
+    getCurrentUserFunction()
     window.clearUserGlobally = clearUser;
-  }, [router.isReady, router.asPath]);
+  }, []);
   const clearUser = () => {
     setUser(null);
   };

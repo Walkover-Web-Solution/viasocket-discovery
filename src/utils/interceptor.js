@@ -5,9 +5,7 @@ import { toast } from "react-toastify";
 axios.interceptors.request.use(
     async (config) => {
         const token = getProxyAuthToken()
-        if (token) {
-            config.headers['proxy_auth_token'] = token;
-        }
+        config.headers['proxy_auth_token'] = token;
         config.headers['env'] = getCurrentEnvironment();
         return config;
     },
