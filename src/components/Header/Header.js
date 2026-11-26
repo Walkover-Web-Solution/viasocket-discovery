@@ -4,7 +4,8 @@ import UserDetail from '../UserDetailPopup/UserDetailPopup';
 import styles from './Header.module.scss';
 import Avatar from '@mui/material/Avatar';
 import  {useUser}  from '@/context/UserContext';
-import { getCurrentEnvironment, setPathInLocalStorage } from '@/utils/storageHelper';
+import { setPathInLocalStorage } from '@/utils/storageHelper';
+import { buildViasocketSignInUrl, discoveryUtmSourceFromPath } from '@/utils/authRedirect';
 
 const Header = () => {
   const router = useRouter();
@@ -22,22 +23,9 @@ const Header = () => {
   const toggleUserInfo = () => {
     setShowUserInfo(!showUserInfo);
   };
-  const routeSegments = router.asPath.split(/[?#]/, 1)[0].split('/').filter(Boolean);
-  const discoverySegments = routeSegments[0] === 'discovery' ? routeSegments.slice(1) : routeSegments;
-  const isBlogRoute = discoverySegments[0] === 'blog' && discoverySegments.length >= 4;
-  const utmSource = isBlogRoute
-    ? `/discovery/${discoverySegments[1]}/${discoverySegments[discoverySegments.length - 1]}`
-    : '/discovery';
-  const authQuery = new URLSearchParams({
-    redirect_to: '/discovery/auth',
-    utm_source: utmSource,
-  });
-  const loginUrl = getCurrentEnvironment() === 'local'
-    ? '/discovery/auth'
-    : `https://viasocket.com/login?${authQuery.toString()}`;
-  const signupUrl = getCurrentEnvironment() === 'local'
-    ? '/discovery/auth'
-    : `https://viasocket.com/signup?${authQuery.toString()}`;
+  const utmSource = discoveryUtmSourceFromPath(router.asPath);
+  const loginUrl = buildViasocketSignInUrl({ utmSource });
+  const signupUrl = loginUrl;
 
   
   return (

@@ -28,7 +28,7 @@ Reviewed against commit `7cab049`. Everything here comes from the code. It descr
 | Compare content engine | `src/lib/compareContent.js` (reads folders, heading ids, FAQ extraction, JSON-LD, `llms.txt`, sitemap) |
 | Public URLs | `src/lib/site.js` `discoveryUrl()` → `https://viasocket.com/discovery/...` |
 | Mongo connection | `lib/mongoDb.js` at the repo root, not `src/lib`. The `@/` alias maps to `src/` (`jsconfig.json`). |
-| Auth | `src/middleware.js`, `src/auth.js`, `src/pages/auth/index.js`, `src/context/UserContext.js`, `src/utils/storageHelper.js` (`getProxyAuthToken`, `persistProxyAuthTokenFromSearch`) |
+| Auth | `src/middleware.js`, `src/auth.js`, `src/pages/auth/index.js`, `src/context/UserContext.js`, `src/utils/storageHelper.js` (`getProxyAuthToken`, `persistProxyAuthTokenFromSearch`), `src/utils/authRedirect.js` (viasocket.com `/signup?redirect_to=/discovery/auth`; not `/login`, which 307s to flow) |
 | Next config | `next.config.js` (`basePath: '/discovery'`) is the one that loads: the build's `routes-manifest.json` has `basePath` `/discovery`. `next.config.mjs` is an unused empty config. |
 
 ## Data model (MongoDB, mongoose)
