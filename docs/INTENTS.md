@@ -19,7 +19,7 @@
 | Kind | constraint |
 | Module | auth |
 | Title | Accept `proxy_auth` and `proxy_auth_token` on auth callback |
-| What | When MSG91 or viasocket redirect to Discovery, `persistProxyAuthTokenFromSearch` must read either `proxy_auth` or `proxy_auth_token` from the query string, store under `proxy_auth_token`, and send that value as the `proxy_auth_token` request header on client API calls. |
-| Why | Callback URLs vary by login path; ignoring `proxy_auth` leaves the user unauthenticated after an otherwise successful sign-in. |
+| What | When viasocket redirects to `/discovery/auth`, `persistProxyAuthTokenFromSearch` must read either `proxy_auth` or `proxy_auth_token` from the query string, store under `proxy_auth_token`, and send that value as the `proxy_auth_token` request header on client API calls. The auth callback must not re-launch MSG91 when either param is present. |
+| Why | viasocket sign-in callbacks use `proxy_auth`; treating only `proxy_auth_token` leaves the callback without a session and can send users back through central login (viasocket homepage). |
 | Paths | `src/utils/storageHelper.js`, `src/pages/auth/index.js`, `src/context/UserContext.js`, `src/components/auth/WithAuth.js` |
 | Tests | none automated |

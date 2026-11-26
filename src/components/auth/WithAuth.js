@@ -12,6 +12,7 @@ import {
 function WithAuth({ children }) {
   const router = useRouter();
   const domain = getCurrentEnvironment();
+
   useEffect(() => {
     const search = router.asPath.includes('?') ? `?${router.asPath.split('?')[1]}` : '';
     persistProxyAuthTokenFromSearch(search);
