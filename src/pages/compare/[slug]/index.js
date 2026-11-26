@@ -3,19 +3,28 @@ import CompareArticle from "@/components/Compare/CompareArticle";
 import { discoveryUrl } from "@/lib/site";
 
 export default function CompareArticlePage({ page }) {
-  const llmUrl = discoveryUrl(`/compare/${encodeURIComponent(page.slug)}/llm.txt`);
+  const encoded = encodeURIComponent(page.slug);
+  const llmUrl = discoveryUrl(`/compare/${encoded}/llm.txt`);
+  const dataUrl = discoveryUrl(`/compare/${encoded}/data.json`);
   return (
     <>
       <Head>
         <title>{`${page.title} | viaSocket Discovery`}</title>
         <meta name="description" content={page.description} />
         {page.authorName ? <meta name="author" content={page.authorName} /> : null}
+        <meta
+          name="robots"
+          content="index, follow, max-snippet:-1, max-image-preview:large"
+        />
         <link rel="canonical" href={page.canonical} />
         <meta property="og:title" content={page.title} />
         <meta property="og:description" content={page.description} />
         <meta property="og:url" content={page.canonical} />
         <meta property="og:type" content="article" />
         <link rel="alternate" type="text/plain" href={llmUrl} />
+        {page.hasDataJson ? (
+          <link rel="alternate" type="application/json" href={dataUrl} />
+        ) : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: page.jsonLd }}

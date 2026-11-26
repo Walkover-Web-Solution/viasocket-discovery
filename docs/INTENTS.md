@@ -23,3 +23,18 @@
 | Why | viasocket sign-in callbacks use `proxy_auth`; treating only `proxy_auth_token` leaves the callback without a session and can send users back through central login (viasocket homepage). |
 | Paths | `src/utils/storageHelper.js`, `src/pages/auth/index.js`, `src/context/UserContext.js`, `src/components/auth/WithAuth.js` |
 | Tests | none automated |
+
+## INT-A1G3NT0 — Agent-first compare twins
+
+| Field | Value |
+| --- | --- |
+| Kind | constraint |
+| Module | compare |
+| Title | Agent-first compare twins |
+| What | Compare pages keep human HTML unchanged. Agents get optional per-slug `data.json`, catalog `compare/index.json`, `llms.txt`, and `llms-full.txt`. Routes use `discoveryUrl()`, safe slugs, and skip folders without `meta.json`. |
+| Why | Let crawlers and agents fetch structured compare content without scraping HTML. |
+| Constraints | No new npm dependencies; pages router only; no edits under `content/compare/` except optional `data.json` in a `sample` folder when present. |
+| Acceptance | Existing compare folders without `data.json` still build; missing `data.json` returns 404 JSON; `npm run status:check` passes when STATUS.md is updated. |
+| Paths | `src/lib/compareContent.js`, `src/pages/compare/`, `src/pages/llms*.js`, `scripts/compare-article-headers.cjs` |
+| Tests | Manual curl of agent routes after `npm run build` (see PR description). |
+| Risk | low |
