@@ -1,0 +1,113 @@
+# Devin alternatives: Devin vs OpenHands vs OpenComputer compared
+
+URL: https://viasocket.com/discovery/compare/devin-vs-openhands-vs-opencomputer
+Author: Dhwanil Bhavsar (https://viasocket.com/discovery/user/95758)
+Publisher: viaSocket Discovery
+
+## Short answer
+Devin is a managed coding agent with plans from $20 per month. OpenHands is an MIT-licensed agent you run yourself, with a $500 per month Teams plan. OpenComputer is an Apache-2.0 agent that lives in Slack, with a $20 plan billed in work minutes. The main difference is who hosts it and where you talk to it.
+
+## At a glance
+- Devin (https://devin.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Managed autonomous software engineer; Free plan: $0, light quota; Paid from: $20 per month (Pro); Self-host: VPC deployment, Enterprise
+- OpenHands (https://openhands.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Open-source coding agent and control center; Free plan: $0, MIT, bring your own LLM key; Paid from: $500 per month (Teams); License: MIT
+- OpenComputer (https://opencomputer.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm): What it is: Open-source coding agent that lives in Slack; Free plan: 3-day trial, 600 work minutes; Paid from: $20 per month (Pro); License: Apache-2.0
+
+## Features
+- Where it runs: Devin: Cloud, or your machine | OpenHands: Local, Docker, VMs or OpenHands Cloud | OpenComputer: Your cloud VM, or OpenComputer cloud
+- Where you talk to it: Devin: Web app, Slack, Teams, API | OpenHands: Agent Canvas, Cloud app, Slack | OpenComputer: Slack threads, web, API, CLI
+- Model choice: Devin: Plan models, ChatGPT plan supported | OpenHands: Bring your own LLM key | OpenComputer: Your Claude or ChatGPT plan, or API key
+- Other agents: Devin: Not listed | OpenHands: Claude Code, Codex, Gemini CLI, Pi, OpenCode | OpenComputer: Claude Code, Codex, OpenCode runners
+- Git hosts: Devin: GitHub, GitLab, Bitbucket | OpenHands: GitHub, GitLab, Bitbucket | OpenComputer: GitHub
+- Issue trackers: Devin: Linear, Jira | OpenHands: Jira Cloud | OpenComputer: Linear
+- SSO: Devin: SAML/OIDC on Teams | OpenHands: SAML/SSO on Teams | OpenComputer: Not listed
+- License: Devin: Commercial product | OpenHands: MIT, 94,356 stars | OpenComputer: Apache-2.0, 1,784 stars
+From Devin pricing and homepage, OpenHands pricing, Agent Canvas README and Cloud docs, and the OpenComputer site, llms.txt and docs. Star counts are from the GitHub API.
+
+## Pricing
+The three bill differently: Devin by plan with usage allowances, OpenHands by team seats, OpenComputer by work minutes. Only the plan prices below are listed on each vendor's page.
+- Free: Devin: $0, light quota | OpenHands: $0, open source, MIT | OpenComputer: $0 trial: 3 days, 600 work minutes
+- Entry paid: Devin: $20 per month (Pro) | OpenHands: $500 per month (Teams, 10 users) | OpenComputer: $20 per month (Pro, 2,000 minutes)
+- Unit rates: Devin: Extra usage at API pricing | OpenHands: $50 per extra seat per month | OpenComputer: $0.01 per extra work minute
+- Heavier tier: Devin: $200 per month (Max); $80 Teams | OpenHands: Teams capped at 5,000 sessions a month | OpenComputer: $200 per month (Max, 25,000 minutes)
+- Self-host: Devin: VPC option on Enterprise | OpenHands: Free, on your own infrastructure | OpenComputer: Free, you pay your cloud and model
+- Enterprise: Devin: Custom | OpenHands: Custom, unlimited seats | OpenComputer: Custom, over 60,000 minutes
+From the vendor pricing pages. OpenComputer Pro works out to $20 / 2,000 minutes = $0.01 per included minute, the same as its overage rate. OpenComputer says plans cover the whole Slack workspace, and Devin's Teams plan lists up to 100 users.
+
+## Devin vs OpenHands vs OpenComputer: what they're like to use
+By Dhwanil Bhavsar. These three differ less in what they can do and more in who runs them. Devin is a managed service, OpenHands is a toolkit you operate, and OpenComputer is a Slack teammate you can host yourself.
+
+### Devin
+Devin is the polished, managed choice. You sign in, connect your tools and hand it work, and the plan handles models and quotas for you.
+What I liked:
+- Works from Slack and Teams, with Linear and Jira links.
+- Connects to GitHub, GitLab and Bitbucket.
+- Devin Bots give always-on roles on Max and Teams.
+What I didn't:
+- Cloud agents start at the Pro plan, not Free.
+- Usage past your allowance bills at API pricing.
+- Your own VPC deployment is an Enterprise option.
+Best for: teams that want a hosted agent with SSO and vendor support, and no servers to run.
+
+### OpenHands
+OpenHands is the most open of the three. Its Agent Canvas runs the OpenHands agent or other agents on your laptop, in Docker or on your own VMs.
+What I liked:
+- MIT license and a very large community, 94,356 stars.
+- Runs Claude Code, Codex, Gemini CLI, Pi and OpenCode too.
+- You choose the model and keep the keys.
+What I didn't:
+- Teams starts at $500 per month for 10 users.
+- Teams is capped at 5,000 sessions per month.
+- Even paid Teams is self-hosted, so you operate it.
+Best for: engineering teams that want control over models, data and where agents run.
+
+### OpenComputer
+OpenComputer is the newest and the most Slack-native. You mention @Computer in a thread, and each thread becomes a session that ends in a pull request.
+What I liked:
+- Bring your Claude or ChatGPT plan, or use theirs at cost.
+- Anyone on a thread's people list can steer the session.
+- Self-host on AWS, Azure or Google Cloud for free.
+What I didn't:
+- Slack is the main front door, so it fits Slack teams best.
+- New sessions start in a mode with no approval prompts.
+- A young project, with 1,784 GitHub stars.
+Best for: Slack-first teams that want fast pull requests and a cheap, self-hostable start.
+
+## Which to choose
+- Choose Devin if you want a managed agent with SSO, vendor support and no infrastructure.
+- Choose OpenHands if you want MIT-licensed software, your own models and the choice of which agent runs.
+- Choose OpenComputer if your team lives in Slack and wants pull requests from a thread at a low entry price.
+- Want a fixed monthly price? Devin and OpenComputer both list a $20 plan, while OpenHands Teams is $500.
+Whichever you pick, start with one repository and a few well-scoped tasks before rolling out to the team. Comparing the sandboxes agents run in? See E2B vs Daytona vs Modal.
+
+## Where viaSocket fits
+Devin, OpenHands and OpenComputer are coding agents that take a task and return a pull request. viaSocket sits beside them and connects the agent to the rest of your stack, so a merged pull request or a failed run can trigger work in your other apps. For wider agent setups, see best integration layers for AI agents.
+What viaSocket offers:
+- 2,300+ app integrations with managed authentication (features).
+- AI agents and MCP access, so an agent can call your apps as tools.
+- Browser actions: agents can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- Triggers and webhooks, so an event in one tool can start a workflow.
+- Background execution and retries, with execution monitoring and replay.
+- Free plan: 100K tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- A merged pull request posts release notes to Slack and updates the ticket in your tracker.
+- A coding agent finishes a task and an agent step fills in a form on a vendor portal that has no API.
+- A failed CI run opens a ticket and pings the owner.
+Connect your coding agents to 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: Is OpenComputer really an open-source alternative to Devin?
+A: OpenComputer describes itself that way, under Apache-2.0, and you can self-host it. It is a newer, Slack-first project, so check that its workflow fits your team.
+Q: Is OpenHands free?
+A: The open-source edition is free under the MIT license and runs with your own LLM key. The Teams plan is $500 per month for 10 users, and Enterprise is custom.
+Q: How much does Devin cost?
+A: Devin lists Free at $0, Pro at $20 per month, Max at $200 per month and Teams at $80 per month. Enterprise is custom.
+Q: What is a work minute on OpenComputer?
+A: It is the time the agent spends working on your message, such as reading code and running tests. Waiting on you is free, and extra minutes cost $0.01 each.
+Q: Can I use my own model with these?
+A: OpenHands uses your own LLM key. OpenComputer can use your Claude or ChatGPT plan or an API key. Devin includes models in its plans and lets you buy extra usage at API pricing.
+
+## Sources
+- Devin: homepage https://devin.ai?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://devin.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- OpenHands: homepage https://openhands.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://openhands.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/OpenHands/OpenHands?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Cloud docs https://docs.openhands.dev/openhands/usage/cloud/openhands-cloud?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- OpenComputer: homepage https://opencomputer.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, llms.txt https://opencomputer.dev/llms.txt?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.opencomputer.dev/llms.txt?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, GitHub https://github.com/diggerhq/opencomputer?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm

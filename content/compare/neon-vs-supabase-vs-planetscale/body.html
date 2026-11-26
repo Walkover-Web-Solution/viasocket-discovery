@@ -1,0 +1,152 @@
+<p class="answer"><strong>Short answer:</strong> Neon vs Supabase vs PlanetScale comes down to scope and billing: Neon is usage-billed serverless Postgres with a free plan and scale to zero, Supabase bundles auth, storage and realtime from $25 per month, and PlanetScale starts at $15 per month with no free plan listed.</p>
+
+<h2 id="glance">At a glance</h2>
+<div class="glance">
+<div class="gc"><div class="hd"><img src="/discovery/compare-logos/neon.png" alt="Neon logo" width="36" height="36"><b>Neon</b></div>
+<div><div class="lab">What it is</div>Serverless Postgres with branching</div>
+<div><div class="lab">Free plan</div>$0, 100 CU-hours per project</div>
+<div><div class="lab">Paid from</div>Usage only, no minimum</div>
+<div><div class="lab">License</div>Apache-2.0</div>
+<a class="btn" href="https://neon.com/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=glance" rel="noopener">Visit Neon</a></div>
+<div class="gc"><div class="hd"><img src="/discovery/compare-logos/supabase.svg" alt="Supabase logo" width="36" height="36"><b>Supabase</b></div>
+<div><div class="lab">What it is</div>Postgres plus auth, storage and realtime</div>
+<div><div class="lab">Free plan</div>$0, 500 MB, 2 projects</div>
+<div><div class="lab">Paid from</div>$25 per month (Pro)</div>
+<div><div class="lab">License</div>Apache-2.0</div>
+<a class="btn" href="https://supabase.com/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=glance" rel="noopener">Visit Supabase</a></div>
+<div class="gc"><div class="hd"><img src="/discovery/compare-logos/planetscale.png" alt="PlanetScale logo" width="36" height="36"><b>PlanetScale</b></div>
+<div><div class="lab">What it is</div>Managed Postgres and Vitess MySQL</div>
+<div><div class="lab">Free plan</div>None listed</div>
+<div><div class="lab">Paid from</div>$15 per month (Postgres HA)</div>
+<div><div class="lab">License</div>Vitess: Apache-2.0</div>
+<a class="btn" href="https://planetscale.com/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=glance" rel="noopener">Visit PlanetScale</a></div>
+</div>
+
+<h2 id="features">Neon vs Supabase vs PlanetScale features</h2>
+<div class="scroll"><table>
+<thead><tr><th>Feature</th><th><span><img src="/discovery/compare-logos/neon.png" alt="Neon logo" width="36" height="36"> Neon</span></th><th><span><img src="/discovery/compare-logos/supabase.svg" alt="Supabase logo" width="36" height="36"> Supabase</span></th><th><span><img src="/discovery/compare-logos/planetscale.png" alt="PlanetScale logo" width="36" height="36"> PlanetScale</span></th></tr></thead>
+<tbody>
+<tr><td>Engine</td><td>Postgres</td><td>Postgres</td><td>Postgres, or MySQL on Vitess</td></tr>
+<tr><td>Branching</td><td>Yes, 10 per project on Free</td><td>Beta, paid plans</td><td>Yes, on both engines</td></tr>
+<tr><td>Scale to zero</td><td>Yes, after 5 min on Free</td><td>No; Free pauses after 1 week idle</td><td>None listed</td></tr>
+<tr><td>Built-in extras</td><td>Auth, 60k MAU on Free</td><td>Auth, storage, realtime, functions</td><td>Query Insights</td></tr>
+<tr><td>MCP server</td><td>Hosted, OAuth or API key</td><td>Hosted, read-only mode</td><td>Hosted, OAuth or tokens</td></tr>
+<tr><td>Open source</td><td>Apache-2.0, 23,397 stars</td><td>Apache-2.0, 115,411 stars</td><td>Vitess Apache-2.0, 21,434 stars</td></tr>
+<tr><td>Self-host</td><td>Source on GitHub</td><td>Docker Compose, one project</td><td>Vitess is open source</td></tr>
+</tbody></table></div>
+<p class="src">From <a href="https://neon.com/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=features" rel="nofollow noopener">Neon pricing</a> and <a href="https://neon.com/docs/ai/neon-mcp-server?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=features" rel="nofollow noopener">MCP docs</a>, <a href="https://supabase.com/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=features" rel="nofollow noopener">Supabase pricing</a>, <a href="https://supabase.com/docs/guides/platform/branching?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=features" rel="nofollow noopener">branching docs</a>, <a href="https://supabase.com/docs/guides/getting-started/mcp?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=features" rel="nofollow noopener">MCP docs</a> and <a href="https://supabase.com/docs/guides/self-hosting?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=features" rel="nofollow noopener">self-hosting docs</a>, and <a href="https://planetscale.com/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=features" rel="nofollow noopener">PlanetScale pricing</a> and <a href="https://planetscale.com/docs/vitess/connecting/mcp?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=features" rel="nofollow noopener">MCP docs</a>.</p>
+
+<h2 id="pricing">Neon vs Supabase vs PlanetScale pricing</h2>
+<p>The three bill differently: Neon by compute hour and storage, Supabase by plan plus add-ons, PlanetScale by cluster size. The monthly row assumes one small always-on app with about 10 GB of data.</p>
+<div class="scroll"><table>
+<thead><tr><th>Plan</th><th><span><img src="/discovery/compare-logos/neon.png" alt="Neon logo" width="36" height="36"> Neon</span></th><th><span><img src="/discovery/compare-logos/supabase.svg" alt="Supabase logo" width="36" height="36"> Supabase</span></th><th><span><img src="/discovery/compare-logos/planetscale.png" alt="PlanetScale logo" width="36" height="36"> PlanetScale</span></th></tr></thead>
+<tbody>
+<tr><td>Free</td><td><b>$0</b>, 100 CU-hours, 1 GB per project</td><td><b>$0</b>, 500 MB, 2 projects</td><td>None listed</td></tr>
+<tr><td>Entry paid</td><td>Pay as you go, no minimum</td><td><b>$25</b> per month (Pro)</td><td><b>$15</b> per month (Postgres PS-5, HA)</td></tr>
+<tr><td>Unit rates</td><td><b>$0.106</b> per CU-hour, <b>$0.35</b> per GB</td><td><b>$0.125</b> per extra GB disk, <b>$0.09</b> per GB egress</td><td>Per cluster size</td></tr>
+<tr><td>Small app, per month</td><td>About <b>$22.85</b> (Launch, 0.25 CU, 10 GB)</td><td>About <b>$25.25</b> (Pro, Micro, 10 GB)</td><td>From <b>$15</b> compute</td></tr>
+<tr><td>Higher tier</td><td>Scale: <b>$0.222</b> per CU-hour</td><td>Team from <b>$599</b> per month</td><td>Larger clusters, priced per size</td></tr>
+</tbody></table></div>
+<p class="src">From the vendor pricing pages. Arithmetic: Neon Launch 0.25 CU x 730 hours x $0.106 = $19.35, plus 10 GB x $0.35 = $3.50, total $22.85, lower with scale to zero. Supabase Pro $25, with the $10 monthly credit covering one Micro instance, plus 2 GB over the 8 GB included x $0.125 = $0.25, total $25.25. PlanetScale PS-5 is $15 for compute, with storage billed separately.</p>
+
+<h2 id="experience">Neon vs Supabase vs PlanetScale: what they're like to use</h2>
+<p>These three differ in scope. Neon is a database, Supabase is a backend, and PlanetScale is a production database with a free-tier gap.</p>
+
+<h3 style="display:flex;align-items:center;gap:12px"><img src="/discovery/compare-logos/neon.png" alt="Neon logo" width="36" height="36">Neon</h3>
+<p>Neon is the most database-focused of the three. Branching and scale to zero make it a good fit for previews and bursty apps.</p>
+<p><strong>What I liked</strong></p>
+<ul>
+<li>Branching is built in, with 10 branches per project on Free.</li>
+<li>Scale to zero keeps idle databases close to free.</li>
+<li>Hosted MCP server with OAuth or API key sign-in.</li>
+</ul>
+<p><strong>What I didn't</strong></p>
+<ul>
+<li>Compute is billed in CU-hours, not a flat fee.</li>
+<li>Free storage is 1 GB per project and 20 GB per account.</li>
+<li>Free compute is capped at 100 CU-hours per project.</li>
+</ul>
+<p><strong>Best for:</strong> teams that want plain Postgres with branches and pay-for-what-you-use billing.</p>
+
+<h3 style="display:flex;align-items:center;gap:12px"><img src="/discovery/compare-logos/supabase.svg" alt="Supabase logo" width="36" height="36">Supabase</h3>
+<p>Supabase is a backend in a box. You get Auth, file storage, Realtime and Edge Functions on top of Postgres, which speeds up a first build. The trade is a flat plan fee.</p>
+<p><strong>What I liked</strong></p>
+<ul>
+<li>One project covers database, auth, storage and realtime.</li>
+<li>Plain Postgres underneath, so leaving is possible.</li>
+<li>Open source, with Docker Compose self-hosting.</li>
+</ul>
+<p><strong>What I didn't</strong></p>
+<ul>
+<li>Free projects pause after a week of inactivity.</li>
+<li>Branching is in beta and needs a paid plan.</li>
+<li>Self-hosting drops branching and managed backups.</li>
+</ul>
+<p><strong>Best for:</strong> builders who want auth, storage and a database from one vendor.</p>
+
+<h3 style="display:flex;align-items:center;gap:12px"><img src="/discovery/compare-logos/planetscale.png" alt="PlanetScale logo" width="36" height="36">PlanetScale</h3>
+<p>PlanetScale is the production-first option. It has no free tier, but it adds query insights, branching on both engines and MySQL on Vitess from $30 per month.</p>
+<p><strong>What I liked</strong></p>
+<ul>
+<li>Postgres from $15 per month as a three-node HA cluster.</li>
+<li>Insights tab shows query performance.</li>
+<li>Branching on both Postgres and MySQL.</li>
+</ul>
+<p><strong>What I didn't</strong></p>
+<ul>
+<li>No free plan to prototype on.</li>
+<li>Horizontal write scaling for Postgres is not available yet.</li>
+<li>No scale to zero listed.</li>
+</ul>
+<p><strong>Best for:</strong> teams moving a production database that value uptime and query visibility.</p>
+
+<h2 id="choose">Which to choose</h2>
+<ul>
+<li><b>Choose Neon</b> if you want plain Postgres, branching and a bill that falls when the app is idle.</li>
+<li><b>Choose Supabase</b> if you want auth, storage and realtime without wiring other services.</li>
+<li><b>Choose PlanetScale</b> if you are running production and want HA from $15 plus query insights.</li>
+<li><b>Need MySQL?</b> Only PlanetScale runs it, on Vitess. Neon and Supabase are Postgres only.</li>
+</ul>
+<p class="fit">Start on a free plan where one exists, and move once your data size is known. Running background jobs next to the database? See <a href="https://viasocket.com/discovery/compare/trigger-dev-vs-inngest-vs-temporal?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=choose" rel="noopener">Trigger.dev vs Inngest vs Temporal</a>.</p>
+
+<h2 id="viasocket">Where viaSocket fits</h2>
+<p>Neon, Supabase and PlanetScale host your database. viaSocket sits next to it and moves data between that database and the rest of your stack, so a new row can trigger work in your apps and agents can act on the result. For agent setups, see <a href="https://viasocket.com/discovery/compare/best-integration-layers-for-ai-agents?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=fits" rel="noopener">best integration layers for AI agents</a>.</p>
+<p><strong>What viaSocket offers</strong></p>
+<ul>
+<li><b>2,300+ app integrations</b> with managed authentication (<a href="https://viasocket.com/features?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=fits" rel="noopener">features</a>).</li>
+<li><b>Triggers and webhooks,</b> so a database event can start a workflow.</li>
+<li><b>AI agents and MCP</b> access, so an agent can call your apps as tools.</li>
+<li><b>Browser actions:</b> agents can browse, click, fill in forms and read pages on sites with no API (<a href="https://viasocket.com/features/browser-actions?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=fits" rel="noopener">browser actions</a>).</li>
+<li><b>Custom API requests,</b> for endpoints without a ready-made action.</li>
+<li><b>Free plan:</b> 100K tasks and 1,000 AI credits a month (<a href="https://viasocket.com/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=fits" rel="noopener">pricing</a>).</li>
+</ul>
+<p><strong>What you can build with it</strong></p>
+<ul>
+<li>A new signup row fires a webhook that creates the contact in your CRM and posts to Slack.</li>
+<li>A failed payment record opens a ticket and drafts the follow-up email.</li>
+</ul>
+<a class="btnp" href="https://viasocket.com/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=fits">Connect your database events to 2,300+ apps with viaSocket &rarr;</a>
+
+<h2 id="faq">FAQ</h2>
+<details><summary>Is Neon cheaper than Supabase?</summary><p>For a small, idle app it can be, since Neon has no monthly minimum and scales to zero. For an always-on app with auth and storage, Supabase Pro at $25 includes more in one bill.</p></details>
+<details><summary>Does PlanetScale have a free plan?</summary><p>Its pricing page lists none. Postgres starts at $15 per month for a three-node cluster, or $5 per month single-node.</p></details>
+<details><summary>Which of the three is open source?</summary><p>Neon and Supabase are Apache-2.0 on GitHub, and you can self-host Supabase with Docker. PlanetScale builds on Vitess, which is Apache-2.0.</p></details>
+<details><summary>Do they all have MCP servers?</summary><p>Yes. Each offers a hosted MCP server. Neon recommends its server for development and testing, and Supabase documents a read-only mode.</p></details>
+<details><summary>Is PlanetScale Postgres or MySQL?</summary><p>Both. PlanetScale runs managed Postgres, and MySQL on Vitess.</p></details>
+<details><summary>Which is best for a free prototype?</summary><p>Neon gives 100 CU-hours and 1 GB per project, and Supabase gives 500 MB across 2 projects, with free projects pausing after a week idle. PlanetScale lists no free plan.</p></details>
+<details><summary>Which has database branching?</summary><p>All three offer it. Neon includes branches on its free plan, Supabase's branching is in beta on paid plans, and PlanetScale offers branching on both Postgres and MySQL.</p></details>
+
+<h2>Sources</h2>
+<ul class="srcs">
+<li>Neon: <a href="https://neon.com?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">homepage</a>, <a href="https://neon.com/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">pricing</a>, <a href="https://neon.com/docs/ai/neon-mcp-server?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">MCP</a></li>
+<li>Supabase: <a href="https://supabase.com?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">homepage</a>, <a href="https://supabase.com/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">pricing</a>, <a href="https://supabase.com/docs/guides/platform/branching?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">branching</a></li>
+<li>PlanetScale: <a href="https://planetscale.com?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">homepage</a>, <a href="https://planetscale.com/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">pricing</a>, <a href="https://planetscale.com/docs/postgres?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="nofollow noopener">Postgres docs</a></li>
+<li>viaSocket: <a href="https://viasocket.com?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="noopener">homepage</a>, <a href="https://viasocket.com/features?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="noopener">features</a>, <a href="https://viasocket.com/features/browser-actions?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="noopener">browser actions</a>, <a href="https://viasocket.com/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=sources" rel="noopener">pricing</a></li>
+</ul>
+
+<h2>More comparisons</h2>
+<div class="more">
+<a href="https://viasocket.com/discovery/compare/twenty-vs-attio-vs-folk?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=more">Twenty vs Attio vs Folk<small>Compare</small></a>
+<a href="https://viasocket.com/discovery/compare/trigger-dev-vs-inngest-vs-temporal?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=more">Trigger.dev vs Inngest vs Temporal<small>Compare</small></a>
+<a href="https://viasocket.com/discovery/compare/best-integration-layers-for-ai-agents?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-compare&amp;utm_content=more">Best integration layers for AI agents<small>Compare</small></a>
+</div>
