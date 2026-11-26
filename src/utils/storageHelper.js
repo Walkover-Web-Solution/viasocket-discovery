@@ -14,7 +14,18 @@ function getDomain() {
 }
 export const getCurrentEnvironment = () => process.env.NEXT_PUBLIC_NEXT_API_ENVIRONMENT
 
-const PROXY_AUTH_KEY = 'proxy_auth_token'
+export const PROXY_AUTH_KEY = 'proxy_auth_token'
+
+/** Query keys MSG91 / viasocket may use for the proxy token on redirect URLs. */
+export const PROXY_AUTH_QUERY_KEYS = [PROXY_AUTH_KEY, 'proxy_auth']
+
+function readProxyAuthFromSearchParams(params) {
+    for (const key of PROXY_AUTH_QUERY_KEYS) {
+        const value = params.get(key)
+        if (value) return value
+    }
+    return null
+}
 
 /** Token from env cookie (prod) or localStorage (local), with cross-store fallback. */
 export const getProxyAuthToken = () => {
@@ -27,17 +38,28 @@ export const getProxyAuthToken = () => {
   return null
 }
 
-/** Read `proxy_auth_token` from the query string and persist it like the auth callback does. */
+/**
+ * Read a proxy auth token from the query string (`proxy_auth_token` or `proxy_auth`)
+ * and persist it for axios / fetch (`proxy_auth_token` header).
+ */
 export const persistProxyAuthTokenFromSearch = (search) => {
     if (typeof window === 'undefined') return null
     const query = search ?? window.location.search
     if (!query) return null
     const params = new URLSearchParams(query.startsWith('?') ? query.slice(1) : query)
-    const token = params.get(PROXY_AUTH_KEY)
+    const token = readProxyAuthFromSearchParams(params)
     if (!token) return null
     localStorage.setItem(PROXY_AUTH_KEY, token)
     setInCookies(getCurrentEnvironment(), token)
     return token
+}
+
+export const hasProxyAuthInSearch = (search) => {
+    if (typeof window === 'undefined' && !search) return false
+    const query = search ?? (typeof window !== 'undefined' ? window.location.search : '')
+    if (!query) return false
+    const params = new URLSearchParams(query.startsWith('?') ? query.slice(1) : query)
+    return Boolean(readProxyAuthFromSearchParams(params))
 }
 
 export const getFromCookies = (cookieId) => {
