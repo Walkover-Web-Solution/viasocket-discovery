@@ -1,30 +1,39 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { getCurrentEnvironment, setInCookies, getFromCookies, persistProxyAuthTokenFromSearch } from '@/utils/storageHelper';
+import {
+  getCurrentEnvironment,
+  setInCookies,
+  getFromCookies,
+  persistProxyAuthTokenFromSearch,
+  PROXY_AUTH_KEY,
+  PROXY_AUTH_QUERY_KEYS,
+} from '@/utils/storageHelper';
 
 function WithAuth({ children }) {
   const router = useRouter();
   const domain = getCurrentEnvironment();
-  const proxyKey = 'proxy_auth_token';
-
   useEffect(() => {
-    persistProxyAuthTokenFromSearch(
-      router.asPath.includes('?') ? `?${router.asPath.split('?')[1]}` : '',
-    );
-    const searchParams = new URLSearchParams(router.asPath.split('?')[1]);
+    const search = router.asPath.includes('?') ? `?${router.asPath.split('?')[1]}` : '';
+    persistProxyAuthTokenFromSearch(search);
+    const searchParams = new URLSearchParams(router.asPath.split('?')[1] || '');
 
     Array.from(searchParams?.entries()).forEach(([key, value]) => {
-      if (key === proxyKey || key === 'state') {
-        if (key === proxyKey) {
-          localStorage.setItem(key, value);  // Store token in localStorage
-          key = domain;
+      const isProxyAuthKey = PROXY_AUTH_QUERY_KEYS.includes(key);
+      if (isProxyAuthKey || key === 'state') {
+        if (isProxyAuthKey) {
+          localStorage.setItem(PROXY_AUTH_KEY, value);
+          setInCookies(domain, value);
+        } else {
+          setInCookies(key, value);
         }
-        setInCookies(key, value);  // Store token in cookies
       }
     });
 
-    if (!localStorage.getItem(proxyKey)) {
-      localStorage.setItem(proxyKey, getFromCookies(domain));  // Sync token from cookies to localStorage
+    if (!localStorage.getItem(PROXY_AUTH_KEY)) {
+      const fromCookie = getFromCookies(domain);
+      if (fromCookie) {
+        localStorage.setItem(PROXY_AUTH_KEY, fromCookie);
+      }
     }
   }, [router.asPath, domain]);  // Run effect when router path changes
 

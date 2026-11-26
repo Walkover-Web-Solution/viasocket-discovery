@@ -22,6 +22,20 @@ export default function AuthPage() {
         return persistProxyAuthTokenFromSearch(search) || persistProxyAuthTokenFromSearch()
     }
 
+    const resolvePostLoginPath = () => {
+        if (redirectPath) return redirectPath
+        const redirectTo = router.query.redirect_to
+        const raw = Array.isArray(redirectTo) ? redirectTo[0] : redirectTo
+        if (
+            typeof raw === 'string' &&
+            raw.startsWith('/') &&
+            raw !== DISCOVERY_AUTH_CALLBACK
+        ) {
+            return raw
+        }
+        return '/discovery'
+    }
+
     const redirectToHomePage = async () => {
         persistTokenFromRoute()
         const token = getProxyAuthToken()
@@ -36,7 +50,7 @@ export default function AuthPage() {
             return
         }
         clearPath();
-        window.location.href = redirectPath ? redirectPath : '/discovery'
+        window.location.href = resolvePostLoginPath()
     }
 
     useEffect(() => {
@@ -46,7 +60,9 @@ export default function AuthPage() {
             persistTokenFromRoute()
 
             const hasToken = Boolean(
-                router.query.proxy_auth_token || getProxyAuthToken(),
+                router.query.proxy_auth_token ||
+                    router.query.proxy_auth ||
+                    getProxyAuthToken(),
             )
 
             if (!hasToken) {
@@ -87,7 +103,12 @@ export default function AuthPage() {
             await redirectToHomePage()
         }
         runEffect();
-    }, [router.isReady, router.asPath, router.query.proxy_auth_token])
+    }, [
+        router.isReady,
+        router.asPath,
+        router.query.proxy_auth_token,
+        router.query.proxy_auth,
+    ])
 
 
     return (
