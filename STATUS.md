@@ -65,6 +65,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 | Mongo models | 🟡 | `models/BlogModel.js`, `models/AuthorModel.js`, `models/tagsModel.js`, connection helper `lib/mongoDb.js` (prod URI vs local URI). |
 | Route gate | 🟡 | `src/middleware.js` and `src/auth.js`. See open question 4. |
 | Discovery base path | 🟡 | `next.config.js` sets `basePath` to `/discovery`. `src/lib/site.js` builds `https://viasocket.com/discovery` URLs. |
+| Guides | 🟡 | File-based articles at `/discovery/guides/<slug>` from `content/guides/<slug>/` (meta.json, body.html, llm.txt), via `src/lib/guideContent.js` and `src/pages/guides/[slug]/`. Reuses the compare article template. Built and viewed locally with 2 guides; not exercised in prod. Listed in sitemap and `llms.txt`. |
 | Compare articles on disk | 🟡 | 13 folders under `content/compare/`, each with `meta.json`. Not opened in a browser this pass. |
 | Sample compare page | ❌ | Removed in `5793c48`. README no longer describes it. |
 | Leftover app-router files | 🙈 | `src/page.js`, `src/layout.js`, `src/page.module.css`. No `src/app` directory. |
@@ -72,6 +73,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 
 ## Change log
 
+- 2026-11-27 · Claude Code (discovery routine) · Added the Guides content type (`/discovery/guides/<slug>`) with two guides, and added guides to the sitemap and `llms.txt`. · Guides row
 - 2026-11-26 · cursor agent · Reverted PR #172 merge, then accept `proxy_auth` on `/discovery/auth` so callback tokens persist and users return to Discovery (INT-P4R7Q2). · Auth return row
 - 2026-11-26 · cursor agent · Discovery sign-in uses viasocket.com `/signup` with `redirect_to=/discovery/auth` instead of `/login` (307 to flow). Added `authRedirect.js` and `docs/INTENTS.md` INT-A8K2M9. Reviewed up to `829a531`. · Auth return row
 - 2026-11-19 · cursor agent · Fixed Discovery login callback: persist token from URL before redirect (race with `WithAuth`), gate auth effects on `router.isReady`, unify token reads via `getProxyAuthToken()`, fix cookie `expires`, and restore local header Login/Signup links. Reviewed up to `f5583f1`. · Auth return notes; no status emoji change (not exercised end-to-end with MSG91).
