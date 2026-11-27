@@ -1,4 +1,4 @@
-**Plan:** Not supplied · **Last updated:** 2026-11-27 · **Reviewed up to commit:** `b778107`
+**Plan:** Not supplied · **Last updated:** 2026-11-27 · **Reviewed up to commit:** `44337c5`
 
 ## Legend
 
@@ -68,6 +68,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 | Mongo models | 🟡 | `models/BlogModel.js`, `models/AuthorModel.js`, `models/tagsModel.js`, connection helper `lib/mongoDb.js` (prod URI vs local URI). |
 | Route gate | 🟡 | `src/middleware.js` and `src/auth.js`. See open question 4. |
 | Discovery base path | 🟡 | `next.config.js` sets `basePath` to `/discovery`. `src/lib/site.js` builds `https://viasocket.com/discovery` URLs. |
+| Guides | 🟡 | File-based articles at `/discovery/guides/<slug>` from `content/guides/<slug>/` (meta.json, body.html, llm.txt), via `src/lib/guideContent.js` and `src/pages/guides/[slug]/`. Reuses the compare article template. Built and viewed locally with 2 guides; not exercised in prod. Listed in sitemap and `llms.txt`. |
 | Compare articles on disk | 🟡 | 29 folders under `content/compare/`, each with `meta.json`. No `data.json` in tree yet. Curl-verified agent routes on built app (not browser). |
 | Sample compare page | ❌ | Removed in `5793c48`. README no longer describes it. |
 | Leftover app-router files | 🙈 | `src/page.js`, `src/layout.js`, `src/page.module.css`. No `src/app` directory. |
@@ -75,6 +76,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 
 ## Change log
 
+- 2026-11-27 · cursor agent · Merged PR #175: Guides content type (`/discovery/guides/<slug>`) with two guides; guides in sitemap and `llms.txt`. Resolved `STATUS.md` conflict with `main`. · Guides row; compare on disk count
 - 2026-11-27 · cursor agent · When a proxy auth token is already in cookies/storage, Login entry points show **Go to panel** instead of viasocket signup (INT-K7M2P4). · Auth return row
 - 2026-11-26 · cursor agent · Agent-first compare: optional `data.json`, `compare/index.json`, improved `llms.txt`, `llms-full.txt`, robots crawler allows, JSON-LD and sitemap `dateModified`, README and docs. Added `docs/INTENTS.md` INT-A1G3NT0. Reviewed up to `bc92dc3`. · Compare article, plain text, sitemap, robots, and new agent routes; compare on disk note.
 - 2026-11-26 · cursor agent · Reverted PR #172 merge, then accept `proxy_auth` on `/discovery/auth` so callback tokens persist and users return to Discovery (INT-P4R7Q2). · Auth return row

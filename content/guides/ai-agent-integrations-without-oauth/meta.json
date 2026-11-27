@@ -1,0 +1,11 @@
+{
+  "title": "AI Agent Integrations Without OAuth: Slack, HubSpot, Gmail",
+  "description": "Connect Slack, HubSpot and Gmail to your AI agent with Cursor or Claude Code. A step-by-step guide to AI agent integrations without building OAuth flows.",
+  "canonical": "https://viasocket.com/discovery/guides/ai-agent-integrations-without-oauth",
+  "authorId": 22351,
+  "authorName": "Abhijeet Singh",
+  "publishedAt": "2026-11-27",
+  "category": "Guide",
+  "h1": "Give Your AI Agent Tools Without Building a Single OAuth Flow",
+  "readMinutes": 6
+}

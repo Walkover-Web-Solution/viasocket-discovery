@@ -1,0 +1,126 @@
+# Give Your AI Agent Tools Without Building a Single OAuth Flow
+
+A step-by-step guide to connecting Slack, HubSpot and Gmail using Cursor or Claude Code.
+
+Short answer: AI agent integrations need more than API calls. Every user must connect their own account, and someone has to store and refresh their tokens. An integration layer such as viaSocket handles the OAuth flow, token refresh and per-user connections, so your coding agent builds only your product logic. Setup starts with one prompt pasted into Cursor or Claude Code.
+
+
+What are AI agent integrations, and why does OAuth slow them down?
+------------------------------------------------------------------
+
+AI agent integrations are the connections that let an agent act inside other apps: posting to Slack, updating a HubSpot contact or sending a Gmail message. Each action needs the user's permission, which means OAuth: a consent screen, stored tokens and token refresh logic for every service.
+
+Building that yourself is a project in its own right. You register an OAuth app with each provider, host the consent flow, encrypt tokens and refresh them before they expire. Gmail adds weight. Its read scopes are classed as restricted, so Google requires app verification, which can take several weeks, plus an independent security assessment at least every 12 months when you handle that data on your servers.
+
+Multiply that by every app and every customer, and the OAuth flow quietly becomes bigger than the agent it supports. That is why OAuth for AI agents deserves its own plan before you write a line of code.
+
+
+How does an integration layer replace the OAuth flow?
+-----------------------------------------------------
+
+An integration layer is the part of your product that talks to other apps for you. Your code makes one kind of call, and the layer deals with each app's API, sign-in and events. viaSocket is an integration layer for SaaS products and AI agents, with 2,300+ apps behind it. Here is what changes:
+
+Managed auth | Building it yourself: A separate OAuth app, consent flow and token refresh for every service | With viaSocket: One OAuth popup on the app's own consent screen; tokens encrypted and refreshed
+Multi-tenant | Building it yourself: Keeping each user's connections and permissions apart | With viaSocket: Each user has their own connections
+Triggers and webhooks | Building it yourself: Public endpoints to secure, signatures to verify, polling for apps without webhooks | With viaSocket: Subscribe to events; polling and retries are handled
+Monitoring | Building it yourself: Digging through logs to find out why an action failed | With viaSocket: Debug and manage every action
+
+
+What do you need before you start?
+----------------------------------
+
+- A viaSocket account (free to start) with your org ID, project ID and secret
+- A coding agent: Cursor, Claude Code or Codex
+- A backend: Node.js uses the viasocket-apps npm package, and other stacks call viaSocket over HTTP
+- Test accounts for Slack, HubSpot and Gmail
+
+Keep the secret in your .env file only. It should never reach the browser.
+
+
+How do you connect Slack, HubSpot and Gmail to your AI agent?
+-------------------------------------------------------------
+
+Follow these six steps in Cursor or Claude Code to wire up your first AI agent integrations.
+
+Step 1: Copy the setup prompt
+
+On the viaSocket homepage, choose Copy setup prompt. It tells your coding agent how to install the viaSocket skill and what to ask you.
+
+Step 2: Paste it into Cursor or Claude Code
+
+Paste it inside your project and describe what you are building. For example: "My agent needs to post to Slack, update HubSpot contacts and send email through Gmail. Use viaSocket for those integrations." The agent downloads the viaSocket skill, asks for your org ID, project ID and secret, and stores them in .env.
+
+Step 3: Approve the plan before any code
+
+The prompt asks the agent to show its plan first: which actions it will use, who picks each one, and who supplies every value. That might be your code, your user in a picker, or your product's AI on each run. Read it, adjust it, then say yes.
+
+Step 4: Add the connect flow
+
+Users click Connect and the provider's own consent screen opens in a popup, whether Slack's, Google's or HubSpot's. They approve there, so your code never sees a password. You receive a connection id and store it against that user.
+
+Step 5: Expose actions as agent tools
+
+Every action comes with an input schema, so your agent can use it for tool calling and fill in the fields on each run. You decide which actions it may use, or let each user choose.
+
+Step 6: Test on a real connection
+
+Run each call against a live account before building on it: post to a Slack channel, update a test HubSpot contact, send a Gmail draft. The agent should finish with a real test call and report the result.
+
+
+How do users connect their own accounts securely?
+-------------------------------------------------
+
+Each user authorises through the provider's own consent screen. viaSocket stores the grant, encrypted, and handles token refresh. Your database keeps only the connection id, your signing secret stays on your server, and nothing secret reaches the browser. You can list or revoke a user's connections later.
+
+Because every user has separate per-user connections, one customer's Slack or Gmail access never mixes with another's. Read the security and compliance details for more.
+
+
+What can your AI agent do once it is connected?
+-----------------------------------------------
+
+- Slack: post launch notes or daily summaries to a channel
+- HubSpot: update contacts and log a demo follow-up
+- Gmail: sort the inbox, draft replies and send follow-ups
+- Events: react to a new Stripe payment or a new Gmail message with a short JavaScript handler, with polling and retries handled for you
+
+Combined, these AI agent integrations become real agents: a demo follow-up agent that emails the prospect and logs it in the CRM, or an inbox assistant that drafts replies and books meetings.
+
+
+When should you still build OAuth yourself?
+-------------------------------------------
+
+An integration layer is not always the answer. Build in-house when a single provider is core to your product, when you need scopes or flows a layer does not expose, or when regulation requires you to own the credential path. For the long tail of Slack, CRM and email actions, a layer saves engineering time for work only you can do. Choose deliberately for each of your AI agent integrations.
+
+
+Frequently asked questions
+
+Q: What is the easiest way to handle OAuth for AI agents?
+A: Use an integration layer. It manages the OAuth flow, stores and refreshes tokens, and returns a connection id, so you never register OAuth apps or write refresh logic.
+
+Q: Do I need to build an OAuth flow to connect an AI agent to Slack?
+A: No. With viaSocket, users approve access in Slack's own consent screen, and viaSocket stores and refreshes the grant.
+
+Q: Can Claude Code or Cursor set up the integrations for me?
+A: Yes. Paste the viaSocket setup prompt into your project. The coding agent installs the skill, builds the connect flow and the actions you need, then runs a test call.
+
+Q: Where are user tokens stored?
+A: viaSocket stores each user's grant, encrypted, and refreshes it. Your database keeps only a connection id.
+
+Q: Is viaSocket free to try?
+A: Yes. The free plan includes 100K tasks and 1,000 AI credits a month. See the pricing page for plan details.
+
+
+Start building
+--------------
+
+Copy the setup prompt, paste it into Cursor or Claude Code, and connect your first app. Start free with viaSocket and browse the 2,300+ integrations.
+
+
+Sources
+- viaSocket: homepage, pricing, security and compliance
+- Google: Restricted scope verification
+
+Canonical: https://viasocket.com/discovery/guides/ai-agent-integrations-without-oauth
+Author: Abhijeet Singh (https://viasocket.com/discovery/user/22351)
+
+Try viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-guides&utm_content=llm

@@ -1,0 +1,71 @@
+<p class="answer"><strong>Short answer:</strong> AI agent integrations need more than API calls. Every user must connect their own account, and someone has to store and refresh their tokens. An integration layer such as <a href="https://viasocket.com/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-guides&amp;utm_content=answer" rel="noopener">viaSocket</a> handles the OAuth flow, token refresh and per-user connections, so your coding agent builds only your product logic. Setup starts with one prompt pasted into Cursor or Claude Code.</p>
+
+<h2>What are AI agent integrations, and why does OAuth slow them down?</h2>
+<p>AI agent integrations are the connections that let an agent act inside other apps: posting to Slack, updating a HubSpot contact or sending a Gmail message. Each action needs the user's permission, which means OAuth: a consent screen, stored tokens and token refresh logic for every service.</p>
+<p>Building that yourself is a project in its own right. You register an OAuth app with each provider, host the consent flow, encrypt tokens and refresh them before they expire. Gmail adds weight. Its read scopes are classed as restricted, so Google requires app verification, which can take several weeks, plus an independent security assessment at least every 12 months when you handle that data on your servers.</p>
+<p>Multiply that by every app and every customer, and the OAuth flow quietly becomes bigger than the agent it supports. That is why OAuth for AI agents deserves its own plan before you write a line of code.</p>
+
+<h2>How does an integration layer replace the OAuth flow?</h2>
+<p>An integration layer is the part of your product that talks to other apps for you. Your code makes one kind of call, and the layer deals with each app's API, sign-in and events. <a href="https://viasocket.com/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-guides&amp;utm_content=body" rel="noopener">viaSocket</a> is an integration layer for SaaS products and AI agents, with 2,300+ apps behind it. Here is what changes:</p>
+<div class="discovery-compare-table"><table>
+<thead><tr><th>Job</th><th>Building it yourself</th><th>With viaSocket</th></tr></thead>
+<tbody>
+<tr><td>Managed auth</td><td>A separate OAuth app, consent flow and token refresh for every service</td><td>One OAuth popup on the app's own consent screen; tokens encrypted and refreshed</td></tr>
+<tr><td>Multi-tenant</td><td>Keeping each user's connections and permissions apart</td><td>Each user has their own connections</td></tr>
+<tr><td>Triggers and webhooks</td><td>Public endpoints to secure, signatures to verify, polling for apps without webhooks</td><td>Subscribe to events; polling and retries are handled</td></tr>
+<tr><td>Monitoring</td><td>Digging through logs to find out why an action failed</td><td>Debug and manage every action</td></tr>
+</tbody></table></div>
+
+<h2>What do you need before you start?</h2>
+<ul>
+<li>A viaSocket account (free to start) with your org ID, project ID and secret</li>
+<li>A coding agent: Cursor, Claude Code or Codex</li>
+<li>A backend: Node.js uses the <code>viasocket-apps</code> npm package, and other stacks call viaSocket over HTTP</li>
+<li>Test accounts for Slack, HubSpot and Gmail</li>
+</ul>
+<p>Keep the secret in your <code>.env</code> file only. It should never reach the browser.</p>
+
+<h2>How do you connect Slack, HubSpot and Gmail to your AI agent?</h2>
+<p>Follow these six steps in Cursor or Claude Code to wire up your first AI agent integrations.</p>
+<h3>Step 1: Copy the setup prompt</h3>
+<p>On the <a href="https://viasocket.com/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-guides&amp;utm_content=step1" rel="noopener">viaSocket homepage</a>, choose Copy setup prompt. It tells your coding agent how to install the viaSocket skill and what to ask you.</p>
+<h3>Step 2: Paste it into Cursor or Claude Code</h3>
+<p>Paste it inside your project and describe what you are building. For example: "My agent needs to post to Slack, update HubSpot contacts and send email through Gmail. Use viaSocket for those integrations." The agent downloads the viaSocket skill, asks for your org ID, project ID and secret, and stores them in <code>.env</code>.</p>
+<h3>Step 3: Approve the plan before any code</h3>
+<p>The prompt asks the agent to show its plan first: which actions it will use, who picks each one, and who supplies every value. That might be your code, your user in a picker, or your product's AI on each run. Read it, adjust it, then say yes.</p>
+<h3>Step 4: Add the connect flow</h3>
+<p>Users click Connect and the provider's own consent screen opens in a popup, whether Slack's, Google's or HubSpot's. They approve there, so your code never sees a password. You receive a connection id and store it against that user.</p>
+<h3>Step 5: Expose actions as agent tools</h3>
+<p>Every action comes with an input schema, so your agent can use it for tool calling and fill in the fields on each run. You decide which actions it may use, or let each user choose.</p>
+<h3>Step 6: Test on a real connection</h3>
+<p>Run each call against a live account before building on it: post to a Slack channel, update a test HubSpot contact, send a Gmail draft. The agent should finish with a real test call and report the result.</p>
+
+<h2>How do users connect their own accounts securely?</h2>
+<p>Each user authorises through the provider's own consent screen. viaSocket stores the grant, encrypted, and handles token refresh. Your database keeps only the connection id, your signing secret stays on your server, and nothing secret reaches the browser. You can list or revoke a user's connections later.</p>
+<p>Because every user has separate per-user connections, one customer's Slack or Gmail access never mixes with another's. Read the <a href="https://viasocket.com/help/security-and-compliance?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-guides&amp;utm_content=body" rel="noopener">security and compliance details</a> for more.</p>
+
+<h2>What can your AI agent do once it is connected?</h2>
+<ul>
+<li><strong>Slack:</strong> post launch notes or daily summaries to a channel</li>
+<li><strong>HubSpot:</strong> update contacts and log a demo follow-up</li>
+<li><strong>Gmail:</strong> sort the inbox, draft replies and send follow-ups</li>
+<li><strong>Events:</strong> react to a new Stripe payment or a new Gmail message with a short JavaScript handler, with polling and retries handled for you</li>
+</ul>
+<p>Combined, these AI agent integrations become real agents: a demo follow-up agent that emails the prospect and logs it in the CRM, or an inbox assistant that drafts replies and books meetings.</p>
+
+<h2>When should you still build OAuth yourself?</h2>
+<p>An integration layer is not always the answer. Build in-house when a single provider is core to your product, when you need scopes or flows a layer does not expose, or when regulation requires you to own the credential path. For the long tail of Slack, CRM and email actions, a layer saves engineering time for work only you can do. Choose deliberately for each of your AI agent integrations.</p>
+<h2>Frequently asked questions</h2>
+<details><summary>What is the easiest way to handle OAuth for AI agents?</summary><p>Use an integration layer. It manages the OAuth flow, stores and refreshes tokens, and returns a connection id, so you never register OAuth apps or write refresh logic.</p></details>
+<details><summary>Do I need to build an OAuth flow to connect an AI agent to Slack?</summary><p>No. With viaSocket, users approve access in Slack's own consent screen, and viaSocket stores and refreshes the grant.</p></details>
+<details><summary>Can Claude Code or Cursor set up the integrations for me?</summary><p>Yes. Paste the viaSocket setup prompt into your project. The coding agent installs the skill, builds the connect flow and the actions you need, then runs a test call.</p></details>
+<details><summary>Where are user tokens stored?</summary><p>viaSocket stores each user's grant, encrypted, and refreshes it. Your database keeps only a connection id.</p></details>
+<details><summary>Is viaSocket free to try?</summary><p>Yes. The free plan includes 100K tasks and 1,000 AI credits a month. See the <a href="https://viasocket.com/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-guides&amp;utm_content=faq" rel="noopener">pricing page</a> for plan details.</p></details>
+
+<h2>Start building</h2>
+<p>Copy the setup prompt, paste it into Cursor or Claude Code, and connect your first app. <a href="https://viasocket.com/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-guides&amp;utm_content=body" rel="noopener">Start free with viaSocket</a> and browse the <a href="https://viasocket.com/integrations?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-guides&amp;utm_content=body" rel="noopener">2,300+ integrations</a>.</p>
+<h2>Sources</h2>
+<ul class="srcs">
+<li>viaSocket: <a href="https://viasocket.com/?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-guides&amp;utm_content=sources" rel="noopener">homepage</a>, <a href="https://viasocket.com/pricing?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-guides&amp;utm_content=sources" rel="noopener">pricing</a>, <a href="https://viasocket.com/help/security-and-compliance?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-guides&amp;utm_content=sources" rel="noopener">security and compliance</a></li>
+<li>Google: <a href="https://developers.google.com/identity/protocols/oauth2/production-readiness/restricted-scope-verification?utm_source=viasocket&amp;utm_medium=discovery&amp;utm_campaign=discovery-guides&amp;utm_content=sources" rel="nofollow noopener">Restricted scope verification</a></li>
+</ul>

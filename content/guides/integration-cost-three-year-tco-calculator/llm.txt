@@ -1,0 +1,128 @@
+# What Does One Integration Really Cost Over Three Years?
+
+A simple ownership model, with a worksheet you can run on your own numbers.
+
+Short answer: In a worked example built on published vendor planning figures, one custom integration costs about $132,600 over three years, and only 11% of that is the build. The rest is maintenance, support, infrastructure and security. Your integration cost will differ, so use the six-line model below with your own rates.
+
+
+What is the total cost of ownership of an integration?
+------------------------------------------------------
+
+The total cost of ownership (TCO) of an integration is everything it costs to build, run and maintain it over a fixed period, usually three years. It includes engineering hours, infrastructure, support, security work and the roadmap work you give up. A build estimate covers only the first of those.
+
+A fixed window matters because integration cost is not a one-off. Every connector keeps consuming time after launch: partners change APIs, tokens expire and customers ask for new fields. Three years is long enough to show that tail and short enough to forecast.
+
+
+Why does the build estimate miss most of the integration cost?
+--------------------------------------------------------------
+
+Because the sprint is the smallest part of the bill. Robert Glass, in Facts and Fallacies of Software Engineering, puts maintenance at 40 to 80% of software cost. Stripe's Developer Coefficient survey found developers spend 17.3 hours of a 41.1-hour week on maintenance, technical debt and bad code. And MuleSoft's 2025 benchmark found the average enterprise runs 897 applications, with only 29% integrated, so demand for connectors keeps growing.
+
+Teams still budget the happy path: call the API, map the fields, demo it. The recurring work sits underneath: token refresh, API changes, data mapping, retries, monitoring and customer-specific configuration. None of it appears in the original ticket.
+
+
+What are the six cost lines in a three-year integration model?
+--------------------------------------------------------------
+
+Use six lines. Five are direct costs. The sixth is the cost of what your engineers did not build.
+
+1. Build | What it covers: Design, code, QA, documentation | Formula: Hours × rate
+2. Maintenance | What it covers: API changes, token refresh, bug fixes, data mapping | Formula: Annual hours × rate × 3
+3. Support and on-call | What it covers: Customer tickets, incident response | Formula: Annual hours × rate × 3
+4. Infrastructure and monitoring | What it covers: Hosting, queues, logs, alerting | Formula: Annual cost × 3
+5. Security and compliance | What it covers: Access reviews, secret storage, audits | Formula: Annual hours × rate × 3
+6. Opportunity cost | What it covers: Roadmap work displaced by lines 2, 3 and 5 | Formula: Post-launch hours ÷ 2,080 = engineer-years
+
+
+What does one integration cost over three years? A worked example
+-----------------------------------------------------------------
+
+This example is illustrative. The 150 build hours and 300 maintenance hours a year follow a widely used vendor planning model. The support, security and infrastructure figures and the $100 loaded hourly rate are assumptions, so replace them.
+
+Build | Assumption: 150 hours | Three-year cost: $15,000
+Maintenance | Assumption: 300 hours a year | Three-year cost: $90,000
+Support and on-call | Assumption: 60 hours a year | Three-year cost: $18,000
+Security and compliance | Assumption: 20 hours a year | Three-year cost: $6,000
+Infrastructure and monitoring | Assumption: $1,200 a year | Three-year cost: $3,600
+Total | Assumption:  | Three-year cost: $132,600
+
+Three things stand out:
+
+- Build is about 11% of the total. Maintenance alone is about 68%.
+- Year one costs about $54,200. That sits at the low end of the $50,000 to $150,000 one vendor TCO analysis publishes for a production customer-facing integration. Later years run about $39,200.
+- The opportunity cost is real. The 1,140 post-launch hours are about 0.55 engineer-years per integration. Five integrations need roughly 1,900 hours a year, close to one full engineer, and cost about $663,000 over three years.
+
+Published planning figures disagree. Some put annual upkeep at 10 to 25% of build cost, others at about 300 hours a year against 150 to build. That gap is exactly why you should run your own numbers. As a low case, cut maintenance to 100 hours a year, support to 20 and security to 10. The three-year cost is still $57,600, and the build is only 26% of it.
+
+
+How do you run the calculator on your own numbers?
+--------------------------------------------------
+
+Copy the worksheet below into a spreadsheet to calculate your own integration cost. It uses data most teams already hold.
+
+Loaded hourly rate | Example: $100 | Your number: 
+Build hours | Example: 150 | Your number: 
+Maintenance hours per year | Example: 300 | Your number: 
+Support and on-call hours per year | Example: 60 | Your number: 
+Security and compliance hours per year | Example: 20 | Your number: 
+Infrastructure and tooling per year | Example: $1,200 | Your number: 
+Years | Example: 3 | Your number: 
+Number of integrations | Example: 1 | Your number: 
+
+Three-year cost = rate × (build hours + years × (maintenance + support + security hours)) + years × infrastructure. Multiply by the number of integrations.
+
+- Rate: ask finance for a loaded engineering rate, not a salary
+- Hours: count them from tickets, pull requests and sprint records for past integrations
+- On-call: pull integration-related incidents from your paging history
+- Infrastructure: use tagged cloud and tooling spend
+
+
+When does an integration layer cost less than building?
+-------------------------------------------------------
+
+An integration layer handles the recurring work once instead of once per connector. viaSocket, for example, manages authentication, token refresh, data mapping, triggers, retries and monitoring across 2,300+ apps. To compare build vs buy, add a second column to the worksheet: layer cost = (monthly fee × 36) + (setup hours + residual hours) × rate. Take the fee from the pricing page.
+
+Using the example above, a layer budget below $132,600 over three years pays back on the first connector alone, if it covers what that connector needs. Every further integration widens the gap, because in-house integration cost grows with each connector you add.
+
+
+When is building in-house still the right call?
+-----------------------------------------------
+
+Build when the integration differentiates your product, touches your most sensitive data or needs performance a platform cannot promise. Core and regulated systems often justify a custom integration, and a higher integration cost there buys control you cannot rent. Build vs buy is not all or nothing: many teams build two or three crown-jewel connectors and use a layer for the long tail.
+
+
+Frequently asked questions
+
+Q: How much does it cost to build one API integration?
+A: It varies widely. Vendor-published analyses range from about $10,000 for a simple connector to $50,000 to $150,000 in year one for a production customer-facing integration. The worked example above lands at about $54,200 in year one and $132,600 over three years.
+
+Q: How much does integration maintenance cost each year?
+A: Published models range from 10 to 25% of build cost to roughly 300 hours a year. The worked example uses 300 hours, or $30,000 a year at $100 an hour. Measure your own integration cost on past projects to find where you sit.
+
+Q: What is included in the total cost of ownership of an integration?
+A: Build, maintenance, support and on-call, infrastructure and monitoring, security and compliance, plus the opportunity cost of displaced roadmap work.
+
+Q: Is it cheaper to build or buy integrations?
+A: It depends on how many you need and how critical they are. Run both columns of the worksheet. Buying usually wins for commodity connectors, and building can win for differentiating ones.
+
+Q: How do I calculate the three-year cost of an integration?
+A: Use the worksheet above. Multiply build hours by your loaded rate, add three years of maintenance, support and security hours at that rate, then add three years of infrastructure.
+
+
+Run the numbers before you approve the next integration
+-------------------------------------------------------
+
+Before approving the next integration project, run the worksheet above to get its three-year cost of ownership, then compare it with an integration layer. Start free with viaSocket to see how it handles the recurring work, or read how to connect AI agents without building OAuth.
+
+
+Sources
+- Robert L. Glass, Facts and Fallacies of Software Engineering (Addison-Wesley, 2002), Fact 41
+- Stripe and Harris Poll, The Developer Coefficient (2018)
+- MuleSoft and Salesforce, 2025 Connectivity Benchmark Report
+- Knit, integration TCO analysis (vendor), for the $50,000 to $150,000 year-one range
+- viaSocket: homepage, pricing
+
+Canonical: https://viasocket.com/discovery/guides/integration-cost-three-year-tco-calculator
+Author: Abhijeet Singh (https://viasocket.com/discovery/user/22351)
+
+Try viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-guides&utm_content=llm

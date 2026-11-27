@@ -438,7 +438,7 @@ export function getCompareLlm(slug) {
   return { ...summary, llmText };
 }
 
-export function renderLlmsTxt() {
+export function renderLlmsTxt(extraLines = []) {
   const pages = getCompareSummaries();
   const lines = [
     "# viaSocket Discovery comparisons",
@@ -462,6 +462,7 @@ export function renderLlmsTxt() {
     const desc = page.description ? `: ${page.description}` : "";
     lines.push(`- [${label}](${llmUrl})${desc}`);
   });
+  lines.push(...extraLines);
   return `${lines.join("\n")}\n`;
 }
 
@@ -524,7 +525,7 @@ function xmlEscape(value) {
     .replace(/'/g, "&apos;");
 }
 
-export function renderSitemapXml() {
+export function renderSitemapXml(extraUrls = []) {
   const pages = getCompareSummaries();
   let indexLastmod = "";
   pages.forEach((page) => {
@@ -540,6 +541,7 @@ export function renderSitemapXml() {
       loc: discoveryUrl(`/compare/${encodeURIComponent(page.slug)}`),
       lastmod: lastmod(page.modifiedAt || page.publishedAt),
     })),
+    ...extraUrls,
   ];
   const body = urls
     .map((url) => {

@@ -100,7 +100,7 @@ function currentHeadingId(headings) {
   return current;
 }
 
-export default function CompareArticle({ page }) {
+export default function CompareArticle({ page, section = "Compare" }) {
   const [activeId, setActiveId] = useState(page.headings[0]?.id || "");
   const [promoVisible, setPromoVisible] = useState(false);
   const [barDismissed, setBarDismissed] = useState(false);
@@ -176,7 +176,11 @@ export default function CompareArticle({ page }) {
           <nav className={styles.crumbs} aria-label="Breadcrumb">
             <Link href="/">Discovery</Link>
             <span aria-hidden="true">/</span>
-            <Link href="/compare">Compare</Link>
+            {section === "Compare" ? (
+              <Link href="/compare">Compare</Link>
+            ) : (
+              <span>{section}</span>
+            )}
             <span aria-hidden="true">/</span>
             <span>{page.title}</span>
           </nav>
