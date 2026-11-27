@@ -76,6 +76,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 
 ## Change log
 
+- 2026-11-27 · Claude Code (discovery routine) · Guides now use the compare article layout wrapper in `Layout.js`, so the window scrolls and the table of contents highlight and sticky promo follow scrolling. · Guides row
 - 2026-11-27 · cursor agent · Merged PR #175: Guides content type (`/discovery/guides/<slug>`) with two guides; guides in sitemap and `llms.txt`. Resolved `STATUS.md` conflict with `main`. · Guides row; compare on disk count
 - 2026-11-27 · cursor agent · When a proxy auth token is already in cookies/storage, Login entry points show **Go to panel** instead of viasocket signup (INT-K7M2P4). · Auth return row
 - 2026-11-26 · cursor agent · Agent-first compare: optional `data.json`, `compare/index.json`, improved `llms.txt`, `llms-full.txt`, robots crawler allows, JSON-LD and sitemap `dateModified`, README and docs. Added `docs/INTENTS.md` INT-A1G3NT0. Reviewed up to `bc92dc3`. · Compare article, plain text, sitemap, robots, and new agent routes; compare on disk note.
