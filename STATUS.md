@@ -1,4 +1,4 @@
-**Plan:** Not supplied · **Last updated:** 2026-11-27 · **Reviewed up to commit:** `bc92dc3`
+**Plan:** Not supplied · **Last updated:** 2026-11-27 · **Reviewed up to commit:** `cef4d59`
 
 ## Legend
 
