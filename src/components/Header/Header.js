@@ -4,7 +4,11 @@ import UserDetail from '../UserDetailPopup/UserDetailPopup';
 import styles from './Header.module.scss';
 import Avatar from '@mui/material/Avatar';
 import  {useUser}  from '@/context/UserContext';
-import { getProxyAuthToken, setPathInLocalStorage } from '@/utils/storageHelper';
+import {
+  bootstrapProxyAuthSession,
+  getProxyAuthToken,
+  setPathInLocalStorage,
+} from '@/utils/storageHelper';
 import { discoveryUtmSourceFromPath, getDiscoveryAuthEntry } from '@/utils/authRedirect';
 
 const Header = () => {
@@ -16,7 +20,16 @@ const Header = () => {
 
   useEffect(() => {
     setIsLoggedIn(Boolean(user));
-    setHasProxyToken(Boolean(getProxyAuthToken()));
+    let cancelled = false;
+    (async () => {
+      await bootstrapProxyAuthSession();
+      if (!cancelled) {
+        setHasProxyToken(Boolean(getProxyAuthToken()));
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [user]);
   const handleAuth = () => {
     setPathInLocalStorage()
