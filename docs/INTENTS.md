@@ -24,6 +24,18 @@
 | Paths | `src/utils/storageHelper.js`, `src/pages/auth/index.js`, `src/context/UserContext.js`, `src/components/auth/WithAuth.js` |
 | Tests | none automated |
 
+## INT-K7M2P4 — Panel link when proxy token already stored
+
+| Field | Value |
+| --- | --- |
+| Kind | constraint |
+| Module | auth |
+| Title | Skip signup when `proxy_auth_token` is already stored |
+| What | When `getProxyAuthToken()` returns a value (cookie or `localStorage`), Discovery sign-in entry points must not send the user to `viasocket.com/signup` again. They must offer **Go to panel** linking to `https://flow.viasocket.com` (or `/discovery` in local env). `handleSignIn` and the header follow `getDiscoveryAuthEntry()` in `authRedirect.js`. |
+| Why | A user who just signed in already holds the proxy token; sending them through signup again is confusing and does not complete in Discovery. |
+| Paths | `src/utils/authRedirect.js`, `src/components/Header/Header.js`, `src/utils/utils.js`, `src/components/UnauthorisedPopup/UnauthorisedPopup.js`, `src/pages/auth/index.js` |
+| Tests | none automated |
+
 ## INT-A1G3NT0 — Agent-first compare twins
 
 | Field | Value |
