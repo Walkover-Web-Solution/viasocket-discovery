@@ -7,6 +7,7 @@ import {
     removeCookie,
     getRedirectPath,
     clearPath,
+    bootstrapProxyAuthSession,
     getProxyAuthToken,
     persistProxyAuthTokenFromSearch,
 } from '@/utils/storageHelper'
@@ -41,7 +42,10 @@ export default function AuthPage() {
     }
 
     useEffect(() => {
-        setHasStoredToken(Boolean(getProxyAuthToken()));
+        (async () => {
+            await bootstrapProxyAuthSession();
+            setHasStoredToken(Boolean(getProxyAuthToken()));
+        })();
     }, []);
 
     useEffect(() => {
@@ -49,6 +53,7 @@ export default function AuthPage() {
 
         async function runEffect() {
             persistTokenFromRoute()
+            await bootstrapProxyAuthSession()
 
             const hasToken = Boolean(
                 persistTokenFromRoute() ||
@@ -112,7 +117,9 @@ export default function AuthPage() {
                         <a href={buildViasocketPanelUrl()}>Go to panel</a>
                     </p>
                 )}
-                <div id={process.env.NEXT_PUBLIC_NEXT_APP_REFERENCE_ID} />
+                {!hasStoredToken && (
+                    <div id={process.env.NEXT_PUBLIC_NEXT_APP_REFERENCE_ID} />
+                )}
             </div>
         </WithAuth>
     )

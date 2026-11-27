@@ -19,6 +19,12 @@ export const PROXY_AUTH_KEY = 'proxy_auth_token'
 /** Query keys viasocket / MSG91 may use on the auth callback URL. */
 export const PROXY_AUTH_QUERY_KEYS = [PROXY_AUTH_KEY, 'proxy_auth']
 
+/** Cookie names that may hold the proxy token on viasocket.com (env key is canonical after sync). */
+export function getProxyAuthCookieKeys() {
+    const env = getCurrentEnvironment()
+    return [env, PROXY_AUTH_KEY, 'proxy_auth']
+}
+
 function readProxyAuthFromSearchParams(params) {
     for (const key of PROXY_AUTH_QUERY_KEYS) {
         const value = params.get(key)
@@ -27,15 +33,66 @@ function readProxyAuthFromSearchParams(params) {
     return null
 }
 
-/** Token from env cookie (prod) or localStorage (local), with cross-store fallback. */
+function readProxyAuthFromDocumentCookies() {
+    for (const key of getProxyAuthCookieKeys()) {
+        const value = getFromCookies(key)
+        if (value) return { key, value }
+    }
+    return null
+}
+
+/** Copy a token from any known cookie name into localStorage and the env cookie. */
+export const syncProxyAuthTokenFromCookies = () => {
+    if (typeof window === 'undefined') return null
+    const fromCookie = readProxyAuthFromDocumentCookies()
+    if (!fromCookie) return null
+    localStorage.setItem(PROXY_AUTH_KEY, fromCookie.value)
+    const envKey = getCurrentEnvironment()
+    if (fromCookie.key !== envKey) {
+        setInCookies(envKey, fromCookie.value)
+    }
+    return fromCookie.value
+}
+
+let bootstrapSessionPromise = null
+
+/** Load token from readable cookies, else ask the server (HttpOnly cookies). */
+export async function bootstrapProxyAuthSession() {
+    if (typeof window === 'undefined') return null
+    const fromClient = syncProxyAuthTokenFromCookies() || localStorage.getItem(PROXY_AUTH_KEY)
+    if (fromClient) return fromClient
+
+    if (!bootstrapSessionPromise) {
+        bootstrapSessionPromise = (async () => {
+            try {
+                const base = process.env.NEXT_PUBLIC_API_URL || ''
+                const res = await fetch(`${base}/api/auth/session`, { credentials: 'include' })
+                if (!res.ok) return null
+                const json = await res.json()
+                const token = json?.data?.token
+                if (!token) return null
+                localStorage.setItem(PROXY_AUTH_KEY, token)
+                setInCookies(getCurrentEnvironment(), token)
+                return token
+            } catch (error) {
+                console.error('bootstrapProxyAuthSession failed', error)
+                return null
+            } finally {
+                bootstrapSessionPromise = null
+            }
+        })()
+    }
+    return bootstrapSessionPromise
+}
+
+/** Token from env or proxy_auth* cookies, localStorage, with cross-store fallback. */
 export const getProxyAuthToken = () => {
     if (typeof window === 'undefined') return null
-    const env = getCurrentEnvironment()
-    const fromEnvCookie = getFromCookies(env)
-    if (fromEnvCookie) return fromEnvCookie
+    const fromCookie = syncProxyAuthTokenFromCookies()
+    if (fromCookie) return fromCookie
     const fromLs = localStorage.getItem(PROXY_AUTH_KEY)
-  if (fromLs) return fromLs
-  return null
+    if (fromLs) return fromLs
+    return null
 }
 
 /** Read `proxy_auth_token` or `proxy_auth` from the query string and persist for API calls. */
@@ -106,8 +163,11 @@ export const setInCookies = (key, value) => {
 }
 
 export const clearUserData = () => {
-    removeCookie(getCurrentEnvironment());
-    localStorage.clear();
+    for (const key of getProxyAuthCookieKeys()) {
+        removeCookie(key)
+    }
+    localStorage.removeItem(PROXY_AUTH_KEY)
+    localStorage.removeItem('loginRedirectionPath')
 }
 export const getUserDataFromLocalStorage = () => {
     if (typeof window !== "undefined") { // Ensure this runs only on the client side

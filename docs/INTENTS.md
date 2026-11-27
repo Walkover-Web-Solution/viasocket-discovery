@@ -31,7 +31,7 @@
 | Kind | constraint |
 | Module | auth |
 | Title | Skip signup when `proxy_auth_token` is already stored |
-| What | When `getProxyAuthToken()` returns a value (cookie or `localStorage`), Discovery sign-in entry points must not send the user to `viasocket.com/signup` again. They must offer **Go to panel** linking to `https://flow.viasocket.com` (or `/discovery` in local env). `handleSignIn` and the header follow `getDiscoveryAuthEntry()` in `authRedirect.js`. |
+| What | When `getProxyAuthToken()` returns a value (cookie or `localStorage`), Discovery sign-in entry points must not send the user to `viasocket.com/signup` again. They must offer **Go to panel** linking to `https://flow.viasocket.com` (or `/discovery` in local env). `handleSignIn` and the header follow `getDiscoveryAuthEntry()` in `authRedirect.js`. Token resolution must read cookies named `prod`/`local`, `proxy_auth_token`, or `proxy_auth`, and `GET /api/auth/session` must expose HttpOnly cookies to the client for bootstrap. |
 | Why | A user who just signed in already holds the proxy token; sending them through signup again is confusing and does not complete in Discovery. |
 | Paths | `src/utils/authRedirect.js`, `src/components/Header/Header.js`, `src/utils/utils.js`, `src/components/UnauthorisedPopup/UnauthorisedPopup.js`, `src/pages/auth/index.js` |
 | Tests | none automated |

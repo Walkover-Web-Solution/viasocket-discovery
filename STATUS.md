@@ -60,7 +60,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 | Blog page | 🟡 | `src/pages/blog/[...blogId]/index.js`. The In Depth Reviews intro in `src/components/BlogComponents/BlogComponents.js` shows "We independently review every app we recommend" once (it was duplicated). |
 | Edit chat | 🟡 | `src/pages/edit/[chatId]/index.js`. |
 | User profile | 🟡 | `src/pages/user/[...userId].js` loads the user, their blogs, and compare pages for that author id. |
-| Auth return | 🟡 | Prod sign-in starts at `https://viasocket.com/signup?redirect_to=/discovery/auth` when no proxy token is stored; otherwise header and popups show **Go to panel** (`flow.viasocket.com`). Callback reads `proxy_auth` or `proxy_auth_token`, persists before `getCurrentUser`, then redirects to `loginRedirectionPath` or `/discovery`. |
+| Auth return | 🟡 | Prod sign-in uses `/signup?redirect_to=/discovery/auth` when no token; with a token, **Go to panel** (`flow.viasocket.com`). `getProxyAuthToken` reads cookies `prod`, `proxy_auth_token`, or `proxy_auth`; `GET /api/auth/session` bootstraps HttpOnly cookies before header/user load. |
 | Blog and comment APIs | 🟡 | `src/pages/api/blog.js`, `blog/[blogId]/*`, `public-blogs.js`, `related-blogs/[blogId].js`. |
 | Ask AI, markdown, history | 🟡 | `src/pages/api/ask-ai.js`, `ai.js`, `gethistory.js`. |
 | Tags, users, integrations, suggestions | 🟡 | `src/pages/api/tags.js`, `users.js`, `integrations.js`, `suggestions.js`. |
@@ -76,6 +76,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 
 ## Change log
 
+- 2026-11-27 · cursor agent · Auth bootstrap: read `proxy_auth_token`/`proxy_auth` cookies and `GET /api/auth/session` for HttpOnly tokens so logged-in users see **Go to panel** or profile instead of signup (INT-K7M2P4). · Auth return row
 - 2026-11-27 · cursor agent · Merged PR #175: Guides content type (`/discovery/guides/<slug>`) with two guides; guides in sitemap and `llms.txt`. Resolved `STATUS.md` conflict with `main`. · Guides row; compare on disk count
 - 2026-11-27 · cursor agent · When a proxy auth token is already in cookies/storage, Login entry points show **Go to panel** instead of viasocket signup (INT-K7M2P4). · Auth return row
 - 2026-11-26 · cursor agent · Agent-first compare: optional `data.json`, `compare/index.json`, improved `llms.txt`, `llms-full.txt`, robots crawler allows, JSON-LD and sitemap `dateModified`, README and docs. Added `docs/INTENTS.md` INT-A1G3NT0. Reviewed up to `bc92dc3`. · Compare article, plain text, sitemap, robots, and new agent routes; compare on disk note.
