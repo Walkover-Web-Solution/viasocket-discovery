@@ -1,4 +1,4 @@
-**Plan:** Not supplied · **Last updated:** 2026-11-27 · **Reviewed up to commit:** `cef4d59`
+**Plan:** Not supplied · **Last updated:** 2026-11-27 · **Reviewed up to commit:** `b778107`
 
 ## Legend
 
@@ -60,7 +60,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 | Blog page | 🟡 | `src/pages/blog/[...blogId]/index.js`. The In Depth Reviews intro in `src/components/BlogComponents/BlogComponents.js` shows "We independently review every app we recommend" once (it was duplicated). |
 | Edit chat | 🟡 | `src/pages/edit/[chatId]/index.js`. |
 | User profile | 🟡 | `src/pages/user/[...userId].js` loads the user, their blogs, and compare pages for that author id. |
-| Auth return | 🟡 | Prod sign-in starts at `https://viasocket.com/signup?redirect_to=/discovery/auth` (`src/utils/authRedirect.js`; `/login` 307s to flow). Callback reads `proxy_auth` or `proxy_auth_token`, persists before `getCurrentUser`, then redirects to `loginRedirectionPath` or `/discovery` (re-read at redirect time). |
+| Auth return | 🟡 | Prod sign-in starts at `https://viasocket.com/signup?redirect_to=/discovery/auth` when no proxy token is stored; otherwise header and popups show **Go to panel** (`flow.viasocket.com`). Callback reads `proxy_auth` or `proxy_auth_token`, persists before `getCurrentUser`, then redirects to `loginRedirectionPath` or `/discovery`. |
 | Blog and comment APIs | 🟡 | `src/pages/api/blog.js`, `blog/[blogId]/*`, `public-blogs.js`, `related-blogs/[blogId].js`. |
 | Ask AI, markdown, history | 🟡 | `src/pages/api/ask-ai.js`, `ai.js`, `gethistory.js`. |
 | Tags, users, integrations, suggestions | 🟡 | `src/pages/api/tags.js`, `users.js`, `integrations.js`, `suggestions.js`. |
@@ -75,6 +75,7 @@ These are in the tree and were not named by a plan. Built code that this pass di
 
 ## Change log
 
+- 2026-11-27 · cursor agent · When a proxy auth token is already in cookies/storage, Login entry points show **Go to panel** instead of viasocket signup (INT-K7M2P4). · Auth return row
 - 2026-11-26 · cursor agent · Agent-first compare: optional `data.json`, `compare/index.json`, improved `llms.txt`, `llms-full.txt`, robots crawler allows, JSON-LD and sitemap `dateModified`, README and docs. Added `docs/INTENTS.md` INT-A1G3NT0. Reviewed up to `bc92dc3`. · Compare article, plain text, sitemap, robots, and new agent routes; compare on disk note.
 - 2026-11-26 · cursor agent · Reverted PR #172 merge, then accept `proxy_auth` on `/discovery/auth` so callback tokens persist and users return to Discovery (INT-P4R7Q2). · Auth return row
 - 2026-11-26 · cursor agent · Discovery sign-in uses viasocket.com `/signup` with `redirect_to=/discovery/auth` instead of `/login` (307 to flow). Added `authRedirect.js` and `docs/INTENTS.md` INT-A8K2M9. Reviewed up to `829a531`. · Auth return row
