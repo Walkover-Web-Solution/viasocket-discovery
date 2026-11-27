@@ -17,9 +17,10 @@ Comparison pages are files in this repo, generated at build time. A new page is 
 
 Create `content/compare/<slug>/` with:
 
-- `meta.json` — `title`, `description`, `canonical`, `authorId`, `authorName`, `publishedAt` (ISO date), `category`, and optionally `readMinutes` (shown as "N min read"). Existing files also carry `h1`, which no code reads.
+- `meta.json` — `title`, `description`, `canonical`, `authorId`, `authorName`, `publishedAt` (ISO date), `category`, and optionally `readMinutes` (shown as "N min read"). Optional fields: `type` (`comparison`, `alternatives`, or `pricing`), `dateModified` (ISO date, defaults to `publishedAt` in feeds), and `tools` (array of `{ "name", "url" }` official sites for JSON-LD). Existing files also carry `h1`, which no code reads.
 - `body.html` — the article. Give each `h2` an `id`; those ids become the "On this page" index. Put questions in `details`/`summary` blocks so they can be read as an FAQ. Tables that follow one another, with only whitespace between them, render side by side.
 - `llm.txt` — the same article as plain text for AI agents
+- `data.json` (optional) — machine-readable twin with schema `viasocket-discovery/compare/v1`: structured fields such as `short_answer`, `tools`, `features`, `pricing`, `choose`, `faq`, `sources`, and `viasocket`. See an example shape in the agent-first compare pull request description when you add the first file.
 
 `authorId` is the Discovery user id. The byline links to `/discovery/user/<authorId>`, and that author's page lists their comparisons next to their blogs.
 
@@ -28,11 +29,14 @@ The suggestion box at the end of every article is part of the template. It is no
 The slug is the folder name: letters, numbers, hyphens, or underscores. Routes, with the `/discovery` base path:
 
 - `/discovery/compare` lists every page, newest first
-- `/discovery/compare/<slug>` is the article
+- `/discovery/compare/<slug>` is the article (HTML; `llm.txt` and `data.json` alternates in the head when present)
 - `/discovery/compare/<slug>/llm.txt` serves `llm.txt` as plain text
-- `/discovery/llms.txt` is a plain-text index of those text files
+- `/discovery/compare/<slug>/data.json` serves `data.json` as JSON when the file exists (404 JSON otherwise)
+- `/discovery/compare/index.json` is a JSON catalog of all compare pages (newest first)
+- `/discovery/llms.txt` is the site-wide agent index (`llms.txt` convention)
+- `/discovery/llms-full.txt` concatenates every page `llm.txt`, newest first, separated by `---`
 
-`/discovery/sitemap.xml` includes the compare index and each comparison. `/discovery/robots.txt` allows them, but crawlers read the host-level `https://viasocket.com/robots.txt`. Ship the folder on the next build and the page is live. A slug without `meta.json` is skipped.
+`/discovery/sitemap.xml` includes the compare index and each comparison (`lastmod` uses `dateModified` or `publishedAt`). `/discovery/robots.txt` allows compare paths and names common AI crawlers. Crawlers also read the host-level `https://viasocket.com/robots.txt`. Ship the folder on the next build and the page is live. A slug without `meta.json` is skipped.
 
 ## Progress tracker
 

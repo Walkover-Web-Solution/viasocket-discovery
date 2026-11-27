@@ -22,7 +22,7 @@ What the code does today, as reviewed at commit `7cab049`. Items marked **findin
 ## Performance and caching
 
 - The middleware matcher is `/:path*`, so it runs on every request, including static assets. With a token present, each request makes two MSG91 calls before it is served. Nothing is cached.
-- Blog and user pages use `getServerSideProps` with no `Cache-Control`. Compare pages are static (SSG, `fallback: false`). `llms.txt`, `sitemap.xml`, `robots.txt`, and `compare/<slug>/llm.txt` read the filesystem on each request.
+- Blog and user pages use `getServerSideProps` with no `Cache-Control`. Compare pages are static (SSG, `fallback: false`). `llms.txt`, `llms-full.txt`, `compare/index.json`, `sitemap.xml`, `robots.txt`, `compare/<slug>/llm.txt`, and `compare/<slug>/data.json` read the filesystem on each request. JSON agent routes send `Access-Control-Allow-Origin: *` and cacheable `Cache-Control`.
 - `askAi()` has a 3-minute timeout. `ask-ai` sets `maxDuration: 30`, which is honored only on platforms that support it. There are no rate limits, retries beyond one AI re-ask, or idempotency keys.
 - No performance budget is defined.
 

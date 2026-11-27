@@ -22,7 +22,7 @@ Status: **verified** means checked against code or by running it. **partial** me
 | Measurement and experiments | — | missing | Only GTM/GA load, in prod (`src/pages/_app.js`). No event definitions and no experiment framework. |
 | Deployment, CI, health, rollback | [security-and-operations.md](security-and-operations.md#deployment-and-operations) | partial | Dockerfile and CI are verified. The deploy target, secret injection, and rollback are not in the repo. |
 | Backend: validation, idempotency, retries, migrations | architecture.md, security-and-operations.md | partial | Joi validates AI output only. No migrations tree. No idempotency. |
-| Agent access to the product (llms.txt) | README, `src/pages/llms.txt.js` | verified | `llms.txt` lists compare pages only. No API or MCP for agents. |
+| Agent access to the product (llms.txt, index.json, data.json) | README, `src/pages/llms.txt.js`, `compare/index.json.js`, `compare/[slug]/data.json.js` | verified | `llms.txt`, `llms-full.txt`, and `compare/index.json` list or serve compare pages. Per-slug `data.json` is optional content. No Mongo API or MCP for agents. |
 | CLI/SDK, infrastructure as code, data pipelines | — | n/a | None in this repo. |
 
 ## Code findings for owners (not fixed by docs)

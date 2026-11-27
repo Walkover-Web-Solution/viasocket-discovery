@@ -119,6 +119,8 @@ function readPageMeta(slug) {
     const canonical =
       asString(data.canonical) ||
       discoveryUrl(`/compare/${encodeURIComponent(slug)}`);
+    const publishedAt = asString(data.publishedAt);
+    const dateModified = asString(data.dateModified);
     return {
       slug,
       title,
@@ -126,10 +128,14 @@ function readPageMeta(slug) {
       canonical,
       authorId: asString(data.authorId),
       authorName: asString(data.authorName),
-      publishedAt: asString(data.publishedAt),
+      publishedAt,
+      dateModified,
+      modifiedAt: dateModified || publishedAt,
       publishedLabel: formatPublishedAt(data.publishedAt),
       readMinutes: Number.parseInt(data.readMinutes, 10) || 0,
       category: asString(data.category),
+      type: asString(data.type),
+      tools: parseMetaTools(data.tools),
     };
   } catch (error) {
     console.error(`Skipping compare page "${slug}": ${error.message}`);
@@ -137,14 +143,46 @@ function readPageMeta(slug) {
   }
 }
 
+function parseMetaTools(value) {
+  if (!Array.isArray(value)) return [];
+  return value
+    .map((entry) => {
+      if (!entry || typeof entry !== "object") return null;
+      const name = asString(entry.name);
+      const url = asString(entry.url);
+      if (!name) return null;
+      return url ? { name, url } : { name };
+    })
+    .filter(Boolean);
+}
+
 function byNewest(a, b) {
-  const aTime = Date.parse(a.publishedAt);
-  const bTime = Date.parse(b.publishedAt);
+  const aTime = Date.parse(a.modifiedAt || a.publishedAt);
+  const bTime = Date.parse(b.modifiedAt || b.publishedAt);
   const aOk = Number.isFinite(aTime);
   const bOk = Number.isFinite(bTime);
   if (aOk && bOk && aTime !== bTime) return bTime - aTime;
   if (aOk !== bOk) return aOk ? -1 : 1;
   return a.title.localeCompare(b.title);
+}
+
+export function hasCompareDataJson(slug) {
+  if (!isSafeSlug(slug)) return false;
+  return fs.existsSync(path.join(CONTENT_DIR, slug, "data.json"));
+}
+
+export function getCompareData(slug) {
+  if (!isSafeSlug(slug)) return null;
+  if (!readPageMeta(slug)) return null;
+  const dataPath = path.join(CONTENT_DIR, slug, "data.json");
+  if (!fs.existsSync(dataPath)) return null;
+  try {
+    const raw = fs.readFileSync(dataPath, "utf8").replace(/^\uFEFF/, "");
+    return JSON.parse(raw);
+  } catch (error) {
+    console.error(`Skipping data.json for compare page "${slug}": ${error.message}`);
+    return null;
+  }
 }
 
 export function addHeadingIds(html) {
@@ -238,6 +276,37 @@ function jsonLdScript(data) {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
+function softwareApplicationsFromTools(tools) {
+  if (!tools?.length) return [];
+  return tools.map((tool) => {
+    const app = {
+      "@type": "SoftwareApplication",
+      name: tool.name,
+    };
+    if (tool.url) app.url = tool.url;
+    return app;
+  });
+}
+
+function creativeWorksFromSources(sources) {
+  if (!Array.isArray(sources)) return [];
+  const works = [];
+  sources.forEach((source) => {
+    if (!source?.links || !Array.isArray(source.links)) return;
+    source.links.forEach((link) => {
+      const name = asString(link?.title) || asString(source?.name);
+      const url = asString(link?.url);
+      if (!name || !url) return;
+      works.push({
+        "@type": "CreativeWork",
+        name,
+        url,
+      });
+    });
+  });
+  return works;
+}
+
 export function buildCompareJsonLd(page) {
   const author = {
     "@type": "Person",
@@ -246,16 +315,31 @@ export function buildCompareJsonLd(page) {
   if (page.authorId) {
     author.url = discoveryUrl(`/user/${encodeURIComponent(page.authorId)}`);
   }
-  const graph = [
-    {
-      "@type": "Article",
-      headline: page.title,
-      description: page.description,
-      datePublished: page.publishedAt,
-      author,
-      mainEntityOfPage: page.canonical,
-      url: page.canonical,
+  const comparedApps = softwareApplicationsFromTools(page.tools);
+  const article = {
+    "@type": "Article",
+    headline: page.title,
+    description: page.description,
+    datePublished: page.publishedAt,
+    dateModified: page.modifiedAt || page.publishedAt,
+    author,
+    publisher: {
+      "@type": "Organization",
+      name: "viaSocket Discovery",
+      url: discoveryUrl("/"),
     },
+    mainEntityOfPage: page.canonical,
+    url: page.canonical,
+  };
+  if (comparedApps.length) {
+    article.about = comparedApps;
+  }
+  const basedOn = creativeWorksFromSources(page.dataSources);
+  if (basedOn.length) {
+    article.isBasedOn = basedOn;
+  }
+  const graph = [
+    article,
     {
       "@type": "BreadcrumbList",
       itemListElement: [
@@ -280,6 +364,17 @@ export function buildCompareJsonLd(page) {
       ],
     },
   ];
+  if (comparedApps.length) {
+    graph.push({
+      "@type": "ItemList",
+      name: "Tools compared",
+      itemListElement: comparedApps.map((app, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: app,
+      })),
+    });
+  }
   if (page.faqs?.length) {
     graph.push({
       "@type": "FAQPage",
@@ -320,13 +415,18 @@ export function getComparePage(slug) {
   const body = fs.existsSync(bodyPath) ? fs.readFileSync(bodyPath, "utf8") : "";
   const prepared = prepareCompareHtml(body);
   const faqs = extractFaqs(body);
+  const dataJson = getCompareData(slug);
   const page = {
     ...summary,
     html: prepared.html,
     headings: prepared.headings,
     faqs,
+    hasDataJson: Boolean(dataJson),
   };
-  return { ...page, jsonLd: buildCompareJsonLd(page) };
+  return {
+    ...page,
+    jsonLd: buildCompareJsonLd({ ...page, dataSources: dataJson?.sources ?? null }),
+  };
 }
 
 export function getCompareLlm(slug) {
@@ -342,16 +442,77 @@ export function renderLlmsTxt() {
   const pages = getCompareSummaries();
   const lines = [
     "# viaSocket Discovery comparisons",
-    "Side-by-side comparisons of tools on viaSocket Discovery.",
+    "",
+    "> Side-by-side comparisons of integration, AI, and developer tools on viaSocket Discovery. Each page has plain-text and JSON machine-readable twins for agents.",
+    "",
+    "How to use this site as an agent:",
+    "",
+    `- Per-page plain text: \`${discoveryUrl("/compare/<slug>/llm.txt")}\``,
+    `- Per-page structured data (when present): \`${discoveryUrl("/compare/<slug>/data.json")}\``,
+    `- Full catalog JSON: \`${discoveryUrl("/compare/index.json")}\``,
+    `- All page plain text in one file: \`${discoveryUrl("/llms-full.txt")}\``,
+    `- URL list: \`${discoveryUrl("/sitemap.xml")}\``,
+    "",
+    "## Comparisons",
     "",
   ];
   pages.forEach((page) => {
     const label = page.title.replace(/[\[\]\r\n]+/g, " ").trim() || page.slug;
-    lines.push(
-      `- [${label}](${discoveryUrl(`/compare/${encodeURIComponent(page.slug)}/llm.txt`)})`,
-    );
+    const llmUrl = discoveryUrl(`/compare/${encodeURIComponent(page.slug)}/llm.txt`);
+    const desc = page.description ? `: ${page.description}` : "";
+    lines.push(`- [${label}](${llmUrl})${desc}`);
   });
   return `${lines.join("\n")}\n`;
+}
+
+export function renderLlmsFullTxt() {
+  const pages = getCompareSummaries();
+  const chunks = pages.map((page) => {
+    const llmPath = path.join(CONTENT_DIR, page.slug, "llm.txt");
+    const llmText = fs.existsSync(llmPath) ? fs.readFileSync(llmPath, "utf8") : "";
+    const body = llmText.trim()
+      ? llmText.endsWith("\n")
+        ? llmText
+        : `${llmText}\n`
+      : `# ${page.title}\n\n${page.description}\n`;
+    return body;
+  });
+  return chunks.length ? `${chunks.join("---\n")}` : "";
+}
+
+export function buildCompareIndexJson() {
+  const pages = getCompareSummaries();
+  return {
+    count: pages.length,
+    llms_txt: discoveryUrl("/llms.txt"),
+    llms_full_txt: discoveryUrl("/llms-full.txt"),
+    sitemap: discoveryUrl("/sitemap.xml"),
+    pages: pages.map((page) => {
+      const encoded = encodeURIComponent(page.slug);
+      const urls = {
+        page: discoveryUrl(`/compare/${encoded}`),
+        llm_txt: discoveryUrl(`/compare/${encoded}/llm.txt`),
+      };
+      if (hasCompareDataJson(page.slug)) {
+        urls.data = discoveryUrl(`/compare/${encoded}/data.json`);
+      }
+      return {
+        slug: page.slug,
+        title: page.title,
+        description: page.description,
+        type: page.type || null,
+        category: page.category,
+        tools: page.tools,
+        author: {
+          id: page.authorId || null,
+          name: page.authorName || null,
+        },
+        published_at: page.publishedAt,
+        modified_at: page.modifiedAt,
+        urls,
+      };
+    }),
+  };
 }
 
 function xmlEscape(value) {
@@ -365,14 +526,19 @@ function xmlEscape(value) {
 
 export function renderSitemapXml() {
   const pages = getCompareSummaries();
+  let indexLastmod = "";
+  pages.forEach((page) => {
+    const mod = lastmod(page.modifiedAt || page.publishedAt);
+    if (mod && (!indexLastmod || mod > indexLastmod)) indexLastmod = mod;
+  });
   const urls = [
     {
       loc: discoveryUrl("/compare"),
-      lastmod: pages[0] ? lastmod(pages[0].publishedAt) : "",
+      lastmod: indexLastmod,
     },
     ...pages.map((page) => ({
       loc: discoveryUrl(`/compare/${encodeURIComponent(page.slug)}`),
-      lastmod: lastmod(page.publishedAt),
+      lastmod: lastmod(page.modifiedAt || page.publishedAt),
     })),
   ];
   const body = urls
