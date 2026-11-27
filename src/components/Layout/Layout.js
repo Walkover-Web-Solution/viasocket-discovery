@@ -14,8 +14,11 @@ export default function Layout({ children }) {
   const [userBioPopup, setUserBioPopup] = useState(false);
   const [unAuthPopup, setUnAuthPopup] = useState(false);
   const isHomePage = router.pathname === '/';
+  // Compare pages and guides share the article layout, which scrolls the window.
   const isComparePage =
-    router.pathname === "/compare" || router.pathname.startsWith("/compare/");
+    router.pathname === "/compare" ||
+    router.pathname.startsWith("/compare/") ||
+    router.pathname.startsWith("/guides/");
   
   useEffect(() => {
     if (typeof document === 'undefined') return ;
