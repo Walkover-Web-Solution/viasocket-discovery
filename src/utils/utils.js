@@ -1,6 +1,6 @@
 import { customAlphabet } from 'nanoid';
 import { setPathInLocalStorage } from './storageHelper';
-import { buildViasocketSignInUrl, discoveryUtmSourceFromPath } from './authRedirect';
+import { discoveryUtmSourceFromPath, getDiscoveryAuthEntry } from './authRedirect';
 import { createdBlogSchema, searchResultsSchema, updateBlogSchema } from './schema';
 import { getUserById } from '@/services/proxyServices';
 const axios = require('axios');
@@ -99,12 +99,15 @@ export const sendMessageTochannel = async (message) => {
 }
 
 export const handleSignIn = async () => {
-    setPathInLocalStorage();
     const utmSource =
         typeof window !== 'undefined'
             ? discoveryUtmSourceFromPath(window.location.pathname + window.location.search)
             : undefined;
-    window.location.href = buildViasocketSignInUrl({ utmSource });
+    const entry = getDiscoveryAuthEntry({ utmSource });
+    if (entry.usesSignup) {
+        setPathInLocalStorage();
+    }
+    window.location.href = entry.href;
 };
 
 export const  ValidateAiResponse = (response ,schema) => {

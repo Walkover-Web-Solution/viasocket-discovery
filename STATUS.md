@@ -1,4 +1,4 @@
-**Plan:** Not supplied · **Last updated:** 2026-11-26 · **Reviewed up to commit:** `e68c9e4`
+**Plan:** Not supplied · **Last updated:** 2026-11-27 · **Reviewed up to commit:** `b778107`
 
 ## Legend
 
@@ -49,15 +49,18 @@ These are in the tree and were not named by a plan. Built code that this pass di
 | --- | --- | --- |
 | Home | 🟡 | `src/pages/index.js` loads blogs, categories, popular users, and three compare summaries. |
 | Compare index | 🟡 | `src/pages/compare/index.js` lists `content/compare` via `getCompareSummaries()`. |
-| Compare article | 🟡 | `src/pages/compare/[slug]/index.js` builds the page, JSON-LD, and an `llm.txt` alternate from `src/lib/compareContent.js`. |
+| Compare article | 🟡 | `src/pages/compare/[slug]/index.js` builds the page, JSON-LD (`dateModified`, publisher, optional tools ItemList), `llm.txt` and optional `data.json` alternates, and robots meta. HTTP `Link` alternates from `scripts/compare-article-headers.cjs` at build time. |
 | Compare plain text | 🟡 | `src/pages/compare/[slug]/llm.txt.js` serves `llm.txt` for a slug. |
-| Comparisons index for agents | 🟡 | `src/pages/llms.txt.js` serves `renderLlmsTxt()`. |
-| Sitemap | 🟡 | `src/pages/sitemap.xml.js` lists `/discovery/compare` and each comparison only. |
-| Robots | 🟡 | `src/pages/robots.txt.js` allows `/`, the compare paths, and `/discovery/llms.txt`. |
+| Compare structured data | 🟡 | `src/pages/compare/[slug]/data.json.js` serves optional `data.json` as JSON (404 JSON when missing). |
+| Compare JSON catalog | 🟡 | `src/pages/compare/index.json.js` serves `buildCompareIndexJson()`. |
+| Comparisons index for agents | 🟡 | `src/pages/llms.txt.js` serves `renderLlmsTxt()` (llms.txt convention). |
+| Comparisons full plain text | 🟡 | `src/pages/llms-full.txt.js` serves `renderLlmsFullTxt()`. |
+| Sitemap | 🟡 | `src/pages/sitemap.xml.js` lists `/discovery/compare` and each comparison; `lastmod` from `dateModified` or `publishedAt`. |
+| Robots | 🟡 | `src/pages/robots.txt.js` allows compare paths, `llms.txt`, and named AI crawlers. |
 | Blog page | 🟡 | `src/pages/blog/[...blogId]/index.js`. The In Depth Reviews intro in `src/components/BlogComponents/BlogComponents.js` shows "We independently review every app we recommend" once (it was duplicated). |
 | Edit chat | 🟡 | `src/pages/edit/[chatId]/index.js`. |
 | User profile | 🟡 | `src/pages/user/[...userId].js` loads the user, their blogs, and compare pages for that author id. |
-| Auth return | 🟡 | Prod sign-in starts at `https://viasocket.com/signup?redirect_to=/discovery/auth` (`src/utils/authRedirect.js`; `/login` 307s to flow). Callback reads `proxy_auth` or `proxy_auth_token`, persists before `getCurrentUser`, then redirects to `loginRedirectionPath` or `/discovery` (re-read at redirect time). |
+| Auth return | 🟡 | Prod sign-in starts at `https://viasocket.com/signup?redirect_to=/discovery/auth` when no proxy token is stored; otherwise header and popups show **Go to panel** (`flow.viasocket.com`). Callback reads `proxy_auth` or `proxy_auth_token`, persists before `getCurrentUser`, then redirects to `loginRedirectionPath` or `/discovery`. |
 | Blog and comment APIs | 🟡 | `src/pages/api/blog.js`, `blog/[blogId]/*`, `public-blogs.js`, `related-blogs/[blogId].js`. |
 | Ask AI, markdown, history | 🟡 | `src/pages/api/ask-ai.js`, `ai.js`, `gethistory.js`. |
 | Tags, users, integrations, suggestions | 🟡 | `src/pages/api/tags.js`, `users.js`, `integrations.js`, `suggestions.js`. |
@@ -66,14 +69,16 @@ These are in the tree and were not named by a plan. Built code that this pass di
 | Route gate | 🟡 | `src/middleware.js` and `src/auth.js`. See open question 4. |
 | Discovery base path | 🟡 | `next.config.js` sets `basePath` to `/discovery`. `src/lib/site.js` builds `https://viasocket.com/discovery` URLs. |
 | Guides | 🟡 | File-based articles at `/discovery/guides/<slug>` from `content/guides/<slug>/` (meta.json, body.html, llm.txt), via `src/lib/guideContent.js` and `src/pages/guides/[slug]/`. Reuses the compare article template. Built and viewed locally with 2 guides; not exercised in prod. Listed in sitemap and `llms.txt`. |
-| Compare articles on disk | 🟡 | 13 folders under `content/compare/`, each with `meta.json`. Not opened in a browser this pass. |
+| Compare articles on disk | 🟡 | 29 folders under `content/compare/`, each with `meta.json`. No `data.json` in tree yet. Curl-verified agent routes on built app (not browser). |
 | Sample compare page | ❌ | Removed in `5793c48`. README no longer describes it. |
 | Leftover app-router files | 🙈 | `src/page.js`, `src/layout.js`, `src/page.module.css`. No `src/app` directory. |
 | Embedded chatbot | 🙈 | The chatbot script in `src/pages/_app.js` is commented out. |
 
 ## Change log
 
-- 2026-11-27 · Claude Code (discovery routine) · Added the Guides content type (`/discovery/guides/<slug>`) with two guides, and added guides to the sitemap and `llms.txt`. · Guides row
+- 2026-11-27 · cursor agent · Merged PR #175: Guides content type (`/discovery/guides/<slug>`) with two guides; guides in sitemap and `llms.txt`. Resolved `STATUS.md` conflict with `main`. · Guides row; compare on disk count
+- 2026-11-27 · cursor agent · When a proxy auth token is already in cookies/storage, Login entry points show **Go to panel** instead of viasocket signup (INT-K7M2P4). · Auth return row
+- 2026-11-26 · cursor agent · Agent-first compare: optional `data.json`, `compare/index.json`, improved `llms.txt`, `llms-full.txt`, robots crawler allows, JSON-LD and sitemap `dateModified`, README and docs. Added `docs/INTENTS.md` INT-A1G3NT0. Reviewed up to `bc92dc3`. · Compare article, plain text, sitemap, robots, and new agent routes; compare on disk note.
 - 2026-11-26 · cursor agent · Reverted PR #172 merge, then accept `proxy_auth` on `/discovery/auth` so callback tokens persist and users return to Discovery (INT-P4R7Q2). · Auth return row
 - 2026-11-26 · cursor agent · Discovery sign-in uses viasocket.com `/signup` with `redirect_to=/discovery/auth` instead of `/login` (307 to flow). Added `authRedirect.js` and `docs/INTENTS.md` INT-A8K2M9. Reviewed up to `829a531`. · Auth return row
 - 2026-11-19 · cursor agent · Fixed Discovery login callback: persist token from URL before redirect (race with `WithAuth`), gate auth effects on `router.isReady`, unify token reads via `getProxyAuthToken()`, fix cookie `expires`, and restore local header Login/Signup links. Reviewed up to `f5583f1`. · Auth return notes; no status emoji change (not exercised end-to-end with MSG91).

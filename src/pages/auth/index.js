@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import WithAuth from '@/components/auth/WithAuth';
 
@@ -10,11 +10,12 @@ import {
     getProxyAuthToken,
     persistProxyAuthTokenFromSearch,
 } from '@/utils/storageHelper'
-import { DISCOVERY_AUTH_CALLBACK } from '@/utils/authRedirect'
+import { buildViasocketPanelUrl, DISCOVERY_AUTH_CALLBACK } from '@/utils/authRedirect'
 import { getCurrentUser } from '@/utils/apiHelper'
 
 export default function AuthPage() {
     const router = useRouter();
+    const [hasStoredToken, setHasStoredToken] = useState(false);
 
     const persistTokenFromRoute = () => {
         const search = router.asPath.includes('?') ? `?${router.asPath.split('?')[1]}` : window.location.search
@@ -38,6 +39,10 @@ export default function AuthPage() {
         clearPath();
         window.location.href = returnPath
     }
+
+    useEffect(() => {
+        setHasStoredToken(Boolean(getProxyAuthToken()));
+    }, []);
 
     useEffect(() => {
         if (!router.isReady) return
@@ -100,7 +105,13 @@ export default function AuthPage() {
 
     return (
         <WithAuth >
-            <div className="auth-container d-flex justify-content-center align-items-center flex-grow-1">
+            <div className="auth-container d-flex justify-content-center align-items-center flex-grow-1 flex-column gap-3 text-center">
+                {hasStoredToken && (
+                    <p className="mb-0">
+                        You are already signed in.{' '}
+                        <a href={buildViasocketPanelUrl()}>Go to panel</a>
+                    </p>
+                )}
                 <div id={process.env.NEXT_PUBLIC_NEXT_APP_REFERENCE_ID} />
             </div>
         </WithAuth>

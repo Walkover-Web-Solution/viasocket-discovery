@@ -4,17 +4,19 @@ import UserDetail from '../UserDetailPopup/UserDetailPopup';
 import styles from './Header.module.scss';
 import Avatar from '@mui/material/Avatar';
 import  {useUser}  from '@/context/UserContext';
-import { setPathInLocalStorage } from '@/utils/storageHelper';
-import { buildViasocketSignInUrl, discoveryUtmSourceFromPath } from '@/utils/authRedirect';
+import { getProxyAuthToken, setPathInLocalStorage } from '@/utils/storageHelper';
+import { discoveryUtmSourceFromPath, getDiscoveryAuthEntry } from '@/utils/authRedirect';
 
 const Header = () => {
   const router = useRouter();
   const { user } = useUser();
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [hasProxyToken, setHasProxyToken] = useState(false);
 
   useEffect(() => {
-    setIsLoggedIn(user ? true : false);
+    setIsLoggedIn(Boolean(user));
+    setHasProxyToken(Boolean(getProxyAuthToken()));
   }, [user]);
   const handleAuth = () => {
     setPathInLocalStorage()
@@ -24,8 +26,8 @@ const Header = () => {
     setShowUserInfo(!showUserInfo);
   };
   const utmSource = discoveryUtmSourceFromPath(router.asPath);
-  const loginUrl = buildViasocketSignInUrl({ utmSource });
-  const signupUrl = loginUrl;
+  const authEntry = getDiscoveryAuthEntry({ utmSource });
+  const showPanelLink = !isLoggedIn && hasProxyToken;
 
   
   return (
@@ -117,9 +119,25 @@ const Header = () => {
           Pricing
         </a>
         { !isLoggedIn ?
+          showPanelLink ? (
+            <a
+              href={authEntry.href}
+              className="px-4 text-white text-decoration-none btn rounded-0 d-flex justify-content-center"
+              style={{
+                borderLeft: "1px solid #ccc",
+                minWidth: "120px",
+                fontSize: "14px",
+                paddingTop: "10px",
+                paddingBottom: "10px",
+                backgroundColor: "#a8200d",
+              }}
+            >
+              {authEntry.label}
+            </a>
+          ) : (
           <>
             <a
-              href={loginUrl}
+              href={authEntry.href}
               className = "px-4 text-decoration-none btn rounded-0 d-flex justify-content-center"
               onClick={handleAuth}
               style={{
@@ -130,10 +148,10 @@ const Header = () => {
                 paddingBottom: "10px",
               }}
             >
-              Login
+              {authEntry.label}
             </a>
             <a
-              href={signupUrl}
+              href={authEntry.href}
               className = "px-4 text-white text-decoration-none btn rounded-0 d-flex justify-content-center"
               onClick={handleAuth}
               style={{
@@ -148,6 +166,7 @@ const Header = () => {
               Start free trial
             </a>
           </>
+          )
             :
             <>
               <strong role='button' className={` ${styles.viaIconBlack} ${styles.viaDropdown} d-flex justify-content-center align-items-center text-sm font-semibold px-4 text-decoration-none glass-effect`}  onClick = {toggleUserInfo}
