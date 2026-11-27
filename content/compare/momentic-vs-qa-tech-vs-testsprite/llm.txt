@@ -6,7 +6,7 @@
 - Tools: Momentic (https://momentic.ai/); QA.tech (https://qa.tech/); TestSprite (https://www.testsprite.com/)
 - Canonical page: https://viasocket.com/discovery/compare/momentic-vs-qa-tech-vs-testsprite
 - Structured data (JSON): https://viasocket.com/discovery/compare/momentic-vs-qa-tech-vs-testsprite/data.json
-- Author: Dhwanil Bhavsar (https://viasocket.com/discovery/user/95758)
+- Author: Vaishali Raghuvanshi (https://viasocket.com/discovery/user/6485)
 - Publisher: viaSocket Discovery
 - Index of all comparisons: https://viasocket.com/discovery/compare/index.json
 
@@ -87,7 +87,7 @@ Momentic bills by dollars of usage, while QA.tech and TestSprite bill by monthly
 From Momentic pricing, QA.tech pricing and TestSprite pricing. Arithmetic: 20 x $0.0125 = $0.25 (before browser minutes); $89 / 50 = $1.78; $69 / 1,600 = $0.043.
 
 ## Momentic vs QA.tech vs TestSprite: what they're like to use
-By Dhwanil Bhavsar. All three promise tests without brittle selectors, but they ask for different habits.
+By Vaishali Raghuvanshi. All three promise tests without brittle selectors, but they ask for different habits.
 
 ### Momentic: experience
 Momentic treats tests as files. You keep YAML tests in your repository, run them in CI, and let its agent Mo explore for bugs.
