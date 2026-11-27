@@ -1,0 +1,162 @@
+# Momentic vs QA.tech vs TestSprite: AI QA testing agents compared
+
+> Momentic, QA.tech and TestSprite are AI agents that test web apps. Momentic keeps YAML tests in your repo and bills by usage across web and mobile. QA.tech runs plain-language agents in its cloud on credit plans. TestSprite works through an MCP server inside coding tools and sells monthly credit plans.
+
+- Type: comparison of 3 tools
+- Tools: Momentic (https://momentic.ai/); QA.tech (https://qa.tech/); TestSprite (https://www.testsprite.com/)
+- Canonical page: https://viasocket.com/discovery/compare/momentic-vs-qa-tech-vs-testsprite
+- Structured data (JSON): https://viasocket.com/discovery/compare/momentic-vs-qa-tech-vs-testsprite/data.json
+- Author: Dhwanil Bhavsar (https://viasocket.com/discovery/user/95758)
+- Publisher: viaSocket Discovery
+- Index of all comparisons: https://viasocket.com/discovery/compare/index.json
+
+## Decision rules
+- Choose Momentic if you want YAML tests in your repo across web, iOS and Android, with usage-based billing.
+- Choose QA.tech if you want plain-language agents in a vendor cloud.
+- Choose TestSprite if you want a coding agent to trigger tests over MCP, on a plan from $19 a month.
+- Tight budget? QA.tech Starter ($89) and TestSprite ($19 to $69) sit below $100. Momentic Scale is $500.
+Run one real user flow through your top pick first.
+
+## Tools
+
+### Momentic
+- Official site: https://momentic.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- What it is: AI QA for web, iOS and Android
+- Free plan: $0, $50 of usage a month
+- Paid from: $500 a month (Scale), usage-based
+- Self-host: Not listed
+- Best for: engineering teams that want repo-based tests across web and mobile.
+
+### QA.tech
+- Official site: https://qa.tech/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- What it is: Cloud AI agents that test from plain-language goals
+- Free plan: Free trial: 10 credits, 1 application
+- Paid from: $89 a month (Starter)
+- Self-host: Not listed
+- Best for: product teams that want agents to cover flows without writing test code.
+
+### TestSprite
+- Official site: https://www.testsprite.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- What it is: AI testing agent for coding tools, via MCP and CLI
+- Free plan: $0, 150 credits a month
+- Paid from: $19 a month (Starter)
+- Self-host: Single-tenant option on Enterprise
+- Best for: developers who want tests triggered from inside their coding agent.
+
+## Features
+- Test authoring | Momentic: YAML files in your repo, plus plain-language AI steps
+- Test authoring | QA.tech: Plain-language goals and chat, no scripts
+- Test authoring | TestSprite: Plain language or PRDs; Playwright and Python output
+- Platforms | Momentic: Web, iOS, Android
+- Platforms | QA.tech: Web, mobile web, iOS, Android, API
+- Platforms | TestSprite: Web UI and API; mobile not listed
+- Browser engines | Momentic: Chromium, Chrome, Chrome for Testing
+- Browser engines | QA.tech: Not listed
+- Browser engines | TestSprite: Real browser; engines not listed
+- Exploratory testing | Momentic: Mo agent files bugs with repro steps
+- Exploratory testing | QA.tech: Agents explore the app and rank issues
+- Exploratory testing | TestSprite: Agents explore the live app before writing tests
+- Pull requests and CI | Momentic: GitHub comments, CI, required checks
+- Pull requests and CI | QA.tech: PR bot; GitHub, GitLab, Azure DevOps, Bitrise
+- Pull requests and CI | TestSprite: GitHub Actions gate on every pull request
+- Coding-agent access | Momentic: Hosted MCP server at mcp.momentic.ai
+- Coding-agent access | QA.tech: Hosted MCP server, OAuth or API key
+- Coding-agent access | TestSprite: MCP server and Apache-2.0 CLI
+- Security | Momentic: SOC 2 Type 2; SAML and OIDC SSO
+- Security | QA.tech: SOC 2 Type 2; SSO on Enterprise
+- Security | TestSprite: SOC 2 badge; SSO and SCIM on Enterprise
+From each vendor's homepage, docs and pricing page, listed under Sources.
+
+## Pricing
+Momentic bills by dollars of usage, while QA.tech and TestSprite bill by monthly credits. Prices are in dollars as listed.
+- Free | Momentic: $0, $50 of usage a month, 5 concurrent browsers
+- Free | QA.tech: Free trial: 10 credits, 1 application
+- Free | TestSprite: $0, 150 credits a month, 1 environment
+- Entry paid | Momentic: $500 a month (Scale), includes $500 of usage
+- Entry paid | QA.tech: $89 a month (Starter), 50 credits, 5 users
+- Entry paid | TestSprite: $19 a month (Starter), 400 credits, first month free
+- Unit rate | Momentic: $0.0125 per test step, $0.025 per AI step
+- Unit rate | QA.tech: Test executions use credits; creation does not
+- Unit rate | TestSprite: Credits; amount per test not listed
+- Derived cost | Momentic: A 20-step test is $0.25 in step charges
+- Derived cost | QA.tech: $89 / 50 credits is $1.78 per credit
+- Derived cost | TestSprite: Pro $69 / 1,600 credits is about $0.043 per credit
+- Higher tiers | Momentic: Enterprise, custom
+- Higher tiers | QA.tech: Growth and Enterprise, custom
+- Higher tiers | TestSprite: $39 Standard, $69 Pro, $199+ Enterprise
+From Momentic pricing, QA.tech pricing and TestSprite pricing. Arithmetic: 20 x $0.0125 = $0.25 (before browser minutes); $89 / 50 = $1.78; $69 / 1,600 = $0.043.
+
+## Momentic vs QA.tech vs TestSprite: what they're like to use
+By Dhwanil Bhavsar. All three promise tests without brittle selectors, but they ask for different habits.
+
+### Momentic: experience
+Momentic treats tests as files. You keep YAML tests in your repository, run them in CI, and let its agent Mo explore for bugs.
+Momentic, what I liked:
+- Tests are YAML in your repo, so review and CI work as usual.
+- One platform covers web, iOS simulators and Android emulators.
+- No per-seat charge, and Free includes $50 of usage a month.
+Momentic, what I didn't:
+- Web tests run on Chromium-family browsers only, per the docs.
+- Scale starts at $500 a month, the highest entry paid price here.
+- Runs pause at a $0 balance, so big suites need top-ups.
+Momentic, best for: engineering teams that want repo-based tests across web and mobile.
+
+### QA.tech: experience
+QA.tech is the most hands-off of the three. You describe flows in chat, and its cloud agents report into your pull requests and issue tracker.
+QA.tech, what I liked:
+- Plain-language goals, with no scripts or selectors to maintain.
+- Integrates with GitHub, GitLab, Azure DevOps, Jira, Linear and Slack.
+- MCP server with OAuth lets Claude Code or Cursor start runs.
+QA.tech, what I didn't:
+- Starter caps at 2 applications and 5 users.
+- Mobile, API and voice testing sit on the custom-priced Growth plan.
+- Its docs say scripts suit flows that must repeat exactly.
+QA.tech, best for: product teams that want agents to cover flows without writing test code.
+
+### TestSprite: experience
+TestSprite is built for the coding-agent loop. Your IDE assistant calls its MCP server, tests run in the cloud, and failures come back with a suggested fix.
+TestSprite, what I liked:
+- MCP server and open-source CLI work with Claude Code, Codex, Cursor and VS Code.
+- Lowest entry price here, with four plans from $0 to $69.
+- UI tests are generated as Playwright and Python, exportable to GitHub.
+TestSprite, what I didn't:
+- Credits per test are not listed, so cost is hard to predict.
+- Public reviews are mixed, from real bugs found to false positives.
+- Web UI and API testing are listed, but mobile is not.
+TestSprite, best for: developers who want tests triggered from inside their coding agent.
+
+## Where viaSocket fits
+Momentic, QA.tech and TestSprite find and verify bugs in your app. viaSocket works around that loop: it carries test results into the tools your team already uses, and it can handle steps on sites that have no API.
+What viaSocket offers:
+- 2,300+ app integrations with managed authentication (features).
+- Triggers and webhooks, so a finished test run can start a workflow.
+- AI agents: every action has an input schema, so an agent can call it as a tool.
+- Browser actions: agents can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- Free plan: 100K tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- A failed test run posts the summary to Slack and opens a ticket in your tracker.
+- An agent reads a supplier portal with browser actions, then updates your CRM.
+Route your test results into 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: Which is cheapest: Momentic, QA.tech or TestSprite?
+A: TestSprite has the lowest paid entry at $19 a month. QA.tech Starter is $89 a month and Momentic Scale is $500, though Momentic Free includes $50 of usage.
+Q: Do Momentic, QA.tech and TestSprite have free plans?
+A: Momentic Free gives $50 of usage a month, TestSprite Free gives 150 credits, and QA.tech lists a trial of 10 credits.
+Q: Can they run from Claude Code or Cursor?
+A: Yes. Momentic has a hosted MCP server, QA.tech documents Claude Code and Cursor setup, and TestSprite lists both.
+Q: Do they test mobile apps?
+A: Momentic covers iOS and Android. QA.tech lists mobile testing on its Growth plan. TestSprite lists web UI and API testing, and mobile is not listed.
+Q: Are they SOC 2 compliant?
+A: Each vendor says so. Momentic and QA.tech state SOC 2 Type 2, and TestSprite shows a SOC 2 badge.
+
+## Sources
+- Momentic: homepage https://momentic.ai/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://momentic.ai/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://momentic.ai/docs/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browsers https://momentic.ai/docs/platforms/web/browsers?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, changelog https://momentic.ai/changelog?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- QA.tech: homepage https://qa.tech/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://qa.tech/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.qa.tech/llms.txt?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, MCP server https://docs.qa.tech/integrations/mcp.md?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, FAQ https://docs.qa.tech/getting-started/faq.md?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- TestSprite: homepage https://www.testsprite.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://www.testsprite.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.testsprite.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, changelog https://www.testsprite.com/changelog?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, independent review https://dev.to/vspissak68940/i-let-testsprites-ai-agent-test-my-app-heres-what-it-found-and-what-it-missed-1ke4?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## Related comparisons
+- Browser Use vs Stagehand vs Skyvern: https://viasocket.com/discovery/compare/browser-use-vs-stagehand-vs-skyvern/llm.txt?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Devin vs OpenHands vs OpenComputer: https://viasocket.com/discovery/compare/devin-vs-openhands-vs-opencomputer/llm.txt?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Best integration layers for AI agents: https://viasocket.com/discovery/compare/best-integration-layers-for-ai-agents/llm.txt?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm

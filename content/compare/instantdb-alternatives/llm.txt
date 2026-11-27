@@ -1,0 +1,169 @@
+# Alternatives to Instant (InstantDB): Convex, PowerSync and Supabase compared
+
+> Instant's team has joined OpenAI and Instant Cloud is shutting down. Convex is a hosted reactive TypeScript backend from $25 per developer. PowerSync syncs your own database into local SQLite for offline apps, from $49. Supabase is Postgres with Realtime, auth and storage, from $25. Pick by database, offline need and SQL.
+
+- Type: alternatives of 3 tools
+- Tools: Convex (https://www.convex.dev/); PowerSync (https://www.powersync.com/); Supabase (https://supabase.com/)
+- Canonical page: https://viasocket.com/discovery/compare/instantdb-alternatives
+- Structured data (JSON): https://viasocket.com/discovery/compare/instantdb-alternatives/data.json
+- Author: Ragini Mahobiya (https://viasocket.com/discovery/user/92927)
+- Publisher: viaSocket Discovery
+- Index of all comparisons: https://viasocket.com/discovery/compare/index.json
+
+Per Instant, new signups are closed, existing users should move off Instant Cloud within 12 months, and cloud apps shut down on August 31. Instant is open source with a self-hosting guide. Electric is not compared: it says its hosted cloud is winding down after it joined Neon at Databricks.
+
+## What are the alternatives to Instant (InstantDB)?
+The main InstantDB alternatives are:
+- Convex: hosted reactive backend with TypeScript functions.
+- PowerSync: sync engine that keeps your database in local SQLite.
+- Supabase: Postgres with Realtime, auth and storage.
+
+## Decision rules
+- Choose Convex if you want a hosted backend with reactive TypeScript queries and can rewrite data access.
+- Choose PowerSync if the app must work offline and you already run Postgres, MongoDB, MySQL or SQL Server.
+- Choose Supabase if you want Postgres and SQL, or its importer for Instant backups.
+Export your Instant data first and test one real screen before cutover.
+
+## Tools
+
+### Convex
+- Official site: https://www.convex.dev/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- What it is: Hosted reactive backend: database and functions in TypeScript
+- Free plan: $0: 1M function calls, 1,000 concurrent sessions
+- Paid from: $25 per developer per month
+- License: FSL-1.1-Apache-2.0, source available
+- Best for: teams that want a hosted TypeScript backend with live queries and transactions.
+
+### PowerSync
+- Official site: https://www.powersync.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- What it is: Sync engine: your database to local SQLite on each client
+- Free plan: $0: 2 GB synced, 50 peak clients
+- Paid from: $49 per month (Pro)
+- License: Apache-2.0 (Service)
+- Best for: mobile or offline-first apps that already run their own database.
+
+### Supabase
+- Official site: https://supabase.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- What it is: Postgres platform with Realtime, auth and storage
+- Free plan: $0: 200 realtime connections, 2M messages
+- Paid from: $25 per month (Pro)
+- License: Apache-2.0
+- Best for: teams that want SQL, row level security and one platform for auth, storage and realtime.
+
+## Features
+- Model | Convex: Reactive TypeScript backend
+- Model | PowerSync: Sync engine plus client SDKs
+- Model | Supabase: Postgres platform
+- Live updates | Convex: Queries rerun and push over WebSockets
+- Live updates | PowerSync: Sync rules stream changes to clients
+- Live updates | Supabase: Broadcast, Presence, Postgres Changes
+- Offline use | Convex: In-memory mutation queue only
+- Offline use | PowerSync: Local SQLite with an upload queue
+- Offline use | Supabase: Not listed in Realtime
+- Writes | Convex: Serializable transactions in mutations
+- Writes | PowerSync: Queued locally; you implement the upload
+- Writes | Supabase: supabase-js or PostgREST API
+- Auth and storage | Convex: Clerk, WorkOS, Auth0, Convex Auth; files
+- Auth and storage | PowerSync: Sync only; no auth or storage listed
+- Auth and storage | Supabase: Auth, 1 GB free storage
+- Self-host | Convex: Docker or binary; most cloud features
+- Self-host | PowerSync: Docker; no web dashboard
+- Self-host | Supabase: Docker Compose; one project
+- License | Convex: FSL-1.1-Apache-2.0
+- License | PowerSync: Apache-2.0
+- License | Supabase: Apache-2.0
+From Convex docs, auth and GitHub, PowerSync docs and GitHub, and Supabase Realtime docs and self-hosting.
+
+## Pricing
+Convex bills per developer, Supabase per project, PowerSync per instance plus usage. Included amounts differ, so treat the team row as entry cost.
+- Free | Convex: $0: 1M function calls, 1,000 sessions
+- Free | PowerSync: $0: 2 GB synced, 50 peak clients
+- Free | Supabase: $0: 200 connections, 2M messages
+- Entry paid | Convex: $25 per developer per month (Pro)
+- Entry paid | PowerSync: $49 per month (Pro)
+- Entry paid | Supabase: $25 per month (Pro)
+- Unit rate that drives the bill | Convex: $2 per extra 1M function calls
+- Unit rate that drives the bill | PowerSync: $1 per GB synced beyond 30 GB
+- Unit rate that drives the bill | Supabase: $2.50 per 1M messages beyond 5M
+- Team of 3, entry plan, per month | Convex: $75
+- Team of 3, entry plan, per month | PowerSync: $49
+- Team of 3, entry plan, per month | Supabase: $25
+- Higher tiers | Convex: Business: $2,500 monthly minimum
+- Higher tiers | PowerSync: Team from $599; Enterprise custom
+- Higher tiers | Supabase: Team from $599; Enterprise custom
+From Convex pricing, PowerSync pricing and Supabase pricing. Arithmetic: Convex Pro 3 x $25 = $75 a month. PowerSync Pro $49 and Supabase Pro $25 have no per-seat fee listed.
+
+## Convex vs PowerSync vs Supabase: what they're like to use
+By Ragini Mahobiya. Convex replaces the backend, PowerSync syncs yours, Supabase adds live updates to Postgres.
+
+### Convex: experience
+What stood out to me is that Convex is closest to Instant's query-and-mutate model: TypeScript queries, and the UI updates on its own. It replaces the database and server layer, so moving means rewriting data access.
+Convex, what I liked:
+- Queries rerun and push to subscribers via useQuery.
+- Mutations are serializable transactions that retry on conflicts.
+- Free tier covers 1M function calls and 1,000 concurrent sessions.
+Convex, what I didn't:
+- FSL license: source available, with Apache 2.0 as the future license.
+- Pro is priced per developer, so team size drives the bill.
+- No local database: the client queues mutations in memory.
+Convex, best for: teams that want a hosted TypeScript backend with live queries and transactions.
+
+### PowerSync: experience
+PowerSync does not replace your database, and I would weigh that first. It keeps a local SQLite copy on each device, which suits offline apps. You keep a backend and write the upload path.
+PowerSync, what I liked:
+- Sources include Postgres, MongoDB, MySQL and SQL Server.
+- SDKs for web, React Native, Flutter, Swift, Kotlin and .NET.
+- The Service is Apache-2.0 and self-hostable with Docker.
+PowerSync, what I didn't:
+- You write the code that applies queued writes to your backend.
+- Free projects are deactivated after inactivity.
+- Self-hosted instances have no web dashboard yet.
+PowerSync, best for: mobile or offline-first apps that already run their own database.
+
+### Supabase: experience
+I would call Supabase the most conventional move: one Postgres project with Realtime, auth and storage, plus an importer for Instant backups that may not work for all users.
+Supabase, what I liked:
+- Broadcast, Presence and Postgres Changes cover live data.
+- The importer maps Instant namespaces to tables and files to Storage.
+- Free plan has 50,000 monthly active users and 500 MB of database.
+Supabase, what I didn't:
+- Postgres Changes runs on one thread; Broadcast advised past about 3,000 subscribers.
+- Offline sync is not in Realtime; PowerSync has a Supabase guide.
+- Self-hosting runs one project and omits branching and managed backups.
+Supabase, best for: teams that want SQL, row level security and one platform for auth, storage and realtime.
+
+## Where viaSocket fits
+Convex, PowerSync and Supabase store and sync your app's data. viaSocket works beside whichever you pick: it connects database events to 2,300+ apps and gives agents tools to act on them.
+What viaSocket offers:
+- 2,300+ app integrations with managed authentication (features).
+- Triggers and webhooks, so a database event can start a workflow.
+- AI agents and MCP access, so an agent can call your apps as tools.
+- Browser actions: agents can browse, click, fill in forms and read pages on sites with no API (browser actions).
+- Free plan: 100K tasks and 1,000 AI credits a month (pricing).
+What you can build with it:
+- A new backend row fires a webhook that posts to Slack and creates a CRM contact.
+- A scheduled workflow copies backend data to a Google Sheet.
+- An agent reads a portal with no API using browser actions and sends the result on.
+Connect your backend events to 2,300+ apps with viaSocket: https://viasocket.com/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## FAQ
+Q: What is happening to Instant (InstantDB)?
+A: Instant says its team joined OpenAI and new signups are closed. Existing users should migrate within 12 months, cloud apps shut down on August 31, and backups stay for 12 more months.
+Q: Can I import Instant data into Supabase?
+A: Yes, Supabase publishes an importer: namespaces become tables, users become Auth accounts and files go to Storage. Supabase says it may not work for all users.
+Q: How much do Convex, PowerSync and Supabase cost?
+A: Convex Pro is $25 per developer per month, Supabase Pro $25 and PowerSync Pro $49. All three have a free plan.
+Q: Which alternative works offline?
+A: PowerSync keeps a local SQLite copy on each client. Convex documents an in-memory mutation queue; Supabase Realtime lists no offline sync.
+
+## Sources
+- Instant: shutdown announcement https://www.instantdb.com/essays/instant_team_joins_openai?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Supabase importer https://supabase.com/migrate/instantdb?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Convex: homepage https://www.convex.dev?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://www.convex.dev/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.convex.dev/understanding/?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- PowerSync: homepage https://www.powersync.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://www.powersync.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, docs https://docs.powersync.com/intro/powersync-overview?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Supabase: homepage https://supabase.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://supabase.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, Realtime docs https://supabase.com/docs/guides/realtime?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- viaSocket: homepage https://viasocket.com?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, features https://viasocket.com/features?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, browser actions https://viasocket.com/features/browser-actions?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm, pricing https://viasocket.com/pricing?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+
+## Related comparisons
+- Neon vs Supabase vs PlanetScale: https://viasocket.com/discovery/compare/neon-vs-supabase-vs-planetscale/llm.txt?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Trigger.dev vs Inngest vs Temporal: https://viasocket.com/discovery/compare/trigger-dev-vs-inngest-vs-temporal/llm.txt?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
+- Best integration layers for AI agents: https://viasocket.com/discovery/compare/best-integration-layers-for-ai-agents/llm.txt?utm_source=viasocket&utm_medium=discovery&utm_campaign=discovery-compare&utm_content=llm
